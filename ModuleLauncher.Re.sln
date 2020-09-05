@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleLauncher.Re", "ModuleLauncher.Re.csproj", "{10B89CC5-69E5-41AC-B700-2ED488769150}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleLauncher.Re.Test", "ModuleLauncher.Re.Test\ModuleLauncher.Re.Test.csproj", "{BDE68E4A-C159-45B3-B918-0B5114CEA52F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{10B89CC5-69E5-41AC-B700-2ED488769150}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B89CC5-69E5-41AC-B700-2ED488769150}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B89CC5-69E5-41AC-B700-2ED488769150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDE68E4A-C159-45B3-B918-0B5114CEA52F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE68E4A-C159-45B3-B918-0B5114CEA52F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE68E4A-C159-45B3-B918-0B5114CEA52F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE68E4A-C159-45B3-B918-0B5114CEA52F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
