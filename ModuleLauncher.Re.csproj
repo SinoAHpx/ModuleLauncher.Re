@@ -206,10 +206,9 @@
     <ItemGroup>
         <Compile Include="Authenticator\YggdrasilAuthenticator.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Service\DataEntity" />
-      <Folder Include="Service\Utils" />
+        <Compile Include="Service\DataEntity\Utils\HttpResult.cs" />
+        <Compile Include="Service\Extensions\AsyncExtensions.cs" />
+        <Compile Include="Service\Utils\HttpHelper.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
