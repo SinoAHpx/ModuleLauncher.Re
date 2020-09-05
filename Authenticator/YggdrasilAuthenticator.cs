@@ -40,15 +40,48 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         private const string AuthDomain = "https://authserver.mojang.com/authenticate";
+        private const string RefreshDomain = "https://authserver.mojang.com/refresh";
     }
     
     //async
     public partial class YggdrasilAuthenticator
     {
+        /// <summary>
+        /// 使用密码认证用户。
+        /// </summary>
+        /// <returns></returns>
         public async Task<AuthenticateResult> AuthenticateAsync()
         {
             var payload = Payload.GetAuthenticatePayload();
             var result = await HttpHelper.PostHttpAsync(AuthDomain, payload);
+            var response = JObject.Parse(result.Content);
+
+            return result.StatusCode == HttpStatusCode.OK
+                ? new AuthenticateResult
+                {
+                    AccessToken = response["accessToken"]?.ToString(),
+                    ClientToken = response["clientToken"]?.ToString(),
+                    Username = response["selectedProfile"]?["name"]?.ToString(),
+                    Uuid = response["selectedProfile"]?["id"]?.ToString(),
+                    Verified = true
+                }
+                : new AuthenticateResult
+                {
+                    Error = response["error"]?.ToString(),
+                    ErrorMessage = response["errorMessage"]?.ToString(),
+                    Verified = false
+                };
+        }
+        
+        /// <summary>
+        /// 刷新一个有效的accessToken。它可以用于在游戏会话间保持登录状态，这优于在文件中保存用户的密码（见lastlogin）。
+        /// </summary>
+        /// <param name="accessToken">注意：提供的accessToken将失效。</param>
+        /// <returns></returns>
+        public async Task<AuthenticateResult> RefreshAsync(string accessToken)
+        {
+            var payload = Payload.GetRefreshPayload(accessToken);
+            var result = await HttpHelper.PostHttpAsync(RefreshDomain, payload);
             var response = JObject.Parse(result.Content);
 
             return result.StatusCode == HttpStatusCode.OK
@@ -73,5 +106,6 @@ namespace ModuleLauncher.Re.Authenticator
     public partial class YggdrasilAuthenticator
     {
         public AuthenticateResult Authenticate() => AuthenticateAsync().GetResult();
+        public AuthenticateResult Refresh(string accessToken) => RefreshAsync(accessToken).GetResult();
     }
 }

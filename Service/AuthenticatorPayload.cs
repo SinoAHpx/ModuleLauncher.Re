@@ -22,5 +22,14 @@ namespace ModuleLauncher.Re.Service
                 clientToken = ClientToken
             });
         }
+
+        internal string GetRefreshPayload(string accessToken)
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                accessToken = accessToken,
+                clientToken = ClientToken
+            });
+        }
     }
 }

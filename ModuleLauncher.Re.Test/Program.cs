@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ModuleLauncher.Re.Authenticator;
 using ModuleLauncher.Re.Service.Utils;
 using Newtonsoft.Json;
 
@@ -9,24 +10,10 @@ namespace ModuleLauncher.Re.Test
     {
         public static async Task Main(string[] args)
         {
-            /*
-             * thaotrang.hoang@gmail.com
-             * starfl0wer
-             */
+            var ygg = new YggdrasilAuthenticator("AHpx@yandex.com","");
 
-            var json = JsonConvert.SerializeObject(new
-            {
-                agent = new
-                {
-                    name = "Minecraft",
-                    version = 1
-                },
-                username = "thaotrang.hoang@gmail.com",
-                password = "aaa",
-                clientToken = ""
-            });
-            var re = await HttpHelper.PostHttpAsync("https://authserver.mojang.com/authenticate", json);
-            Console.WriteLine(re.Content);
+            var re = await ygg.AuthenticateAsync();
+            Console.WriteLine(re.Username);
         }
     }
 }
