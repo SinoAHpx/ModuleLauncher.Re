@@ -43,6 +43,7 @@ namespace ModuleLauncher.Re.Authenticator
         private const string RefreshDomain = "https://authserver.mojang.com/refresh";
         private const string ValidateDomain = "https://authserver.mojang.com/validate";
         private const string InvalidateDomain = "https://authserver.mojang.com/invalidate";
+        private const string SignOutDomain = "https://authserver.mojang.com/signout";
     }
     
     //async
@@ -125,7 +126,13 @@ namespace ModuleLauncher.Re.Authenticator
         public async Task InvalidateAsync(string accessToken,string clientToken)
         {
             var payload = Payload.GetInvalidatePayload(accessToken, clientToken);
-            await HttpHelper.PostHttpAsync(RefreshDomain, payload);
+            await HttpHelper.PostHttpAsync(InvalidateDomain, payload);
+        }
+
+        public async Task SignOutAsync()
+        {
+            var payload = Payload.GetSignOutPayload();
+            await HttpHelper.PostHttpAsync(SignOutDomain, payload);
         }
     }
     
@@ -137,5 +144,6 @@ namespace ModuleLauncher.Re.Authenticator
         public bool Validate(string accessToken) => ValidateAsync(accessToken).GetResult();
         public void Invalidate(string accessToken, string clientToken) =>
             InvalidateAsync(accessToken, clientToken).GetAwaiter().GetResult();
+        public void SignOut() => SignOutAsync().GetAwaiter().GetResult();
     }
 }
