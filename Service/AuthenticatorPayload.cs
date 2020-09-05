@@ -31,5 +31,31 @@ namespace ModuleLauncher.Re.Service
                 clientToken = ClientToken
             });
         }
+        
+        internal string GetValidatePayload(string accessToken)
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                accessToken = accessToken,
+                clientToken = ClientToken
+            });
+        }
+        
+        internal string GetInvalidatePayload(string accessToken,string clientToken)
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                accessToken, clientToken
+            });
+        }
+        
+        internal string GetSignOutPayload()
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                username = Username,
+                password = Password
+            });
+        }
     }
 }

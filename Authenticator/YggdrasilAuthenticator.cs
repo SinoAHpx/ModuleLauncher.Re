@@ -41,6 +41,8 @@ namespace ModuleLauncher.Re.Authenticator
 
         private const string AuthDomain = "https://authserver.mojang.com/authenticate";
         private const string RefreshDomain = "https://authserver.mojang.com/refresh";
+        private const string ValidateDomain = "https://authserver.mojang.com/validate";
+        private const string InvalidateDomain = "https://authserver.mojang.com/invalidate";
     }
     
     //async
@@ -100,6 +102,31 @@ namespace ModuleLauncher.Re.Authenticator
                     Verified = false
                 };
         }
+
+        /// <summary>
+        /// 检查accessToken是否可用于Minecraft服务器的认证。
+        /// </summary>
+        /// <param name="accessToken">有效的accessToken</param>
+        /// <returns></returns>
+        public async Task<bool> ValidateAsync(string accessToken)
+        {
+            var payload = Payload.GetValidatePayload(accessToken);
+            var result = await HttpHelper.PostHttpAsync(ValidateDomain, payload);
+
+            return result.StatusCode == HttpStatusCode.NoContent;
+        }
+
+        /// <summary>
+        /// 使用client/access令牌对使accessToken失效。
+        /// </summary>
+        /// <param name="accessToken">有效的accessToken</param>
+        /// <param name="clientToken">这需要第一处用来获取</param>
+        /// <returns></returns>
+        public async Task InvalidateAsync(string accessToken,string clientToken)
+        {
+            var payload = Payload.GetInvalidatePayload(accessToken, clientToken);
+            await HttpHelper.PostHttpAsync(RefreshDomain, payload);
+        }
     }
     
     //sync
@@ -107,5 +134,8 @@ namespace ModuleLauncher.Re.Authenticator
     {
         public AuthenticateResult Authenticate() => AuthenticateAsync().GetResult();
         public AuthenticateResult Refresh(string accessToken) => RefreshAsync(accessToken).GetResult();
+        public bool Validate(string accessToken) => ValidateAsync(accessToken).GetResult();
+        public void Invalidate(string accessToken, string clientToken) =>
+            InvalidateAsync(accessToken, clientToken).GetAwaiter().GetResult();
     }
 }
