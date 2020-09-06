@@ -207,6 +207,7 @@
         <Compile Include="Authenticator\OfflineAuthenticator.cs" />
         <Compile Include="Authenticator\YggdrasilAuthenticator.cs" />
         <Compile Include="DataEntities\Authenticator\AuthenticateResult.cs" />
+        <Compile Include="DataEntities\Enums\MinecraftDownloadSource.cs" />
         <Compile Include="DataEntities\Enums\MinecraftFileType.cs" />
         <Compile Include="DataEntities\Enums\MinecraftJsonType.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftFileEntity.cs" />

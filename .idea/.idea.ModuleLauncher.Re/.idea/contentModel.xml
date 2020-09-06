@@ -14,6 +14,7 @@
           <e p="AuthenticateResult.cs" t="Include" />
         </e>
         <e p="Enums" t="Include">
+          <e p="MinecraftDownloadSource.cs" t="Include" />
           <e p="MinecraftFileType.cs" t="Include" />
           <e p="MinecraftJsonType.cs" t="Include" />
         </e>

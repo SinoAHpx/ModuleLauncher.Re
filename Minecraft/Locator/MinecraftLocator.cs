@@ -22,6 +22,11 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         {
             return new MinecraftLocator(location);
         }
+        
+        public static implicit operator string(MinecraftLocator location)
+        {
+            return location.Location;
+        }
     }
     
     //exposed
