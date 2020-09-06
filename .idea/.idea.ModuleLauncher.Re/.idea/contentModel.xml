@@ -5,6 +5,7 @@
     <e p="C:\Users\ahpx\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ModuleLauncher.Re.-1200126042.00" t="ExcludeRecursive" />
     <e p="C:\Users\ahpx\RiderProjects\ModuleLauncher.Re" t="IncludeRecursive">
       <e p="Authenticator" t="Include">
+        <e p="OfflineAuthenticator.cs" t="Include" />
         <e p="YggdrasilAuthenticator.cs" t="Include" />
       </e>
       <e p="bin" t="ExcludeRecursive" />
