@@ -38,11 +38,11 @@ namespace ModuleLauncher.Re.Authenticator
             set => _payload.ClientToken = value;
         }
 
-        private readonly AuthenticatorPayload _payload;
+        private readonly AuthenticatorHelper _payload;
 
         public YggdrasilAuthenticator(string username = "", string password = "", string clientToken = "")
         {
-            _payload = new AuthenticatorPayload
+            _payload = new AuthenticatorHelper
             {
                 Username = username,
                 Password = password,

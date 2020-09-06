@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace ModuleLauncher.Re.Service
+namespace ModuleLauncher.Re.Utils
 {
-    internal class AuthenticatorPayload
+    internal class AuthenticatorHelper
     {
         internal string Username { get; set; }
         internal string Password { get; set; }

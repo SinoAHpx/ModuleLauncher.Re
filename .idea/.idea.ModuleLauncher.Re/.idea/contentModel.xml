@@ -12,6 +12,11 @@
       <e p="Extensions" t="Include">
         <e p="AsyncExtensions.cs" t="Include" />
       </e>
+      <e p="Minecraft" t="Include">
+        <e p="Locator" t="Include">
+          <e p="MinecraftLocator.cs" t="Include" />
+        </e>
+      </e>
       <e p="ModuleLauncher.Re.csproj" t="IncludeRecursive" />
       <e p="ModuleLauncher.Re.sln" t="IncludeFlat" />
       <e p="ModuleLauncher.Re.Test" t="IncludeRecursive">
@@ -34,7 +39,6 @@
         <e p="AssemblyInfo.cs" t="Include" />
       </e>
       <e p="Service" t="Include">
-        <e p="AuthenticatorPayload.cs" t="Include" />
         <e p="DataEntity" t="Include">
           <e p="Authenticator" t="Include">
             <e p="AuthenticateResult.cs" t="Include" />
@@ -45,6 +49,7 @@
         </e>
       </e>
       <e p="Utils" t="Include">
+        <e p="AuthenticatorHelper.cs" t="Include" />
         <e p="HttpHelper.cs" t="Include" />
       </e>
     </e>

@@ -207,10 +207,11 @@
         <Compile Include="Authenticator\OfflineAuthenticator.cs" />
         <Compile Include="Authenticator\YggdrasilAuthenticator.cs" />
         <Compile Include="Extensions\AsyncExtensions.cs" />
+        <Compile Include="Minecraft\Locator\MinecraftLocator.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Service\AuthenticatorPayload.cs" />
         <Compile Include="Service\DataEntity\Authenticator\AuthenticateResult.cs" />
         <Compile Include="Service\DataEntity\Utils\HttpResult.cs" />
+        <Compile Include="Utils\AuthenticatorHelper.cs" />
         <Compile Include="Utils\HttpHelper.cs" />
     </ItemGroup>
     <ItemGroup>
