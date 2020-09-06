@@ -3,31 +3,31 @@
 namespace ModuleLauncher.Re.DataEntities.Minecraft.Locator
 {
     //universal
-    internal partial class MinecraftJsonEntity
+    public partial class MinecraftJsonEntity
     {
-        internal JObject assetIndex { get; set; }
-        internal string assets { get; set; }
-        internal string id { get; set; }
-        internal JArray libraries { get; set; }
-        internal string mainClass { get; set; }
-        internal string type { get; set; }
+        public JObject assetIndex { get; set; }
+        public string assets { get; set; }
+        public string id { get; set; }
+        public JArray libraries { get; set; }
+        public string mainClass { get; set; }
+        public string type { get; set; }
     }
     
     //modify
-    internal partial class MinecraftJsonEntity
+    public partial class MinecraftJsonEntity
     {
-        internal string inheritsFrom { get; set; }
+        public string inheritsFrom { get; set; }
     }
     
     //new
-    internal partial class MinecraftJsonEntity
+    public partial class MinecraftJsonEntity
     {
-        internal JObject arguments { get; set; }
+        public JObject arguments { get; set; }
     }
     
     //old
-    internal partial class MinecraftJsonEntity
+    public partial class MinecraftJsonEntity
     {
-        internal string minecraftArguments { get; set; }
+        public string minecraftArguments { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Masuit.Tools;
@@ -12,7 +13,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     {
         public string Location { get; set; }
 
-        public MinecraftLocator(string location = ".\\")
+        public MinecraftLocator(string location = ".\\.minecraft")
         {
             Location = location;
         }
@@ -68,15 +69,15 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <returns></returns>
         internal MinecraftJsonEntity GetMinecraftEntity(string name)
         {
-            var mcFolder = $"{Location}\\versions\\{name}";
-            if (File.Exists($"{mcFolder}\\{name}.json"))
-                return JsonConvert.DeserializeObject<MinecraftJsonEntity>($"{mcFolder}\\{name}.json");
-            
-            foreach (var file in Directory.GetFiles(mcFolder))
-                if (Path.GetFileName(file).EndsWith("json"))
-                    return JsonConvert.DeserializeObject<MinecraftJsonEntity>(file);
-
-            return JsonConvert.DeserializeObject<MinecraftJsonEntity>($"{mcFolder}\\{name}.json");
+            try
+            {
+                var json = File.ReadAllText($"{Location}\\versions\\{name}\\{name}.json");
+                return JsonConvert.DeserializeObject<MinecraftJsonEntity>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"json文件不存在\n{e.Message}");
+            }
         }
         
         /// <summary>
@@ -85,21 +86,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <returns></returns>
         internal IEnumerable<MinecraftJsonEntity> GetMinecraftEntities()
         {
-            var re = new List<MinecraftJsonEntity>();
-            
-            GetMinecrafts().Select(x => x.Json).ForEach(x =>
-            {
-                if (File.Exists(x))
-                    re.Add(JsonConvert.DeserializeObject<MinecraftJsonEntity>(File.ReadAllText(x)));
-                else
-                    re.AddRange(
-                        from file 
-                        in Directory.GetFiles($"{Location}\\versions\\{Path.GetFileNameWithoutExtension(x)}") 
-                        where Path.GetFileName(file).EndsWith("json") 
-                        select JsonConvert.DeserializeObject<MinecraftJsonEntity>(file));
-            });
-
-            return re;
+            return GetMinecrafts().Select(x => GetMinecraftEntity(Path.GetFileName(x.Root)));
         }
     }
 }

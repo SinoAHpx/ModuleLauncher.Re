@@ -10,17 +10,10 @@ namespace ModuleLauncher.Re.Test
 {
     internal static class Program
     {
-        private const string McLocation = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
+        private static readonly MinecraftLocator Locator = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
         public static void Main(string[] args)
         {
-            MinecraftLocator mc = McLocation;
-            var ls = mc.GetMinecrafts();
-            ls.ForEach(x =>
-            {
-                Console.WriteLine(x.Jar);
-                Console.WriteLine(x.Native);
-                Console.WriteLine(x.Root);
-            });
+            
         }
     }
 }

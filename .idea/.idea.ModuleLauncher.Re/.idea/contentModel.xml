@@ -32,6 +32,9 @@
       </e>
       <e p="Minecraft" t="Include">
         <e p="Locator" t="Include">
+          <e p="AssetsLocator.cs" t="Include" />
+          <e p="JavaLocator.cs" t="Include" />
+          <e p="LibrariesLocator.cs" t="Include" />
           <e p="MinecraftLocator.cs" t="Include" />
         </e>
       </e>
