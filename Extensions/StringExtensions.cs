@@ -15,7 +15,7 @@ namespace ModuleLauncher.Re.Extensions
             return $"{s0}{key}{split[1]}{key}{split[2]}{key}{split[1]}-{split[2]}.jar";
         }
         
-        public static string ToSrcFormat(this string src)
+        public static string[] ToSrcFormat(this string src)
         {
             var key = src.Contains('/') ? '/' : '\\'; 
             var split = src.Split(key);
@@ -33,8 +33,8 @@ namespace ModuleLauncher.Re.Extensions
                 if (i == split.Length - 3)
                     p1 = split[i];
             }
-
-            return $"{p0.TrimEnd('.')}:{p1}:{p2}";
+            
+            return $"{p0.TrimEnd('.')}:{p1}:{p2}".Split(':');
         } 
     }
 }

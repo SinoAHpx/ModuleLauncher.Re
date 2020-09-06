@@ -64,6 +64,7 @@
       </e>
       <e p="Utils" t="Include">
         <e p="AuthenticatorHelper.cs" t="Include" />
+        <e p="CollectionHelper.cs" t="Include" />
         <e p="HttpHelper.cs" t="Include" />
       </e>
     </e>

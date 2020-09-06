@@ -6,6 +6,7 @@ using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
 using ModuleLauncher.Re.Extensions;
+using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -54,13 +55,18 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     {
         public IEnumerable<MinecraftLibrariesEntity> GetLibraries(string name)
         {
-            return GetLibraryNames(name,true).Select(x => new MinecraftLibrariesEntity
+            return GetLibraryNames(name, true).Select(x => new MinecraftLibrariesEntity
             {
                 Name = Path.GetFileName(x),
                 Path = $"{Locator.Location}\\libraries\\{x}",
                 Link = $"{_downloadLink}/{x.Replace('\\', '/')}",
                 UnformattedName = x.ToSrcFormat()
-            }).DistinctBy(x => x.Name);
+            }).DistinctBy(x => x.Link);
+        }
+        
+        public IEnumerable<MinecraftLibrariesEntity> GetLibrariesss(string name)
+        {
+            return CollectionHelper.RemoveRepeat(GetLibraries(name));
         }
     }
     

@@ -14,10 +14,10 @@ namespace ModuleLauncher.Re.Test
         private static readonly MinecraftLocator Locator = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
         public static void Main(string[] args)
         {
-            /*var lv = new LibrariesLocator(Locator);
-            lv.GetLibraries("1.16.2").ForEach(entity => Console.WriteLine(entity.Link));*/
-
-            Console.WriteLine("net/sf/jopt-simple/jopt-simple/5.0.3/jopt-simple-5.0.3.jar".ToSrcFormat());
+            var lv = new LibrariesLocator(Locator);
+            lv.GetLibraries("1.16.2").ForEach(entity => Console.WriteLine(entity.Name));
+            Console.WriteLine("============================================================");
+            lv.GetLibrariesss("1.16.2").ForEach(entity => Console.WriteLine(entity.Name));
         }
     }
 }
