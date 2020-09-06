@@ -13,6 +13,11 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         {
             Location = location;
         }
+
+        public static implicit operator MinecraftLocator(string location)
+        {
+            return new MinecraftLocator(location);
+        }
     }
     
     public partial class MinecraftLocator
