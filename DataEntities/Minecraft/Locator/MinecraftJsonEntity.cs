@@ -13,7 +13,7 @@ namespace ModuleLauncher.Re.DataEntities.Minecraft.Locator
         public string type { get; set; }
     }
     
-    //modify
+    //loaders
     public partial class MinecraftJsonEntity
     {
         public string inheritsFrom { get; set; }

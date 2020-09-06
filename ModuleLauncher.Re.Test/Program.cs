@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Masuit.Tools;
 using ModuleLauncher.Re.Authenticator;
+using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Minecraft.Locator;
 using Newtonsoft.Json;
@@ -14,12 +15,11 @@ namespace ModuleLauncher.Re.Test
         private static readonly MinecraftLocator Locator = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
         public static void Main(string[] args)
         {
-            Locator.GetMinecraftFileEntities().ForEach(x =>
+            /*Locator.GetMinecraftFileEntities().ForEach(x =>
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Name:{x.Name}");
-                Console.WriteLine($"Type:{Locator.GetMinecraftJsonType(x.Name)}");
-                
+
                 Console.ForegroundColor = ConsoleColor.Green;
                 var lb = new LibrariesLocator(Locator);
                 lb.GetLibraries(x.Name).ForEach(z =>
@@ -28,6 +28,13 @@ namespace ModuleLauncher.Re.Test
                 });
 
                 Console.WriteLine();
+            });*/
+            
+            var lb = new LibrariesLocator(Locator,MinecraftDownloadSource.Mojang);
+            lb.GetLibraries("1.16.2-forge-33.0.37").ForEach(x =>
+            {
+                Console.WriteLine(x.Name);
+                Console.WriteLine(x.Link);
             });
         }
     }

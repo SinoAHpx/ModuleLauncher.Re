@@ -80,6 +80,11 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 throw new Exception($"json文件不存在\n{e.Message}");
             }
         }
+
+        internal MinecraftJsonEntity GetInheritsMinecraftJsonEntity(string name)
+        {
+            return GetMinecraftJsonEntity(GetMinecraftJsonEntity(name).inheritsFrom);
+        }
         
         /// <summary>
         /// 解析所有versions目录下Minecraft的json文件
@@ -90,7 +95,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             return GetMinecraftFileEntities().Select(x => GetMinecraftJsonEntity(Path.GetFileName(x.Root)));
         }
 
-        public MinecraftJsonType GetMinecraftJsonType(string name)
+        internal MinecraftJsonType GetMinecraftJsonType(string name)
         {
             try
             {

@@ -53,15 +53,36 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     //exposed
     public partial class LibrariesLocator
     {
+        /// <summary>
+        /// 获取指定Minecraft的所有libraries
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public IEnumerable<MinecraftLibrariesEntity> GetLibraries(string name)
         {
-            return  CollectionHelper.RemoveRepeat(GetLibraryNames(name, true).Select(x => new MinecraftLibrariesEntity
+            var type = Locator.GetMinecraftJsonType(name);
+            var re = new List<MinecraftLibrariesEntity>();
+            var link = _downloadLink;
+            
+            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
+            {
+                re.AddRange(GetLibraries(Locator.GetInheritsMinecraftJsonEntity(name).id));
+                
+            }
+            
+            re.AddRange(CollectionHelper.RemoveRepeat(GetLibraryNames(name, true).Select(x => new MinecraftLibrariesEntity
             {
                 Name = Path.GetFileName(x),
                 Path = $"{Locator.Location}\\libraries\\{x}",
-                Link = $"{_downloadLink}/{x.Replace('\\', '/')}",
+                Link = (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew) &&
+                       DownloadSource == MinecraftDownloadSource.Mojang
+                    ? $"{_downloadLink}/{x.Replace('\\', '/')}".Replace("https://libraries.minecraft.net/",
+                        "https://bmclapi2.bangbang93.com/maven/")
+                    : $"{_downloadLink}/{x.Replace('\\', '/')}",
                 UnformattedName = x.ToSrcFormat()
-            }).DistinctBy(x => x.Link));
+            }).DistinctBy(x => x.Link)));
+            
+            return re;
         }
     }
     

@@ -47,6 +47,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Examples" t="Include">
           <e p="AuthenticateExample.cs" t="Include" />
+          <e p="LibrariesExample.cs" t="Include" />
         </e>
         <e p="ModuleLauncher.Re.Test.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive" />
