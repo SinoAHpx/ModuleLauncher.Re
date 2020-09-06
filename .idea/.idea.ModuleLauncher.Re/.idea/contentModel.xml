@@ -13,7 +13,10 @@
         <e p="Authenticator" t="Include">
           <e p="AuthenticateResult.cs" t="Include" />
         </e>
-        <e p="Enums" t="Include" />
+        <e p="Enums" t="Include">
+          <e p="MinecraftFileType.cs" t="Include" />
+          <e p="MinecraftJsonType.cs" t="Include" />
+        </e>
         <e p="Minecraft" t="Include">
           <e p="Locator" t="Include">
             <e p="MinecraftFileEntity.cs" t="Include" />
