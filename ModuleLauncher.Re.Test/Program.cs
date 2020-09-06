@@ -14,7 +14,8 @@ namespace ModuleLauncher.Re.Test
         private static readonly MinecraftLocator Locator = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
         public static void Main(string[] args)
         {
-            Console.WriteLine("net.java.dev.jna:platform:3.4.0".ToLibraryPath(true));
+            var lv = new LibrariesLocator(Locator);
+            lv.GetLibraries("1.8.9").ForEach(entity => Console.WriteLine(entity.Link));
         }
     }
 }

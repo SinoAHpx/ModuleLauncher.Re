@@ -28,13 +28,13 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 switch (value)
                 {
                     case MinecraftDownloadSource.Mojang:
-                        _downloadLink = "https://libraries.minecraft.net/";
+                        _downloadLink = "https://libraries.minecraft.net";
                         break;
                     case MinecraftDownloadSource.Mcbbs:
-                        _downloadLink = "https://bmclapi2.bangbang93.com/maven/";
+                        _downloadLink = "https://bmclapi2.bangbang93.com/maven";
                         break;
                     case MinecraftDownloadSource.Bmclapi:
-                        _downloadLink = "https://download.mcbbs.net/maven/";
+                        _downloadLink = "https://download.mcbbs.net/maven";
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(value), value, null);
@@ -45,6 +45,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         public LibrariesLocator(MinecraftLocator location = null, MinecraftDownloadSource source = MinecraftDownloadSource.Bmclapi)
         {
             Locator = location;
+            DownloadSource = source;
         }
     }
     
@@ -53,14 +54,11 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     {
         public IEnumerable<MinecraftLibrariesEntity> GetLibraries(string name)
         {
-            return GetLibraryNames(name,true).Select(x =>
+            return GetLibraryNames(name,true).Select(x => new MinecraftLibrariesEntity
             {
-                return new MinecraftLibrariesEntity
-                {
-                    Name = Path.GetFileName(x),
-                    Path = $"{Locator}\\",
-                    Link = ""
-                };
+                Name = Path.GetFileName(x),
+                Path = $"{Locator.Location}\\libraries\\{x}",
+                Link = $"{_downloadLink}/{x.Replace('\\', '/')}"
             });
         }
     }
