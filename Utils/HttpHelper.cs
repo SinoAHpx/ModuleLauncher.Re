@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Service.DataEntity.Utils;
-using ModuleLauncher.Re.Service.Extensions;
 using RestSharp;
 
-namespace ModuleLauncher.Re.Service.Utils
+namespace ModuleLauncher.Re.Utils
 {
     //head
     public partial class HttpHelper

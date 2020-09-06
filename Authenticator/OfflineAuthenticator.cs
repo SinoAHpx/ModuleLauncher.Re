@@ -2,7 +2,8 @@
 
 namespace ModuleLauncher.Re.Authenticator
 {
-    public class OfflineAuthenticator
+    //head
+    public partial class OfflineAuthenticator
     {
         public string Name { get; set; }
 
@@ -10,7 +11,10 @@ namespace ModuleLauncher.Re.Authenticator
         {
             Name = name;
         }
+    }
 
+    public partial class OfflineAuthenticator
+    {
         public AuthenticateResult Authenticate()
         {
             return Name;

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ModuleLauncher.Re.Service.Extensions
+namespace ModuleLauncher.Re.Extensions
 {
     public static class AsyncExtensions
     {

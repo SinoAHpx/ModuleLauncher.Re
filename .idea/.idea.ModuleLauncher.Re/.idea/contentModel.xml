@@ -9,6 +9,9 @@
         <e p="YggdrasilAuthenticator.cs" t="Include" />
       </e>
       <e p="bin" t="ExcludeRecursive" />
+      <e p="Extensions" t="Include">
+        <e p="AsyncExtensions.cs" t="Include" />
+      </e>
       <e p="ModuleLauncher.Re.csproj" t="IncludeRecursive" />
       <e p="ModuleLauncher.Re.sln" t="IncludeFlat" />
       <e p="ModuleLauncher.Re.Test" t="IncludeRecursive">
@@ -40,12 +43,9 @@
             <e p="HttpResult.cs" t="Include" />
           </e>
         </e>
-        <e p="Extensions" t="Include">
-          <e p="AsyncExtensions.cs" t="Include" />
-        </e>
-        <e p="Utils" t="Include">
-          <e p="HttpHelper.cs" t="Include" />
-        </e>
+      </e>
+      <e p="Utils" t="Include">
+        <e p="HttpHelper.cs" t="Include" />
       </e>
     </e>
   </component>

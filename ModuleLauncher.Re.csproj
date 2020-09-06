@@ -206,12 +206,12 @@
     <ItemGroup>
         <Compile Include="Authenticator\OfflineAuthenticator.cs" />
         <Compile Include="Authenticator\YggdrasilAuthenticator.cs" />
+        <Compile Include="Extensions\AsyncExtensions.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Service\AuthenticatorPayload.cs" />
         <Compile Include="Service\DataEntity\Authenticator\AuthenticateResult.cs" />
         <Compile Include="Service\DataEntity\Utils\HttpResult.cs" />
-        <Compile Include="Service\Extensions\AsyncExtensions.cs" />
-        <Compile Include="Service\Utils\HttpHelper.cs" />
+        <Compile Include="Utils\HttpHelper.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
