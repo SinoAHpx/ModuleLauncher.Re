@@ -207,7 +207,8 @@
         <Compile Include="Authenticator\OfflineAuthenticator.cs" />
         <Compile Include="Authenticator\YggdrasilAuthenticator.cs" />
         <Compile Include="DataEntities\Authenticator\AuthenticateResult.cs" />
-        <Compile Include="DataEntities\Minecraft\Locator\MinecraftEntity.cs" />
+        <Compile Include="DataEntities\Minecraft\Locator\MinecraftFileEntity.cs" />
+        <Compile Include="DataEntities\Minecraft\Locator\MinecraftJsonEntity.cs" />
         <Compile Include="DataEntities\Utils\HttpResult.cs" />
         <Compile Include="Extensions\AsyncExtensions.cs" />
         <Compile Include="Minecraft\Locator\MinecraftLocator.cs" />
