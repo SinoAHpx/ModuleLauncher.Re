@@ -71,7 +71,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             
             re.AddRange(CollectionHelper.RemoveRepeat(GetLibraryNames(name, true).Select(x => new MinecraftLibrariesEntity
             {
-                Name = Path.GetFileName(x),
+                Name = x.GetFileName(),
                 Path = $"{Locator.Location}\\libraries\\{x}",
                 Link = $"{link}/{x.Replace('\\', '/')}",
                 UnformattedName = x.ToSrcFormat()

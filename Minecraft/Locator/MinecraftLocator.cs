@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
+using ModuleLauncher.Re.Extensions;
+using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json;
 
 namespace ModuleLauncher.Re.Minecraft.Locator
@@ -38,7 +41,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <returns></returns>
         public IEnumerable<MinecraftFileEntity> GetMinecraftFileEntities() => Directory
             .GetDirectories($"{Location}\\versions")
-            .Select(x => GetMinecraftFileEntity(Path.GetFileName(x)));
+            .Select(x => GetMinecraftFileEntity(x.GetFileName()));
 
         /// <summary>
         /// 获取指定的Minecraft版本
@@ -89,25 +92,33 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// </summary>
         /// <returns></returns>
         internal IEnumerable<MinecraftJsonEntity> GetMinecraftJsonEntities() => GetMinecraftFileEntities()
-            .Select(x => GetMinecraftJsonEntity(Path.GetFileName(x.Root)));
+            .Select(x => GetMinecraftJsonEntity(x.Root.GetFileName()));
 
         public string GetMinecraftVersionRoot(string name)
         {
-            var orEntity = GetMinecraftJsonEntity(name).assets;
-            if (!string.IsNullOrEmpty(orEntity))
-            {
-                return GetMinecraftJsonEntity(name).assets;
-            }
-            
-            var split = name.Split('.');
             try
             {
-                Version.Parse($"{split[0]}.{split[1]}");
-                return $"{split[0]}.{split[1]}";
+                return Version.Parse(GetMinecraftJsonEntity(name).assets).ToString();
             }
             catch
             {
-                return GetMinecraftVersionRoot(GetInheritsMinecraftJsonEntity(name).id);
+                try
+                {
+                    var split = name.Split('.');
+                    return Version.Parse($"{split[0]}.{split[1]}").ToString();
+                }
+                catch
+                {
+                    try
+                    {
+                        return GetMinecraftVersionRoot(GetInheritsMinecraftJsonEntity(name).id);
+                    }
+                    catch
+                    {
+                        StringHelper.GetAlphabets().ForEach(x => name = name.Replace(x, ""));
+                        return GetMinecraftVersionRoot(name);
+                    }
+                }
             }
         }
         
