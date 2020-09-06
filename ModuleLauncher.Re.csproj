@@ -224,6 +224,7 @@
         <Compile Include="Utils\AuthenticatorHelper.cs" />
         <Compile Include="Utils\CollectionHelper.cs" />
         <Compile Include="Utils\HttpHelper.cs" />
+        <Compile Include="Utils\StringHelper.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

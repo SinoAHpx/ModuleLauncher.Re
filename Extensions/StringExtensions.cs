@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.IO;
+using System.Linq;
 using Masuit.Tools;
+using Masuit.Tools.Media;
 
 namespace ModuleLauncher.Re.Extensions
 {
@@ -36,5 +39,15 @@ namespace ModuleLauncher.Re.Extensions
             
             return $"{p0.TrimEnd('.')}:{p1}:{p2}".Split(':');
         } 
+        
+        public static Bitmap Base64ToImage(this string s)
+        {
+            return s.SaveDataUriAsImageFile();
+        }
+
+        public static string GetFileName(this string s)
+        {
+            return Path.GetFileName(s);
+        }
     }
 }
