@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Masuit.Tools;
+using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
 using Newtonsoft.Json;
 
@@ -36,15 +36,10 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// 获取versions目录下所有的Minecraft版本
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<MinecraftFileEntity> GetMinecrafts()
+        public IEnumerable<MinecraftFileEntity> GetMinecraftFileEntities()
         {
-            return Directory.GetDirectories($"{Location}\\versions").Select(s => new MinecraftFileEntity
-            {
-                Jar = $"{s}\\{Path.GetFileName(s)}.jar",
-                Json = $"{s}\\{Path.GetFileName(s)}.json",
-                Native = $"{s}\\{Path.GetFileName(s)}-natives",
-                Root = s
-            });
+            return Directory.GetDirectories($"{Location}\\versions")
+                .Select(x => GetMinecraftFileEntity(Path.GetFileName(x)));
         }
         
         /// <summary>
@@ -52,14 +47,15 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// </summary>
         /// <param name="name">版本文件名</param>
         /// <returns></returns>
-        public MinecraftFileEntity GetMinecraft(string name)
+        public MinecraftFileEntity GetMinecraftFileEntity(string name)
         {
             return new MinecraftFileEntity
             {
                 Jar = $"{Location}\\versions\\{name}\\{name}.jar",
                 Json = $"{Location}\\versions\\{name}\\{name}.json",
                 Native = $"{Location}\\versions\\{name}\\{name}-natives",
-                Root = $"{Location}\\versions\\{name}"
+                Root = $"{Location}\\versions\\{name}",
+                Name = name
             };
         }
     }
@@ -72,7 +68,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal MinecraftJsonEntity GetMinecraftEntity(string name)
+        internal MinecraftJsonEntity GetMinecraftJsonEntity(string name)
         {
             try
             {
@@ -89,9 +85,41 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// 解析所有versions目录下Minecraft的json文件
         /// </summary>
         /// <returns></returns>
-        internal IEnumerable<MinecraftJsonEntity> GetMinecraftEntities()
+        internal IEnumerable<MinecraftJsonEntity> GetMinecraftJsonEntities()
         {
-            return GetMinecrafts().Select(x => GetMinecraftEntity(Path.GetFileName(x.Root)));
+            return GetMinecraftFileEntities().Select(x => GetMinecraftJsonEntity(Path.GetFileName(x.Root)));
+        }
+
+        public MinecraftJsonType GetMinecraftJsonType(string name)
+        {
+            try
+            {
+                var entity = GetMinecraftJsonEntity(name);
+                
+                //判断是不是快照版本
+                if (entity.type != "release") return MinecraftJsonType.Vanilla;
+                
+                //判断是loader还是loadernew
+                if (entity.inheritsFrom != null)
+                    return Version.Parse(entity.inheritsFrom) < Version.Parse("1.13")
+                        ? MinecraftJsonType.Loader
+                        : MinecraftJsonType.LoaderNew;
+                    
+                //判断是vanilla还是modify
+                try
+                {
+                    Version.Parse(entity.id);
+                    return MinecraftJsonType.Vanilla;
+                }
+                catch
+                {
+                    return MinecraftJsonType.Modify;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"获取Minecraft实体失败\n{e.Message}");
+            }
         }
     }
 }

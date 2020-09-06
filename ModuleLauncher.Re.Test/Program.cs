@@ -14,10 +14,21 @@ namespace ModuleLauncher.Re.Test
         private static readonly MinecraftLocator Locator = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
         public static void Main(string[] args)
         {
-            var lv = new LibrariesLocator(Locator);
-            lv.GetLibraries("1.16.2").ForEach(entity => Console.WriteLine(entity.Name));
-            Console.WriteLine("============================================================");
-            lv.GetLibrariesss("1.16.2").ForEach(entity => Console.WriteLine(entity.Name));
+            Locator.GetMinecraftFileEntities().ForEach(x =>
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Name:{x.Name}");
+                Console.WriteLine($"Type:{Locator.GetMinecraftJsonType(x.Name)}");
+                
+                Console.ForegroundColor = ConsoleColor.Green;
+                var lb = new LibrariesLocator(Locator);
+                lb.GetLibraries(x.Name).ForEach(z =>
+                {
+                    Console.WriteLine(z.Name);
+                });
+
+                Console.WriteLine();
+            });
         }
     }
 }

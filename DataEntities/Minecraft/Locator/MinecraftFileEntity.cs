@@ -9,5 +9,6 @@
         public string Json { get; set; }
         public string Native { get; set; }
         public string Root { get; set; }
+        public string Name { get; set; }
     }
 }

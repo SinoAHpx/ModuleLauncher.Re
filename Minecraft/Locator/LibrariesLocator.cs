@@ -55,18 +55,13 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     {
         public IEnumerable<MinecraftLibrariesEntity> GetLibraries(string name)
         {
-            return GetLibraryNames(name, true).Select(x => new MinecraftLibrariesEntity
+            return  CollectionHelper.RemoveRepeat(GetLibraryNames(name, true).Select(x => new MinecraftLibrariesEntity
             {
                 Name = Path.GetFileName(x),
                 Path = $"{Locator.Location}\\libraries\\{x}",
                 Link = $"{_downloadLink}/{x.Replace('\\', '/')}",
                 UnformattedName = x.ToSrcFormat()
-            }).DistinctBy(x => x.Link);
-        }
-        
-        public IEnumerable<MinecraftLibrariesEntity> GetLibrariesss(string name)
-        {
-            return CollectionHelper.RemoveRepeat(GetLibraries(name));
+            }).DistinctBy(x => x.Link));
         }
     }
     
@@ -84,7 +79,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         {
             try
             {
-                var entity = Locator.GetMinecraftEntity(name);
+                var entity = Locator.GetMinecraftJsonEntity(name);
                 return entity.libraries.Select(x =>
                     format ? x["name"]?.ToString().ToLibFormat() : x["name"]?.ToString());
             }
