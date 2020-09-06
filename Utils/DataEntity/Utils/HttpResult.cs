@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace ModuleLauncher.Re.Service.DataEntity.Utils
+namespace ModuleLauncher.Re.Utils.DataEntity.Utils
 {
     public class HttpResult
     {

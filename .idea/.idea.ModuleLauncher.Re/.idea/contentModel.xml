@@ -40,6 +40,13 @@
       </e>
       <e p="Service" t="Include">
         <e p="DataEntity" t="Include">
+          <e p="Authenticator" t="Include" />
+          <e p="Utils" t="Include" />
+        </e>
+      </e>
+      <e p="Utils" t="Include">
+        <e p="AuthenticatorHelper.cs" t="Include" />
+        <e p="DataEntity" t="Include">
           <e p="Authenticator" t="Include">
             <e p="AuthenticateResult.cs" t="Include" />
           </e>
@@ -47,9 +54,6 @@
             <e p="HttpResult.cs" t="Include" />
           </e>
         </e>
-      </e>
-      <e p="Utils" t="Include">
-        <e p="AuthenticatorHelper.cs" t="Include" />
         <e p="HttpHelper.cs" t="Include" />
       </e>
     </e>
