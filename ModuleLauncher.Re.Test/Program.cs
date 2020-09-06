@@ -15,7 +15,12 @@ namespace ModuleLauncher.Re.Test
         {
             MinecraftLocator mc = McLocation;
             var ls = mc.GetMinecrafts();
-            ls.ForEach(Console.WriteLine);
+            ls.ForEach(x =>
+            {
+                Console.WriteLine(x.Jar);
+                Console.WriteLine(x.Native);
+                Console.WriteLine(x.Root);
+            });
         }
     }
 }
