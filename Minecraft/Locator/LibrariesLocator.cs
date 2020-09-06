@@ -58,8 +58,9 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             {
                 Name = Path.GetFileName(x),
                 Path = $"{Locator.Location}\\libraries\\{x}",
-                Link = $"{_downloadLink}/{x.Replace('\\', '/')}"
-            });
+                Link = $"{_downloadLink}/{x.Replace('\\', '/')}",
+                UnformattedName = x.ToSrcFormat()
+            }).DistinctBy(x => x.Name);
         }
     }
     
@@ -71,16 +72,15 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// </summary>
         /// <param name="name"></param>
         /// <param name="format">把它整成路径或者url的样子</param>
-        /// <param name="isUrl"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private IEnumerable<string> GetLibraryNames(string name, bool format = false, bool isUrl = false)
+        private IEnumerable<string> GetLibraryNames(string name, bool format = false)
         {
             try
             {
                 var entity = Locator.GetMinecraftEntity(name);
                 return entity.libraries.Select(x =>
-                    format ? x["name"]?.ToString().ToLibraryPath(isUrl) : x["name"]?.ToString());
+                    format ? x["name"]?.ToString().ToLibFormat() : x["name"]?.ToString());
             }
             catch (Exception e)
             {
