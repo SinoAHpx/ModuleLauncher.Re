@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModuleLauncher.Re.Utils.DataEntity.Authenticator
+namespace ModuleLauncher.Re.DataEntities.Authenticator
 {
     public class AuthenticateResult
     {

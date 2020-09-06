@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ModuleLauncher.Re.DataEntities.Utils;
 using ModuleLauncher.Re.Extensions;
-using ModuleLauncher.Re.Utils.DataEntity.Utils;
 using RestSharp;
 
 namespace ModuleLauncher.Re.Utils

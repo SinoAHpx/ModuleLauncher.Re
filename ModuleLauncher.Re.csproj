@@ -206,16 +206,20 @@
     <ItemGroup>
         <Compile Include="Authenticator\OfflineAuthenticator.cs" />
         <Compile Include="Authenticator\YggdrasilAuthenticator.cs" />
+        <Compile Include="DataEntities\Authenticator\AuthenticateResult.cs" />
+        <Compile Include="DataEntities\Minecraft\Locator\MinecraftEntity.cs" />
+        <Compile Include="DataEntities\Utils\HttpResult.cs" />
         <Compile Include="Extensions\AsyncExtensions.cs" />
         <Compile Include="Minecraft\Locator\MinecraftLocator.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Utils\AuthenticatorHelper.cs" />
-        <Compile Include="Utils\DataEntity\Authenticator\AuthenticateResult.cs" />
-        <Compile Include="Utils\DataEntity\Utils\HttpResult.cs" />
         <Compile Include="Utils\HttpHelper.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="DataEntities\Enums" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

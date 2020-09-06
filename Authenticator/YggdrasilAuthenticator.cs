@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using ModuleLauncher.Re.DataEntities.Authenticator;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Utils;
-using ModuleLauncher.Re.Utils.DataEntity.Authenticator;
 using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Authenticator

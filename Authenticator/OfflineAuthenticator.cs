@@ -1,4 +1,4 @@
-﻿using ModuleLauncher.Re.Utils.DataEntity.Authenticator;
+﻿using ModuleLauncher.Re.DataEntities.Authenticator;
 
 namespace ModuleLauncher.Re.Authenticator
 {
