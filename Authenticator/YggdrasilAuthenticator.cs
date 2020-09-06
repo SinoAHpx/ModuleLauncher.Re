@@ -13,25 +13,25 @@ namespace ModuleLauncher.Re.Authenticator
     {
         public string Username
         {
-            get => Payload.Username;
-            set => Payload.Username = value;
+            get => _payload.Username;
+            set => _payload.Username = value;
         }
 
         public string Password
         {
-            get => Payload.Password;
-            set => Payload.Password = value;
+            get => _payload.Password;
+            set => _payload.Password = value;
         }
         public string ClientToken 
         { 
-            get => Payload.ClientToken;
-            set => Payload.ClientToken = value;
+            get => _payload.ClientToken;
+            set => _payload.ClientToken = value;
         }
 
-        private AuthenticatorPayload Payload;
+        private readonly AuthenticatorPayload _payload;
         public YggdrasilAuthenticator(string username = "", string password = "", string clientToken = "")
         {
-            Payload = new AuthenticatorPayload
+            _payload = new AuthenticatorPayload
             {
                 Username = username,
                 Password = password,
@@ -55,7 +55,7 @@ namespace ModuleLauncher.Re.Authenticator
         /// <returns></returns>
         public async Task<AuthenticateResult> AuthenticateAsync()
         {
-            var payload = Payload.GetAuthenticatePayload();
+            var payload = _payload.GetAuthenticatePayload();
             var result = await HttpHelper.PostHttpAsync(AuthDomain, payload);
             var response = JObject.Parse(result.Content);
 
@@ -83,7 +83,7 @@ namespace ModuleLauncher.Re.Authenticator
         /// <returns></returns>
         public async Task<AuthenticateResult> RefreshAsync(string accessToken)
         {
-            var payload = Payload.GetRefreshPayload(accessToken);
+            var payload = _payload.GetRefreshPayload(accessToken);
             var result = await HttpHelper.PostHttpAsync(RefreshDomain, payload);
             var response = JObject.Parse(result.Content);
 
@@ -111,7 +111,7 @@ namespace ModuleLauncher.Re.Authenticator
         /// <returns></returns>
         public async Task<bool> ValidateAsync(string accessToken)
         {
-            var payload = Payload.GetValidatePayload(accessToken);
+            var payload = _payload.GetValidatePayload(accessToken);
             var result = await HttpHelper.PostHttpAsync(ValidateDomain, payload);
 
             return result.StatusCode == HttpStatusCode.NoContent;
@@ -125,13 +125,13 @@ namespace ModuleLauncher.Re.Authenticator
         /// <returns></returns>
         public async Task InvalidateAsync(string accessToken,string clientToken)
         {
-            var payload = Payload.GetInvalidatePayload(accessToken, clientToken);
+            var payload = _payload.GetInvalidatePayload(accessToken, clientToken);
             await HttpHelper.PostHttpAsync(InvalidateDomain, payload);
         }
 
         public async Task SignOutAsync()
         {
-            var payload = Payload.GetSignOutPayload();
+            var payload = _payload.GetSignOutPayload();
             await HttpHelper.PostHttpAsync(SignOutDomain, payload);
         }
     }

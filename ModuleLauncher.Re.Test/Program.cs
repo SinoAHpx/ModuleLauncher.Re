@@ -6,14 +6,11 @@ using Newtonsoft.Json;
 
 namespace ModuleLauncher.Re.Test
 {
-    internal class Program
+    internal static class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            var ygg = new YggdrasilAuthenticator("AHpx@yandex.com","");
-
-            var re = await ygg.AuthenticateAsync();
-            Console.WriteLine(re.Username);
+            
         }
     }
 }
