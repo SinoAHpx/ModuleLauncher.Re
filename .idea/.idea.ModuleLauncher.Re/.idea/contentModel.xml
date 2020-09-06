@@ -21,6 +21,7 @@
           <e p="Locator" t="Include">
             <e p="MinecraftFileEntity.cs" t="Include" />
             <e p="MinecraftJsonEntity.cs" t="Include" />
+            <e p="MinecraftLibrariesEntity.cs" t="Include" />
           </e>
         </e>
         <e p="Utils" t="Include">
@@ -29,6 +30,7 @@
       </e>
       <e p="Extensions" t="Include">
         <e p="AsyncExtensions.cs" t="Include" />
+        <e p="StringExtensions.cs" t="Include" />
       </e>
       <e p="Minecraft" t="Include">
         <e p="Locator" t="Include">

@@ -211,8 +211,10 @@
         <Compile Include="DataEntities\Enums\MinecraftJsonType.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftFileEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftJsonEntity.cs" />
+        <Compile Include="DataEntities\Minecraft\Locator\MinecraftLibrariesEntity.cs" />
         <Compile Include="DataEntities\Utils\HttpResult.cs" />
         <Compile Include="Extensions\AsyncExtensions.cs" />
+        <Compile Include="Extensions\StringExtensions.cs" />
         <Compile Include="Minecraft\Locator\AssetsLocator.cs" />
         <Compile Include="Minecraft\Locator\JavaLocator.cs" />
         <Compile Include="Minecraft\Locator\LibrariesLocator.cs" />

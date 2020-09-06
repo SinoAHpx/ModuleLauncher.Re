@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Masuit.Tools;
+using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,7 +21,10 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     //exposed
     public partial class LibrariesLocator
     {
-        
+        public IEnumerable<MinecraftLibrariesEntity> GetLibraries()
+        {
+            return null;
+        }
     }
     
     //inside
