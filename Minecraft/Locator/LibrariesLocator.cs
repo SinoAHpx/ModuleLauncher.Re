@@ -152,9 +152,17 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 }    
                 catch (Exception e)
                 {
-                    if ()
+                    if (x.IncludeStr("natives-windows"))
                     {
-                        
+                        try
+                        {
+                            var addition = x["natives"].GetValue("windows", throwEx: true);
+                            re.Add($"{x["name"].ToLibFormat(true)}-{addition}.jar");
+                        }
+                        catch (Exception exception)
+                        {
+                            throw new Exception($"json文件损坏:{exception.Message}");
+                        }
                     }
                 }
             });
