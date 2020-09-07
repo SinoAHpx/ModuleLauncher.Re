@@ -68,6 +68,7 @@
         <e p="CollectionHelper.cs" t="Include" />
         <e p="HttpHelper.cs" t="Include" />
         <e p="StringHelper.cs" t="Include" />
+        <e p="SystemHelper.cs" t="Include" />
       </e>
     </e>
   </component>

@@ -30,18 +30,17 @@ namespace ModuleLauncher.Re.Test
                 Console.WriteLine();
             });*/
             
-            /*var lb = new LibrariesLocator(Locator,MinecraftDownloadSource.Mojang);
-            lb.GetLibraries("1.16.2-forge-33.0.37").ForEach(x =>
+            var lb = new LibrariesLocator(Locator,MinecraftDownloadSource.Mojang);
+            lb.GetNatives("PixelClient").ForEach(x =>
             {
                 Console.WriteLine(x.Name);
-                Console.WriteLine(x.Link);
-            });*/
-            Locator.GetMinecraftFileEntities().ForEach(x =>
+            });
+            /*Locator.GetMinecraftFileEntities().ForEach(x =>
             {
                 Console.WriteLine(x.Name);
                 Console.WriteLine(Locator.GetMinecraftVersionRoot(x.Name));
                 Console.WriteLine();
-            });
+            });*/
         }
     }
 }

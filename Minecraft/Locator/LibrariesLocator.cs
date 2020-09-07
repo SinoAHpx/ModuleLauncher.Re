@@ -7,6 +7,7 @@ using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Minecraft.Locator
 {
@@ -69,13 +70,33 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                     link = "https://bmclapi2.bangbang93.com/maven";
             }
             
-            re.AddRange(CollectionHelper.RemoveRepeat(GetLibraryNames(name, true).Select(x => new MinecraftLibrariesEntity
+            re.AddRange(CollectionHelper.ExcludeRepeat(GetLibraryNames(name).Select(x => new MinecraftLibrariesEntity
             {
                 Name = x.GetFileName(),
                 Path = $"{Locator.Location}\\libraries\\{x}",
                 Link = $"{link}/{x.Replace('\\', '/')}",
                 UnformattedName = x.ToSrcFormat()
             }).DistinctBy(x => x.Link)));
+            
+            return re;
+        }
+
+        public IEnumerable<MinecraftLibrariesEntity> GetNatives(string name)
+        {
+            var type = Locator.GetMinecraftJsonType(name);
+            var re = new List<MinecraftLibrariesEntity>();
+            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
+            {
+                re.AddRange(GetNatives(Locator.GetInheritsMinecraftJsonEntity(name).id));
+            }
+            
+            re.AddRange(GetNativeNames(name).Select(x => new MinecraftLibrariesEntity
+            {
+                Name = x.GetFileName(),
+                Path = $"{Locator.Location}\\libraries\\{x}",
+                Link = $"{_downloadLink}/{x.Replace('\\', '/')}",
+                UnformattedName = x.ToSrcFormat()
+            }).DistinctBy(x => x.Link));
             
             return re;
         }
@@ -91,18 +112,34 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <param name="format">把它整成路径或者url的样子</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private IEnumerable<string> GetLibraryNames(string name, bool format = false)
+        private IEnumerable<string> GetLibraryNames(string name)
         {
             try
             {
                 var entity = Locator.GetMinecraftJsonEntity(name);
-                return entity.libraries.Select(x =>
-                    format ? x["name"]?.ToString().ToLibFormat() : x["name"]?.ToString());
+                return entity.libraries.Select(x =>x["name"]?.ToString().ToLibFormat());
             }
             catch (Exception e)
             {
                 throw new Exception($"获取minecraft实体失败\n{e.Message}");
             }
+        }
+
+        private IEnumerable<string> GetNativeNames(string name)
+        {
+            var libs = Locator.GetMinecraftJsonEntity(name);
+            var re = new List<string>();
+            
+            libs.libraries.ForEach(x =>
+            {
+                if (!x.ToString().Contains("natives")) return;
+
+                var item = x["natives"]?["windows"]?.ToString()
+                    .Replace("${arch}", SystemHelper.GetOsBit() ? "64" : "32");
+                re.Add($"{x["name"]?.ToString().ToLibFormat(true)}-{item}.jar");
+            });
+
+            return re;
         }
     }
 }

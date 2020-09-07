@@ -225,6 +225,7 @@
         <Compile Include="Utils\CollectionHelper.cs" />
         <Compile Include="Utils\HttpHelper.cs" />
         <Compile Include="Utils\StringHelper.cs" />
+        <Compile Include="Utils\SystemHelper.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

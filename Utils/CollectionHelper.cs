@@ -8,7 +8,7 @@ namespace ModuleLauncher.Re.Utils
 {
     public static class CollectionHelper
     {
-        public static IEnumerable<MinecraftLibrariesEntity> RemoveRepeat(IEnumerable<MinecraftLibrariesEntity> src)
+        public static IEnumerable<MinecraftLibrariesEntity> ExcludeRepeat(IEnumerable<MinecraftLibrariesEntity> src)
         {
             var entities = src.ToList();
 
