@@ -36,6 +36,7 @@ namespace ModuleLauncher.Re.Utils
             return re.DistinctBy(x => x.Name);
         }
         
+        /*
         public static IEnumerable<MinecraftLibrariesEntity> ExcludeRepeat(IEnumerable<MinecraftLibrariesEntity> src)
         {
             var e = src.ToList();
@@ -44,7 +45,7 @@ namespace ModuleLauncher.Re.Utils
             for (var i = 0; i < e.Count; i++)
             {
                 /*Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine($"LOOP ONE:{i}\nLib:{e[i].Name}\nVer:{e[i].UnformattedName[2]}");*/
+                Console.WriteLine($"LOOP ONE:{i}\nLib:{e[i].Name}\nVer:{e[i].UnformattedName[2]}");#1#
                 //尝试解析库版本，失败则continue
                 if (!Version.TryParse(e[i].UnformattedName[2], out var v1)) 
                     continue;
@@ -70,12 +71,13 @@ namespace ModuleLauncher.Re.Utils
                         //Console.ForegroundColor = ConsoleColor.DarkBlue;
                         //Console.WriteLine($"LOOP TWO {j} REMOVED");
                         e.RemoveAt(j);
-                    }*/
+                    }#1#
                         
                 }
             }
 
             return e;
         }
+    */
     }
 }

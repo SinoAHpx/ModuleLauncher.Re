@@ -81,7 +81,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 UnformattedName = x.ToSrcFormat()
             }));
 
-            return CollectionHelper.ExcludeRepeat(re).DistinctBy(x => x.Link);
+            return re.DistinctBy(x => x.Link);
         }
 
         public IEnumerable<MinecraftLibrariesEntity> GetNatives(string name)
@@ -101,7 +101,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 UnformattedName = x.ToSrcFormat()
             }));
 
-            return CollectionHelper.ExcludeRepeat(re).DistinctBy(x => x.Link);
+            return re.DistinctBy(x => x.Link);
         }
     }
 
@@ -114,12 +114,14 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private IEnumerable<string> GetLibraryNames(string name)
+        public IEnumerable<string> GetLibraryNames(string name)
         {
             try
             {
                 var entity = Locator.GetMinecraftJsonEntity(name);
-                return entity.libraries.Select(x => x["name"]?.ToString().ToLibFormat());
+                
+                return entity.libraries.Where(IsLibAllow)
+                    .Select(x => x["name"]?.ToString().ToLibFormat());
             }
             catch (Exception e)
             {
@@ -128,12 +130,42 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         }
 
         /// <summary>
+        /// 判断此对象是否应该被添加
+        /// </summary>
+        /// <param name="s">libraries子对象</param>
+        /// <returns></returns>
+        private bool IsLibAllow(JToken s)
+        {
+            if (!s.IsPropertyExist("rules")) return true;
+            
+            var rules = JArray.Parse(s["rules"]?.ToString() ?? throw new Exception("json文件损坏"));
+            foreach (var x in rules)
+            {
+                if (x.IsPropertyExist("os"))
+                {
+                    if (x.GetValue("action") == "allow")
+                        if (x.GetValue("os") != "windows")
+                            return false;
+                    if (x.GetValue("action") != "disallow") continue;
+                    if (x.GetValue("os") == "windows")
+                        return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            
+            return true;
+        }
+        
+        /// <summary>
         /// 获取指定Minecraft版本json中natives的相对路径
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private IEnumerable<string> GetNativeNames(string name)
+        public IEnumerable<string> GetNativeNames(string name)
         {
             var libraries = Locator.GetMinecraftJsonEntity(name).libraries;
             var re = new List<string>();
@@ -151,14 +183,17 @@ namespace ModuleLauncher.Re.Minecraft.Locator
 
                     if (classifier.TryGetValue("natives-windows-64", out var n3))
                         re.Add(n3?["url"]?.ConvertUrl2Native());
+
+                    //re = re.Where(z => IsLibAllow(z)).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
                     if (x.IncludeStr("natives-windows"))
                         try
                         {
                             var addition = x["natives"].GetValue("windows", throwEx: true);
                             re.Add($"{x["name"].ToLibFormat(true)}-{addition}.jar");
+                            re = re.Where(z => IsLibAllow(z)).ToList();
                         }
                         catch (Exception exception)
                         {

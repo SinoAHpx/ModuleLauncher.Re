@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Masuit.Tools;
 using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Extensions
 {
+    //TODO 记得把public都换成internal
     public static class JsonExtensions
     {
         /// <summary>
@@ -37,6 +40,36 @@ namespace ModuleLauncher.Re.Extensions
         public static bool IncludeStr(this JToken s, string key)
         {
             return s.ToString().Contains(key);
+        }
+        
+        /// <summary>
+        /// 判断某个JToken中是否包含某个名称的属性
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static bool IsPropertyExist(this JToken s, string propertyName)
+        {
+            var ps = new List<string>();
+            s.ForEach(x =>
+            {
+                var str = x.ToString();
+                var item = str.Remove(str.IndexOf(':')).Trim('"');
+                ps.Add(item);
+            });
+
+            return ps.Any(x => x == propertyName);
+        }
+        
+        /// <summary>
+        /// 判断某个JObject中是否包含某个名称的属性
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static bool IsPropertyExist(this JObject s, string propertyName)
+        {
+            return s.TryGetValue(propertyName, out _);
         }
         
         /// <summary>
@@ -95,6 +128,6 @@ namespace ModuleLauncher.Re.Extensions
         public static string[] ToSrcFormat(this JToken src)
         {
             return src.ToString().ToSrcFormat();
-        } 
+        }
     }
 }
