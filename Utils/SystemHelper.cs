@@ -12,5 +12,10 @@ namespace ModuleLauncher.Re.Utils
         {
             return Directory.Exists(@"C:\Program Files (x86)");
         }
+        
+        public static string GetOsBitStr()
+        {
+            return GetOsBit() ? "64" : "32";
+        }
     }
 }

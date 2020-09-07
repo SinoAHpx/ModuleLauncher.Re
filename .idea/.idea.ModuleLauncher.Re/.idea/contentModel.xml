@@ -31,6 +31,7 @@
       </e>
       <e p="Extensions" t="Include">
         <e p="AsyncExtensions.cs" t="Include" />
+        <e p="JsonExtensions.cs" t="Include" />
         <e p="StringExtensions.cs" t="Include" />
       </e>
       <e p="Minecraft" t="Include">

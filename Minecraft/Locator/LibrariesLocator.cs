@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Utils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SharpCompress.Archives.SevenZip;
 
 namespace ModuleLauncher.Re.Minecraft.Locator
 {
@@ -83,21 +86,32 @@ namespace ModuleLauncher.Re.Minecraft.Locator
 
         public IEnumerable<MinecraftLibrariesEntity> GetNatives(string name)
         {
-            var type = Locator.GetMinecraftJsonType(name);
+            //return GetNativeNames(name);
+            var libraries = GetLibraries(name);
             var re = new List<MinecraftLibrariesEntity>();
-            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
+            
+            foreach (var entity in libraries)
             {
-                re.AddRange(GetNatives(Locator.GetInheritsMinecraftJsonEntity(name).id));
+                if (!File.Exists(entity.Path)) continue;
+
+                var zip = new ZipArchive(File.OpenRead(entity.Path));
+                
+                foreach (var entry in zip.Entries)
+                {
+                    if (entry.FullName.Split('/').Length > 1)
+                    {
+                        continue;
+                    }
+                    Console.WriteLine(entry.FullName);
+                    re.Add(entity);
+                    /*if (entry.FullName.EndsWith("dll"))
+                    {
+                       
+                        break;
+                    }*/
+                }
             }
-            
-            re.AddRange(GetNativeNames(name).Select(x => new MinecraftLibrariesEntity
-            {
-                Name = x.GetFileName(),
-                Path = $"{Locator.Location}\\libraries\\{x}",
-                Link = $"{_downloadLink}/{x.Replace('\\', '/')}",
-                UnformattedName = x.ToSrcFormat()
-            }).DistinctBy(x => x.Link));
-            
+
             return re;
         }
     }
@@ -109,34 +123,40 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// 获取指定Minecraft版本json中libraries的name值
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="format">把它整成路径或者url的样子</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         private IEnumerable<string> GetLibraryNames(string name)
         {
-            try
-            {
-                var entity = Locator.GetMinecraftJsonEntity(name);
-                return entity.libraries.Select(x =>x["name"]?.ToString().ToLibFormat());
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"获取minecraft实体失败\n{e.Message}");
-            }
+            return null;
         }
 
-        private IEnumerable<string> GetNativeNames(string name)
+        public IEnumerable<string> GetNativeNames(string name)
         {
-            var libs = Locator.GetMinecraftJsonEntity(name);
+            var libraries = Locator.GetMinecraftJsonEntity(name).libraries;
             var re = new List<string>();
             
-            libs.libraries.ForEach(x =>
+            libraries.ForEach(x =>
             {
-                if (!x.ToString().Contains("natives")) return;
+                try
+                {
+                    var classifier = JObject.Parse(JsonConvert.SerializeObject(x["downloads"]["classifiers"]));
+                    if (classifier.TryGetValue("natives-windows",out var n1)) 
+                        re.Add(n1?["url"]?.ConvertUrl2Native());
+                    
+                    if (classifier.TryGetValue("natives-windows-32",out var n2))
+                        re.Add(n2?["url"]?.ConvertUrl2Native());
+                    
+                    if (classifier.TryGetValue("natives-windows-64",out var n3))
+                        re.Add(n3?["url"]?.ConvertUrl2Native());
 
-                var item = x["natives"]?["windows"]?.ToString()
-                    .Replace("${arch}", SystemHelper.GetOsBit() ? "64" : "32");
-                re.Add($"{x["name"]?.ToString().ToLibFormat(true)}-{item}.jar");
+                }    
+                catch (Exception e)
+                {
+                    if ()
+                    {
+                        
+                    }
+                }
             });
 
             return re;

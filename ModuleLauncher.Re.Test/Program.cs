@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Masuit.Tools;
 using ModuleLauncher.Re.Authenticator;
@@ -29,18 +31,15 @@ namespace ModuleLauncher.Re.Test
 
                 Console.WriteLine();
             });*/
-            
             var lb = new LibrariesLocator(Locator,MinecraftDownloadSource.Mojang);
-            lb.GetNatives("PixelClient").ForEach(x =>
+            /*lb.GetLibraries("1.16.2").ForEach(x =>
             {
-                Console.WriteLine(x.Name);
-            });
-            /*Locator.GetMinecraftFileEntities().ForEach(x =>
-            {
-                Console.WriteLine(x.Name);
-                Console.WriteLine(Locator.GetMinecraftVersionRoot(x.Name));
-                Console.WriteLine();
+                Console.WriteLine(x.Path);
             });*/
+            lb.GetNativeNames("1.16.2").ForEach(x =>
+            {
+                Console.WriteLine(x);
+            });
         }
     }
 }
