@@ -60,6 +60,8 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <returns></returns>
         public IEnumerable<MinecraftLibrariesEntity> GetLibraries(string name)
         {
+            //TODO 以rules这个属性可以判断某个库是否是重复的，并且找到该获取的库
+            
             var type = Locator.GetMinecraftJsonType(name);
             var re = new List<MinecraftLibrariesEntity>();
             var link = _downloadLink;
@@ -107,7 +109,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     public partial class LibrariesLocator
     {
         /// <summary>
-        ///     获取指定Minecraft版本json中libraries的name值
+        /// 获取指定Minecraft版本json中libraries的name值
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -125,7 +127,13 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             }
         }
 
-        public IEnumerable<string> GetNativeNames(string name)
+        /// <summary>
+        /// 获取指定Minecraft版本json中natives的相对路径
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private IEnumerable<string> GetNativeNames(string name)
         {
             var libraries = Locator.GetMinecraftJsonEntity(name).libraries;
             var re = new List<string>();
@@ -144,7 +152,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                     if (classifier.TryGetValue("natives-windows-64", out var n3))
                         re.Add(n3?["url"]?.ConvertUrl2Native());
                 }
-                catch (Exception e)
+                catch
                 {
                     if (x.IncludeStr("natives-windows"))
                         try

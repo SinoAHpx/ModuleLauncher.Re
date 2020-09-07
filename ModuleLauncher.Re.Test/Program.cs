@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using ModuleLauncher.Re.Authenticator;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Minecraft.Locator;
+using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -36,7 +38,13 @@ namespace ModuleLauncher.Re.Test
             {
                 Console.WriteLine(x.Path);
             });*/
-            lb.GetNatives("1.16.2-forge-33.0.37").ForEach(x =>
+
+            lb.GetLibraries("1.16.2").ForEach(x =>
+            {
+                Console.WriteLine(x.Path);
+            });
+            Console.WriteLine();
+            CollectionHelper.ExcludeRepeatV2(lb.GetLibraries("1.16.2")).ForEach(x =>
             {
                 Console.WriteLine(x.Path);
             });
