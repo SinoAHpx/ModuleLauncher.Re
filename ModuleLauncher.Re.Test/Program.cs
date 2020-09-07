@@ -36,9 +36,9 @@ namespace ModuleLauncher.Re.Test
             {
                 Console.WriteLine(x.Path);
             });*/
-            lb.GetNativeNames("1.12.2").ForEach(x =>
+            lb.GetNatives("1.16.2-forge-33.0.37").ForEach(x =>
             {
-                Console.WriteLine(x);
+                Console.WriteLine(x.Path);
             });
         }
     }

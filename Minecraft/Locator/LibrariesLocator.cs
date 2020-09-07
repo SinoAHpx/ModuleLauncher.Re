@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Enums;
@@ -10,18 +8,24 @@ using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SharpCompress.Archives.SevenZip;
 
 namespace ModuleLauncher.Re.Minecraft.Locator
 {
     //head
     public partial class LibrariesLocator
     {
-        public MinecraftLocator Locator { get; set; }
-
         private string _downloadLink;
         private MinecraftDownloadSource _downloadSource;
-        
+
+        public LibrariesLocator(MinecraftLocator location = null,
+            MinecraftDownloadSource source = MinecraftDownloadSource.Bmclapi)
+        {
+            Locator = location;
+            DownloadSource = source;
+        }
+
+        public MinecraftLocator Locator { get; set; }
+
         public MinecraftDownloadSource DownloadSource
         {
             get => _downloadSource;
@@ -41,22 +45,16 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(value), value, null);
-                } 
+                }
             }
         }
-        
-        public LibrariesLocator(MinecraftLocator location = null, MinecraftDownloadSource source = MinecraftDownloadSource.Bmclapi)
-        {
-            Locator = location;
-            DownloadSource = source;
-        }
     }
-    
+
     //exposed
     public partial class LibrariesLocator
     {
         /// <summary>
-        /// 获取指定Minecraft的所有libraries
+        ///     获取指定Minecraft的所有libraries
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -65,95 +63,90 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             var type = Locator.GetMinecraftJsonType(name);
             var re = new List<MinecraftLibrariesEntity>();
             var link = _downloadLink;
-            
+
             if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
             {
                 re.AddRange(GetLibraries(Locator.GetInheritsMinecraftJsonEntity(name).id));
                 if (DownloadSource == MinecraftDownloadSource.Mojang)
                     link = "https://bmclapi2.bangbang93.com/maven";
             }
-            
-            re.AddRange(CollectionHelper.ExcludeRepeat(GetLibraryNames(name).Select(x => new MinecraftLibrariesEntity
+
+            re.AddRange(GetLibraryNames(name).Select(x => new MinecraftLibrariesEntity
             {
                 Name = x.GetFileName(),
                 Path = $"{Locator.Location}\\libraries\\{x}",
                 Link = $"{link}/{x.Replace('\\', '/')}",
                 UnformattedName = x.ToSrcFormat()
-            }).DistinctBy(x => x.Link)));
-            
-            return re;
+            }));
+
+            return CollectionHelper.ExcludeRepeat(re).DistinctBy(x => x.Link);
         }
 
         public IEnumerable<MinecraftLibrariesEntity> GetNatives(string name)
         {
-            //return GetNativeNames(name);
-            var libraries = GetLibraries(name);
             var re = new List<MinecraftLibrariesEntity>();
-            
-            foreach (var entity in libraries)
+            var type = Locator.GetMinecraftJsonType(name);
+            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
             {
-                if (!File.Exists(entity.Path)) continue;
-
-                var zip = new ZipArchive(File.OpenRead(entity.Path));
-                
-                foreach (var entry in zip.Entries)
-                {
-                    if (entry.FullName.Split('/').Length > 1)
-                    {
-                        continue;
-                    }
-                    Console.WriteLine(entry.FullName);
-                    re.Add(entity);
-                    /*if (entry.FullName.EndsWith("dll"))
-                    {
-                       
-                        break;
-                    }*/
-                }
+                re.AddRange(GetNatives(Locator.GetInheritsMinecraftJsonEntity(name).id));
             }
 
-            return re;
+            re.AddRange(GetNativeNames(name).Select(x => new MinecraftLibrariesEntity
+            {
+                Name = x.GetFileName(),
+                Link = $"{_downloadLink}/{x.Replace('\\', '/')}",
+                Path = $"{Locator.Location}\\libraries\\{x}",
+                UnformattedName = x.ToSrcFormat()
+            }));
+
+            return CollectionHelper.ExcludeRepeat(re).DistinctBy(x => x.Link);
         }
     }
-    
+
     //inside
     public partial class LibrariesLocator
     {
         /// <summary>
-        /// 获取指定Minecraft版本json中libraries的name值
+        ///     获取指定Minecraft版本json中libraries的name值
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         private IEnumerable<string> GetLibraryNames(string name)
         {
-            return null;
+            try
+            {
+                var entity = Locator.GetMinecraftJsonEntity(name);
+                return entity.libraries.Select(x => x["name"]?.ToString().ToLibFormat());
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"获取minecraft实体失败\n{e.Message}");
+            }
         }
 
         public IEnumerable<string> GetNativeNames(string name)
         {
             var libraries = Locator.GetMinecraftJsonEntity(name).libraries;
             var re = new List<string>();
-            
+
             libraries.ForEach(x =>
             {
                 try
                 {
                     var classifier = JObject.Parse(JsonConvert.SerializeObject(x["downloads"]["classifiers"]));
-                    if (classifier.TryGetValue("natives-windows",out var n1)) 
+                    if (classifier.TryGetValue("natives-windows", out var n1))
                         re.Add(n1?["url"]?.ConvertUrl2Native());
-                    
-                    if (classifier.TryGetValue("natives-windows-32",out var n2))
-                        re.Add(n2?["url"]?.ConvertUrl2Native());
-                    
-                    if (classifier.TryGetValue("natives-windows-64",out var n3))
-                        re.Add(n3?["url"]?.ConvertUrl2Native());
 
-                }    
+                    if (classifier.TryGetValue("natives-windows-32", out var n2))
+                        re.Add(n2?["url"]?.ConvertUrl2Native());
+
+                    if (classifier.TryGetValue("natives-windows-64", out var n3))
+                        re.Add(n3?["url"]?.ConvertUrl2Native());
+                }
                 catch (Exception e)
                 {
                     if (x.IncludeStr("natives-windows"))
-                    {
                         try
                         {
                             var addition = x["natives"].GetValue("windows", throwEx: true);
@@ -163,7 +156,6 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                         {
                             throw new Exception($"json文件损坏:{exception.Message}");
                         }
-                    }
                 }
             });
 
