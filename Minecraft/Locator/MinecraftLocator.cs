@@ -94,35 +94,62 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         internal IEnumerable<MinecraftJsonEntity> GetMinecraftJsonEntities() => GetMinecraftFileEntities()
             .Select(x => GetMinecraftJsonEntity(x.Root.GetFileName()));
 
+        /// <summary>
+        /// 获取指定Minecraft版本的对应assetsIndex，如1.12.2 => 1.12 1.7.2 => legacy
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public string GetMinecraftVersionRoot(string name)
         {
             try
             {
                 return Version.Parse(GetMinecraftJsonEntity(name).assets).ToString();
             }
+            //假如没有assets这个属性或者assets属性不是一个有效的版本
             catch
             {
+                if (GetMinecraftJsonEntity(name).assets == "legacy")
+                {
+                    return GetMinecraftJsonEntity(name).assets;
+                }
+                //假如此对象是加载器类型，尝试获取其继承自的minecraft的assets
                 try
                 {
-                    var split = name.Split('.');
-                    return Version.Parse($"{split[0]}.{split[1]}").ToString();
+                    return Version.Parse(GetInheritsMinecraftJsonEntity(name).assets).ToString();
                 }
+                //假如它根本没有inheritsFrom这个属性
                 catch
                 {
                     try
                     {
-                        return GetMinecraftVersionRoot(GetInheritsMinecraftJsonEntity(name).id);
+                        return GetMinecraftVersionRoot(name.ReplaceToVersion());
                     }
                     catch
                     {
-                        StringHelper.GetAlphabets().ForEach(x => name = name.Replace(x, ""));
-                        return GetMinecraftVersionRoot(name);
+                        var sp = name.ReplaceToVersion().Split('.');
+                        try
+                        {
+                            var ver = Version.Parse($"{sp[0]}.{sp[1]}");
+
+                            return ver < Version.Parse("1.7.10") ? "legacy" : ver.ToString();
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception($"解析失败{e.Message}");
+                        }
                     }
+                    
                 }
             }
         }
         
-        internal MinecraftJsonType GetMinecraftJsonType(string name)
+        /// <summary>
+        /// 获取Minecraft版本的json实体的类型
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public MinecraftJsonType GetMinecraftJsonType(string name)
         {
             try
             {

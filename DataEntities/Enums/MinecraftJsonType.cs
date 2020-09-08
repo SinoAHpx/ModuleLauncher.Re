@@ -1,6 +1,6 @@
 ﻿namespace ModuleLauncher.Re.DataEntities.Enums
 {
-    internal enum MinecraftJsonType
+    public enum MinecraftJsonType
     {
         Vanilla,
         Loader,

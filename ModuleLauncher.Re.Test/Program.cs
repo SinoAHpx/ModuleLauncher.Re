@@ -21,11 +21,14 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            var lb = new LibrariesLocator(Locator);
-            lb.GetNatives("1.16.2-forge-33.0.37").ForEach(x =>
+            Locator.GetMinecraftFileEntities().ForEach(x =>
             {
-                Console.WriteLine(x.Path);
+                Console.WriteLine(x.Name);
+                Console.WriteLine(Locator.GetMinecraftJsonType(x.Name));
+                Console.WriteLine(Locator.GetMinecraftVersionRoot(x.Name));
+                Console.WriteLine();
             });
+            
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Masuit.Tools;
 using Masuit.Tools.Media;
+using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Extensions
@@ -52,6 +54,11 @@ namespace ModuleLauncher.Re.Extensions
         public static string ConvertUrl2Native(this string s)
         {
             return s.Replace("https://libraries.minecraft.net/", "").Replace('/', '\\');
+        }
+        
+        public static string ReplaceToVersion(this string s)
+        {
+            return StringHelper.GetAlphabets().Aggregate(s, (current, alphabet) => current.Replace(alphabet, ""));
         }
     }
 }

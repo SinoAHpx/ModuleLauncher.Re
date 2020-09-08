@@ -24,6 +24,7 @@
             <e p="MinecraftJsonEntity.cs" t="Include" />
             <e p="MinecraftLibrariesEntity.cs" t="Include" />
           </e>
+          <e p="Network" t="Include" />
         </e>
         <e p="Utils" t="Include">
           <e p="HttpResult.cs" t="Include" />
@@ -69,7 +70,6 @@
       </e>
       <e p="Utils" t="Include">
         <e p="AuthenticatorHelper.cs" t="Include" />
-        <e p="CollectionHelper.cs" t="Include" />
         <e p="HttpHelper.cs" t="Include" />
         <e p="StringHelper.cs" t="Include" />
         <e p="SystemHelper.cs" t="Include" />
