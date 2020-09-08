@@ -20,6 +20,7 @@
         </e>
         <e p="Minecraft" t="Include">
           <e p="Locator" t="Include">
+            <e p="MinecraftAssetsEntity.cs" t="Include" />
             <e p="MinecraftFileEntity.cs" t="Include" />
             <e p="MinecraftJsonEntity.cs" t="Include" />
             <e p="MinecraftLibrariesEntity.cs" t="Include" />

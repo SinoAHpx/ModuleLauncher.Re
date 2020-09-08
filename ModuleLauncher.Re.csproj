@@ -215,6 +215,7 @@
         <Compile Include="DataEntities\Enums\MinecraftDownloadSource.cs" />
         <Compile Include="DataEntities\Enums\MinecraftFileType.cs" />
         <Compile Include="DataEntities\Enums\MinecraftJsonType.cs" />
+        <Compile Include="DataEntities\Minecraft\Locator\MinecraftAssetsEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftFileEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftJsonEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftLibrariesEntity.cs" />

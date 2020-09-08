@@ -36,10 +36,10 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                     case MinecraftDownloadSource.Mojang:
                         _downloadLink = "https://libraries.minecraft.net";
                         break;
-                    case MinecraftDownloadSource.Mcbbs:
+                    case MinecraftDownloadSource.Bmclapi:
                         _downloadLink = "https://bmclapi2.bangbang93.com/maven";
                         break;
-                    case MinecraftDownloadSource.Bmclapi:
+                    case MinecraftDownloadSource.Mcbbs:
                         _downloadLink = "https://download.mcbbs.net/maven";
                         break;
                     default:
