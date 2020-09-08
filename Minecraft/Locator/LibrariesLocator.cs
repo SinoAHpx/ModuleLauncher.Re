@@ -5,7 +5,6 @@ using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
 using ModuleLauncher.Re.Extensions;
-using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -114,7 +113,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<string> GetLibraryNames(string name)
+        private IEnumerable<string> GetLibraryNames(string name)
         {
             try
             {
