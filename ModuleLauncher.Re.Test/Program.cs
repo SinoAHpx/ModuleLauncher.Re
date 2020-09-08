@@ -22,7 +22,7 @@ namespace ModuleLauncher.Re.Test
         public static void Main(string[] args)
         {
             var lb = new LibrariesLocator(Locator);
-            lb.GetLibraries("Remix").ForEach(x =>
+            lb.GetNatives("1.16.2").ForEach(x =>
             {
                 Console.WriteLine(x.Path);
             });

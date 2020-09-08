@@ -144,10 +144,10 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 if (x.IsPropertyExist("os"))
                 {
                     if (x.GetValue("action") == "allow")
-                        if (x.GetValue("os") != "windows")
-                            return false;
+                        return x["os"].GetValue("name") == "windows";
+                    
                     if (x.GetValue("action") != "disallow") continue;
-                    if (x.GetValue("os") == "windows")
+                    if (x["os"].GetValue("name") == "windows")
                         return false;
                 }
                 else
@@ -165,15 +165,15 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<string> GetNativeNames(string name)
+        private IEnumerable<string> GetNativeNames(string name)
         {
-            var libraries = Locator.GetMinecraftJsonEntity(name).libraries;
             var re = new List<string>();
 
-            libraries.ForEach(x =>
+            Locator.GetMinecraftJsonEntity(name).libraries.Where(IsLibAllow).ForEach(x =>
             {
                 try
                 {
+                    // ReSharper disable once PossibleNullReferenceException
                     var classifier = JObject.Parse(JsonConvert.SerializeObject(x["downloads"]["classifiers"]));
                     if (classifier.TryGetValue("natives-windows", out var n1))
                         re.Add(n1?["url"]?.ConvertUrl2Native());
@@ -183,10 +183,8 @@ namespace ModuleLauncher.Re.Minecraft.Locator
 
                     if (classifier.TryGetValue("natives-windows-64", out var n3))
                         re.Add(n3?["url"]?.ConvertUrl2Native());
-
-                    //re = re.Where(z => IsLibAllow(z)).ToList();
                 }
-                catch (Exception e)
+                catch
                 {
                     if (x.IncludeStr("natives-windows"))
                         try
