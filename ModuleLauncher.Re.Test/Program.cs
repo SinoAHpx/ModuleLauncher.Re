@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,12 +24,38 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            Locator.GetMinecraftFileEntities().ForEach(x =>
+            var name = "1.7.2-OptiFine_HD_U_F7";
+            var lb = new LibrariesLocator(Locator);
+            lb.GetNatives(name).ForEach(x =>
             {
                 Console.WriteLine(x.Name);
-                Console.WriteLine(Locator.GetMinecraftJsonType(x.Name));
-                Console.WriteLine();
             });
+            
+            var la = new LauncherArguments
+            {
+                Authentication = "awd",
+                
+                MaxMemorySize = "6G",
+                
+                LauncherName = "AHpxLauncher",
+                MinecraftLocator = Locator
+            };
+            var savePath = $@"C:\Users\ahpx\Desktop\LOG_{$"{DateTime.Now:T}".Replace(':','-')}.txt";
+            Console.WriteLine(la.GetArgument(name));
+            File.WriteAllText(savePath,la.GetArgument(name));
+            Process.Start(savePath);
+            
+            var lc = new LauncherCore
+            {
+                LauncherArguments = la,
+                JavaPath = @"C:\Program Files\Java\jdk1.8.0_241\bin\javaw.exe"
+            };
+
+            var pro = lc.Launch(name);
+            while (pro.StandardOutput.ReadLine() != null)
+            {
+                Console.WriteLine(pro.StandardOutput.ReadLine());
+            }
         }
     }
 }

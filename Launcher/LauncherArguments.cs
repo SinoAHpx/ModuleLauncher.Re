@@ -46,11 +46,16 @@ namespace ModuleLauncher.Re.Launcher
             var entity = MinecraftLocator.GetMinecraftJsonEntity(name);
             var auth = Authentication;
             var arguments = new StringBuilder($"{entity.mainClass} ");
+            var type = MinecraftLocator.GetMinecraftJsonType(name);
 
             arguments.Append($"--username {auth.Username} ");
-            arguments.Append($"--version {LauncherName} ");
+            arguments.Append($"--version {name} ");
             arguments.Append($"--gameDir {MinecraftLocator.Location} ");
-            arguments.Append($"--assetsDir {MinecraftLocator.Location}\\assets ");
+
+            arguments.Append(MinecraftLocator.GetMinecraftVersionRoot(name) == "legacy"
+                ? $"--assetsDir {MinecraftLocator.Location}\\assets\\virtual\\legacy "
+                : $"--assetsDir {MinecraftLocator.Location}\\assets ");
+            
             arguments.Append($"--assetIndex {MinecraftLocator.GetMinecraftVersionRoot(name)} ");
             arguments.Append($"--uuid {auth.Uuid} ");
             arguments.Append($"--accessToken {auth.AccessToken} ");
@@ -65,17 +70,22 @@ namespace ModuleLauncher.Re.Launcher
             }
 
             arguments.Append("--userProperties {} ");
-            if (MinecraftLocator.GetMinecraftJsonType(name) == MinecraftJsonType.LoaderNew)
+
+            if (type == MinecraftJsonType.LoaderNew)
             {
-                var array = entity.arguments["game"]?.ToObject<JArray>();
+
+                var array = JArray.Parse(entity.arguments.GetValue("game")?.ToString() ??
+                                         throw new Exception("json文件损坏"));
+                
                 array?.ForEach(x => arguments.Append($"{x} "));
             }
 
-            if (MinecraftLocator.GetMinecraftJsonType(name) != MinecraftJsonType.Loader || entity.id.Contains("fabric"))
-                return arguments.ToString();
-            var s = entity.minecraftArguments;
-            arguments.Append($"{s.Substring(s.LastIndexOf("--", StringComparison.Ordinal))} ");
-
+            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderOld)
+            {
+                var s = entity.minecraftArguments;
+                arguments.Append($"{s.Substring(s.LastIndexOf("--", StringComparison.Ordinal))} ");
+            }
+            
             return arguments.ToString();
         }
         

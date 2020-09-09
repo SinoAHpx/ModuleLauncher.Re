@@ -66,7 +66,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal MinecraftJsonEntity GetMinecraftJsonEntity(string name)
+        public MinecraftJsonEntity GetMinecraftJsonEntity(string name)
         {
             try
             {
@@ -195,6 +195,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 }
             }
 
+            
             return entity.assets == "legacy" 
                 ?  MinecraftJsonType.VanillaOld
                 : (Version.Parse(entity.assets) < verNew
