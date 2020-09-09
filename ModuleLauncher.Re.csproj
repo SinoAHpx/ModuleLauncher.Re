@@ -223,6 +223,7 @@
         <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloaderItem.cs" />
         <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloaderLatest.cs" />
         <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloadLinkEntity.cs" />
+        <Compile Include="DataEntities\Minecraft\Network\MinecraftForgeDownloaderEntity.cs" />
         <Compile Include="DataEntities\Utils\HttpResult.cs" />
         <Compile Include="Extensions\AsyncExtensions.cs" />
         <Compile Include="Extensions\JsonExtensions.cs" />
@@ -231,6 +232,7 @@
         <Compile Include="Minecraft\Locator\JavaLocator.cs" />
         <Compile Include="Minecraft\Locator\LibrariesLocator.cs" />
         <Compile Include="Minecraft\Locator\MinecraftLocator.cs" />
+        <Compile Include="Minecraft\Network\ForgeDownloader.cs" />
         <Compile Include="Minecraft\Network\MinecraftDownloader.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Utils\AuthenticatorHelper.cs" />

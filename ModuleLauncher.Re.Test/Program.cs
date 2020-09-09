@@ -22,9 +22,10 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            MinecraftDownloader.DownloadSource = MinecraftDownloadSource.Mojang;
-            var lk = MinecraftDownloader.GetDownloadLink("1.16.2");
-            Console.WriteLine(lk.Jar);
+            ForgeDownloader.GetForge("1.8.9").ForEach(x =>
+            {
+                Console.WriteLine(x.FileName);
+            });
         }
     }
 }

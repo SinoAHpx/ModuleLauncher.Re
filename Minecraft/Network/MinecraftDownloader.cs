@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Network;
 using ModuleLauncher.Re.Extensions;
@@ -14,7 +13,11 @@ namespace ModuleLauncher.Re.Minecraft.Network
     //head
     public partial class MinecraftDownloader
     {
-        private static readonly MinecraftDownloadLinkEntity DownloadLink = new MinecraftDownloadLinkEntity();
+        private static readonly MinecraftDownloadLinkEntity DownloadLink = new MinecraftDownloadLinkEntity
+        {
+            Jar = "https://bmclapi2.bangbang93.com",
+            Json = "https://bmclapi2.bangbang93.com"
+        };
 
         public static MinecraftDownloadSource DownloadSource
         {

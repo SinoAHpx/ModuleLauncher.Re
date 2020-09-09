@@ -30,6 +30,7 @@
             <e p="MinecraftDownloaderItem.cs" t="Include" />
             <e p="MinecraftDownloaderLatest.cs" t="Include" />
             <e p="MinecraftDownloadLinkEntity.cs" t="Include" />
+            <e p="MinecraftForgeDownloaderEntity.cs" t="Include" />
           </e>
         </e>
         <e p="Utils" t="Include">
@@ -49,6 +50,7 @@
           <e p="MinecraftLocator.cs" t="Include" />
         </e>
         <e p="Network" t="Include">
+          <e p="ForgeDownloader.cs" t="Include" />
           <e p="MinecraftDownloader.cs" t="Include" />
         </e>
       </e>
