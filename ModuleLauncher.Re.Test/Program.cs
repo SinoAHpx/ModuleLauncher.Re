@@ -22,7 +22,7 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            ForgeDownloader.GetForge("1.8.9").ForEach(x =>
+            OptifineDownloader.GetOptifines("1.8.9").ForEach(x =>
             {
                 Console.WriteLine(x.FileName);
             });

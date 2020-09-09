@@ -1,6 +1,6 @@
 ﻿namespace ModuleLauncher.Re.DataEntities.Minecraft.Network
 {
-    public class MinecraftForgeDownloaderEntity
+    public class ForgeDownloaderEntity
     {
         public string Version { get; set; }
         public string McVersion { get; set; }
