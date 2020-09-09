@@ -10,5 +10,10 @@
         public string Native { get; set; }
         public string Root { get; set; }
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

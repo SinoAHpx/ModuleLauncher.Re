@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.DataEntities.Minecraft.Locator;
 using ModuleLauncher.Re.Extensions;
@@ -101,12 +99,14 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 : Locator.GetMinecraftJsonEntity(name);
 
             var index = entity.assetIndex;
-            return new MinecraftAssetsEntity
-            {
-                Name = $"{index["id"]}.json",
-                Path = $"{Locator.Location}\\assets\\indexes\\{index["id"]}.json",
-                Link = $"{_downloadLink}/v1/packages/{index["sha1"]}/{index["id"]}.json"
-            };
+            return index != null
+                ? new MinecraftAssetsEntity
+                {
+                    Name = $"{index["id"]}.json",
+                    Path = $"{Locator.Location}\\assets\\indexes\\{index["id"]}.json",
+                    Link = $"{_downloadLink}/v1/packages/{index["sha1"]}/{index["id"]}.json"
+                }
+                : new MinecraftAssetsEntity {Link = null, Name = null, Path = null};
         }
     }
 }

@@ -24,10 +24,12 @@ namespace ModuleLauncher.Re.Test
             Locator.GetMinecraftFileEntities().ForEach(x =>
             {
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine(x.Name);
+                Console.WriteLine(x);
+                Console.WriteLine(Locator.GetMinecraftVersionRoot(x.Name));
                 
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(Locator.GetMinecraftVersionRoot(x.Name));
+                var at = new AssetsLocator(Locator,MinecraftDownloadSource.Mcbbs);
+                Console.WriteLine(at.GetAssetsIndex(x.Name).Link);
                 
                 Console.WriteLine();
             });
