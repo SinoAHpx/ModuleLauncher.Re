@@ -220,6 +220,7 @@
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftFileEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftJsonEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftLibrariesEntity.cs" />
+        <Compile Include="DataEntities\Minecraft\Network\JreDownloaderEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Network\McbbsNewsEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloaderEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloaderLatest.cs" />
@@ -235,6 +236,7 @@
         <Compile Include="Minecraft\Locator\LibrariesLocator.cs" />
         <Compile Include="Minecraft\Locator\MinecraftLocator.cs" />
         <Compile Include="Minecraft\Network\ForgeDownloader.cs" />
+        <Compile Include="Minecraft\Network\JreDownloader.cs" />
         <Compile Include="Minecraft\Network\McbbsNews.cs" />
         <Compile Include="Minecraft\Network\MinecraftDownloader.cs" />
         <Compile Include="Minecraft\Network\OptifineDownloader.cs" />

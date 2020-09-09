@@ -36,15 +36,15 @@ namespace ModuleLauncher.Re.Minecraft.Network
     
     public partial class ForgeDownloader
     {
-        public static async Task<List<MinecraftForgeDownloaderEntity>> GetForgesAsync(string id)
+        public static async Task<IEnumerable<ForgeDownloaderEntity>> GetForgesAsync(string id)
         {
             var array = JArray.Parse(
                 (await HttpHelper.GetHttpAsync($"https://download.mcbbs.net/forge/minecraft/{id}")).Content).ToList();
 
-            var re = new List<MinecraftForgeDownloaderEntity>();
+            var re = new List<ForgeDownloaderEntity>();
             array.ForEach(x =>
             {
-                re.Add(new MinecraftForgeDownloaderEntity
+                re.Add(new ForgeDownloaderEntity
                 {
                     Build = x.GetValue("build"),
                     McVersion = x.GetValue("mcversion"),
@@ -57,6 +57,6 @@ namespace ModuleLauncher.Re.Minecraft.Network
             return re;
         }
 
-        public static List<MinecraftForgeDownloaderEntity> GetForge(string id) => GetForgesAsync(id).GetResult();
+        public static IEnumerable<ForgeDownloaderEntity> GetForge(string id) => GetForgesAsync(id).GetResult();
     }
 }

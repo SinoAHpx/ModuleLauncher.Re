@@ -22,9 +22,9 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            McbbsNews.GetCarouselNews().ForEach(x =>
+            JreDownloader.GetJres().ForEach(x =>
             {
-                Console.WriteLine(x.Title);
+                Console.WriteLine(x.Name);
             });
         }
     }
