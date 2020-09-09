@@ -2,7 +2,7 @@
 using HtmlAgilityPack;
 using ModuleLauncher.Re.Extensions;
 
-namespace ModuleLauncher.Re.Utils
+namespace ModuleLauncher.Re.Utils.Inside
 {
     internal class McbbsHelper
     {

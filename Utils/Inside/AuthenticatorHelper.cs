@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ModuleLauncher.Re.Utils
+namespace ModuleLauncher.Re.Utils.Inside
 {
     internal class AuthenticatorHelper
     {

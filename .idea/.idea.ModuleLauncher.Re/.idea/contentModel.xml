@@ -19,6 +19,10 @@
           <e p="MinecraftFileType.cs" t="Include" />
           <e p="MinecraftJsonType.cs" t="Include" />
         </e>
+        <e p="Launcher" t="Include">
+          <e p="ConnectionConfig.cs" t="Include" />
+          <e p="ResolutionConfig.cs" t="Include" />
+        </e>
         <e p="Minecraft" t="Include">
           <e p="Locator" t="Include">
             <e p="MinecraftAssetsEntity.cs" t="Include" />
@@ -44,6 +48,9 @@
         <e p="AsyncExtensions.cs" t="Include" />
         <e p="JsonExtensions.cs" t="Include" />
         <e p="StringExtensions.cs" t="Include" />
+      </e>
+      <e p="Launcher" t="Include">
+        <e p="LauncherArguments.cs" t="Include" />
       </e>
       <e p="Minecraft" t="Include">
         <e p="Locator" t="Include">
@@ -86,9 +93,11 @@
         <e p="AssemblyInfo.cs" t="Include" />
       </e>
       <e p="Utils" t="Include">
-        <e p="AuthenticatorHelper.cs" t="Include" />
         <e p="HttpHelper.cs" t="Include" />
-        <e p="McbbsHelper.cs" t="Include" />
+        <e p="Inside" t="Include">
+          <e p="AuthenticatorHelper.cs" t="Include" />
+          <e p="McbbsHelper.cs" t="Include" />
+        </e>
         <e p="StringHelper.cs" t="Include" />
         <e p="SystemHelper.cs" t="Include" />
       </e>

@@ -7,6 +7,7 @@ using Masuit.Tools;
 using ModuleLauncher.Re.Authenticator;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.Extensions;
+using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Minecraft.Locator;
 using ModuleLauncher.Re.Minecraft.Network;
 using ModuleLauncher.Re.Utils;
@@ -22,10 +23,18 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            JreDownloader.GetJres().ForEach(x =>
+            var la = new LauncherArguments
             {
-                Console.WriteLine(x.Name);
-            });
+                Authentication = "awd",
+                
+                MaxMemorySize = "6G",
+                
+                LauncherName = "AHpxLauncher",
+                JvmArgument = "-noverify",
+                MinecraftLocator = Locator
+            };
+
+            Console.WriteLine(la.GetArgument("Liteloader1.6.4"));
         }
     }
 }

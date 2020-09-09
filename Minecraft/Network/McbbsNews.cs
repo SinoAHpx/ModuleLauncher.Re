@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ModuleLauncher.Re.DataEntities.Minecraft.Network;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Utils;
+using ModuleLauncher.Re.Utils.Inside;
 
 namespace ModuleLauncher.Re.Minecraft.Network
 {
