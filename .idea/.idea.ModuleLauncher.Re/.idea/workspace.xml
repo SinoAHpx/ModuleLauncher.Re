@@ -16,9 +16,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8baa9e24-2a28-48b1-8045-3f1b3cfc7dfc" name="Default Changelist" comment="Fix AssetsLocator.cs">
+    <list default="true" id="8baa9e24-2a28-48b1-8045-3f1b3cfc7dfc" name="Default Changelist" comment="Complete JavaLocator.cs">
+      <change afterPath="$PROJECT_DIR$/DataEntities/Enums/MinecraftDownloaderType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloadLinkEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloaderItem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloaderLatest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Minecraft/Network/MinecraftDownloader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Extensions/StringExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Extensions/StringExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Minecraft/Locator/JavaLocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Minecraft/Locator/JavaLocator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModuleLauncher.Re.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ModuleLauncher.Re.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,14 +97,19 @@
     <setting file="mock:///LibrariesLocator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DataEntities/Enums/MinecraftDownloadSource.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Authenticator/YggdrasilAuthenticator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Minecraft/Network/MinecraftDownloader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Minecraft/Locator/MinecraftLocator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/packages.config" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///MinecraftLocator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloaderItem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///AuthenticatorHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DataEntities/Enums/MinecraftDownloaderType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloaderLatest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ModuleLauncher.Re.Test/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Minecraft/Locator/LibrariesLocator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///LibrariesLocator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Minecraft/Locator/AssetsLocator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloadLinkEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Minecraft/Locator/JavaLocator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/66E96603-6B1B-4976-812B-F109F518B3B9/1e/2c8b2ec6/0200000Cpdb.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Utils/StringHelper.cs" root0="FORCE_HIGHLIGHTING" />
@@ -157,8 +167,13 @@
         <option value="$PROJECT_DIR$/DataEntities/Minecraft/Locator/MinecraftFileEntity.cs" />
         <option value="$PROJECT_DIR$/Minecraft/Locator/AssetsLocator.cs" />
         <option value="$PROJECT_DIR$/ModuleLauncher.Re.Test/Program.cs" />
-        <option value="$PROJECT_DIR$/Extensions/StringExtensions.cs" />
         <option value="$PROJECT_DIR$/Minecraft/Locator/JavaLocator.cs" />
+        <option value="$PROJECT_DIR$/DataEntities/Enums/MinecraftDownloaderType.cs" />
+        <option value="$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloaderLatest.cs" />
+        <option value="$PROJECT_DIR$/Extensions/StringExtensions.cs" />
+        <option value="$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloadLinkEntity.cs" />
+        <option value="$PROJECT_DIR$/DataEntities/Minecraft/Network/MinecraftDownloaderItem.cs" />
+        <option value="$PROJECT_DIR$/Minecraft/Network/MinecraftDownloader.cs" />
       </list>
     </option>
   </component>
@@ -219,7 +234,7 @@
       <updated>1599292227763</updated>
       <workItem from="1599292230688" duration="5411000" />
       <workItem from="1599313087108" duration="1426000" />
-      <workItem from="1599370096319" duration="80452000" />
+      <workItem from="1599370096319" duration="83828000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1599292273495</created>
@@ -508,7 +523,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599634906138</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Complete JavaLocator.cs">
+      <created>1599636195348</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1599636195348</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,7 +592,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Added MinecraftJsonType.cs &amp; MinecraftFileType.cs" />
     <MESSAGE value="Add locators" />
     <MESSAGE value="Improve GetMinecraftEntity()" />
     <MESSAGE value="Added StringExtensions.cs ToLibrariesPath()" />
@@ -595,7 +616,8 @@
     <MESSAGE value="Added GetAssets() function fix Locator Download link problem" />
     <MESSAGE value="Complete AssetsLocator.cs" />
     <MESSAGE value="Fix AssetsLocator.cs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix AssetsLocator.cs" />
+    <MESSAGE value="Complete JavaLocator.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complete JavaLocator.cs" />
   </component>
   <component name="WindowStateProjectService">
     <state x="655" y="155" key="#xdebugger.evaluate" timestamp="1599468848092">
@@ -606,10 +628,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="779" y="419" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.ChooseSilentCodeCleanupProfileDialog/0.0.1920.1040/-1366.124.1366.728@0.0.1920.1040" timestamp="1599490776126" />
-    <state x="645" y="342" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.RiderCodeCleanupAction$actionPerformed$dlg$1" timestamp="1599490786412">
+    <state x="645" y="342" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.RiderCodeCleanupAction$actionPerformed$dlg$1" timestamp="1599637123504">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="645" y="342" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.RiderCodeCleanupAction$actionPerformed$dlg$1/0.0.1920.1040/-1366.124.1366.728@0.0.1920.1040" timestamp="1599490786412" />
+    <state x="645" y="342" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.RiderCodeCleanupAction$actionPerformed$dlg$1/0.0.1920.1040/-1366.124.1366.728@0.0.1920.1040" timestamp="1599637123504" />
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1599545835034">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -726,10 +748,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="249" y="103" width="1284" height="787" key="find.popup/0.0.1920.1040/-1366.124.1366.728@0.0.1920.1040" timestamp="1599493376062" />
-    <state x="532" y="237" key="run.anything.popup" timestamp="1599544981859">
+    <state x="532" y="237" key="run.anything.popup" timestamp="1599639214409">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="532" y="237" key="run.anything.popup/0.0.1920.1040/-1366.124.1366.728@0.0.1920.1040" timestamp="1599544981859" />
+    <state x="532" y="237" key="run.anything.popup/0.0.1920.1040/-1366.124.1366.728@0.0.1920.1040" timestamp="1599639214409" />
     <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1599482844244">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

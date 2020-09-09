@@ -71,5 +71,10 @@ namespace ModuleLauncher.Re.Extensions
 
             return src.EndsWith("bin") ? $"{src}\\javaw.exe" : src;
         }
+
+        public static string Replace(this string s, string key)
+        {
+            return s.Replace(key, "");
+        }
     }
 }
