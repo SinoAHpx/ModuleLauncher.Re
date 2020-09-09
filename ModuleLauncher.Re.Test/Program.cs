@@ -8,6 +8,7 @@ using ModuleLauncher.Re.Authenticator;
 using ModuleLauncher.Re.DataEntities.Enums;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Minecraft.Locator;
+using ModuleLauncher.Re.Minecraft.Network;
 using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,24 +22,13 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            Locator.GetMinecraftFileEntities().ForEach(x =>
+            MinecraftDownloader.DownloadSource = MinecraftDownloadSource.Mojang;
+            MinecraftDownloader.GetMinecrafts().ForEach(async x =>
             {
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine(x);
-                Console.WriteLine(Locator.GetMinecraftVersionRoot(x.Name));
-                
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                var at = new AssetsLocator(Locator,MinecraftDownloadSource.Mcbbs);
-                Console.WriteLine(at.GetAssetsIndex(x.Name).Link);
-                
-                Console.WriteLine();
+                Console.WriteLine(x.Link);
+
+                Console.WriteLine((await MinecraftDownloader.GetDownloadLinkAsync(x.Id)).Jar);
             });
-            
-            /*var at = new AssetsLocator(Locator);
-            at.GetAssets("1.8.9").ForEach(z =>
-            {
-                Console.WriteLine(z.Link);
-            });*/
         }
     }
 }
