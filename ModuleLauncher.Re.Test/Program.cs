@@ -24,7 +24,7 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            var name = "PixelClient";
+            /*var name = "PixelClient";
             var lb = new LibrariesLocator(Locator);
             lb.GetNatives(name).ForEach(x =>
             {
@@ -54,7 +54,14 @@ namespace ModuleLauncher.Re.Test
             while (pro.StandardOutput.ReadLine() != null)
             {
                 Console.WriteLine(pro.StandardOutput.ReadLine());
-            }
+            }*/
+            
+            Locator.GetMinecraftFileEntities().ForEach(x =>
+            {
+                Console.WriteLine(x.Name);
+                Console.WriteLine(MinecraftHelper.GetMinecraftType(x.Name, Locator));
+                Console.WriteLine();
+            });
         }
     }
 }

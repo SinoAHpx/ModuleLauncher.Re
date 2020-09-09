@@ -99,6 +99,7 @@
           <e p="AuthenticatorHelper.cs" t="Include" />
           <e p="McbbsHelper.cs" t="Include" />
         </e>
+        <e p="MinecraftHelper.cs" t="Include" />
         <e p="StringHelper.cs" t="Include" />
         <e p="SystemHelper.cs" t="Include" />
       </e>

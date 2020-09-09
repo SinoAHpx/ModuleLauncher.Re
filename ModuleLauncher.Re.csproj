@@ -248,6 +248,7 @@
         <Compile Include="Utils\HttpHelper.cs" />
         <Compile Include="Utils\Inside\AuthenticatorHelper.cs" />
         <Compile Include="Utils\Inside\McbbsHelper.cs" />
+        <Compile Include="Utils\MinecraftHelper.cs" />
         <Compile Include="Utils\StringHelper.cs" />
         <Compile Include="Utils\SystemHelper.cs" />
     </ItemGroup>

@@ -2,15 +2,18 @@
 {
     public enum MinecraftFileType
     {
-        Ancient,
         VanillaOld,
         Vanilla,
         VanillaNew,
         Forge,
         ForgeNew,
+        ForgeOld,
         Optifine,
         OptifineNew,
+        OptifineOld,
         Fabric,
-        LiteLoader
+        LiteLoader,
+        LiteLoaderOld,
+        Unknown
     }
 }
