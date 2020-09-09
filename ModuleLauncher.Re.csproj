@@ -234,6 +234,7 @@
         <Compile Include="Extensions\JsonExtensions.cs" />
         <Compile Include="Extensions\StringExtensions.cs" />
         <Compile Include="Launcher\LauncherArguments.cs" />
+        <Compile Include="Launcher\LauncherCore.cs" />
         <Compile Include="Minecraft\Locator\AssetsLocator.cs" />
         <Compile Include="Minecraft\Locator\JavaLocator.cs" />
         <Compile Include="Minecraft\Locator\LibrariesLocator.cs" />

@@ -51,6 +51,7 @@
       </e>
       <e p="Launcher" t="Include">
         <e p="LauncherArguments.cs" t="Include" />
+        <e p="LauncherCore.cs" t="Include" />
       </e>
       <e p="Minecraft" t="Include">
         <e p="Locator" t="Include">

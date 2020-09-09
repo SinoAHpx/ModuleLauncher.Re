@@ -2,6 +2,8 @@
 {
     public enum MinecraftFileType
     {
+        Ancient,
+        VanillaOld,
         Vanilla,
         VanillaNew,
         Forge,

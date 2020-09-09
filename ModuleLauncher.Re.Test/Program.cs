@@ -34,7 +34,17 @@ namespace ModuleLauncher.Re.Test
                 MinecraftLocator = Locator
             };
 
-            Console.WriteLine(la.GetArgument("Liteloader1.6.4"));
+            var lc = new LauncherCore
+            {
+                LauncherArguments = la,
+                JavaPath = @"C:\Program Files\Java\jdk1.8.0_241\bin\javaw.exe"
+            };
+
+            var pro = lc.Launch("fabric-loader-0.9.3+build.207-1.14.4");
+            while (pro.StandardOutput.ReadLine() != null)
+            {
+                Console.WriteLine(pro.StandardOutput.ReadLine());
+            }
         }
     }
 }

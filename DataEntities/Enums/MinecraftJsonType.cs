@@ -2,7 +2,10 @@
 {
     public enum MinecraftJsonType
     {
+        VanillaOld,
         Vanilla,
+        VanillaNew,
+        LoaderOld,
         Loader,
         LoaderNew,
         Modify
