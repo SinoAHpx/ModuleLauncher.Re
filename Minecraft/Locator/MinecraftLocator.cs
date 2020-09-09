@@ -25,10 +25,10 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         {
             return new MinecraftLocator(location);
         }
-        
-        public static implicit operator string(MinecraftLocator location)
+
+        public override string ToString()
         {
-            return location.Location;
+            return Location;
         }
     }
     

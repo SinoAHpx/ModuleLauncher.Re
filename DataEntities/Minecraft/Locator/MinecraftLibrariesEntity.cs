@@ -7,9 +7,9 @@
         public string Link { get; set; }
         public string[] UnformattedName { get; set; }
 
-        public static implicit operator string(MinecraftLibrariesEntity librariesEntity)
+        public override string ToString()
         {
-            return librariesEntity.Name;
+            return Name;
         }
     }
 }

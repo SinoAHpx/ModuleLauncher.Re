@@ -60,25 +60,53 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             
             foreach (var x in jObj)
             {
-                var token = x.Value;
-                
-                var hash = token["hash"]?.ToString();
-                if (hash == null) continue;
-                
-                var secHash = hash.Substring(0, 2);
-                yield return new MinecraftAssetsEntity
-                {
-                    Name = hash,
-                    Path = $"{Locator.Location}\\assets\\objects\\{secHash}\\{hash}",
-                    Link = $"{_downloadLink}/{secHash}/{hash}"
-                };
+                yield return GetAsset(x.Value.GetValue("hash"));
             }
+        }
+
+        public MinecraftAssetsEntity GetAssetsIndex(string name)
+        {
+            var root = Locator.GetMinecraftVersionRoot(name);
+            
+            return root == "legacy"
+                ? new MinecraftAssetsEntity
+                {
+                    Name = "legacy.json",
+                    Path = $"{Locator.Location}\\assets\\indexes\\legacy.json",
+                    Link = $"{_downloadLink}/v1/packages/770572e819335b6c0a053f8378ad88eda189fc14/legacy.json"
+                }
+                : GetIndexEntity(name);
         }
     }
     
     //inside
     public partial class AssetsLocator
     {
-        
+        private MinecraftAssetsEntity GetAsset(string hash)
+        {
+            var secHash = hash.Substring(0, 2);
+            return new MinecraftAssetsEntity
+            {
+                Name = hash,
+                Path = $"{Locator.Location}\\assets\\objects\\{secHash}\\{hash}",
+                Link = $"{_downloadLink}/{secHash}/{hash}"
+            };
+        }
+
+        private MinecraftAssetsEntity GetIndexEntity(string name)
+        {
+            var type = Locator.GetMinecraftJsonType(name);
+            var entity = type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew
+                ? Locator.GetInheritsMinecraftJsonEntity(name)
+                : Locator.GetMinecraftJsonEntity(name);
+
+            var index = entity.assetIndex;
+            return new MinecraftAssetsEntity
+            {
+                Name = $"{index["id"]}.json",
+                Path = $"{Locator.Location}\\assets\\indexes\\{index["id"]}.json",
+                Link = $"{_downloadLink}/v1/packages/{index["sha1"]}/{index["id"]}.json"
+            };
+        }
     }
 }

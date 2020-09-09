@@ -21,25 +21,22 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            /*Locator.GetMinecraftFileEntities().ForEach(x =>
+            Locator.GetMinecraftFileEntities().ForEach(x =>
             {
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine(x.Name);
                 
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                var at = new AssetsLocator(Locator);
-                at.GetAssets(x.Name).ForEach(z =>
-                {
-                    Console.WriteLine(z.Link);
-                });
+                Console.WriteLine(Locator.GetMinecraftVersionRoot(x.Name));
+                
                 Console.WriteLine();
-            });*/
+            });
             
-            var at = new AssetsLocator(Locator);
+            /*var at = new AssetsLocator(Locator);
             at.GetAssets("1.8.9").ForEach(z =>
             {
                 Console.WriteLine(z.Link);
-            });
+            });*/
         }
     }
 }
