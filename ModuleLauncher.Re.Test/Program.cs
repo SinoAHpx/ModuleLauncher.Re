@@ -24,7 +24,7 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            var name = "1.7.2-OptiFine_HD_U_F7";
+            var name = "1.7.10-Forge10.13.4.1614-1.7.10";
             var lb = new LibrariesLocator(Locator);
             lb.GetNatives(name).ForEach(x =>
             {

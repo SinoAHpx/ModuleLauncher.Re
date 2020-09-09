@@ -62,14 +62,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             var type = Locator.GetMinecraftJsonType(name);
             var re = new List<MinecraftLibrariesEntity>();
             var link = _downloadLink;
-
-            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
-            {
-                re.AddRange(GetLibraries(Locator.GetInheritsMinecraftJsonEntity(name).id));
-                if (DownloadSource == MinecraftDownloadSource.Mojang)
-                    link = "https://bmclapi2.bangbang93.com/maven";
-            }
-
+            
             re.AddRange(GetLibraryNames(name).Select(x => new MinecraftLibrariesEntity
             {
                 Name = x.GetFileName(),
@@ -78,6 +71,13 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 UnformattedName = x.ToSrcFormat()
             }));
 
+            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
+            {
+                re.AddRange(GetLibraries(Locator.GetInheritsMinecraftJsonEntity(name).id));
+                if (DownloadSource == MinecraftDownloadSource.Mojang)
+                    link = "https://bmclapi2.bangbang93.com/maven";
+            }
+            
             return re.DistinctBy(x => x.Link);
         }
 
@@ -85,11 +85,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         {
             var re = new List<MinecraftLibrariesEntity>();
             var type = Locator.GetMinecraftJsonType(name);
-            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
-            {
-                re.AddRange(GetNatives(Locator.GetInheritsMinecraftJsonEntity(name).id));
-            }
-
+            
             re.AddRange(GetNativeNames(name).Select(x => new MinecraftLibrariesEntity
             {
                 Name = x.GetFileName(),
@@ -97,6 +93,11 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 Path = $"{Locator.Location}\\libraries\\{x}",
                 UnformattedName = x.ToSrcFormat()
             }));
+            
+            if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
+            {
+                re.AddRange(GetNatives(Locator.GetInheritsMinecraftJsonEntity(name).id));
+            }
 
             return re.DistinctBy(x => x.Link);
         }
