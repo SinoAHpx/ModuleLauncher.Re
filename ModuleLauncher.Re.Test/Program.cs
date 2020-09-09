@@ -24,7 +24,7 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            var name = "1.7.10-Forge10.13.4.1614-1.7.10";
+            var name = "PixelClient";
             var lb = new LibrariesLocator(Locator);
             lb.GetNatives(name).ForEach(x =>
             {
@@ -36,7 +36,6 @@ namespace ModuleLauncher.Re.Test
                 Authentication = "awd",
                 
                 MaxMemorySize = "6G",
-                
                 LauncherName = "AHpxLauncher",
                 MinecraftLocator = Locator
             };

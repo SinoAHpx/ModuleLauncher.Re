@@ -83,7 +83,7 @@ namespace ModuleLauncher.Re.Launcher
             if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderOld)
             {
                 var s = entity.minecraftArguments;
-                arguments.Append($"{s.Substring(s.LastIndexOf("--", StringComparison.Ordinal))} ");
+                arguments.Append($"{s.Substring(s.LastIndexOf("}", StringComparison.Ordinal) + 3)} ");
             }
             
             return arguments.ToString();
