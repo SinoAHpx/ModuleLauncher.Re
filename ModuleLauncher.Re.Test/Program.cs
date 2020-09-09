@@ -23,28 +23,12 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            var la = new LauncherArguments
+            Locator.GetMinecraftFileEntities().ForEach(x =>
             {
-                Authentication = "awd",
-                
-                MaxMemorySize = "6G",
-                
-                LauncherName = "AHpxLauncher",
-                JvmArgument = "-noverify",
-                MinecraftLocator = Locator
-            };
-
-            var lc = new LauncherCore
-            {
-                LauncherArguments = la,
-                JavaPath = @"C:\Program Files\Java\jdk1.8.0_241\bin\javaw.exe"
-            };
-
-            var pro = lc.Launch("fabric-loader-0.9.3+build.207-1.14.4");
-            while (pro.StandardOutput.ReadLine() != null)
-            {
-                Console.WriteLine(pro.StandardOutput.ReadLine());
-            }
+                Console.WriteLine(x.Name);
+                Console.WriteLine(Locator.GetMinecraftJsonType(x.Name));
+                Console.WriteLine();
+            });
         }
     }
 }

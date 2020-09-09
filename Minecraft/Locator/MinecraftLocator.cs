@@ -142,7 +142,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 }
             }
         }
-        
+
         /// <summary>
         /// 获取Minecraft版本的json实体的类型
         /// </summary>
@@ -151,34 +151,57 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <exception cref="Exception"></exception>
         public MinecraftJsonType GetMinecraftJsonType(string name)
         {
-            try
+            var entity = GetMinecraftJsonEntity(name);
+            var verNew = Version.Parse("1.13");
+            
+            if (entity.type == "release")
             {
-                var entity = GetMinecraftJsonEntity(name);
-                
-                //判断是不是快照版本
-                if (entity.type != "release") return MinecraftJsonType.Vanilla;
-                
-                //判断是loader还是loadernew
-                if (entity.inheritsFrom != null)
-                    return Version.Parse(entity.inheritsFrom) < Version.Parse("1.13")
-                        ? MinecraftJsonType.Loader
-                        : MinecraftJsonType.LoaderNew;
-                    
-                //判断是vanilla还是modify
                 try
                 {
-                    Version.Parse(entity.id);
-                    return MinecraftJsonType.Vanilla;
+                    var id = Version.Parse(entity.id);
+                    
+                    //vanilla old
+                    if (entity.assets == "legacy")
+                        return MinecraftJsonType.VanillaOld;
+                    
+                    //>=1.7.10 Vanilla
+                    return id < verNew ? MinecraftJsonType.Vanilla : MinecraftJsonType.VanillaNew;
+                    
                 }
+                //loaders
                 catch
                 {
-                    return MinecraftJsonType.Modify;
+                    try
+                    {
+                        //>=1.7.10 Loader or 1.7.2 optifine
+                        var inherit = GetInheritsMinecraftJsonEntity(name);
+
+                        return Version.Parse(inherit.id) < verNew
+                            ? MinecraftJsonType.Loader
+                            : MinecraftJsonType.LoaderNew;
+                    }
+                    catch
+                    {
+                        try
+                        {
+                            var modify = Version.Parse(entity.assets);
+                            return MinecraftJsonType.Modify;
+                        }
+                        catch
+                        {
+                            return MinecraftJsonType.LoaderOld;
+                        }
+                    }
                 }
             }
-            catch (Exception e)
-            {
-                throw new Exception($"获取Minecraft实体失败\n{e.Message}");
-            }
+
+            return entity.assets == "legacy" 
+                ?  MinecraftJsonType.VanillaOld
+                : (Version.Parse(entity.assets) < verNew
+                    ? (Version.Parse(entity.assets) < Version.Parse("1.7.10")
+                        ? MinecraftJsonType.VanillaOld
+                        : MinecraftJsonType.Vanilla)
+                            :MinecraftJsonType.VanillaNew);
         }
     }
 }

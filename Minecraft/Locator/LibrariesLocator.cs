@@ -59,8 +59,6 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         /// <returns></returns>
         public IEnumerable<MinecraftLibrariesEntity> GetLibraries(string name)
         {
-            //TODO 以rules这个属性可以判断某个库是否是重复的，并且找到该获取的库
-            
             var type = Locator.GetMinecraftJsonType(name);
             var re = new List<MinecraftLibrariesEntity>();
             var link = _downloadLink;
