@@ -63,15 +63,15 @@ namespace ModuleLauncher.Re.Minecraft.Network
         /// 获取所有Minecraft
         /// </summary>
         /// <returns></returns>
-        public static async Task<IEnumerable<MinecraftDownloaderItem>> GetMinecraftsAsync()
+        public static async Task<IEnumerable<MinecraftDownloaderEntity>> GetMinecraftsAsync()
         {
             var array = JArray.Parse((await GetMainfestObjectAsync())["versions"]?.ToString() ??
                                      throw new Exception("Failed to parse main fest")).ToList();
             
-            var re = new List<MinecraftDownloaderItem>();
+            var re = new List<MinecraftDownloaderEntity>();
             array.ForEach(x =>
             {
-                re.Add(new MinecraftDownloaderItem
+                re.Add(new MinecraftDownloaderEntity
                 {
                     Id = x.GetValue("id"),
                     Type = x.GetValue("type"),
@@ -88,7 +88,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<MinecraftDownloaderItem>> GetSpecifyMinecraftsAsync(
+        public static async Task<IEnumerable<MinecraftDownloaderEntity>> GetSpecifyMinecraftsAsync(
             MinecraftDownloaderType type)
         {
             var ls = await GetMinecraftsAsync();
@@ -108,7 +108,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task<MinecraftDownloaderItem> GetMinecraftAsync(string id)
+        public static async Task<MinecraftDownloaderEntity> GetMinecraftAsync(string id)
         {
             return (await GetMinecraftsAsync()).ToList().Find(x => x.Id == id);
         }
@@ -174,12 +174,12 @@ namespace ModuleLauncher.Re.Minecraft.Network
     {
         public static MinecraftDownloaderLatest GetLatestMinecraft() => GetLatestMinecraftAsync().GetResult();
 
-        public static IEnumerable<MinecraftDownloaderItem> GetMinecrafts() => GetMinecraftsAsync().GetResult();
+        public static IEnumerable<MinecraftDownloaderEntity> GetMinecrafts() => GetMinecraftsAsync().GetResult();
 
-        public static IEnumerable<MinecraftDownloaderItem> GetSpecifyMinecrafts(MinecraftDownloaderType type) =>
+        public static IEnumerable<MinecraftDownloaderEntity> GetSpecifyMinecrafts(MinecraftDownloaderType type) =>
             GetSpecifyMinecraftsAsync(type).GetResult();
 
-        public static MinecraftDownloaderItem GetMinecraft(string id) => GetMinecraftAsync(id).GetResult();
+        public static MinecraftDownloaderEntity GetMinecraft(string id) => GetMinecraftAsync(id).GetResult();
         public static MinecraftDownloadLinkEntity GetDownloadLink(string id) => GetDownloadLinkAsync(id).GetResult();
         public static MinecraftDownloadLinkEntity GetDownloadLinkByJson(string id) => GetDownloadLinkByJsonAsync(id).GetResult();
     }

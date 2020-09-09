@@ -28,7 +28,8 @@
           </e>
           <e p="Network" t="Include">
             <e p="ForgeDownloaderEntity.cs" t="Include" />
-            <e p="MinecraftDownloaderItem.cs" t="Include" />
+            <e p="McbbsNewsEntity.cs" t="Include" />
+            <e p="MinecraftDownloaderEntity.cs" t="Include" />
             <e p="MinecraftDownloaderLatest.cs" t="Include" />
             <e p="MinecraftDownloadLinkEntity.cs" t="Include" />
             <e p="OptifineDownloaderEntity.cs" t="Include" />
@@ -52,6 +53,7 @@
         </e>
         <e p="Network" t="Include">
           <e p="ForgeDownloader.cs" t="Include" />
+          <e p="McbbsNews.cs" t="Include" />
           <e p="MinecraftDownloader.cs" t="Include" />
           <e p="OptifineDownloader.cs" t="Include" />
         </e>
@@ -84,6 +86,7 @@
       <e p="Utils" t="Include">
         <e p="AuthenticatorHelper.cs" t="Include" />
         <e p="HttpHelper.cs" t="Include" />
+        <e p="McbbsHelper.cs" t="Include" />
         <e p="StringHelper.cs" t="Include" />
         <e p="SystemHelper.cs" t="Include" />
       </e>

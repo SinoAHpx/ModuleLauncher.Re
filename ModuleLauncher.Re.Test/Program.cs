@@ -22,9 +22,9 @@ namespace ModuleLauncher.Re.Test
         
         public static void Main(string[] args)
         {
-            OptifineDownloader.GetOptifines("1.8.9").ForEach(x =>
+            McbbsNews.GetCarouselNews().ForEach(x =>
             {
-                Console.WriteLine(x.FileName);
+                Console.WriteLine(x.Title);
             });
         }
     }

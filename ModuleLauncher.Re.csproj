@@ -220,7 +220,8 @@
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftFileEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftJsonEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Locator\MinecraftLibrariesEntity.cs" />
-        <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloaderItem.cs" />
+        <Compile Include="DataEntities\Minecraft\Network\McbbsNewsEntity.cs" />
+        <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloaderEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloaderLatest.cs" />
         <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloadLinkEntity.cs" />
         <Compile Include="DataEntities\Minecraft\Network\ForgeDownloaderEntity.cs" />
@@ -234,11 +235,13 @@
         <Compile Include="Minecraft\Locator\LibrariesLocator.cs" />
         <Compile Include="Minecraft\Locator\MinecraftLocator.cs" />
         <Compile Include="Minecraft\Network\ForgeDownloader.cs" />
+        <Compile Include="Minecraft\Network\McbbsNews.cs" />
         <Compile Include="Minecraft\Network\MinecraftDownloader.cs" />
         <Compile Include="Minecraft\Network\OptifineDownloader.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Utils\AuthenticatorHelper.cs" />
         <Compile Include="Utils\HttpHelper.cs" />
+        <Compile Include="Utils\McbbsHelper.cs" />
         <Compile Include="Utils\StringHelper.cs" />
         <Compile Include="Utils\SystemHelper.cs" />
     </ItemGroup>
