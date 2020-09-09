@@ -60,5 +60,16 @@ namespace ModuleLauncher.Re.Extensions
         {
             return StringHelper.GetAlphabets().Aggregate(s, (current, alphabet) => current.Replace(alphabet, ""));
         }
+        
+        public static string GetJavaPath(this string src)
+        {
+            src = src.TrimEnd('\\');
+            if (src.GetFileName().Contains("jdk") || src.GetFileName().Contains("jre"))
+            {
+                return $"{src}\\bin\\javaw.exe";
+            }
+
+            return src.EndsWith("bin") ? $"{src}\\javaw.exe" : src;
+        }
     }
 }
