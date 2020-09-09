@@ -132,6 +132,19 @@ namespace ModuleLauncher.Re.Minecraft.Network
                 Json = $"{DownloadLink.Json}/{json}"
             };
         }
+
+        
+        public static async Task<MinecraftDownloadLinkEntity> GetDownloadLinkByJsonAsync(string link)
+        {
+            var json = JObject.Parse((await HttpHelper.GetHttpAsync(link)).Content);
+            var jar = json["downloads"]?["client"].GetValue("url").Replace("https://launcher.mojang.com/","");
+            
+            return new MinecraftDownloadLinkEntity
+            {
+                Jar = $"{DownloadLink.Jar}/{jar}",
+                Json = link
+            };
+        }
     }
 
     //private
@@ -165,5 +178,6 @@ namespace ModuleLauncher.Re.Minecraft.Network
 
         public static MinecraftDownloaderItem GetMinecraft(string id) => GetMinecraftAsync(id).GetResult();
         public static MinecraftDownloadLinkEntity GetDownloadLink(string id) => GetDownloadLinkAsync(id).GetResult();
+        public static MinecraftDownloadLinkEntity GetDownloadLinkByJson(string id) => GetDownloadLinkByJsonAsync(id).GetResult();
     }
 }

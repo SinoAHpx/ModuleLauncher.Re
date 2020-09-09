@@ -23,12 +23,8 @@ namespace ModuleLauncher.Re.Test
         public static void Main(string[] args)
         {
             MinecraftDownloader.DownloadSource = MinecraftDownloadSource.Mojang;
-            MinecraftDownloader.GetMinecrafts().ForEach(async x =>
-            {
-                Console.WriteLine(x.Link);
-
-                Console.WriteLine((await MinecraftDownloader.GetDownloadLinkAsync(x.Id)).Jar);
-            });
+            var lk = MinecraftDownloader.GetDownloadLink("1.16.2");
+            Console.WriteLine(lk.Jar);
         }
     }
 }
