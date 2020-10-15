@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.DataEntities.Minecraft.Locator
 {
@@ -13,19 +12,19 @@ namespace ModuleLauncher.Re.DataEntities.Minecraft.Locator
         public string mainClass { get; set; }
         public string type { get; set; }
     }
-    
+
     //loaders
     public partial class MinecraftJsonEntity
     {
         public string inheritsFrom { get; set; }
     }
-    
+
     //new
     public partial class MinecraftJsonEntity
     {
         public JObject arguments { get; set; }
     }
-    
+
     //old
     public partial class MinecraftJsonEntity
     {

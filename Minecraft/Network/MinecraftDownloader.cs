@@ -41,12 +41,12 @@ namespace ModuleLauncher.Re.Minecraft.Network
             }
         }
     }
-    
+
     //async
     public partial class MinecraftDownloader
     {
         /// <summary>
-        /// 获取最新的Minecraft
+        ///     获取最新的Minecraft
         /// </summary>
         /// <returns></returns>
         public static async Task<MinecraftDownloaderLatest> GetLatestMinecraftAsync()
@@ -60,14 +60,14 @@ namespace ModuleLauncher.Re.Minecraft.Network
         }
 
         /// <summary>
-        /// 获取所有Minecraft
+        ///     获取所有Minecraft
         /// </summary>
         /// <returns></returns>
         public static async Task<IEnumerable<MinecraftDownloaderEntity>> GetMinecraftsAsync()
         {
             var array = JArray.Parse((await GetMainfestObjectAsync())["versions"]?.ToString() ??
                                      throw new Exception("Failed to parse main fest")).ToList();
-            
+
             var re = new List<MinecraftDownloaderEntity>();
             array.ForEach(x =>
             {
@@ -84,7 +84,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
         }
 
         /// <summary>
-        /// 获取指定类型的Minecraft
+        ///     获取指定类型的Minecraft
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -104,7 +104,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
         }
 
         /// <summary>
-        /// 获取指定的Minecraft
+        ///     获取指定的Minecraft
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -112,9 +112,9 @@ namespace ModuleLauncher.Re.Minecraft.Network
         {
             return (await GetMinecraftsAsync()).ToList().Find(x => x.Id == id);
         }
-        
+
         /// <summary>
-        /// 由指定的id获取指定的Minecraft下载链接
+        ///     由指定的id获取指定的Minecraft下载链接
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -123,12 +123,12 @@ namespace ModuleLauncher.Re.Minecraft.Network
             var versions = (await GetMainfestObjectAsync())["versions"]?.ToObject<JArray>();
             // ReSharper disable once AssignNullToNotNullAttribute
             // ReSharper disable once MethodHasAsyncOverload
-            var token =  versions.ToList().Find(x => x.GetValue("id") == id);
+            var token = versions.ToList().Find(x => x.GetValue("id") == id);
             var entity = JObject.Parse((await HttpHelper.GetHttpAsync(token.GetValue("url"))).Content);
 
-            var jar = entity["downloads"]?["client"].GetValue("url").Replace("https://launcher.mojang.com/","");
-            var json = token.GetValue("url").Replace("https://launchermeta.mojang.com/","");
-            
+            var jar = entity["downloads"]?["client"].GetValue("url").Replace("https://launcher.mojang.com/", "");
+            var json = token.GetValue("url").Replace("https://launchermeta.mojang.com/", "");
+
             return new MinecraftDownloadLinkEntity
             {
                 Jar = $"{DownloadLink.Jar}/{jar}",
@@ -136,12 +136,12 @@ namespace ModuleLauncher.Re.Minecraft.Network
             };
         }
 
-        
+
         public static async Task<MinecraftDownloadLinkEntity> GetDownloadLinkByJsonAsync(string link)
         {
             var json = JObject.Parse((await HttpHelper.GetHttpAsync(link)).Content);
-            var jar = json["downloads"]?["client"].GetValue("url").Replace("https://launcher.mojang.com/","");
-            
+            var jar = json["downloads"]?["client"].GetValue("url").Replace("https://launcher.mojang.com/", "");
+
             return new MinecraftDownloadLinkEntity
             {
                 Jar = $"{DownloadLink.Jar}/{jar}",
@@ -165,22 +165,40 @@ namespace ModuleLauncher.Re.Minecraft.Network
             {
                 throw new Exception($"mainfest.json解析失败\n{e.Message}");
             }
-            
         }
     }
 
     //sync
     public partial class MinecraftDownloader
     {
-        public static MinecraftDownloaderLatest GetLatestMinecraft() => GetLatestMinecraftAsync().GetResult();
+        public static MinecraftDownloaderLatest GetLatestMinecraft()
+        {
+            return GetLatestMinecraftAsync().GetResult();
+        }
 
-        public static IEnumerable<MinecraftDownloaderEntity> GetMinecrafts() => GetMinecraftsAsync().GetResult();
+        public static IEnumerable<MinecraftDownloaderEntity> GetMinecrafts()
+        {
+            return GetMinecraftsAsync().GetResult();
+        }
 
-        public static IEnumerable<MinecraftDownloaderEntity> GetSpecifyMinecrafts(MinecraftDownloaderType type) =>
-            GetSpecifyMinecraftsAsync(type).GetResult();
+        public static IEnumerable<MinecraftDownloaderEntity> GetSpecifyMinecrafts(MinecraftDownloaderType type)
+        {
+            return GetSpecifyMinecraftsAsync(type).GetResult();
+        }
 
-        public static MinecraftDownloaderEntity GetMinecraft(string id) => GetMinecraftAsync(id).GetResult();
-        public static MinecraftDownloadLinkEntity GetDownloadLink(string id) => GetDownloadLinkAsync(id).GetResult();
-        public static MinecraftDownloadLinkEntity GetDownloadLinkByJson(string id) => GetDownloadLinkByJsonAsync(id).GetResult();
+        public static MinecraftDownloaderEntity GetMinecraft(string id)
+        {
+            return GetMinecraftAsync(id).GetResult();
+        }
+
+        public static MinecraftDownloadLinkEntity GetDownloadLink(string id)
+        {
+            return GetDownloadLinkAsync(id).GetResult();
+        }
+
+        public static MinecraftDownloadLinkEntity GetDownloadLinkByJson(string id)
+        {
+            return GetDownloadLinkByJsonAsync(id).GetResult();
+        }
     }
 }

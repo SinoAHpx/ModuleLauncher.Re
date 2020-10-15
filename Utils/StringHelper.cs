@@ -19,7 +19,7 @@ namespace ModuleLauncher.Re.Utils
 
             return re;
         }
-        
+
         public static string GetRandomString(string s, int length = 10)
         {
             var ls = GetAlphabets().ToList();
@@ -27,7 +27,7 @@ namespace ModuleLauncher.Re.Utils
             ls.AddRange(new[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});
 
             var random = new Random();
-            for (var i = 0; i < length; i++) 
+            for (var i = 0; i < length; i++)
                 re += ls[random.Next(ls.Count)];
 
             return re;

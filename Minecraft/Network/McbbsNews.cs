@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.DataEntities.Minecraft.Network;
 using ModuleLauncher.Re.Extensions;
-using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Inside;
 
 namespace ModuleLauncher.Re.Minecraft.Network
@@ -12,7 +11,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
     {
         private const string Forum = "https://www.mcbbs.net";
     }
-    
+
     //async
     public partial class McbbsNews
     {
@@ -64,7 +63,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
 
             return re;
         }
-        
+
         public static async Task<IEnumerable<RecommendedItem>> GetModRecommendedAsync()
         {
             const string xpath = "//div[@id='portal_block_722_content']/div/div[@class='portal_li']";
@@ -167,7 +166,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
                 "//div[@id='portal_block_831_content']/div[@class='modpack']/div[@class='portal_txt_li']";
             var re = new List<PacksItem>();
             var nodeAsync = await McbbsHelper.GetNodeAsync();
-            
+
             foreach (var node in nodeAsync.SelectNodes(xpath))
             {
                 var modPackItem = new PacksItem();
@@ -207,7 +206,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
                 "//div[@id='portal_block_832_content']/div[@class='modpack']/div[@class='portal_txt_li']";
             var re = new List<PacksItem>();
             var nodeAsync = await McbbsHelper.GetNodeAsync();
-            
+
             foreach (var node in nodeAsync.SelectNodes(xpath))
             {
                 var modPackItem = new PacksItem();
@@ -249,7 +248,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
                 "//div[@id='portal_block_735_content']/div[@class='portal_txt']/div[@class='portal_txt_li']";
             var re = new List<RecommendedItem>();
             var nodeAsync = await McbbsHelper.GetNodeAsync();
-            
+
             foreach (var node in nodeAsync.SelectNodes(xpath))
             {
                 var skinsItem = new RecommendedItem();
@@ -297,7 +296,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
                 "//div[@id='portal_block_833_content']/div[@class='portal_txt']/div[@class='portal_txt_li']";
             var re = new List<RecommendedItem>();
             var nodeAsync = await McbbsHelper.GetNodeAsync();
-            
+
             foreach (var node in nodeAsync.SelectNodes(xpath))
             {
                 var texturePackItem = new RecommendedItem();
@@ -346,7 +345,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
 
             var re = new List<RecommendedItem>();
             var nodeAsync = await McbbsHelper.GetNodeAsync();
-            
+
             foreach (var selectNode in nodeAsync.SelectNodes(xpath))
             {
                 var mapRecommendedItem = new RecommendedItem();
@@ -396,13 +395,22 @@ namespace ModuleLauncher.Re.Minecraft.Network
             return re;
         }
 
-        public static async Task<IEnumerable<CarouselItem>> GetCarouselNewsAsync() => await GetCarouselAsync("slideshow_3");
+        public static async Task<IEnumerable<CarouselItem>> GetCarouselNewsAsync()
+        {
+            return await GetCarouselAsync("slideshow_3");
+        }
 
-        public static async Task<IEnumerable<CarouselItem>> GetSkinCarouselAsync() => await GetCarouselAsync("portal_wrapper2");
+        public static async Task<IEnumerable<CarouselItem>> GetSkinCarouselAsync()
+        {
+            return await GetCarouselAsync("portal_wrapper2");
+        }
 
-        public static async Task<IEnumerable<CarouselItem>> GetTextureCarouselAsync() => await GetCarouselAsync("portal_wrapper3");
+        public static async Task<IEnumerable<CarouselItem>> GetTextureCarouselAsync()
+        {
+            return await GetCarouselAsync("portal_wrapper3");
+        }
     }
-    
+
     //private
     public partial class McbbsNews
     {
@@ -411,29 +419,72 @@ namespace ModuleLauncher.Re.Minecraft.Network
             var xpath = $"//div[@id='{id}']/div[@class='slideshow_item']/div[@class='image']/a";
             var nodeAsync = await McbbsHelper.GetNodeAsync();
 
-            return (from node in nodeAsync.SelectNodes(xpath)
+            return from node in nodeAsync.SelectNodes(xpath)
                 let imgNode = node.SelectSingleNode("img")
                 select new CarouselItem
                 {
                     Link = $"{Forum}/{node.GetAttributeValue("href", "").TrimStart('/')}",
                     Title = node.GetAttributeValue("title", ""), Image = imgNode.GetAttributeValue("src", "")
-                });
+                };
         }
     }
-    
+
     //sync
     public partial class McbbsNews
     {
-        public static IEnumerable<RecommendedItem> GetModeratorRecommended() => GetModeratorRecommendedAsync().GetResult();
-        public static IEnumerable<RecommendedItem> GetModRecommended() => GetModRecommendedAsync().GetResult();
-        public static IEnumerable<RecommendedItem> GetPluginRecommended() => GetModRecommendedAsync().GetResult();
-        public static IEnumerable<RecommendedItem> GetSkinRecommended()=> GetSkinRecommendedAsync().GetResult();
-        public static IEnumerable<RecommendedItem> GetTexturePackRecommended()=> GetTexturePackRecommendedAsync().GetResult();
-        public static IEnumerable<RecommendedItem> GetMapRecommended()=> GetMapRecommendedAsync().GetResult();
-        public static IEnumerable<CarouselItem> GetCarouselNews()=> GetCarouselNewsAsync().GetResult();
-        public static IEnumerable<CarouselItem> GetSkinCarousel()=> GetSkinCarouselAsync().GetResult();
-        public static IEnumerable<CarouselItem> GetTextureCarousel()=> GetTextureCarouselAsync().GetResult();
-        public static IEnumerable<PacksItem> GetModPackRecommended()=> GetModPackRecommendedAsync().GetResult();
-        public static IEnumerable<PacksItem> GetServerPackRecommended()=> GetServerPackRecommendedAsync().GetResult();
+        public static IEnumerable<RecommendedItem> GetModeratorRecommended()
+        {
+            return GetModeratorRecommendedAsync().GetResult();
+        }
+
+        public static IEnumerable<RecommendedItem> GetModRecommended()
+        {
+            return GetModRecommendedAsync().GetResult();
+        }
+
+        public static IEnumerable<RecommendedItem> GetPluginRecommended()
+        {
+            return GetModRecommendedAsync().GetResult();
+        }
+
+        public static IEnumerable<RecommendedItem> GetSkinRecommended()
+        {
+            return GetSkinRecommendedAsync().GetResult();
+        }
+
+        public static IEnumerable<RecommendedItem> GetTexturePackRecommended()
+        {
+            return GetTexturePackRecommendedAsync().GetResult();
+        }
+
+        public static IEnumerable<RecommendedItem> GetMapRecommended()
+        {
+            return GetMapRecommendedAsync().GetResult();
+        }
+
+        public static IEnumerable<CarouselItem> GetCarouselNews()
+        {
+            return GetCarouselNewsAsync().GetResult();
+        }
+
+        public static IEnumerable<CarouselItem> GetSkinCarousel()
+        {
+            return GetSkinCarouselAsync().GetResult();
+        }
+
+        public static IEnumerable<CarouselItem> GetTextureCarousel()
+        {
+            return GetTextureCarouselAsync().GetResult();
+        }
+
+        public static IEnumerable<PacksItem> GetModPackRecommended()
+        {
+            return GetModPackRecommendedAsync().GetResult();
+        }
+
+        public static IEnumerable<PacksItem> GetServerPackRecommended()
+        {
+            return GetServerPackRecommendedAsync().GetResult();
+        }
     }
 }

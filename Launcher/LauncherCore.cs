@@ -11,7 +11,7 @@ namespace ModuleLauncher.Re.Launcher
     {
         public LauncherArguments LauncherArguments { get; set; }
         public string JavaPath { get; set; }
-        
+
         public void ExtractNatives(string name)
         {
             var locator = LauncherArguments.MinecraftLocator;
@@ -28,7 +28,7 @@ namespace ModuleLauncher.Re.Launcher
             ls.ForEach(x =>
             {
                 if (!File.Exists(x.Path)) return;
-                
+
                 var archive = ZipFile.OpenRead(x.Path);
                 archive.Entries.ToList().ForEach(z =>
                 {

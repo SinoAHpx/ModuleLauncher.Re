@@ -12,53 +12,30 @@ namespace ModuleLauncher.Re.Utils
             var a = locator.GetMinecraftVersionRoot(name);
             var v = Version.Parse("1.13");
             var t = locator.GetMinecraftJsonType(name);
-            
+
             if (a == "legacy")
             {
-                if (e.Contains("forge"))
-                {
-                    return MinecraftFileType.ForgeOld;
-                }
+                if (e.Contains("forge")) return MinecraftFileType.ForgeOld;
 
-                if (e.Contains("optifine"))
-                {
-                    return MinecraftFileType.OptifineOld;
-                }
-                
-                if (e.Contains("liteloader"))
-                {
-                    return MinecraftFileType.LiteLoaderOld;
-                }
+                if (e.Contains("optifine")) return MinecraftFileType.OptifineOld;
+
+                if (e.Contains("liteloader")) return MinecraftFileType.LiteLoaderOld;
 
                 return MinecraftFileType.VanillaOld;
             }
-            else
-            {
-                var v1 = Version.Parse(a);
-                if (e.Contains("forge"))
-                {
-                    return v1 < v ? MinecraftFileType.Forge : MinecraftFileType.ForgeNew;
-                }
 
-                if (e.Contains("optifine"))
-                {
-                    return v1 < v ? MinecraftFileType.Optifine : MinecraftFileType.OptifineNew;
-                }
-                
-                if (e.Contains("fabric"))
-                {
-                    return MinecraftFileType.Fabric;
-                }
-                
-                if (e.Contains("liteloader"))
-                {
-                    return MinecraftFileType.LiteLoader;
-                }
+            var v1 = Version.Parse(a);
+            if (e.Contains("forge")) return v1 < v ? MinecraftFileType.Forge : MinecraftFileType.ForgeNew;
 
-                return v1 < v
-                    ? MinecraftFileType.Vanilla
-                    : MinecraftFileType.VanillaNew;
-            }
+            if (e.Contains("optifine")) return v1 < v ? MinecraftFileType.Optifine : MinecraftFileType.OptifineNew;
+
+            if (e.Contains("fabric")) return MinecraftFileType.Fabric;
+
+            if (e.Contains("liteloader")) return MinecraftFileType.LiteLoader;
+
+            return v1 < v
+                ? MinecraftFileType.Vanilla
+                : MinecraftFileType.VanillaNew;
         }
     }
 }

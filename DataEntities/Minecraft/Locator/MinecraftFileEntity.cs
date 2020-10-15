@@ -1,7 +1,7 @@
 ﻿namespace ModuleLauncher.Re.DataEntities.Minecraft.Locator
 {
     /// <summary>
-    /// 用于解析Minecraft json文件的实体类
+    ///     用于解析Minecraft json文件的实体类
     /// </summary>
     public class MinecraftFileEntity
     {

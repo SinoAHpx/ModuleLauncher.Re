@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Minecraft.Network;
@@ -16,7 +15,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
         {
             var array = JArray.Parse((await HttpHelper.GetHttpAsync("https://download.mcbbs.net/java/list")).Content);
             var re = new List<JreDownloaderEntity>();
-            
+
             array.ForEach(x =>
             {
                 re.Add(new JreDownloaderEntity
@@ -28,7 +27,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
 
             return re;
         }
-        
+
         public static async Task<JreDownloaderEntity> GetJreAsync(bool osBit = true)
         {
             var ls = await GetJresAsync();
@@ -42,12 +41,18 @@ namespace ModuleLauncher.Re.Minecraft.Network
             return re;
         }
     }
-    
+
     //sync
     public partial class JreDownloader
     {
-        public static IEnumerable<JreDownloaderEntity> GetJres() => GetJresAsync().GetResult();
-        
-        public static JreDownloaderEntity GetJre(bool osBit = true) => GetJreAsync(osBit).GetResult();
+        public static IEnumerable<JreDownloaderEntity> GetJres()
+        {
+            return GetJresAsync().GetResult();
+        }
+
+        public static JreDownloaderEntity GetJre(bool osBit = true)
+        {
+            return GetJreAsync(osBit).GetResult();
+        }
     }
 }

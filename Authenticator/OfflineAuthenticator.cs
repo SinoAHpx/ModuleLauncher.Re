@@ -5,12 +5,12 @@ namespace ModuleLauncher.Re.Authenticator
     //head
     public partial class OfflineAuthenticator
     {
-        public string Name { get; set; }
-
         public OfflineAuthenticator(string name = "")
         {
             Name = name;
         }
+
+        public string Name { get; set; }
     }
 
     public partial class OfflineAuthenticator

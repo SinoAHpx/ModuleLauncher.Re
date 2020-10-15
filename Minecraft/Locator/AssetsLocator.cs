@@ -11,10 +11,18 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     //head
     public partial class AssetsLocator
     {
-        public MinecraftLocator Locator { get; set; }
         private string _downloadLink;
         private MinecraftDownloadSource _downloadSource;
-        
+
+        public AssetsLocator(MinecraftLocator locator = null,
+            MinecraftDownloadSource downloadSource = MinecraftDownloadSource.Bmclapi)
+        {
+            Locator = locator;
+            DownloadSource = downloadSource;
+        }
+
+        public MinecraftLocator Locator { get; set; }
+
         public MinecraftDownloadSource DownloadSource
         {
             get => _downloadSource;
@@ -37,14 +45,8 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 }
             }
         }
-
-        public AssetsLocator(MinecraftLocator locator = null, MinecraftDownloadSource downloadSource = MinecraftDownloadSource.Bmclapi)
-        {
-            Locator = locator;
-            DownloadSource = downloadSource;
-        }
     }
-    
+
     //exposed
     public partial class AssetsLocator
     {
@@ -53,19 +55,16 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             var jText = File.ReadAllText(
                 $"{Locator.Location}\\assets\\indexes\\{Locator.GetMinecraftVersionRoot(name)}.json");
             var jObj = JObject.Parse(jText)["objects"]?.ToObject<JObject>();
-            
+
             if (jObj == null) yield break;
-            
-            foreach (var x in jObj)
-            {
-                yield return GetAsset(x.Value.GetValue("hash"));
-            }
+
+            foreach (var x in jObj) yield return GetAsset(x.Value.GetValue("hash"));
         }
 
         public MinecraftAssetsEntity GetAssetsIndex(string name)
         {
             var root = Locator.GetMinecraftVersionRoot(name);
-            
+
             return root == "legacy"
                 ? new MinecraftAssetsEntity
                 {
@@ -76,7 +75,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 : GetIndexEntity(name);
         }
     }
-    
+
     //inside
     public partial class AssetsLocator
     {

@@ -15,15 +15,17 @@ namespace ModuleLauncher.Re.Launcher
     {
         public MinecraftLocator MinecraftLocator { get; set; }
         public AuthenticateResult Authentication { get; set; }
+
         /// <summary>
-        /// 注意加后缀 "G"或者"M"
+        ///     注意加后缀 "G"或者"M"
         /// </summary>
         public string MaxMemorySize { get; set; }
 
         /// <summary>
-        /// 可省略,注意加后缀 "G"或者"M"
+        ///     可省略,注意加后缀 "G"或者"M"
         /// </summary>
         public string MinMemorySize { get; set; }
+
         public string LauncherName { get; set; }
         public string JvmArgument { get; set; }
 
@@ -38,7 +40,7 @@ namespace ModuleLauncher.Re.Launcher
             return $"{GetForeArguments(name)} {GetBackArguments(name)}";
         }
     }
-    
+
     public partial class LauncherArguments
     {
         private string GetBackArguments(string name)
@@ -55,13 +57,13 @@ namespace ModuleLauncher.Re.Launcher
             arguments.Append(MinecraftLocator.GetMinecraftVersionRoot(name) == "legacy"
                 ? $"--assetsDir {MinecraftLocator.Location}\\assets\\virtual\\legacy "
                 : $"--assetsDir {MinecraftLocator.Location}\\assets ");
-            
+
             arguments.Append($"--assetIndex {MinecraftLocator.GetMinecraftVersionRoot(name)} ");
             arguments.Append($"--uuid {auth.Uuid} ");
             arguments.Append($"--accessToken {auth.AccessToken} ");
             arguments.Append("--userType mojang ");
 
-            if (ConnectionConfig != null) 
+            if (ConnectionConfig != null)
                 arguments.Append($"--server {ConnectionConfig.IpAddress} --port {ConnectionConfig.Port} ");
             if (ResolutionConfig != null)
             {
@@ -73,10 +75,9 @@ namespace ModuleLauncher.Re.Launcher
 
             if (type == MinecraftJsonType.LoaderNew)
             {
-
                 var array = JArray.Parse(entity.arguments.GetValue("game")?.ToString() ??
                                          throw new Exception("json文件损坏"));
-                
+
                 array?.ForEach(x => arguments.Append($"{x} "));
             }
 
@@ -85,10 +86,10 @@ namespace ModuleLauncher.Re.Launcher
                 var s = entity.minecraftArguments;
                 arguments.Append($"{s.Substring(s.LastIndexOf("}", StringComparison.Ordinal) + 3)} ");
             }
-            
+
             return arguments.ToString();
         }
-        
+
         private string GetForeArguments(string name)
         {
             var arguments = new StringBuilder($"{JvmArgument} ");
@@ -107,7 +108,7 @@ namespace ModuleLauncher.Re.Launcher
 
             return arguments.ToString().Trim();
         }
-        
+
         private string GetClasspath(string name)
         {
             var arguments = new StringBuilder();

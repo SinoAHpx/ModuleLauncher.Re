@@ -11,32 +11,11 @@ namespace ModuleLauncher.Re.Authenticator
     //head
     public partial class YggdrasilAuthenticator
     {
-        /// <summary>
-        /// 用于认证的mojang账户，可以是电子邮箱地址或玩家名称（对于未迁移的账号）
-        /// </summary>
-        public string Username
-        {
-            get => _payload.Username;
-            set => _payload.Username = value;
-        }
-
-        /// <summary>
-        /// 用于认证的mojang密码
-        /// </summary>
-        public string Password
-        {
-            get => _payload.Password;
-            set => _payload.Password = value;
-        }
-
-        /// <summary>
-        /// clientToken应该是一个随机生成的标识符而且必须每次请求都是相同的。
-        /// </summary>
-        public string ClientToken
-        {
-            get => _payload.ClientToken;
-            set => _payload.ClientToken = value;
-        }
+        private const string AuthDomain = "https://authserver.mojang.com/authenticate";
+        private const string RefreshDomain = "https://authserver.mojang.com/refresh";
+        private const string ValidateDomain = "https://authserver.mojang.com/validate";
+        private const string InvalidateDomain = "https://authserver.mojang.com/invalidate";
+        private const string SignOutDomain = "https://authserver.mojang.com/signout";
 
         private readonly AuthenticatorHelper _payload;
 
@@ -50,18 +29,39 @@ namespace ModuleLauncher.Re.Authenticator
             };
         }
 
-        private const string AuthDomain = "https://authserver.mojang.com/authenticate";
-        private const string RefreshDomain = "https://authserver.mojang.com/refresh";
-        private const string ValidateDomain = "https://authserver.mojang.com/validate";
-        private const string InvalidateDomain = "https://authserver.mojang.com/invalidate";
-        private const string SignOutDomain = "https://authserver.mojang.com/signout";
+        /// <summary>
+        ///     用于认证的mojang账户，可以是电子邮箱地址或玩家名称（对于未迁移的账号）
+        /// </summary>
+        public string Username
+        {
+            get => _payload.Username;
+            set => _payload.Username = value;
+        }
+
+        /// <summary>
+        ///     用于认证的mojang密码
+        /// </summary>
+        public string Password
+        {
+            get => _payload.Password;
+            set => _payload.Password = value;
+        }
+
+        /// <summary>
+        ///     clientToken应该是一个随机生成的标识符而且必须每次请求都是相同的。
+        /// </summary>
+        public string ClientToken
+        {
+            get => _payload.ClientToken;
+            set => _payload.ClientToken = value;
+        }
     }
 
     //async
     public partial class YggdrasilAuthenticator
     {
         /// <summary>
-        /// 使用密码认证用户。
+        ///     使用密码认证用户。
         /// </summary>
         /// <returns></returns>
         public async Task<AuthenticateResult> AuthenticateAsync()
@@ -88,7 +88,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 刷新一个有效的accessToken。它可以用于在游戏会话间保持登录状态，这优于在文件中保存用户的密码（见lastlogin）。
+        ///     刷新一个有效的accessToken。它可以用于在游戏会话间保持登录状态，这优于在文件中保存用户的密码（见lastlogin）。
         /// </summary>
         /// <param name="accessToken">注意：提供的accessToken将失效。</param>
         /// <returns></returns>
@@ -116,7 +116,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 检查accessToken是否可用于Minecraft服务器的认证。
+        ///     检查accessToken是否可用于Minecraft服务器的认证。
         /// </summary>
         /// <param name="accessToken">有效的accessToken</param>
         /// <returns></returns>
@@ -129,7 +129,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 使用client/access令牌对使accessToken失效。
+        ///     使用client/access令牌对使accessToken失效。
         /// </summary>
         /// <param name="accessToken">有效的accessToken</param>
         /// <param name="clientToken">这需要第一处用来获取</param>
@@ -141,7 +141,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 使用帐号的用户名和密码使accessToken失效。
+        ///     使用帐号的用户名和密码使accessToken失效。
         /// </summary>
         /// <returns></returns>
         public async Task SignOutAsync()
@@ -155,7 +155,7 @@ namespace ModuleLauncher.Re.Authenticator
     public partial class YggdrasilAuthenticator
     {
         /// <summary>
-        /// 使用密码认证用户。
+        ///     使用密码认证用户。
         /// </summary>
         /// <returns></returns>
         public AuthenticateResult Authenticate()
@@ -164,7 +164,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 刷新一个有效的accessToken。它可以用于在游戏会话间保持登录状态，这优于在文件中保存用户的密码（见lastlogin）。
+        ///     刷新一个有效的accessToken。它可以用于在游戏会话间保持登录状态，这优于在文件中保存用户的密码（见lastlogin）。
         /// </summary>
         /// <param name="accessToken">注意：提供的accessToken将失效。</param>
         /// <returns></returns>
@@ -174,7 +174,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 检查accessToken是否可用于Minecraft服务器的认证。
+        ///     检查accessToken是否可用于Minecraft服务器的认证。
         /// </summary>
         /// <param name="accessToken">有效的accessToken</param>
         /// <returns></returns>
@@ -184,7 +184,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 使用client/access令牌对使accessToken失效。
+        ///     使用client/access令牌对使accessToken失效。
         /// </summary>
         /// <param name="accessToken">有效的accessToken</param>
         /// <param name="clientToken">这需要第一处用来获取</param>
@@ -195,7 +195,7 @@ namespace ModuleLauncher.Re.Authenticator
         }
 
         /// <summary>
-        /// 使用帐号的用户名和密码使accessToken失效。
+        ///     使用帐号的用户名和密码使accessToken失效。
         /// </summary>
         /// <returns></returns>
         public void SignOut()

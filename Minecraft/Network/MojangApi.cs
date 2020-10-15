@@ -107,6 +107,10 @@ namespace ModuleLauncher.Re.Minecraft.Network
             return re;
         }
 
+        /// <summary>
+        ///     返回已销售副本总数、最近24小时内售出的副本数量和每秒的销售量.
+        /// </summary>
+        /// <returns></returns>
         public static async Task<MojangStatistics> GetStatisticsAsync()
         {
             var payload = JsonConvert.SerializeObject(new
@@ -123,5 +127,29 @@ namespace ModuleLauncher.Re.Minecraft.Network
 
     public partial class MojangApi
     {
+        public static IEnumerable<MojangServiceStatus> GetMojangServiceStatuses()
+        {
+            return GetMojangServiceStatusesAsync().GetResult();
+        }
+
+        public static MojangUUIDProfile GetUuid(string name, string timestamp)
+        {
+            return GetUuidAsync(name, timestamp).GetResult();
+        }
+
+        public static IEnumerable<MojangHistoryName> GetHistoryNames(string uuid)
+        {
+            return GetHistoryNamesAsync(uuid).GetResult();
+        }
+
+        public static IEnumerable<string> GetUuidsByNames(IEnumerable<string> names)
+        {
+            return GetUuidsByNamesAsync(names).GetResult();
+        }
+
+        public static MojangStatistics GetStatistics()
+        {
+            return GetStatisticsAsync().GetResult();
+        }
     }
 }

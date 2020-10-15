@@ -13,6 +13,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
     public partial class OptifineDownloader
     {
         private static string _downloadLink = "https://bmclapi2.bangbang93.com";
+
         public static MinecraftDownloadSource DownloadSource
         {
             set
@@ -32,6 +33,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
             }
         }
     }
+
     //async
     public partial class OptifineDownloader
     {
@@ -55,12 +57,15 @@ namespace ModuleLauncher.Re.Minecraft.Network
             });
 
             return re;
-        }        
+        }
     }
-    
+
     //sync
     public partial class OptifineDownloader
     {
-        public static List<OptifineDownloaderEntity> GetOptifines(string id) => GetOptifinesAsync(id).GetResult();
+        public static List<OptifineDownloaderEntity> GetOptifines(string id)
+        {
+            return GetOptifinesAsync(id).GetResult();
+        }
     }
 }

@@ -7,9 +7,12 @@ namespace ModuleLauncher.Re.Utils.Inside
     internal class McbbsHelper
     {
         private const string Forum = "https://www.mcbbs.net/portal.php";
-        
-        internal static HtmlNode GetNode() => GetNodeAsync().GetResult();
-        
+
+        internal static HtmlNode GetNode()
+        {
+            return GetNodeAsync().GetResult();
+        }
+
         internal static async Task<HtmlNode> GetNodeAsync()
         {
             var node = new HtmlDocument();
@@ -17,10 +20,10 @@ namespace ModuleLauncher.Re.Utils.Inside
 
             return node.DocumentNode;
         }
-        
+
         private static async Task<string> GetHtmlAsync()
         {
             return (await HttpHelper.GetHttpAsync(Forum)).Content;
-        } 
+        }
     }
 }

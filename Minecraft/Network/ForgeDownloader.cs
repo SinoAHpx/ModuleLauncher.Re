@@ -14,6 +14,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
     public partial class ForgeDownloader
     {
         private static string _downloadLink = "https://bmclapi2.bangbang93.com";
+
         public static MinecraftDownloadSource DownloadSource
         {
             set
@@ -33,7 +34,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
             }
         }
     }
-    
+
     public partial class ForgeDownloader
     {
         public static async Task<IEnumerable<ForgeDownloaderEntity>> GetForgesAsync(string id)
@@ -57,6 +58,9 @@ namespace ModuleLauncher.Re.Minecraft.Network
             return re;
         }
 
-        public static IEnumerable<ForgeDownloaderEntity> GetForge(string id) => GetForgesAsync(id).GetResult();
+        public static IEnumerable<ForgeDownloaderEntity> GetForge(string id)
+        {
+            return GetForgesAsync(id).GetResult();
+        }
     }
 }

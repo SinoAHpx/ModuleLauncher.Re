@@ -62,7 +62,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             var type = Locator.GetMinecraftJsonType(name);
             var re = new List<MinecraftLibrariesEntity>();
             var link = _downloadLink;
-            
+
             re.AddRange(GetLibraryNames(name).Select(x => new MinecraftLibrariesEntity
             {
                 Name = x.GetFileName(),
@@ -77,7 +77,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 if (DownloadSource == MinecraftDownloadSource.Mojang)
                     link = "https://bmclapi2.bangbang93.com/maven";
             }
-            
+
             return re.DistinctBy(x => x.Link);
         }
 
@@ -85,7 +85,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         {
             var re = new List<MinecraftLibrariesEntity>();
             var type = Locator.GetMinecraftJsonType(name);
-            
+
             re.AddRange(GetNativeNames(name).Select(x => new MinecraftLibrariesEntity
             {
                 Name = x.GetFileName(),
@@ -93,11 +93,9 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 Path = $"{Locator.Location}\\libraries\\{x}",
                 UnformattedName = x.ToSrcFormat()
             }));
-            
+
             if (type == MinecraftJsonType.Loader || type == MinecraftJsonType.LoaderNew)
-            {
                 re.AddRange(GetNatives(Locator.GetInheritsMinecraftJsonEntity(name).id));
-            }
 
             return re.DistinctBy(x => x.Link);
         }
@@ -107,7 +105,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
     public partial class LibrariesLocator
     {
         /// <summary>
-        /// 获取指定Minecraft版本json中libraries的name值
+        ///     获取指定Minecraft版本json中libraries的name值
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -117,7 +115,7 @@ namespace ModuleLauncher.Re.Minecraft.Locator
             try
             {
                 var entity = Locator.GetMinecraftJsonEntity(name);
-                
+
                 return entity.libraries.Where(IsLibAllow)
                     .Select(x => x["name"]?.ToString().ToLibFormat());
             }
@@ -128,22 +126,21 @@ namespace ModuleLauncher.Re.Minecraft.Locator
         }
 
         /// <summary>
-        /// 判断此对象是否应该被添加
+        ///     判断此对象是否应该被添加
         /// </summary>
         /// <param name="s">libraries子对象</param>
         /// <returns></returns>
         private bool IsLibAllow(JToken s)
         {
             if (!s.IsPropertyExist("rules")) return true;
-            
+
             var rules = JArray.Parse(s["rules"]?.ToString() ?? throw new Exception("json文件损坏"));
             foreach (var x in rules)
-            {
                 if (x.IsPropertyExist("os"))
                 {
                     if (x.GetValue("action") == "allow")
                         return x["os"].GetValue("name") == "windows";
-                    
+
                     if (x.GetValue("action") != "disallow") continue;
                     if (x["os"].GetValue("name") == "windows")
                         return false;
@@ -152,13 +149,12 @@ namespace ModuleLauncher.Re.Minecraft.Locator
                 {
                     return true;
                 }
-            }
-            
+
             return true;
         }
-        
+
         /// <summary>
-        /// 获取指定Minecraft版本json中natives的相对路径
+        ///     获取指定Minecraft版本json中natives的相对路径
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>

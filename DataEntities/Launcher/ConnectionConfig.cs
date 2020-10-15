@@ -16,7 +16,7 @@
             return new ConnectionConfig
             {
                 IpAddress = ip,
-                Port  = "25565"
+                Port = "25565"
             };
         }
     }

@@ -1,20 +1,17 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Linq;
-using Masuit.Tools;
 using Masuit.Tools.Media;
 using ModuleLauncher.Re.Utils;
-using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Extensions
 {
     public static class StringExtensions
     {
-        public static string ToLibFormat(this string src,bool isNative = false, bool isUrl = false)
+        public static string ToLibFormat(this string src, bool isNative = false, bool isUrl = false)
         {
-            var key = isUrl ? '/' : '\\'; 
-            
+            var key = isUrl ? '/' : '\\';
+
             var split = src.Split(':');
             var s0 = split[0].Replace('.', key);
 
@@ -23,10 +20,10 @@ namespace ModuleLauncher.Re.Extensions
 
         public static string[] ToSrcFormat(this string src)
         {
-            var key = src.Contains('/') ? '/' : '\\'; 
+            var key = src.Contains('/') ? '/' : '\\';
             var split = src.Split(key);
             var re = new string[] { };
-            string p0 = "",p1 = "",p2 = "";
+            string p0 = "", p1 = "", p2 = "";
 
             for (var i = 0; i < split.Length; i++)
             {
@@ -37,10 +34,10 @@ namespace ModuleLauncher.Re.Extensions
                 if (i == split.Length - 3)
                     p1 = split[i];
             }
-            
+
             return $"{p0.TrimEnd('.')}:{p1}:{p2}".Split(':');
-        } 
-        
+        }
+
         public static Bitmap Base64ToImage(this string s)
         {
             return s.SaveDataUriAsImageFile();
@@ -55,19 +52,16 @@ namespace ModuleLauncher.Re.Extensions
         {
             return s.Replace("https://libraries.minecraft.net/", "").Replace('/', '\\');
         }
-        
+
         public static string ReplaceToVersion(this string s)
         {
             return StringHelper.GetAlphabets().Aggregate(s, (current, alphabet) => current.Replace(alphabet, ""));
         }
-        
+
         public static string GetJavaPath(this string src)
         {
             src = src.TrimEnd('\\');
-            if (src.GetFileName().Contains("jdk") || src.GetFileName().Contains("jre"))
-            {
-                return $"{src}\\bin\\javaw.exe";
-            }
+            if (src.GetFileName().Contains("jdk") || src.GetFileName().Contains("jre")) return $"{src}\\bin\\javaw.exe";
 
             return src.EndsWith("bin") ? $"{src}\\javaw.exe" : src;
         }
