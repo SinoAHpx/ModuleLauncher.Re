@@ -8,12 +8,8 @@ namespace ModuleLauncher.Re.Test
     {
         public static void Main(string[] args)
         {
-            foreach (var mojangServiceStatuse in MojangApi.GetMojangServiceStatusesAsync().GetResult())
-            {
-                Console.WriteLine(mojangServiceStatuse.Server);
-                Console.WriteLine(mojangServiceStatuse.Status);
-                Console.WriteLine();
-            }
+            Console.WriteLine(MojangApi.GetUuid("AHpxChina").GetResult().Name);
+            Console.WriteLine(MojangApi.GetUuid("AHpxChina").GetResult().Uuid);
 
             Console.Read();
         }

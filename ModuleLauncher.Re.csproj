@@ -229,6 +229,7 @@
     <Compile Include="DataEntities\Minecraft\Network\MinecraftDownloadLinkEntity.cs" />
     <Compile Include="DataEntities\Minecraft\Network\ForgeDownloaderEntity.cs" />
     <Compile Include="DataEntities\Minecraft\Network\MojangServiceStatus.cs" />
+    <Compile Include="DataEntities\Minecraft\Network\MojangUUIDProfile.cs" />
     <Compile Include="DataEntities\Minecraft\Network\OptifineDownloaderEntity.cs" />
     <Compile Include="DataEntities\Utils\HttpResult.cs" />
     <Compile Include="Extensions\AsyncExtensions.cs" />
