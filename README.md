@@ -15,7 +15,7 @@ ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 
 + 将ModuleLauncher.Re源码克隆到本地并进行编译成dll以导入引用
 
-+ 使用[Nuget][https://www.nuget.org/packages/ModuleLauncher.Re/2.6.0]
++ 使用[Nuget](https://www.nuget.org/packages/ModuleLauncher.Re/2.6.0)
 
   ```
   Install-Package ModuleLauncher.Re -Version 2.6.0
