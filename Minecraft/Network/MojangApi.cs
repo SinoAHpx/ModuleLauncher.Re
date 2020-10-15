@@ -7,6 +7,7 @@ using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Minecraft.Network;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Utils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Minecraft.Network
@@ -70,6 +71,11 @@ namespace ModuleLauncher.Re.Minecraft.Network
             };
         }
 
+        /// <summary>
+        ///     返回该用户之前使用过的所有用户名和当前使用的用户名。
+        /// </summary>
+        /// <param name="uuid">UUID必须不带连字符。</param>
+        /// <returns></returns>
         public static async Task<IEnumerable<MojangHistoryName>> GetHistoryNamesAsync(string uuid)
         {
             var api = $"https://api.mojang.com/user/profiles/{uuid}/names";
@@ -81,6 +87,24 @@ namespace ModuleLauncher.Re.Minecraft.Network
                 Name = token.GetValue("name"),
                 ChangedAt = token.GetValue("changedToAt")
             }).ToList();
+        }
+
+        /// <summary>
+        ///     批量获取uuid，每个请求不能超过10个名字
+        /// </summary>
+        /// <param name="names"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<string>> GetUuidsByNamesAsync(IEnumerable<string> names)
+        {
+            var payload = JsonConvert.SerializeObject(names);
+            var api = "https://api.mojang.com/profiles/minecraft";
+            var response = await HttpHelper.PostHttpAsync(api, payload);
+            var array = JArray.Parse(response.Content);
+            var re = new List<string>();
+
+            array.ForEach(x => re.Add(x.GetValue("id")));
+
+            return re;
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using ModuleLauncher.Re.Authenticator;
 using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Minecraft.Network;
 
@@ -8,13 +9,14 @@ namespace ModuleLauncher.Re.Test
     {
         public static void Main(string[] args)
         {
-            foreach (var name in MojangApi.GetHistoryNamesAsync(MojangApi.GetUuidAsync("AHpxChina").GetResult().Uuid)
-                .GetResult())
+            foreach (var s in MojangApi.GetUuidsByNamesAsync(new[] {"AHpxChina", "Ghost"}).GetResult())
             {
-                Console.WriteLine(name.Name);
-                Console.WriteLine(name.ChangedAt);
+                Console.WriteLine(s);
                 Console.WriteLine();
             }
+
+            Console.WriteLine(new YggdrasilAuthenticator("AHpx@yandex.com", "asd123,./").AuthenticateAsync().GetResult()
+                .Username);
 
             Console.Read();
         }
