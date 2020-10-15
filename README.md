@@ -1,4 +1,4 @@
-![ModuleLauncher.png](https://image.ahpxchina.cn/images/2020/09/10/-1.png)
+![ModuleLauncher.png](https://i.loli.net/2020/10/15/Pv5sotRSDkIGOwT.png)
 
 ![GitHub](https://img.shields.io/github/license/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)![GitHub stars](https://img.shields.io/github/stars/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)![GitHub repo size](https://img.shields.io/github/repo-size/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)
 
@@ -15,10 +15,10 @@ ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 
 + 将ModuleLauncher.Re源码克隆到本地并进行编译成dll以导入引用
 
-+ 使用nuget
++ 使用[Nuget][https://www.nuget.org/packages/ModuleLauncher.Re/2.6.0]
 
   ```
-  Install-Package ModuleLauncher.Re -Version 2.5.0
+  Install-Package ModuleLauncher.Re -Version 2.6.0
   ```
 
 ### 功能
@@ -36,6 +36,7 @@ ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 |     JreDownloader      |     获取Jre下载相关信息     |
 |    MinecraftLocator    |    操作本地Minecraft对象    |
 |       McbbsNews        |   获取来自mcbbs首页的新闻   |
+|       MojangApi        |      MojangApi相关操作      |
 |                        |                             |
 |   LauncherArguments    | 获取Minecraft的启动相关参数 |
 |      LauncherCore      |        启动Minecraft        |
@@ -45,24 +46,7 @@ ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 
 ### 关于示例
 
-在ModuleLauncher.Re 2.1~~(当然这在2.5版本并不存在)~~版本的解决方案中包含了一个很棒的示例程序，你可以通过这个示例了解本库的用法。以下是一些预览图片。
-
-[![d10.md.png](https://image.ahpxchina.cn/images/2020/08/12/d10.md.png)](https://image.ahpxchina.cn/image/MSG)
-[![d11.md.png](https://image.ahpxchina.cn/images/2020/08/12/d11.md.png)](https://image.ahpxchina.cn/image/IyT)
-[![d12.md.png](https://image.ahpxchina.cn/images/2020/08/12/d12.md.png)](https://image.ahpxchina.cn/image/FIa)
-[![d13.md.png](https://image.ahpxchina.cn/images/2020/08/12/d13.md.png)](https://image.ahpxchina.cn/image/dKd)
-[![d14.md.png](https://image.ahpxchina.cn/images/2020/08/12/d14.md.png)](https://image.ahpxchina.cn/image/wZh)
-[![d15.md.png](https://image.ahpxchina.cn/images/2020/08/12/d15.md.png)](https://image.ahpxchina.cn/image/HCg)
-[![d16.md.png](https://image.ahpxchina.cn/images/2020/08/12/d16.md.png)](https://image.ahpxchina.cn/image/TWI)
-[![d1.md.png](https://image.ahpxchina.cn/images/2020/08/12/d1.md.png)](https://image.ahpxchina.cn/image/mf1)
-[![d2.md.png](https://image.ahpxchina.cn/images/2020/08/12/d2.md.png)](https://image.ahpxchina.cn/image/3lE)
-[![d3.md.png](https://image.ahpxchina.cn/images/2020/08/12/d3.md.png)](https://image.ahpxchina.cn/image/QHt)
-[![d4.md.png](https://image.ahpxchina.cn/images/2020/08/12/d4.md.png)](https://image.ahpxchina.cn/image/WyY)
-[![d5.md.png](https://image.ahpxchina.cn/images/2020/08/12/d5.md.png)](https://image.ahpxchina.cn/image/ihi)
-[![d6.md.png](https://image.ahpxchina.cn/images/2020/08/12/d6.md.png)](https://image.ahpxchina.cn/image/xIr)
-[![d7.md.png](https://image.ahpxchina.cn/images/2020/08/12/d7.md.png)](https://image.ahpxchina.cn/image/9Kq)
-[![d8.md.png](https://image.ahpxchina.cn/images/2020/08/12/d8.md.png)](https://image.ahpxchina.cn/image/Eb3)
-[![d9.md.png](https://image.ahpxchina.cn/images/2020/08/12/d9.md.png)](https://image.ahpxchina.cn/image/LCl)
+在ModuleLauncher.Re 2.1~~(当然这在2.5版本并不存在)~~~~(而且2.6版本也不存在)~~版本的解决方案中包含了一个很棒的示例程序，你可以通过这个示例了解本库的用法。以下是一些预览图片。
 
 ### 简单用法
 
