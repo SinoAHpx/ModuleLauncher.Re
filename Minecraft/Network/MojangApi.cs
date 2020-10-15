@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Masuit.Tools;
 using ModuleLauncher.Re.DataEntities.Minecraft.Network;
+using ModuleLauncher.Re.Extensions;
 using ModuleLauncher.Re.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -11,6 +13,10 @@ namespace ModuleLauncher.Re.Minecraft.Network
 {
     public partial class MojangApi
     {
+        /// <summary>
+        ///     返回各类Mojang服务的状态。
+        /// </summary>
+        /// <returns></returns>
         public static async Task<IEnumerable<MojangServiceStatus>> GetMojangServiceStatusesAsync()
         {
             const string api = "https://status.mojang.com/check";
@@ -40,7 +46,7 @@ namespace ModuleLauncher.Re.Minecraft.Network
         /// <param name="name">是该uuid的当前名称，而并不是请求的名称</param>
         /// <param name="timestamp">时间戳是指UNIX时间戳（不包含毫秒），当此参数为空时，将使用当前时间</param>
         /// <returns></returns>
-        public static async Task<MojangUUIDProfile> GetUuid(string name, string timestamp = null)
+        public static async Task<MojangUUIDProfile> GetUuidAsync(string name, string timestamp = null)
         {
             var api = timestamp.IsNullOrEmpty()
                 ? $"https://api.mojang.com/users/profiles/minecraft/{name}"
@@ -62,6 +68,19 @@ namespace ModuleLauncher.Re.Minecraft.Network
                 Name = obj["name"]?.ToString(),
                 Uuid = obj["id"]?.ToString()
             };
+        }
+
+        public static async Task<IEnumerable<MojangHistoryName>> GetHistoryNamesAsync(string uuid)
+        {
+            var api = $"https://api.mojang.com/user/profiles/{uuid}/names";
+            var response = await HttpHelper.GetHttpAsync(api);
+            var array = JArray.Parse(response.Content);
+
+            return array.Select(token => new MojangHistoryName
+            {
+                Name = token.GetValue("name"),
+                ChangedAt = token.GetValue("changedToAt")
+            }).ToList();
         }
     }
 

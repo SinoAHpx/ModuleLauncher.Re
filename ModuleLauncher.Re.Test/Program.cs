@@ -8,8 +8,13 @@ namespace ModuleLauncher.Re.Test
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine(MojangApi.GetUuid("AHpxChina").GetResult().Name);
-            Console.WriteLine(MojangApi.GetUuid("AHpxChina").GetResult().Uuid);
+            foreach (var name in MojangApi.GetHistoryNamesAsync(MojangApi.GetUuidAsync("AHpxChina").GetResult().Uuid)
+                .GetResult())
+            {
+                Console.WriteLine(name.Name);
+                Console.WriteLine(name.ChangedAt);
+                Console.WriteLine();
+            }
 
             Console.Read();
         }
