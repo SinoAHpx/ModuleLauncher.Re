@@ -106,6 +106,19 @@ namespace ModuleLauncher.Re.Minecraft.Network
 
             return re;
         }
+
+        public static async Task<MojangStatistics> GetStatisticsAsync()
+        {
+            var payload = JsonConvert.SerializeObject(new
+            {
+                metricKeys = new[] {"item_sold_minecraft", "prepaid_card_redeemed_minecraft"}
+            });
+
+            var api = "https://api.mojang.com/orders/statistics";
+            var response = await HttpHelper.PostHttpAsync(api, payload);
+
+            return JsonConvert.DeserializeObject<MojangStatistics>(response.Content);
+        }
     }
 
     public partial class MojangApi
