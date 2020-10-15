@@ -121,11 +121,7 @@ new OfflineAuthenticator("${name}").Authenticate();
 
 ### 更新日志
 
-+ 更改了部分类的命名
-+ 调整了命名空间和项目结构
-+ 对设计模式稍作优化
-+ 添加了McbbsNews.cs 包含几乎所有mcbbs网站首页新闻
-+ 没了/忘了
++ 添加了对MojangApi的支持
 
 ### 开源许可
 
