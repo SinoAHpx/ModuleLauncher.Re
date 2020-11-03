@@ -15,10 +15,15 @@
       <e p=".gitignore" t="Include" />
       <e p="AHpx.ModuleLauncher.csproj" t="IncludeRecursive" />
       <e p="AHpx.ModuleLauncher.sln" t="IncludeFlat" />
+      <e p="Authenticators" t="Include">
+        <e p="OfflineAuthenticator.cs" t="Include" />
+        <e p="OnlineAuthenticator.cs" t="Include" />
+      </e>
       <e p="bin" t="ExcludeRecursive" />
       <e p="Data" t="Include">
         <e p="Authentication" t="Include">
           <e p="AuthenticateEndpoints.cs" t="Include" />
+          <e p="AuthenticateResult.cs" t="Include" />
         </e>
         <e p="Utils" t="Include">
           <e p="HttpResponse.cs" t="Include" />

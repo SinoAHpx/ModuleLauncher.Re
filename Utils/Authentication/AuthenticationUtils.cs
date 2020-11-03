@@ -7,7 +7,7 @@ namespace AHpx.ModuleLauncher.Utils.Authentication
     {
         public static string GetValue(this AuthenticateEndpoints ex)
         {
-            // new feature lol <o/
+            // new feature but useless in here lol
             // return ex switch
             // {
             //     AuthenticateEndpoints.Authenticate => nameof(AuthenticateEndpoints.Authenticate).ToLower(),

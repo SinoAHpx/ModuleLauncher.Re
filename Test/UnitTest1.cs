@@ -20,11 +20,11 @@ namespace Test
             Assert.Equal(expect, actual.StatusCode);
         }
 
-        [Fact(DisplayName = "PostTest", Skip = "Passed")]
+        [Fact(DisplayName = "PostTest")]
         public async void Test2()
         {
             const HttpStatusCode expect = HttpStatusCode.OK;
-            var actual = await HttpUtils.Post("https://authserver.mojang.com/authenticate",
+            var actual = await HttpUtils.Post(AuthenticateEndpoints.Authenticate,
                 await File.ReadAllTextAsync(@"defaultAuthJson.json"));
             
             Assert.Equal(expect, actual.StatusCode);
