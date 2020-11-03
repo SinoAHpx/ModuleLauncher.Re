@@ -4,6 +4,7 @@
 
 ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 ---
+
 ### 关于
 
 + 基于.NetFramework 4.7.2和C#
@@ -154,6 +155,10 @@ new OfflineAuthenticator("${name}").Authenticate();
   > This is an agile HTML parser that builds a read/write DOM and supports plain XPATH or XSLT (you actually don't HAVE to understand XPATH nor XSLT to use it, don't worry...). It is a .NET code library that allows you to parse "out of the web" HTML files. The parser is very tolerant with "real world" malformed HTML. The object model is very similar to what proposes System.Xml, but for HTML documents (or streams).
 
 ### 鸣谢
+
++ [Jetbrains](https://www.jetbrains.com/?from=ModuleLauncher.Re)
+
+  > 本项目已获得[Jetbrains OS](https://www.jetbrains.com/shop/eform/opensource)许可![https://www.jetbrains.com/?from=ModuleLauncher.Re](https://i.loli.net/2020/11/04/tQDus23pyNWgX57.png)
 
 + #### [Bmclapi](https://bmclapidoc.bangbang93.com/)
 
