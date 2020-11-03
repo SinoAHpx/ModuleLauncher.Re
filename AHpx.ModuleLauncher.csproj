@@ -4,4 +4,20 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="Test\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Test\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Test\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RestSharp" Version="106.11.8-alpha.0.7" />
+    </ItemGroup>
+
 </Project>
