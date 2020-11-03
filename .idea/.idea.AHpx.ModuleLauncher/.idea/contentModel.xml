@@ -40,6 +40,7 @@
       </e>
       <e p="packages" t="ExcludeRecursive" />
       <e p="Test" t="IncludeRecursive">
+        <e p="AuthenticatorsTest.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="defaultAuthJson.json" t="Include" />
         <e p="obj" t="ExcludeRecursive">

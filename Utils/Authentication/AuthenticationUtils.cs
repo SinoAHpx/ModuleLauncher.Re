@@ -1,5 +1,8 @@
 ﻿using System;
+using AHpx.ModuleLauncher.Authenticators;
 using AHpx.ModuleLauncher.Data.Authentication;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AHpx.ModuleLauncher.Utils.Authentication
 {
@@ -19,6 +22,67 @@ namespace AHpx.ModuleLauncher.Utils.Authentication
             // };
 
             return ex.ToString().ToLower();
+        }
+
+        public static string GetPayload(this OnlineAuthenticator authenticator, AuthenticateEndpoints endpoints)
+        {
+            switch (endpoints)
+            {
+                case AuthenticateEndpoints.Authenticate:
+                    return GetAuthenticatePayload(authenticator);
+                case AuthenticateEndpoints.Signout:
+                    return GetSignoutPayload(authenticator);
+                case AuthenticateEndpoints.Refresh:
+                case AuthenticateEndpoints.Validate:
+                case AuthenticateEndpoints.Invalidate:
+                    throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null);
+            }
+        }
+
+        public static string GetPayload(string accessToken, string clientToken)
+        {
+            return GetTokenPayload(accessToken, clientToken);
+        }
+
+        private static string GetAuthenticatePayload(OnlineAuthenticator authenticator)
+        {
+            var obj = new
+            {
+                agent = new
+                {
+                    name = "minecraft",
+                    version = 1
+                },
+                username = authenticator.Username,
+                password = authenticator.Password,
+                clientToken = authenticator.ClientToken
+            };
+
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        private static string GetSignoutPayload(OnlineAuthenticator authenticator)
+        {
+            var obj = new
+            {
+                username = authenticator.Username,
+                password = authenticator.Password
+            };
+
+            return JsonConvert.SerializeObject(obj);
+        }
+        
+        private static string GetTokenPayload(string accessToken, string clientToken)
+        {
+            var obj = new
+            {
+                accessToken,
+                clientToken
+            };
+            
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }
