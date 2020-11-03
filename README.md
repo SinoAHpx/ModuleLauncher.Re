@@ -158,7 +158,9 @@ new OfflineAuthenticator("${name}").Authenticate();
 
 + [Jetbrains](https://www.jetbrains.com/?from=ModuleLauncher.Re)
 
-  > 本项目已获得[Jetbrains OS](https://www.jetbrains.com/shop/eform/opensource)许可![https://www.jetbrains.com/?from=ModuleLauncher.Re](https://i.loli.net/2020/11/04/tQDus23pyNWgX57.png)
+  > 本项目已获得[Jetbrains OS](https://www.jetbrains.com/shop/eform/opensource)许可
+  >
+  > <img src="https://i.loli.net/2020/11/04/tQDus23pyNWgX57.png" height="100" width=100>
 
 + #### [Bmclapi](https://bmclapidoc.bangbang93.com/)
 
