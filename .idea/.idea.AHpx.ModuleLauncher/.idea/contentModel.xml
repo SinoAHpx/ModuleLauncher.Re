@@ -51,6 +51,7 @@
         <e p="AuthenticatorsTest.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="defaultAuthJson.json" t="Include" />
+        <e p="LocatorsTest.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
@@ -64,6 +65,9 @@
       <e p="Utils" t="Include">
         <e p="Authentication" t="Include">
           <e p="AuthenticationUtils.cs" t="Include" />
+        </e>
+        <e p="Extensions" t="Include">
+          <e p="StringExtensions.cs" t="Include" />
         </e>
         <e p="Network" t="Include">
           <e p="HttpUtils.cs" t="Include" />
