@@ -41,9 +41,14 @@ namespace AHpx.ModuleLauncher.Utils.Authentication
             }
         }
 
-        public static string GetPayload(string accessToken, string clientToken)
+        public static string GetPayload(this OnlineAuthenticator authenticator, string accessToken, string clientToken)
         {
             return GetTokenPayload(accessToken, clientToken);
+        }
+        
+        public static string GetPayload(this OnlineAuthenticator authenticator, string accessToken)
+        {
+            return GetTokenPayload(accessToken);
         }
 
         private static string GetAuthenticatePayload(OnlineAuthenticator authenticator)
@@ -80,6 +85,16 @@ namespace AHpx.ModuleLauncher.Utils.Authentication
             {
                 accessToken,
                 clientToken
+            };
+            
+            return JsonConvert.SerializeObject(obj);
+        }
+        
+        private static string GetTokenPayload(string accessToken)
+        {
+            var obj = new
+            {
+                accessToken
             };
             
             return JsonConvert.SerializeObject(obj);

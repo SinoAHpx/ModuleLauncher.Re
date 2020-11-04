@@ -50,7 +50,9 @@
             </e>
           </e>
         </e>
+        <e p="PriorityOrderer.cs" t="Include" />
         <e p="Test.csproj" t="IncludeRecursive" />
+        <e p="TestPriorityAttribute.cs" t="Include" />
         <e p="UnitTest1.cs" t="Include" />
       </e>
       <e p="Utils" t="Include">

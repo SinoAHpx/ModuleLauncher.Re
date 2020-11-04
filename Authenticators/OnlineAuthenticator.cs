@@ -48,5 +48,56 @@ namespace AHpx.ModuleLauncher.Authenticators
                     Verified = false
                 };
         }
+
+        public async Task<AuthenticateResult> Refresh(AuthenticateResult result)
+        {
+            var payload = this.GetPayload(result.AccessToken, result.ClientToken);
+            var response = await HttpUtils.Post(AuthenticateEndpoints.Refresh, payload);
+            var json = JObject.Parse(response.Content);
+            
+            return response.StatusCode == HttpStatusCode.OK
+                ? new AuthenticateResult
+                {
+                    AccessToken = json["accessToken"]?.ToString(),
+                    ClientToken = json["clientToken"]?.ToString(),
+                    Name = json["selectedProfile"]?["name"]?.ToString(),
+                    Uuid = json["selectedProfile"]?["id"]?.ToString(),
+                    Verified = true
+                }
+                : new AuthenticateResult
+                {
+                    Error = json["error"]?.ToString(),
+                    ErrorMessage = json["errorMessage"]?.ToString(),
+                    Verified = false
+                };
+        }
+
+        public async Task<bool> Validate(AuthenticateResult result)
+        {
+            var payload = this.GetPayload(result.AccessToken, result.ClientToken);
+            var response = await HttpUtils.Post(AuthenticateEndpoints.Validate, payload);
+            
+            return response.StatusCode == HttpStatusCode.NoContent;
+        }
+        
+        public async Task<bool> Validate(string accessToken)
+        {
+            var payload = this.GetPayload(accessToken);
+            var response = await HttpUtils.Post(AuthenticateEndpoints.Validate, payload);
+            
+            return response.StatusCode == HttpStatusCode.NoContent;
+        }
+
+        public async Task Invalidate(AuthenticateResult result)
+        {
+            var payload = this.GetPayload(result.AccessToken, result.ClientToken);
+            await HttpUtils.Post(AuthenticateEndpoints.Invalidate, payload);
+        }
+
+        public async Task Signout()
+        {
+            var payload = this.GetPayload(AuthenticateEndpoints.Signout);
+            await HttpUtils.Post(AuthenticateEndpoints.Signout, payload);
+        }
     }
 }
