@@ -4,6 +4,7 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <AssemblyVersion>2.7</AssemblyVersion>
         <FileVersion>2.7</FileVersion>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>

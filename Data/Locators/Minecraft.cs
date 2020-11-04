@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AHpx.ModuleLauncher.Data.Locators
@@ -6,8 +8,10 @@ namespace AHpx.ModuleLauncher.Data.Locators
     public class Minecraft
     {
         public MinecraftFile File { get; set; }
-        internal JObject Json { get; set; }
+        internal MinecraftJson Json { get; set; }
+        internal MinecraftJson.MinecraftType Type { get; set; }
         
+
         public class MinecraftFile
         {
             public FileInfo Jar { get; set; }
@@ -20,7 +24,67 @@ namespace AHpx.ModuleLauncher.Data.Locators
             public DirectoryInfo Saves { get; set; }
             public DirectoryInfo ResourcePacks { get; set; }
             public DirectoryInfo TexturePacks { get; set; }
-            public DirectoryInfo Minecraft { get; set; }
+            public DirectoryInfo ShaderPacks { get; set; }
+            public DirectoryInfo Root { get; set; }
+            
+            public override string ToString()
+            {
+                var props = this.GetType().GetProperties();
+
+                return props.Where(info => info.GetAccessors(false)[0].IsPublic).Aggregate(string.Empty,
+                    (current, info) => current + $"PROP_NAME:{info.Name}\tPROP_VALUE:{info.GetValue(this)}\n");
+            }
+        }
+
+        internal class MinecraftJson
+        {
+            [JsonProperty("assetIndex")]
+            internal JObject AssetIndex { get; set; }
+            
+            [JsonProperty("assets")]
+            internal string Assets { get; set; }
+            
+            [JsonProperty("downloads")]
+            internal JObject Downloads { get; set; }
+            
+            [JsonProperty("id")]
+            internal string Id { get; set; }
+            
+            [JsonProperty("libraries")]
+            internal JObject Libraries { get; set; }
+            
+            [JsonProperty("type")]
+            internal string Type { get; set; }
+            
+            [JsonProperty("inheritsFrom")]
+            internal string InheritsFrom { get; set; }
+            
+            internal enum MinecraftType
+            {
+                DefaultVanilla,
+                NewVanilla,
+                OldVanilla,
+                DefaultLoader,
+                NewLoader,
+                OldLoader,
+                Modified
+            }
+        }
+
+        public override string ToString()
+        {
+            var props = this.GetType().GetProperties();
+            var re = string.Empty;
+            
+            foreach (var info in props)
+            {
+                if (info.GetAccessors(false)[0].IsPublic)
+                {
+                    re += $"PROP_NAME:{info.Name}\nPROP_VALUE:\n{info.GetValue(this)}\n";
+                }
+            }
+
+            return re;
         }
     }
 }
