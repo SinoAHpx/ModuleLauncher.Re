@@ -26,53 +26,25 @@ namespace AHpx.ModuleLauncher.Authenticators
             Password = password;
         }
 
-        public async Task<AuthenticateResult> Authenticate()
+        public virtual async Task<AuthenticateResult> Authenticate()
         {
             var payload = this.GetPayload(AuthenticateEndpoints.Authenticate);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Authenticate, payload);
             var json = JObject.Parse(response.Content);
             
-            return response.StatusCode == HttpStatusCode.OK
-                ? new AuthenticateResult
-                {
-                    AccessToken = json["accessToken"]?.ToString(),
-                    ClientToken = json["clientToken"]?.ToString(),
-                    Name = json["selectedProfile"]?["name"]?.ToString(),
-                    Uuid = json["selectedProfile"]?["id"]?.ToString(),
-                    Verified = true
-                }
-                : new AuthenticateResult
-                {
-                    Error = json["error"]?.ToString(),
-                    ErrorMessage = json["errorMessage"]?.ToString(),
-                    Verified = false
-                };
+            return json.GetAuthenticateResult(response.StatusCode == HttpStatusCode.OK);
         }
 
-        public async Task<AuthenticateResult> Refresh(AuthenticateResult result)
+        public virtual async Task<AuthenticateResult> Refresh(AuthenticateResult result)
         {
             var payload = this.GetPayload(result.AccessToken, result.ClientToken);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Refresh, payload);
             var json = JObject.Parse(response.Content);
-            
-            return response.StatusCode == HttpStatusCode.OK
-                ? new AuthenticateResult
-                {
-                    AccessToken = json["accessToken"]?.ToString(),
-                    ClientToken = json["clientToken"]?.ToString(),
-                    Name = json["selectedProfile"]?["name"]?.ToString(),
-                    Uuid = json["selectedProfile"]?["id"]?.ToString(),
-                    Verified = true
-                }
-                : new AuthenticateResult
-                {
-                    Error = json["error"]?.ToString(),
-                    ErrorMessage = json["errorMessage"]?.ToString(),
-                    Verified = false
-                };
+
+            return json.GetAuthenticateResult(response.StatusCode == HttpStatusCode.OK);
         }
 
-        public async Task<bool> Validate(AuthenticateResult result)
+        public virtual async Task<bool> Validate(AuthenticateResult result)
         {
             var payload = this.GetPayload(result.AccessToken, result.ClientToken);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Validate, payload);
@@ -80,7 +52,7 @@ namespace AHpx.ModuleLauncher.Authenticators
             return response.StatusCode == HttpStatusCode.NoContent;
         }
         
-        public async Task<bool> Validate(string accessToken)
+        public virtual async Task<bool> Validate(string accessToken)
         {
             var payload = this.GetPayload(accessToken);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Validate, payload);
@@ -88,13 +60,13 @@ namespace AHpx.ModuleLauncher.Authenticators
             return response.StatusCode == HttpStatusCode.NoContent;
         }
 
-        public async Task Invalidate(AuthenticateResult result)
+        public virtual async Task Invalidate(AuthenticateResult result)
         {
             var payload = this.GetPayload(result.AccessToken, result.ClientToken);
             await HttpUtils.Post(AuthenticateEndpoints.Invalidate, payload);
         }
 
-        public async Task Signout()
+        public virtual async Task Signout()
         {
             var payload = this.GetPayload(AuthenticateEndpoints.Signout);
             await HttpUtils.Post(AuthenticateEndpoints.Signout, payload);

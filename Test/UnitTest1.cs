@@ -20,7 +20,7 @@ namespace Test
             Assert.Equal(expect, actual.StatusCode);
         }
 
-        [Fact(DisplayName = "PostTest")]
+        [Fact(DisplayName = "PostTest", Skip = "Passed")]
         public async void Test2()
         {
             const HttpStatusCode expect = HttpStatusCode.OK;
@@ -30,7 +30,7 @@ namespace Test
             Assert.Equal(expect, actual.StatusCode);
         }
 
-        [Theory]
+        [Theory(Skip = "passed")]
         [InlineData(AuthenticateEndpoints.Authenticate)]
         // [InlineData(AuthenticateEndpoints.Refresh)]
         // [InlineData(AuthenticateEndpoints.Validate)]

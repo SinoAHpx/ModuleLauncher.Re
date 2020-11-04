@@ -13,7 +13,7 @@ namespace Test
         private readonly OnlineAuthenticator _authenticator = new OnlineAuthenticator(Username, Password, ClientToken);
         private AuthenticateResult _result;
         
-        [Fact]
+        [Fact(Skip = "Passed")]
         public async Task AuthTest()
         {
             _result = await _authenticator.Authenticate();
@@ -37,6 +37,16 @@ namespace Test
             _result = await _authenticator.Authenticate();
             await _authenticator.Signout();
             Assert.False(await _authenticator.Validate(_result));
+        }
+
+        [Fact]
+        public async Task ExternalAuth()
+        {
+            var expect = "yushijinhun's demo auth server";
+            var actual = (await new ExternalAuthenticator("https://auth-demo.yushi.moe", "", "").GetMetadata()).Meta
+                .ServerName;
+            
+            Assert.Equal(expect, actual);
         }
     }
 }

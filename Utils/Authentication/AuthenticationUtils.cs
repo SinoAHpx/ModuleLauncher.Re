@@ -1,6 +1,7 @@
 ﻿using System;
 using AHpx.ModuleLauncher.Authenticators;
 using AHpx.ModuleLauncher.Data.Authentication;
+using AHpx.ModuleLauncher.Data.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -10,17 +11,6 @@ namespace AHpx.ModuleLauncher.Utils.Authentication
     {
         public static string GetValue(this AuthenticateEndpoints ex)
         {
-            // new feature but useless in here lol
-            // return ex switch
-            // {
-            //     AuthenticateEndpoints.Authenticate => nameof(AuthenticateEndpoints.Authenticate).ToLower(),
-            //     AuthenticateEndpoints.Refresh => nameof(AuthenticateEndpoints.Refresh).ToLower(),
-            //     AuthenticateEndpoints.Validate => nameof(AuthenticateEndpoints.Validate).ToLower(),
-            //     AuthenticateEndpoints.Invalidate => nameof(AuthenticateEndpoints.Invalidate).ToLower(),
-            //     AuthenticateEndpoints.Signout => nameof(AuthenticateEndpoints.Signout).ToLower(),
-            //     _ => throw new ArgumentOutOfRangeException(nameof(ex))
-            // };
-
             return ex.ToString().ToLower();
         }
 
@@ -98,6 +88,25 @@ namespace AHpx.ModuleLauncher.Utils.Authentication
             };
             
             return JsonConvert.SerializeObject(obj);
+        }
+
+        internal static AuthenticateResult GetAuthenticateResult(this JObject json, bool condition)
+        {
+            return condition
+                ? new AuthenticateResult
+                {
+                    AccessToken = json["accessToken"]?.ToString(),
+                    ClientToken = json["clientToken"]?.ToString(),
+                    Name = json["selectedProfile"]?["name"]?.ToString(),
+                    Uuid = json["selectedProfile"]?["id"]?.ToString(),
+                    Verified = true
+                }
+                : new AuthenticateResult
+                {
+                    Error = json["error"]?.ToString(),
+                    ErrorMessage = json["errorMessage"]?.ToString(),
+                    Verified = false
+                };
         }
     }
 }

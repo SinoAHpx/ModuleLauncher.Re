@@ -16,6 +16,7 @@
       <e p="AHpx.ModuleLauncher.csproj" t="IncludeRecursive" />
       <e p="AHpx.ModuleLauncher.sln" t="IncludeFlat" />
       <e p="Authenticators" t="Include">
+        <e p="ExternalAuthenticator.cs" t="Include" />
         <e p="OfflineAuthenticator.cs" t="Include" />
         <e p="OnlineAuthenticator.cs" t="Include" />
       </e>
@@ -24,6 +25,7 @@
         <e p="Authentication" t="Include">
           <e p="AuthenticateEndpoints.cs" t="Include" />
           <e p="AuthenticateResult.cs" t="Include" />
+          <e p="ExternalAuthenticateMeta.cs" t="Include" />
         </e>
         <e p="Utils" t="Include">
           <e p="HttpResponse.cs" t="Include" />
@@ -50,9 +52,7 @@
             </e>
           </e>
         </e>
-        <e p="PriorityOrderer.cs" t="Include" />
         <e p="Test.csproj" t="IncludeRecursive" />
-        <e p="TestPriorityAttribute.cs" t="Include" />
         <e p="UnitTest1.cs" t="Include" />
       </e>
       <e p="Utils" t="Include">
