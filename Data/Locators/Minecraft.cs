@@ -51,13 +51,16 @@ namespace AHpx.ModuleLauncher.Data.Locators
             internal string Id { get; set; }
             
             [JsonProperty("libraries")]
-            internal JObject Libraries { get; set; }
+            internal JArray Libraries { get; set; }
             
             [JsonProperty("type")]
             internal string Type { get; set; }
             
             [JsonProperty("inheritsFrom")]
             internal string InheritsFrom { get; set; }
+            
+            [JsonProperty("mainClass")]
+            internal string MainClass { get; set; }
             
             internal enum MinecraftType
             {

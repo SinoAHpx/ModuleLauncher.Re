@@ -5,6 +5,7 @@ using System.Linq;
 using AHpx.ModuleLauncher.Data.Locators;
 using AHpx.ModuleLauncher.Utils.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AHpx.ModuleLauncher.Locators
 {
@@ -17,129 +18,101 @@ namespace AHpx.ModuleLauncher.Locators
             Location = location;
         }
 
-        public IEnumerable<Minecraft> GetMinecrafts(bool versionIsolation = true, bool readJson = false)
+        public IEnumerable<Minecraft> GetMinecrafts(bool versionIsolation = true, bool readJson = true)
         {
-            // var dirs = Directory.GetDirectories($"{Location}\\versions");
-            // var re = new LinkedList<Minecraft>();
-            // foreach (var dir in dirs)
-            // {
-            //     var files = Directory.GetFiles(dir);
-            //
-            //     re.AddLast(new Minecraft
-            //     {
-            //         File = new Minecraft.MinecraftFile
-            //         {
-            //             //Jar = files.Any(x => x.IsJar()) ? new FileInfo(files.First(x => x.IsJar())) : null,
-            //             Jar = files.Any(x => x.EndsWith("jar")) ? new FileInfo(files.First(x => x.EndsWith("jar"))) : new FileInfo(""),
-            //             Json = new FileInfo(files.First(x => x.IsJson())),
-            //             Libraries = new DirectoryInfo($"{Location}\\libraries"),
-            //             Assets = new DirectoryInfo($"{Location}\\assets"),
-            //             Version = new DirectoryInfo(dir),
-            //             Natives = new DirectoryInfo($"{dir}\\natives"),
-            //             Minecraft = new DirectoryInfo(Location),
-            //             Mod = versionIsolation ? new DirectoryInfo($"{dir}\\mods") : new DirectoryInfo($"{Location}\\mods"),
-            //             ResourcePacks = versionIsolation ? new DirectoryInfo($"{dir}\\resourcepacks") : new DirectoryInfo($"{Location}\\resourcepacks"),
-            //             TexturePacks = versionIsolation ? new DirectoryInfo($"{dir}\\texturepacks") : new DirectoryInfo($"{Location}\\texturepacks"),
-            //             Saves = versionIsolation ? new DirectoryInfo($"{dir}\\saves") : new DirectoryInfo($"{Location}\\saves"),
-            //             ShaderPacks = versionIsolation ? new DirectoryInfo($"{dir}\\shaderpacks") : new DirectoryInfo($"{Location}\\shaderpacks"),
-            //         },
-            //         Json = readJson 
-            //             ? JsonConvert.DeserializeObject<Minecraft.MinecraftJson>(File.ReadAllText(files.First(x => x.IsJson()))) 
-            //             : null
-            //     });
-            // }
-            //
-            // return re;
-            
             //TODO: WE DON'T CARE IF IT DOESN'T EXIST LOL
             var dirs = Directory.GetDirectories($"{Location}\\versions").ToList();
             var result = new List<Minecraft>();
             dirs.ForEach(x =>
             {
-                result.Add(new Minecraft
-                {
-                    File = new Minecraft.MinecraftFile
-                    {
-                        Jar = new FileInfo($@"{x}\{x.GetFileName()}.jar"),
-                        Json = new FileInfo($@"{x}\{x.GetFileName()}.json"),
-                        Version = new DirectoryInfo(x),
-                        Assets = new DirectoryInfo($@"{Location}\assets"),
-                        Libraries = new DirectoryInfo($@"{Location}\libraries"),
-                        Root = versionIsolation ? new DirectoryInfo(x) : new DirectoryInfo(Location),
-                        Mod = versionIsolation ? new DirectoryInfo($@"{x}\mods") : new DirectoryInfo($@"{Location}\mods"),
-                        Natives = new DirectoryInfo($@"{x}\natives"),
-                        ResourcePacks = versionIsolation ? new DirectoryInfo($@"{x}\resourcepacks") : new DirectoryInfo($@"{Location}\resourcepacks"),
-                        TexturePacks = versionIsolation ? new DirectoryInfo($@"{x}\texturepacks") : new DirectoryInfo($@"{Location}\texturepacks"),
-                        ShaderPacks = versionIsolation ? new DirectoryInfo($@"{x}\shaderpacks") : new DirectoryInfo($@"{Location}\shaderpacks"),
-                        Saves = versionIsolation ? new DirectoryInfo($@"{x}\saves") : new DirectoryInfo($@"{Location}\saves")
-                    }
-                });
+                result.Add(GetMinecraft(x.GetFileName(), versionIsolation, readJson));
             });
 
             return result;
         }
         
-        public Minecraft GetMinecraft(string version, bool isolation = true, bool readJson = false)
+        public Minecraft GetMinecraft(string version, bool versionIsolation = true, bool readJson = true)
         {
-            var minecrafts = GetMinecrafts(isolation, readJson).ToList();
-            return minecrafts.FirstOrDefault(x => x.File.Json.Name.Contains(version));
+            var json = readJson
+                ? JsonConvert.DeserializeObject<Minecraft.MinecraftJson>(
+                    File.ReadAllText($@"{Location}\versions\{version}\{version}.json"))
+                : null;
+            
+            return new Minecraft
+            {
+                File = new Minecraft.MinecraftFile
+                {
+                    Jar = new FileInfo($@"{Location}\versions\{version}\{version}.jar"),
+                    Json = new FileInfo($@"{Location}\versions\{version}\{version}.json"),
+                    Version = new DirectoryInfo($@"{Location}\versions\{version}"),
+                    Assets = new DirectoryInfo($@"{Location}\assets"),
+                    Libraries = new DirectoryInfo($@"{Location}\libraries"),
+                    Root = versionIsolation ? new DirectoryInfo($@"{Location}\versions\{version}") : new DirectoryInfo(Location),
+                    Mod = versionIsolation ? new DirectoryInfo($@"{Location}\versions\{version}\mods") : new DirectoryInfo($@"{Location}\mods"),
+                    Natives = new DirectoryInfo($@"{Location}\versions\{version}\natives"),
+                    ResourcePacks = versionIsolation ? new DirectoryInfo($@"{Location}\versions\{version}\resourcepacks") : new DirectoryInfo($@"{Location}\resourcepacks"),
+                    TexturePacks = versionIsolation ? new DirectoryInfo($@"{Location}\versions\{version}\texturepacks") : new DirectoryInfo($@"{Location}\texturepacks"),
+                    ShaderPacks = versionIsolation ? new DirectoryInfo($@"{Location}\versions\{version}\shaderpacks") : new DirectoryInfo($@"{Location}\shaderpacks"),
+                    Saves = versionIsolation ? new DirectoryInfo($@"{Location}\versions\{version}\saves") : new DirectoryInfo($@"{Location}\saves")
+                },
+                Json = json,
+                Type = GetMinecraftJsonType(json)
+            };
         }
 
-        internal Minecraft.MinecraftJson.MinecraftType GetMinecraftJsonType(string version)
+        private Minecraft.MinecraftJson.MinecraftType GetMinecraftJsonType(Minecraft.MinecraftJson json)
         {
-            var json = JsonConvert.DeserializeObject<Minecraft.MinecraftJson>(
-                File.ReadAllText($@"{Location}\versions\{version}\{version}.json"), new JsonSerializerSettings()
-                {
-                    NullValueHandling = NullValueHandling.Include
-                });
-            
-            var vDefault = new Version("1.7.10");
-            var vNew = new Version("1.13");
+            var defaultVersion = new Version("1.7.10");
+            var newVersion = new Version("1.13");
 
-            if (json?.Type == "snapshot")
+            //trying to parse inheritsFrom property
+            try
             {
+                var ver = new Version(json.InheritsFrom);
+                if (ver < defaultVersion)
+                    return Minecraft.MinecraftJson.MinecraftType.OldLoader;
+                if (ver < newVersion && ver >= defaultVersion)
+                    return Minecraft.MinecraftJson.MinecraftType.DefaultLoader;
+                if (ver >= newVersion)
+                    return Minecraft.MinecraftJson.MinecraftType.NewLoader;
+            }
+            //if failed, it's vanilla or old loader
+            catch (Exception e)
+            {
+                //trying to parse assets property
                 try
                 {
+                    //TODO:IGNORE THE MODIFIED CLIENTS
                     var ver = new Version(json.Assets);
-                    return ver < vNew
-                        ? Minecraft.MinecraftJson.MinecraftType.DefaultVanilla
-                        : Minecraft.MinecraftJson.MinecraftType.NewVanilla;
+                    if (ver < defaultVersion)
+                        return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
+                    if (ver < newVersion && ver >= defaultVersion)
+                        return Minecraft.MinecraftJson.MinecraftType.DefaultVanilla;
+                    if (ver >= newVersion)
+                        return Minecraft.MinecraftJson.MinecraftType.NewVanilla;
                 }
+                //if failed, trying to parse id property
                 catch
                 {
-                    return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
-                }
-            }
-            else
-            {
-                if (json?.Assets == null)
-                {
-                    if (json?.InheritsFrom != null)
+                    try
                     {
-                        var inherit = new Version(json.InheritsFrom!);
-                        if (inherit < vDefault) return Minecraft.MinecraftJson.MinecraftType.OldLoader;
-
-                        return inherit < vNew
-                            ? Minecraft.MinecraftJson.MinecraftType.DefaultLoader
-                            : Minecraft.MinecraftJson.MinecraftType.NewLoader;
+                        var ver = new Version(json.Id);
+                        if (ver < defaultVersion)
+                            return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
+                        if (ver < newVersion && ver >= defaultVersion)
+                            return Minecraft.MinecraftJson.MinecraftType.DefaultVanilla;
+                        if (ver >= newVersion)
+                            return Minecraft.MinecraftJson.MinecraftType.NewVanilla;
                     }
-
-                    return Minecraft.MinecraftJson.MinecraftType.OldLoader;
-                }
-                else
-                {
-                    if (json.Assets! == "legacy")
+                    catch (Exception exception)
                     {
-                        return json.InheritsFrom == null
-                            ? Minecraft.MinecraftJson.MinecraftType.OldVanilla
-                            : Minecraft.MinecraftJson.MinecraftType.OldLoader;
+                        return Minecraft.MinecraftJson.MinecraftType.OldLoader;
                     }
-                    
-                    return new Version(json.Assets) < vNew 
-                        ? Minecraft.MinecraftJson.MinecraftType.DefaultVanilla
-                        : Minecraft.MinecraftJson.MinecraftType.NewVanilla;
                 }
+                
             }
+            
+            throw new ArgumentException("Version parse failed", nameof(json));
         }
     }
 }
