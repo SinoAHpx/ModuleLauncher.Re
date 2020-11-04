@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using AHpx.ModuleLauncher;
 using AHpx.ModuleLauncher.Data.Authentication;
 using AHpx.ModuleLauncher.Utils.Authentication;
 using AHpx.ModuleLauncher.Utils.Network;
@@ -40,6 +41,17 @@ namespace Test
         {
             var expect = "authenticate";
             var actual = authenticateEndpoints.GetValue();
+            
+            Assert.Equal(expect, actual);
+        }
+
+        [Fact]
+        public void Test4()
+        {
+            var expect = "ModuleLauncher/2.7";
+
+            var ver = typeof(Entrance).Assembly.GetName().Version;
+            var actual = $"{typeof(Entrance).Namespace?.Split('.')[1]}/{ver?.Major}.{ver?.Minor}";
             
             Assert.Equal(expect, actual);
         }

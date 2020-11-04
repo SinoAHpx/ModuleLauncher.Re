@@ -14,7 +14,8 @@ namespace AHpx.ModuleLauncher.Utils.Network
 
         static HttpUtils()
         {
-            UserAgent = typeof(Entrance).Namespace;
+            var ver = typeof(Entrance).Assembly.GetName().Version;
+            UserAgent = $"{typeof(Entrance).Namespace?.Split('.')[1]}/{ver?.Major}.{ver?.Minor}";
         }
 
         public static async Task<HttpResponse> Get(string url)

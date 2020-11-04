@@ -13,7 +13,7 @@ namespace Test
         private readonly OnlineAuthenticator _authenticator = new OnlineAuthenticator(Username, Password, ClientToken);
         private AuthenticateResult _result;
         
-        [Fact(Skip = "Passed")]
+        [Fact]
         public async Task AuthTest()
         {
             _result = await _authenticator.Authenticate();
