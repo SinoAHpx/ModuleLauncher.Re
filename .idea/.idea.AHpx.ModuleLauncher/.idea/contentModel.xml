@@ -33,6 +33,7 @@
       </e>
       <e p="Entrance.cs" t="Include" />
       <e p="global.json" t="Include" />
+      <e p="Locators" t="Include" />
       <e p="obj" t="ExcludeRecursive">
         <e p="Debug" t="Include">
           <e p="netcoreapp3.1" t="Include">
