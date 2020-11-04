@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace AHpx.ModuleLauncher.Data.Authentication
+namespace AHpx.ModuleLauncher.Data.Authentications
 {
     public class ExternalAuthenticateMeta
     {

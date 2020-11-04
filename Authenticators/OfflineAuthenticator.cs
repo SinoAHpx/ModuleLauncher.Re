@@ -1,4 +1,4 @@
-﻿using AHpx.ModuleLauncher.Data.Authentication;
+﻿using AHpx.ModuleLauncher.Data.Authentications;
 
 namespace AHpx.ModuleLauncher.Authenticators
 {

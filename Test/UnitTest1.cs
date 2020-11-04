@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using AHpx.ModuleLauncher;
-using AHpx.ModuleLauncher.Data.Authentication;
+using AHpx.ModuleLauncher.Data.Authentications;
 using AHpx.ModuleLauncher.Utils.Authentication;
 using AHpx.ModuleLauncher.Utils.Network;
 using Xunit;

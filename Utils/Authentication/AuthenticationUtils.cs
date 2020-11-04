@@ -1,6 +1,6 @@
 ﻿using System;
 using AHpx.ModuleLauncher.Authenticators;
-using AHpx.ModuleLauncher.Data.Authentication;
+using AHpx.ModuleLauncher.Data.Authentications;
 using AHpx.ModuleLauncher.Data.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

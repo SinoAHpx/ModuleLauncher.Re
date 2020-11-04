@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using AHpx.ModuleLauncher.Data.Authentication;
+using AHpx.ModuleLauncher.Data.Authentications;
 using AHpx.ModuleLauncher.Utils.Authentication;
 using AHpx.ModuleLauncher.Utils.Network;
 using Newtonsoft.Json.Linq;

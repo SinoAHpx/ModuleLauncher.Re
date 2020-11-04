@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AHpx.ModuleLauncher.Authenticators;
-using AHpx.ModuleLauncher.Data.Authentication;
+using AHpx.ModuleLauncher.Data.Authentications;
 using Xunit;
 
 namespace Test

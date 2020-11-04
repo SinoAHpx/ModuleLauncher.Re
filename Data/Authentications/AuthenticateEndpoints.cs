@@ -1,4 +1,4 @@
-﻿namespace AHpx.ModuleLauncher.Data.Authentication
+﻿namespace AHpx.ModuleLauncher.Data.Authentications
 {
     public enum AuthenticateEndpoints
     {

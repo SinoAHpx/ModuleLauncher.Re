@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using AHpx.ModuleLauncher.Data.Authentication;
+using AHpx.ModuleLauncher.Data.Authentications;
 using AHpx.ModuleLauncher.Utils.Authentication;
 using RestSharp;
 using HttpResponse = AHpx.ModuleLauncher.Data.Utils.HttpResponse;

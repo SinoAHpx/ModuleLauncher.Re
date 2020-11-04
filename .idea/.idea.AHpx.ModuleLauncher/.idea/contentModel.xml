@@ -22,10 +22,13 @@
       </e>
       <e p="bin" t="ExcludeRecursive" />
       <e p="Data" t="Include">
-        <e p="Authentication" t="Include">
+        <e p="Authentications" t="Include">
           <e p="AuthenticateEndpoints.cs" t="Include" />
           <e p="AuthenticateResult.cs" t="Include" />
           <e p="ExternalAuthenticateMeta.cs" t="Include" />
+        </e>
+        <e p="Locators" t="Include">
+          <e p="Minecraft.cs" t="Include" />
         </e>
         <e p="Utils" t="Include">
           <e p="HttpResponse.cs" t="Include" />
@@ -33,7 +36,9 @@
       </e>
       <e p="Entrance.cs" t="Include" />
       <e p="global.json" t="Include" />
-      <e p="Locators" t="Include" />
+      <e p="Locators" t="Include">
+        <e p="MinecraftLocator.cs" t="Include" />
+      </e>
       <e p="obj" t="ExcludeRecursive">
         <e p="Debug" t="Include">
           <e p="netcoreapp3.1" t="Include">
