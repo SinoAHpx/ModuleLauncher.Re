@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text.RegularExpressions;
-using AHpx.ModuleLauncher.Data.Locators;
 
 namespace AHpx.ModuleLauncher.Utils.Extensions
 {
