@@ -7,7 +7,7 @@ namespace AHpx.ModuleLauncher.Data.Locators
     {
         public string Name { get; set; }
         public FileInfo File { get; set; }
-        public string Url { get; set; }
+        //public string Url { get; set; } TODO: IT SHOULD BE A DownloadInfo CLASS TO INCLUDE URL & SAVE PATH
 
         public override string ToString()
         {
