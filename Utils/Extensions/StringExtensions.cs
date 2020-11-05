@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace AHpx.ModuleLauncher.Utils.Extensions
@@ -9,30 +10,6 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
         {
             return Path.GetFileName(src);
         }
-        //
-        // internal static bool IsJar(this string src)
-        // {
-        //     return Path.GetFileNameWithoutExtension(src) == Path.GetDirectoryName(src).GetFileName() && Path.GetExtension(src) == ".jar";
-        // }
-        //
-        // internal static bool IsJson(this string src)
-        // {
-        //     return Path.GetFileNameWithoutExtension(src) == Path.GetDirectoryName(src).GetFileName() && Path.GetExtension(src) == ".json";
-        // }
-        //
-        // internal static bool IsNew(this string ex)
-        // {
-        //     try
-        //     {
-        //         var ver = Version.Parse(ex);
-        //
-        //         return ver >= new Version("1.13");
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return true;
-        //     }
-        // }
 
         public static string RemoveAlphabets(this string ex)
         {
@@ -42,6 +19,14 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
             }
 
             return ex;
+        }
+
+        public static string ToLibraryFile(this string s)
+        {
+            var split = s.Split(':');
+            var sub = split[0].Split('.');
+            
+            return $@"{string.Join('\\', sub)}\{split[1]}\{split[2]}\{split[1]}-{split[2]}.jar";
         }
     }
 }

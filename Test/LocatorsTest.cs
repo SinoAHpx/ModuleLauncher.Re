@@ -34,5 +34,18 @@ namespace Test
             var ac = _location.GetMinecraft(name, isolation).File.Mod.FullName;
             Assert.Equal(@"C:\Users\ahpx\AppData\Roaming\.minecraft\mods", ac);
         }
+
+        [Theory]
+        //[InlineData("org.apache.commons:commons-lang3:3.1")]
+        // [InlineData("commons-io:commons-io:2.4")]
+        // [InlineData("net.java.jinput:jinput:2.0.5")]
+        [InlineData("org.lwjgl.lwjgl:lwjgl_util:2.9.0")]
+        public void t2(string name)
+        {
+            var ex = "org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar".Replace("/", "\\");
+            var ac = name.ToLibraryFile();
+
+            Assert.Equal(ex, ac);
+        }
     }
 }
