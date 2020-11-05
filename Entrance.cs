@@ -9,7 +9,7 @@ namespace AHpx.ModuleLauncher
         public static void Main(string[] args)
         {
             var lo = new LibrariesLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
-            lo.GetLibraries("1.8").ToList().ForEach(Console.Write);
+            lo.GetLibraries("1.16.4-forge-35.0.2").ToList().ForEach(Console.Write);
         }
     }
 }
