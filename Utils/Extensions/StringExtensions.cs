@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using AHpx.ModuleLauncher.Data.Locators;
 
 namespace AHpx.ModuleLauncher.Utils.Extensions
@@ -34,5 +35,15 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
         //         return true;
         //     }
         // }
+
+        public static string RemoveAlphabets(this string ex)
+        {
+            foreach (Match match in Regex.Matches(ex, "[A-z]"))
+            {
+                ex = ex.Replace(match.Value, string.Empty);
+            }
+
+            return ex;
+        }
     }
 }

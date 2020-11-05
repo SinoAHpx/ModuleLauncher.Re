@@ -10,7 +10,8 @@ namespace AHpx.ModuleLauncher.Data.Locators
         public MinecraftFile File { get; set; }
         internal MinecraftJson Json { get; set; }
         internal MinecraftJson.MinecraftType Type { get; set; }
-        
+        internal string RootVersion { get; set; }
+        internal Minecraft Inherit { get; set; }
 
         public class MinecraftFile
         {
@@ -70,7 +71,7 @@ namespace AHpx.ModuleLauncher.Data.Locators
                 DefaultLoader,
                 NewLoader,
                 OldLoader,
-                Modified
+                //Modified
             }
         }
 

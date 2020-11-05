@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AHpx.ModuleLauncher.Locators;
+using AHpx.ModuleLauncher.Utils.Extensions;
 
 namespace AHpx.ModuleLauncher
 {
@@ -20,6 +22,16 @@ namespace AHpx.ModuleLauncher
                 Console.WriteLine("Type:");
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine(x.Type);
+                
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Root:");
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(x.RootVersion);
+                
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Inherit:");
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(x.Inherit.File.Jar);
                 Console.WriteLine();
             });
         }
