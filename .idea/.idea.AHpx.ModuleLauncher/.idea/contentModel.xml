@@ -38,6 +38,7 @@
       </e>
       <e p="Entrance.cs" t="Include" />
       <e p="global.json" t="Include" />
+      <e p="Launcher.cs" t="Include" />
       <e p="Locators" t="Include">
         <e p="AssetsLocator.cs" t="Include" />
         <e p="LibrariesLocator.cs" t="Include" />

@@ -11,11 +11,7 @@ namespace AHpx.ModuleLauncher.Data.Locators
 
         public override string ToString()
         {
-            var props = this.GetType().GetProperties();
-
-            return props.Where(info => info.GetAccessors(false)[0].IsPublic)
-                .Aggregate(string.Empty,
-                (current, info) => current + $"PROP_NAME:{info.Name}\nPROP_VALUE:\n{info.GetValue(this)}\n");
+            return File.FullName;
         }
     }
 }

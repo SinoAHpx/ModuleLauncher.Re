@@ -19,7 +19,6 @@ namespace AHpx.ModuleLauncher.Locators
 
         public IEnumerable<Minecraft> GetMinecrafts(bool versionIsolation = true, bool readJson = true)
         {
-            //TODO: WE DON'T CARE IF IT DOESN'T EXIST LOL
             var dirs = Directory.GetDirectories($"{Location}\\versions").ToList();
             var result = new List<Minecraft>();
             dirs.ForEach(x =>

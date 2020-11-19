@@ -48,6 +48,12 @@ namespace AHpx.ModuleLauncher.Data.Locators
             [JsonProperty("downloads")]
             internal JObject Downloads { get; set; }
             
+            [JsonProperty("arguments")]
+            internal JObject Arguments { get; set; }
+            
+            [JsonProperty("minecraftArguments")]
+            internal string MinecraftArguments { get; set; }
+            
             [JsonProperty("id")]
             internal string Id { get; set; }
             

@@ -17,12 +17,7 @@ namespace AHpx.ModuleLauncher.Locators
             var mc = GetMinecraft(version);
 
             var libs = mc.Json.Libraries;
-
-            if (mc.Type.IsLoader())
-            {
-                re.AddRange(GetLibraries(mc.Inherit.File.Version.Name));
-            }
-
+            
             libs.Where(x => IsAllow(x) && !IsNative(x)).ForEach(x =>
             {
                 re.Add(new Library
@@ -31,6 +26,11 @@ namespace AHpx.ModuleLauncher.Locators
                     Name = x["name"].ToString()
                 });
             });
+            
+            if (mc.Type.IsLoader())
+            {
+                re.AddRange(GetLibraries(mc.Inherit.File.Version.Name));
+            }
 
             return re;
         }
@@ -41,12 +41,7 @@ namespace AHpx.ModuleLauncher.Locators
             var mc = GetMinecraft(version);
 
             var libs = mc.Json.Libraries;
-
-            if (mc.Type.IsLoader())
-            {
-                re.AddRange(GetNatives(mc.Inherit.File.Version.Name));
-            }
-
+            
             libs.Where(x => IsAllow(x) && IsNative(x)).ForEach(x =>
             {
                 var suffix = x["natives"]["windows"].ToString()
@@ -58,6 +53,11 @@ namespace AHpx.ModuleLauncher.Locators
                     Name = x["name"].ToString()
                 });
             });
+            
+            if (mc.Type.IsLoader())
+            {
+                re.AddRange(GetNatives(mc.Inherit.File.Version.Name));
+            }
 
             return re;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AHpx.ModuleLauncher.Locators;
 
@@ -9,10 +10,25 @@ namespace AHpx.ModuleLauncher
     {
         public static void Main(string[] args)
         {
-            var lo = new AssetsLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
-            foreach (var a in lo.GetAssets("20w46a"))
+            var lo = new LibrariesLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
+            var lc = new Launcher
             {
-                Console.WriteLine(a.File);
+                Locator = lo,
+                Auth = "AHpx",
+                JavaPath = @"C:\Program Files\Java\jdk1.8.0_271\bin\javaw.exe",
+            };
+
+            while (true)
+            {
+                Console.WriteLine("Input version:");
+                var ver = Console.ReadLine();
+                Console.WriteLine(lc.GetArgument(ver));
+
+                var p = lc.Launch(ver);
+                while (p.StandardOutput.ReadLine() != null)
+                {
+                    Console.WriteLine(p.StandardOutput.ReadLine());
+                }
             }
         }
 
