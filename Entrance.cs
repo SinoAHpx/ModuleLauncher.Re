@@ -9,10 +9,10 @@ namespace AHpx.ModuleLauncher
     {
         public static void Main(string[] args)
         {
-            var lo = new LibrariesLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
-            foreach (var library in lo.GetNatives("1.16.4"))
+            var lo = new AssetsLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
+            foreach (var a in lo.GetAssets("20w46a"))
             {
-                Console.WriteLine(library.File);
+                Console.WriteLine(a.File);
             }
         }
 
