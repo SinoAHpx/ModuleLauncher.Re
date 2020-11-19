@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using AHpx.ModuleLauncher.Data.Locators;
 using AHpx.ModuleLauncher.Utils.Extensions;
+using Newtonsoft.Json.Linq;
 
 namespace AHpx.ModuleLauncher.Locators
 {
@@ -13,22 +14,55 @@ namespace AHpx.ModuleLauncher.Locators
         public IEnumerable<Library> GetLibraries(string version)
         {
             var re = new List<Library>();
-            var mc = GetMinecraft(version);
-            var json = mc.Json;
-            
-            if (mc.Type.IsLoader()) re.AddRange(GetLibraries(mc.Inherit.File.Version.Name));
-            
-            foreach (var token in json.Libraries)
+            var libs = GetMinecraft(version).Json.Libraries;
+
+            libs.Where(x => IsAllow(x) && !IsNative(x)).ForEach(x =>
             {
                 re.Add(new Library
                 {
-                    File = new FileInfo($@"{mc.File.Libraries}\{token["name"]?.ToString().ToLibraryFile()!}"),
-                    Name = token["name"]?.ToString(),
-                    //Url = "" //TODO: SHOULD BE SUPPORT FOR MULTI DOWNLOAD MIRROR
+                    File = new FileInfo(x["name"].ToString().ToLibraryFile()),
+                    Name = x["name"].ToString()
                 });
+            });
+
+            return re;
+        }
+
+        private bool IsAllow(JToken token)
+        {
+            var obj = token.ToObject<JObject>();
+            if (obj.ContainsKey("rules"))
+            {
+                foreach (var jToken in obj["rules"].ToObject<JArray>())
+                {
+                    var o = jToken.ToObject<JObject>();
+                    if (o["action"].ToString() == "allow")
+                    {
+                        if (o.ContainsKey("os"))
+                        {
+                            return o["os"]["name"].ToString().Contains("windows");
+                        }
+
+                        return true;
+                    }
+                    
+                    if (o.ContainsKey("os"))
+                    {
+                        return !o["os"]["name"].ToString().Contains("windows");
+                    }
+
+                    return false;
+                }
             }
 
-            return re.DistinctBy(x => x.Name);
+            return true;
+        }
+
+        private bool IsNative(JToken token)
+        {
+            var obj = token.ToObject<JObject>();
+
+            return obj.ContainsKey("natives");
         }
     }
 }

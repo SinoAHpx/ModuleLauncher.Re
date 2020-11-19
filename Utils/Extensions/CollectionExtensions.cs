@@ -13,5 +13,10 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
             var hash = new HashSet<TKey>();
             return source.Where(p => hash.Add(keySelector(p)));
         }
+
+        public static void ForEach<T>(this IEnumerable<T> ex, Action<T> action)
+        {
+            ex.ToList().ForEach(action);
+        }
     }
 }

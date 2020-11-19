@@ -6,8 +6,7 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
     {
         internal static bool IsLoader(this Minecraft.MinecraftJson.MinecraftType ex)
         {
-            return ex == Minecraft.MinecraftJson.MinecraftType.OldLoader ||
-                   ex == Minecraft.MinecraftJson.MinecraftType.NewLoader ||
+            return ex == Minecraft.MinecraftJson.MinecraftType.NewLoader ||
                    ex == Minecraft.MinecraftJson.MinecraftType.DefaultLoader;
         }
     }
