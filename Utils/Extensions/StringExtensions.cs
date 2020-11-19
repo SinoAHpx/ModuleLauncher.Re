@@ -21,12 +21,18 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
             return ex;
         }
 
-        public static string ToLibraryFile(this string s)
+        public static string ToLibraryFile(this string s, bool addExtension = true)
         {
             var split = s.Split(':');
             var sub = split[0].Split('.');
-            
-            return $@"{string.Join('\\', sub)}\{split[1]}\{split[2]}\{split[1]}-{split[2]}.jar";
+
+            return $@"{string.Join('\\', sub)}\{split[1]}\{split[2]}\{split[1]}-{split[2]}" +
+                   (addExtension ? ".jar" : string.Empty);
+        }
+
+        public static string GetArch(this string s)
+        {
+            return Directory.Exists(@"C:\Program Files (x86)") ? "64" : "32";
         }
     }
 }

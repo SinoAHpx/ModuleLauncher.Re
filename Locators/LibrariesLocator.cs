@@ -14,13 +14,47 @@ namespace AHpx.ModuleLauncher.Locators
         public IEnumerable<Library> GetLibraries(string version)
         {
             var re = new List<Library>();
-            var libs = GetMinecraft(version).Json.Libraries;
+            var mc = GetMinecraft(version);
+
+            var libs = mc.Json.Libraries;
+
+            if (mc.Type.IsLoader())
+            {
+                re.AddRange(GetLibraries(mc.Inherit.File.Version.Name));
+            }
 
             libs.Where(x => IsAllow(x) && !IsNative(x)).ForEach(x =>
             {
                 re.Add(new Library
                 {
-                    File = new FileInfo(x["name"].ToString().ToLibraryFile()),
+                    File = new FileInfo(@$"{Location}\libraries\{x["name"].ToString().ToLibraryFile()}"),
+                    Name = x["name"].ToString()
+                });
+            });
+
+            return re;
+        }
+
+        public IEnumerable<Library> GetNatives(string version)
+        {
+            var re = new List<Library>();
+            var mc = GetMinecraft(version);
+
+            var libs = mc.Json.Libraries;
+
+            if (mc.Type.IsLoader())
+            {
+                re.AddRange(GetNatives(mc.Inherit.File.Version.Name));
+            }
+
+            libs.Where(x => IsAllow(x) && IsNative(x)).ForEach(x =>
+            {
+                var suffix = x["natives"]["windows"].ToString()
+                    .Replace("${arch}", Directory.Exists(@"C:\Program Files (x86)") ? "64" : "32");
+                
+                re.Add(new Library
+                {
+                    File = new FileInfo($@"{Location}\libraries\{x["name"].ToString().ToLibraryFile(false)}-{suffix}.jar"),
                     Name = x["name"].ToString()
                 });
             });

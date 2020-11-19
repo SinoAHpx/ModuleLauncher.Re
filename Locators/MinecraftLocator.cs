@@ -179,10 +179,6 @@ namespace AHpx.ModuleLauncher.Locators
                 case Minecraft.MinecraftJson.MinecraftType.DefaultLoader:
                 case Minecraft.MinecraftJson.MinecraftType.NewLoader:
                     return GetMinecraft(json.InheritsFrom, isolation, readJson);
-                // case Minecraft.MinecraftJson.MinecraftType.OldLoader:
-                //     var split = json.Id.RemoveAlphabets().Split('.');
-                //     var version = $"{split[0]}.{split[1]}.{split[2]}".Split('-');
-                //     return GetMinecraft(version[0], isolation, readJson);
                 case Minecraft.MinecraftJson.MinecraftType.DefaultVanilla:
                 case Minecraft.MinecraftJson.MinecraftType.NewVanilla:
                 case Minecraft.MinecraftJson.MinecraftType.OldVanilla:
