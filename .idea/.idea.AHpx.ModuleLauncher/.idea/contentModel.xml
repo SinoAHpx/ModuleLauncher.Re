@@ -54,7 +54,13 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="defaultAuthJson.json" t="Include" />
         <e p="LocatorsTest.cs" t="Include" />
-        <e p="obj" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net5.0" t="Include">
+              <e p="Test.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
         <e p="Test.csproj" t="IncludeRecursive" />
         <e p="UnitTest1.cs" t="Include" />
       </e>

@@ -69,9 +69,7 @@ namespace AHpx.ModuleLauncher.Data.Locators
                 NewVanilla,
                 OldVanilla,
                 DefaultLoader,
-                NewLoader,
-                OldLoader,
-                //Modified
+                NewLoader
             }
         }
 
