@@ -24,9 +24,9 @@ namespace AHpx.ModuleLauncher
                 OnCompleted = (o, eventArgs) => { Console.WriteLine("Complete!"); }
             };
             
+            var mo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
             var lo = new LibrariesLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
-            var ao = new AssetsLocator(lo.Location);
-            
+
             var lc = new Launcher.Launcher
             {
                 Locator = lo,
@@ -35,10 +35,9 @@ namespace AHpx.ModuleLauncher
                 Auth = "Test"
             };
             
-            await dl.Download("1.8.9", lo);
-            await dl.Download("1.8.9", ao);
-            
-            var pro = lc.Launch("1.8.9");
+            await dl.Download("1.7.10", mo);
+
+            var pro = lc.Launch("1.7.10");
             
             while (await pro.StandardOutput.ReadLineAsync() != null)
             {

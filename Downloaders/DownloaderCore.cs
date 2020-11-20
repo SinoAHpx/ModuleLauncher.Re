@@ -22,21 +22,33 @@ namespace AHpx.ModuleLauncher.Downloaders
             this.OnChunkProgressChanged = (o, args) => { };
         }
 
-        public async Task Download(string url, FileInfo file)
+        public async Task Download(string url, FileInfo file, bool isSmall = false)
         {
-            var service = new DownloadService(new DownloadConfiguration
-            {
-                AllowedHeadRequest = false,
-                ParallelDownload = true,
-                ChunkCount = 8,
-                MaxTryAgainOnFailover = 50,
-                OnTheFlyDownload = true,
-                RequestConfiguration =
+            var service = isSmall
+                ? new DownloadService(new DownloadConfiguration
                 {
-                    UserAgent = $"ModuleLauncher/2.7",
-                    KeepAlive = true,
-                }
-            });
+                    AllowedHeadRequest = false,
+                    MaxTryAgainOnFailover = 50,
+                    OnTheFlyDownload = true,
+                    RequestConfiguration =
+                    {
+                        UserAgent = $"ModuleLauncher/2.7",
+                        KeepAlive = true,
+                    }
+                })
+                : new DownloadService(new DownloadConfiguration
+                {
+                    AllowedHeadRequest = false,
+                    ParallelDownload = true,
+                    ChunkCount = 4,
+                    MaxTryAgainOnFailover = 50,
+                    OnTheFlyDownload = true,
+                    RequestConfiguration =
+                    {
+                        UserAgent = $"ModuleLauncher/2.7",
+                        KeepAlive = true,
+                    }
+                });
             
             service.DownloadFileCompleted += new EventHandler<AsyncCompletedEventArgs>(OnCompleted);
             service.DownloadProgressChanged += new EventHandler<DownloadProgressChangedEventArgs>(OnProgressChanged);

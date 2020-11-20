@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AHpx.ModuleLauncher.Data.Downloaders;
+using AHpx.ModuleLauncher.Data.Locators;
 using AHpx.ModuleLauncher.Locators;
 using AHpx.ModuleLauncher.Utils.Extensions;
 using AHpx.ModuleLauncher.Utils.Network;
@@ -54,17 +55,17 @@ namespace AHpx.ModuleLauncher.Downloaders.Locator
             return re;
         }
         
-        public async Task<string> GetMinecraftJson(string version)
+        public async Task<JObject> GetMinecraftJson(string version)
         {
             var arr = JObject.Parse((await HttpUtils.Get(_manifest)).Content)["versions"].ToObject<JArray>();
             var obj = arr.FirstOrDefault(w => w["id"].ToString() == version).ToObject<JObject>();
 
-            return (await HttpUtils.Get(obj["url"].ToString())).Content;
+            return JObject.Parse((await HttpUtils.Get(obj["url"].ToString())).Content);
         }
 
-        public async Task Download(string version, MinecraftLocator locator, bool checkExist = true)
+        public async Task Download(string version, MinecraftLocator locator, bool complete = true , bool checkExist = true)
         {
-            var mc = locator.GetMinecraft(JObject.Parse(await GetMinecraftJson(version)));
+            var mc = locator.GetMinecraft(await GetMinecraftJson(version));
             
             if (locator is LibrariesLocator lib)
             {
@@ -84,7 +85,7 @@ namespace AHpx.ModuleLauncher.Downloaders.Locator
                         _ => throw new IndexOutOfRangeException("No such source!")
                     };
                         
-                    await base.Download(url, library.File);
+                    await base.Download(url, library.File, true);
                 }
             }
             else if (locator is AssetsLocator ass)
@@ -94,7 +95,7 @@ namespace AHpx.ModuleLauncher.Downloaders.Locator
                 {
                     var index = mc.Json.AssetIndex["url"].ToString();
 
-                    await base.Download(index, new FileInfo($@"{mc.File.Assets}\indexes\{mc.RootVersion}.json"));
+                    await base.Download(index, new FileInfo($@"{mc.File.Assets}\indexes\{mc.RootVersion}.json"), true);
                 }
 
                 foreach (var asset in ass.GetAssets(mc))
@@ -111,14 +112,23 @@ namespace AHpx.ModuleLauncher.Downloaders.Locator
                         _ => throw new IndexOutOfRangeException("No such source!")
                     };
                         
-                    await base.Download(url, asset.File);
+                    await base.Download(url, asset.File, true);
                 }
             }
             else
             {
+                if (complete)
+                {
+                    var lc = new LibrariesLocator(locator.Location);
+                    await Download(version, lc);
+                    
+                    var ac = new AssetsLocator(locator.Location);
+                    await Download(version, ac);
+                }
+                
                 mc.File.Version.Create();
                 
-                var obj = JObject.Parse(await GetMinecraftJson(version));
+                var obj = await GetMinecraftJson(version);
                 var sha1 = obj["downloads"]["client"]["sha1"].ToString();
                 var url = Source switch
                 {
