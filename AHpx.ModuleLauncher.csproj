@@ -4,7 +4,7 @@
         <TargetFramework>net5.0</TargetFramework>
         <AssemblyVersion>2.7</AssemblyVersion>
         <FileVersion>2.7</FileVersion>
-        <OutputType>Exe</OutputType>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
