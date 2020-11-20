@@ -14,7 +14,14 @@ namespace AHpx.ModuleLauncher.Downloaders
         public Action<object, AsyncCompletedEventArgs> OnCompleted { get; set; }
         public Action<object, DownloadProgressChangedEventArgs> OnProgressChanged { get; set; }
         public Action<object, DownloadProgressChangedEventArgs> OnChunkProgressChanged { get; set; }
-        
+
+        public DownloaderCore()
+        {
+            this.OnCompleted = (o, args) => { };
+            this.OnProgressChanged = (o, args) => { };
+            this.OnChunkProgressChanged = (o, args) => { };
+        }
+
         public async Task Download(string url, FileInfo file)
         {
             var service = new DownloadService(new DownloadConfiguration

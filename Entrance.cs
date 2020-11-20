@@ -45,10 +45,6 @@ namespace AHpx.ModuleLauncher
             {
                 Console.WriteLine("Download Complete!");
             };
-            core.OnChunkProgressChanged = (o, eventArgs) =>
-            {
-
-            };
 
             await core.Download("https://download.mcbbs.net/mc/game/1.7.10/server/952438ac4e01b4d115c5fc38f891710c4941df29/server.jar", 
                 new FileInfo($@"C:\Users\ahpx\Desktop\TEST.jar"));

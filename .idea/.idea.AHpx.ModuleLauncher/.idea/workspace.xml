@@ -23,11 +23,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Added McbbsNews.cs from old project">
-      <change afterPath="$PROJECT_DIR$/Downloaders/DownloaderCore.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Added DownloaderCore.cs">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Downloaders/DownloaderCore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Downloaders/DownloaderCore.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -203,7 +201,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605849947471</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added DownloaderCore.cs">
+      <created>1605861857211</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1605861857211</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,7 +245,8 @@
     <MESSAGE value="Complete Launcher.cs" />
     <MESSAGE value="Added MojangApi.cs" />
     <MESSAGE value="Added McbbsNews.cs from old project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added McbbsNews.cs from old project" />
+    <MESSAGE value="Added DownloaderCore.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added DownloaderCore.cs" />
   </component>
   <component name="WindowStateProjectService">
     <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605328865886">
@@ -251,22 +257,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605786433687" />
-    <state width="1861" height="288" key="GridCell.Tab.0.bottom" timestamp="1605861505446">
+    <state width="1861" height="266" key="GridCell.Tab.0.bottom" timestamp="1605862361093">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1861" height="288" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605861505446" />
-    <state width="1861" height="288" key="GridCell.Tab.0.center" timestamp="1605861505446">
+    <state width="1861" height="266" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605862361093" />
+    <state width="1861" height="266" key="GridCell.Tab.0.center" timestamp="1605862361093">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1861" height="288" key="GridCell.Tab.0.center/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605861505446" />
-    <state width="1861" height="288" key="GridCell.Tab.0.left" timestamp="1605861505446">
+    <state width="1861" height="266" key="GridCell.Tab.0.center/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605862361093" />
+    <state width="1861" height="266" key="GridCell.Tab.0.left" timestamp="1605862361093">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1861" height="288" key="GridCell.Tab.0.left/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605861505446" />
-    <state width="1861" height="288" key="GridCell.Tab.0.right" timestamp="1605861505446">
+    <state width="1861" height="266" key="GridCell.Tab.0.left/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605862361093" />
+    <state width="1861" height="266" key="GridCell.Tab.0.right" timestamp="1605862361093">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1861" height="288" key="GridCell.Tab.0.right/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605861505446" />
+    <state width="1861" height="266" key="GridCell.Tab.0.right/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605862361093" />
     <state width="1861" height="288" key="GridCell.Tab.1.bottom" timestamp="1605861505446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -331,10 +337,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1861" height="288" key="GridCell.Tab.4.right/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605861505446" />
-    <state x="546" y="117" key="RiderGenerateDialog" timestamp="1605802479784">
+    <state x="546" y="117" key="RiderGenerateDialog" timestamp="1605862036900">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="546" y="117" key="RiderGenerateDialog/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605802479784" />
+    <state x="546" y="117" key="RiderGenerateDialog/0.0.1920.1040/-1366.0.1366.728@0.0.1920.1040" timestamp="1605862036900" />
     <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1605849962011">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
