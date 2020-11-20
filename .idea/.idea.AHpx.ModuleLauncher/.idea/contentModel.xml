@@ -38,6 +38,9 @@
           <e p="News.cs" t="Include" />
         </e>
       </e>
+      <e p="Downloaders" t="Include">
+        <e p="DownloaderCore.cs" t="Include" />
+      </e>
       <e p="Entrance.cs" t="Include" />
       <e p="global.json" t="Include" />
       <e p="Launcher.cs" t="Include" />
