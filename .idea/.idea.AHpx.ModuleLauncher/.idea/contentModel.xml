@@ -27,6 +27,9 @@
           <e p="AuthenticateResult.cs" t="Include" />
           <e p="ExternalAuthenticateMeta.cs" t="Include" />
         </e>
+        <e p="Downloaders" t="Include">
+          <e p="DownloadSource.cs" t="Include" />
+        </e>
         <e p="Locators" t="Include">
           <e p="Asset.cs" t="Include" />
           <e p="Library.cs" t="Include" />
@@ -40,10 +43,15 @@
       </e>
       <e p="Downloaders" t="Include">
         <e p="DownloaderCore.cs" t="Include" />
+        <e p="Locator" t="Include">
+          <e p="MinecraftDownloader.cs" t="Include" />
+        </e>
       </e>
       <e p="Entrance.cs" t="Include" />
       <e p="global.json" t="Include" />
-      <e p="Launcher.cs" t="Include" />
+      <e p="Launcher" t="Include">
+        <e p="Launcher.cs" t="Include" />
+      </e>
       <e p="Locators" t="Include">
         <e p="AssetsLocator.cs" t="Include" />
         <e p="LibrariesLocator.cs" t="Include" />

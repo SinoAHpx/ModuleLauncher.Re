@@ -22,7 +22,7 @@ namespace AHpx.ModuleLauncher.Downloaders
             this.OnChunkProgressChanged = (o, args) => { };
         }
 
-        public async Task Download(string url, FileInfo file)
+        public virtual async Task Download(string url, FileInfo file)
         {
             var service = new DownloadService(new DownloadConfiguration
             {
