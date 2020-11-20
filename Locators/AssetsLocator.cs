@@ -12,8 +12,12 @@ namespace AHpx.ModuleLauncher.Locators
 
         public IEnumerable<Asset> GetAssets(string version)
         {
+            return GetAssets(GetMinecraft(version));
+        }
+        
+        public IEnumerable<Asset> GetAssets(Minecraft mc)
+        {
             var re = new List<Asset>();
-            var mc = GetMinecraft(version);
 
             var json = JObject.Parse(File.ReadAllText($@"{mc.File.Assets}\indexes\{mc.RootVersion}.json"));
             var table = json["objects"].ToObject<Hashtable>();

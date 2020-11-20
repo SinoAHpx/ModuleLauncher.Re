@@ -29,6 +29,7 @@
         </e>
         <e p="Downloaders" t="Include">
           <e p="DownloadSource.cs" t="Include" />
+          <e p="MinecraftItem.cs" t="Include" />
         </e>
         <e p="Locators" t="Include">
           <e p="Asset.cs" t="Include" />

@@ -5,6 +5,7 @@ using System.Linq;
 using AHpx.ModuleLauncher.Data.Locators;
 using AHpx.ModuleLauncher.Utils.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AHpx.ModuleLauncher.Locators
 {
@@ -27,6 +28,37 @@ namespace AHpx.ModuleLauncher.Locators
             });
 
             return result;
+        }
+
+        public Minecraft GetMinecraft(JObject obj)
+        {
+            var json = obj.ToObject<Minecraft.MinecraftJson>();
+            var version = json.Id;
+            
+            var re = new Minecraft
+            {
+                File = new Minecraft.MinecraftFile
+                {
+                    Jar = new FileInfo($@"{Location}\versions\{version}\{version}.jar"),
+                    Json = new FileInfo($@"{Location}\versions\{version}\{version}.json"),
+                    Version = new DirectoryInfo($@"{Location}\versions\{version}"),
+                    Assets = new DirectoryInfo($@"{Location}\assets"),
+                    Libraries = new DirectoryInfo($@"{Location}\libraries"),
+                    Root = new DirectoryInfo(Location),
+                    Mod = new DirectoryInfo($@"{Location}\mods"),
+                    Natives = new DirectoryInfo($@"{Location}\versions\{version}\natives"),
+                    ResourcePacks = new DirectoryInfo($@"{Location}\resourcepacks"),
+                    TexturePacks = new DirectoryInfo($@"{Location}\texturepacks"),
+                    ShaderPacks = new DirectoryInfo($@"{Location}\shaderpacks"),
+                    Saves = new DirectoryInfo($@"{Location}\saves")
+                },
+                Json = json,
+                Type = GetMinecraftJsonType(json),
+                RootVersion = GetMinecraftAssetIndex(json)
+            };
+            re.Inherit = GetInheritMinecraft(re);
+            
+            return re;
         }
         
         public Minecraft GetMinecraft(string version, bool versionIsolation = true, bool readJson = true)

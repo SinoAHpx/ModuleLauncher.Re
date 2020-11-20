@@ -13,8 +13,12 @@ namespace AHpx.ModuleLauncher.Locators
 
         public IEnumerable<Library> GetLibraries(string version)
         {
+            return GetLibraries(GetMinecraft(version));
+        }
+        
+        public IEnumerable<Library> GetLibraries(Minecraft mc)
+        {
             var re = new List<Library>();
-            var mc = GetMinecraft(version);
 
             var libs = mc.Json.Libraries;
             
@@ -37,8 +41,12 @@ namespace AHpx.ModuleLauncher.Locators
 
         public IEnumerable<Library> GetNatives(string version)
         {
+            return GetNatives(GetMinecraft(version));
+        }
+        
+        public IEnumerable<Library> GetNatives(Minecraft mc)
+        {
             var re = new List<Library>();
-            var mc = GetMinecraft(version);
 
             var libs = mc.Json.Libraries;
             

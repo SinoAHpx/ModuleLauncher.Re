@@ -34,5 +34,10 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
         {
             return Directory.Exists(@"C:\Program Files (x86)") ? "64" : "32";
         }
+
+        public static string ToRelativeUrl(this string ex, string split)
+        {
+            return ex.Substring(ex.IndexOf(split) + split.Length).Replace('\\', '/');
+        }
     }
 }
