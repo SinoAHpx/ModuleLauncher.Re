@@ -17,6 +17,8 @@ ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 + 支持Yggdrasil和authlib-injector外置的几乎所有接口
 + 正在快速迭代中
 
+请访问本项目的[wiki](https://github.com/AHpxChina/ModuleLauncher.Re/wiki)来获取更多信息和使用文档，
+
 ### 安装
 
 + 将ModuleLauncher.Re源码克隆到本地并进行编译成dll以导入引用
