@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
 using AHpx.ModuleLauncher.Data.Authentications;
 using AHpx.ModuleLauncher.Data.Locators;
@@ -9,7 +7,7 @@ using AHpx.ModuleLauncher.Locators;
 using AHpx.ModuleLauncher.Utils.Extensions;
 using Newtonsoft.Json.Linq;
 
-namespace AHpx.ModuleLauncher
+namespace AHpx.ModuleLauncher.Launcher
 {
     public class Launcher
     {
