@@ -35,10 +35,10 @@ namespace AHpx.ModuleLauncher
             //     }
             // }
 
-            var re = await MojangApi.GetHistoryNames("db9c8b5f84ef493ebc58d218e2e0f007");
-            re.ForEach(x =>
+            var r = await McbbsNews.GetMapRecommended();
+            r.ForEach(x =>
             {
-                Console.WriteLine(x.Name);
+                Console.WriteLine(x.Title);
             });
         }
 

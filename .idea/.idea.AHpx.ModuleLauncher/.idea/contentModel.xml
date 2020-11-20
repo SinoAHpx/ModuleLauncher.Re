@@ -35,6 +35,7 @@
         <e p="Utils" t="Include">
           <e p="HistoryName.cs" t="Include" />
           <e p="HttpResponse.cs" t="Include" />
+          <e p="News.cs" t="Include" />
         </e>
       </e>
       <e p="Entrance.cs" t="Include" />
@@ -79,6 +80,7 @@
         </e>
         <e p="Network" t="Include">
           <e p="HttpUtils.cs" t="Include" />
+          <e p="McbbsNews.cs" t="Include" />
           <e p="MojangApi.cs" t="Include" />
         </e>
       </e>
