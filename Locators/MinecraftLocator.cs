@@ -99,12 +99,12 @@ namespace AHpx.ModuleLauncher.Locators
             return GetMinecraft(obj, versionIsolation);
         }
 
-        public IEnumerable<Library> GetLibraries(string version)
+        public IEnumerable<Library> GetLibraries(string version, bool excludeNatives = true)
         {
-            return GetLibraries(GetMinecraft(version));
+            return GetLibraries(GetMinecraft(version), excludeNatives);
         }
         
-        public IEnumerable<Library> GetLibraries(Minecraft mc)
+        public IEnumerable<Library> GetLibraries(Minecraft mc, bool excludeNatives = true)
         {
             var re = new List<Library>();
 
@@ -124,7 +124,7 @@ namespace AHpx.ModuleLauncher.Locators
                 re.AddRange(GetLibraries(mc.Inherit.File.Version.Name));
             }
 
-            return re;
+            return excludeNatives ? re : re.Concat(GetNatives(mc));
         }
 
         public IEnumerable<Library> GetNatives(string version)
