@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
         <AssemblyVersion>2.7</AssemblyVersion>
         <FileVersion>2.7</FileVersion>
-        <OutputType>Library</OutputType>
+        <OutputType>Exe</OutputType>
         <PackageId>ModuleLauncher.Re</PackageId>
         <Version>2.7.0</Version>
         <Authors>AHpx</Authors>
@@ -17,6 +17,8 @@
         <RepositoryUrl>https://github.com/AHpxChina/ModuleLauncher.Re</RepositoryUrl>
         <NeutralLanguage>zh</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -30,6 +32,10 @@
     <ItemGroup>
       <None Remove="Test\**" />
       <None Include="C:\Users\ahpx\Desktop\AHpx.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+      <None Include="C:\Users\ahpx\Desktop\LICENSE">
         <Pack>True</Pack>
         <PackagePath></PackagePath>
       </None>
