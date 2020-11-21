@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace AHpx.ModuleLauncher.Locators
 {
-    public class MinecraftLocator
+    public partial class MinecraftLocator
     {
         public string Location { get; set; }
 
@@ -18,55 +19,35 @@ namespace AHpx.ModuleLauncher.Locators
             Location = location;
         }
 
-        public IEnumerable<Minecraft> GetMinecrafts(bool versionIsolation = true, bool readJson = true)
+        /// <summary>
+        /// 获取Location\versions下的所有Minecraft
+        /// </summary>
+        /// <param name="versionIsolation">是否版本隔离</param>
+        /// <param name="readJson">是否读取json</param>
+        /// <returns></returns>
+        public IEnumerable<Minecraft> GetMinecrafts(bool versionIsolation = true)
         {
             var dirs = Directory.GetDirectories($"{Location}\\versions").ToList();
             var result = new List<Minecraft>();
             dirs.ForEach(x =>
             {
-                result.Add(GetMinecraft(x.GetFileName(), versionIsolation, readJson));
+                result.Add(GetMinecraft(x.GetFileName(), versionIsolation));
             });
 
             return result;
         }
 
-        public Minecraft GetMinecraft(JObject obj)
+        /// <summary>
+        /// 根据json获取指定的Minecraft对象
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="versionIsolation"></param>
+        /// <returns></returns>
+        public Minecraft GetMinecraft(JObject obj, bool versionIsolation = true)
         {
             var json = obj.ToObject<Minecraft.MinecraftJson>();
             var version = json.Id;
             
-            var re = new Minecraft
-            {
-                File = new Minecraft.MinecraftFile
-                {
-                    Jar = new FileInfo($@"{Location}\versions\{version}\{version}.jar"),
-                    Json = new FileInfo($@"{Location}\versions\{version}\{version}.json"),
-                    Version = new DirectoryInfo($@"{Location}\versions\{version}"),
-                    Assets = new DirectoryInfo($@"{Location}\assets"),
-                    Libraries = new DirectoryInfo($@"{Location}\libraries"),
-                    Root = new DirectoryInfo(Location),
-                    Mod = new DirectoryInfo($@"{Location}\mods"),
-                    Natives = new DirectoryInfo($@"{Location}\versions\{version}\natives"),
-                    ResourcePacks = new DirectoryInfo($@"{Location}\resourcepacks"),
-                    TexturePacks = new DirectoryInfo($@"{Location}\texturepacks"),
-                    ShaderPacks = new DirectoryInfo($@"{Location}\shaderpacks"),
-                    Saves = new DirectoryInfo($@"{Location}\saves")
-                },
-                Json = json,
-                Type = GetMinecraftJsonType(json),
-                RootVersion = GetMinecraftAssetIndex(json)
-            };
-            re.Inherit = GetInheritMinecraft(re);
-            
-            return re;
-        }
-        
-        public Minecraft GetMinecraft(string version, bool versionIsolation = true, bool readJson = true)
-        {
-            var json = readJson
-                ? JsonConvert.DeserializeObject<Minecraft.MinecraftJson>(
-                    File.ReadAllText($@"{Location}\versions\{version}\{version}.json"))
-                : null;
             var re = new Minecraft
             {
                 File = new Minecraft.MinecraftFile
@@ -100,11 +81,111 @@ namespace AHpx.ModuleLauncher.Locators
                 Type = GetMinecraftJsonType(json),
                 RootVersion = GetMinecraftAssetIndex(json)
             };
-            re.Inherit = GetInheritMinecraft(re, versionIsolation, readJson);
+            re.Inherit = GetInheritMinecraft(re, versionIsolation);
             
             return re;
         }
+        
+        /// <summary>
+        /// 根据版本获取指定的Minecraft对象
+        /// </summary>
+        /// <param name="version"></param>
+        /// <param name="versionIsolation"></param>
+        /// <returns></returns>
+        public Minecraft GetMinecraft(string version, bool versionIsolation = true)
+        {
+            var obj = JObject.Parse(File.ReadAllText($@"{Location}\versions\{version}\{version}.json"));
 
+            return GetMinecraft(obj, versionIsolation);
+        }
+
+        public IEnumerable<Library> GetLibraries(string version)
+        {
+            return GetLibraries(GetMinecraft(version));
+        }
+        
+        public IEnumerable<Library> GetLibraries(Minecraft mc)
+        {
+            var re = new List<Library>();
+
+            var libs = mc.Json.Libraries;
+            
+            libs.Where(x => IsAllow(x) && !IsNative(x)).ForEach(x =>
+            {
+                re.Add(new Library
+                {
+                    File = new FileInfo(@$"{Location}\libraries\{x["name"].ToString().ToLibraryFile()}"),
+                    Name = x["name"].ToString()
+                });
+            });
+            
+            if (mc.Type.IsLoader())
+            {
+                re.AddRange(GetLibraries(mc.Inherit.File.Version.Name));
+            }
+
+            return re;
+        }
+
+        public IEnumerable<Library> GetNatives(string version)
+        {
+            return GetNatives(GetMinecraft(version));
+        }
+        
+        public IEnumerable<Library> GetNatives(Minecraft mc)
+        {
+            var re = new List<Library>();
+
+            var libs = mc.Json.Libraries;
+            
+            libs.Where(x => IsAllow(x) && IsNative(x)).ForEach(x =>
+            {
+                var suffix = x["natives"]["windows"].ToString()
+                    .Replace("${arch}", Directory.Exists(@"C:\Program Files (x86)") ? "64" : "32");
+                
+                re.Add(new Library
+                {
+                    File = new FileInfo($@"{Location}\libraries\{x["name"].ToString().ToLibraryFile(false)}-{suffix}.jar"),
+                    Name = x["name"].ToString()
+                });
+            });
+            
+            if (mc.Type.IsLoader())
+            {
+                re.AddRange(GetNatives(mc.Inherit.File.Version.Name));
+            }
+
+            return re;
+        }
+
+        public IEnumerable<Asset> GetAssets(string version)
+        {
+            return GetAssets(GetMinecraft(version));
+        }
+        
+        public IEnumerable<Asset> GetAssets(Minecraft mc)
+        {
+            var re = new List<Asset>();
+
+            var json = JObject.Parse(File.ReadAllText($@"{mc.File.Assets}\indexes\{mc.RootVersion}.json"));
+            var table = json["objects"].ToObject<Hashtable>();
+            foreach (DictionaryEntry o in table)
+            {
+                var obj = JObject.Parse(o.Value.ToString());
+                var hash = obj["hash"].ToString();
+
+                re.Add(new Asset
+                {
+                    File = new FileInfo($@"{mc.File.Assets}\objects\{hash.Substring(0, 2)}\{hash}")
+                });
+            }
+            
+            return re;
+        }
+    }
+
+    public partial class MinecraftLocator
+    {
         private static string GetMinecraftAssetIndex(Minecraft.MinecraftJson json)
         {
             //if it has a assets property
@@ -167,7 +248,6 @@ namespace AHpx.ModuleLauncher.Locators
                 //trying to parse assets property
                 try
                 {
-                    //TODO:IGNORE THE MODIFIED CLIENTS
                     if (json.Assets == "pre-1.6" || json.Assets == "legacy")
                         return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
                     var ver = new Version(json.Assets);
@@ -202,21 +282,48 @@ namespace AHpx.ModuleLauncher.Locators
             throw new ArgumentException("Version parse failed", nameof(json));
         }
 
-        private Minecraft GetInheritMinecraft(Minecraft mc, bool isolation = true, bool readJson = true)
+        private Minecraft GetInheritMinecraft(Minecraft mc, bool isolation = true)
         {
             var json = mc.Json;
-            switch (GetMinecraftJsonType(json))
+
+            return mc.Type.IsLoader() ? GetMinecraft(json.InheritsFrom, isolation) : mc;
+        }
+        
+        private bool IsAllow(JToken token)
+        {
+            var obj = token.ToObject<JObject>();
+            if (obj.ContainsKey("rules"))
             {
-                case Minecraft.MinecraftJson.MinecraftType.DefaultLoader:
-                case Minecraft.MinecraftJson.MinecraftType.NewLoader:
-                    return GetMinecraft(json.InheritsFrom, isolation, readJson);
-                case Minecraft.MinecraftJson.MinecraftType.DefaultVanilla:
-                case Minecraft.MinecraftJson.MinecraftType.NewVanilla:
-                case Minecraft.MinecraftJson.MinecraftType.OldVanilla:
-                    return mc;
-                default:
-                    throw new Exception("Unsupported version type!");
+                foreach (var jToken in obj["rules"].ToObject<JArray>())
+                {
+                    var o = jToken.ToObject<JObject>();
+                    if (o["action"].ToString() == "allow")
+                    {
+                        if (o.ContainsKey("os"))
+                        {
+                            return o["os"]["name"].ToString().Contains("windows");
+                        }
+
+                        return true;
+                    }
+                    
+                    if (o.ContainsKey("os"))
+                    {
+                        return !o["os"]["name"].ToString().Contains("windows");
+                    }
+
+                    return false;
+                }
             }
+
+            return true;
+        }
+
+        private bool IsNative(JToken token)
+        {
+            var obj = token.ToObject<JObject>();
+
+            return obj.ContainsKey("natives");
         }
     }
 }

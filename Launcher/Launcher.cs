@@ -12,11 +12,11 @@ namespace AHpx.ModuleLauncher.Launcher
     public class Launcher
     {
 
-        private LibrariesLocator _locator;
-        public LibrariesLocator Locator
+        private MinecraftLocator _locator;
+        public MinecraftLocator Locator
         {
             get => _locator;
-            set => _locator = value ?? new LibrariesLocator(@".\.minecraft");
+            set => _locator = value ?? new MinecraftLocator(@".\.minecraft");
         }
 
         public AuthenticateResult Auth { get; set; }
@@ -103,7 +103,7 @@ namespace AHpx.ModuleLauncher.Launcher
 
         public string JvmArgs { get; set; }
 
-        public Launcher(LibrariesLocator locator = null, string launcherName = null, byte? maxMemorySize = default, byte? minMemorySize = default, string serverPort = null, int? windowHeight = default, int? windowWidth = default, AuthenticateResult auth = null, string server = null, bool? fullscreen = default, string jvmArgs = null, string javaPath = null)
+        public Launcher(MinecraftLocator locator = null, string launcherName = null, byte? maxMemorySize = default, byte? minMemorySize = default, string serverPort = null, int? windowHeight = default, int? windowWidth = default, AuthenticateResult auth = null, string server = null, bool? fullscreen = default, string jvmArgs = null, string javaPath = null)
         {
             Locator = locator;
             LauncherName = launcherName;

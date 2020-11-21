@@ -15,8 +15,6 @@ namespace AHpx.ModuleLauncher.Downloaders.Locator
 {
     public class MinecraftDownloader : DownloaderCore
     {
-        public MinecraftDownloader() : base(){}
-
         private string _manifest = "http://launchermeta.mojang.com/mc/game/version_manifest.json";
         private DownloadSource _source;
         public DownloadSource Source
@@ -42,7 +40,7 @@ namespace AHpx.ModuleLauncher.Downloaders.Locator
             return new[] {manifest["latest"]["release"].ToString(), manifest["latest"]["snapshot"].ToString()};
         }
 
-        public async Task<IEnumerable<MinecraftItem>> GetMinecrafts()
+        public async Task<IEnumerable<MinecraftItem>> GetMinecraftItems()
         {
             var arr = JObject.Parse((await HttpUtils.Get(_manifest)).Content)["versions"].ToObject<JArray>();
             var re = new List<MinecraftItem>();
@@ -55,110 +53,11 @@ namespace AHpx.ModuleLauncher.Downloaders.Locator
             return re;
         }
         
-        public async Task<JObject> GetMinecraftJson(string version)
+        public async Task<MinecraftItem> GetMinecraftItem(string version)
         {
-            var arr = JObject.Parse((await HttpUtils.Get(_manifest)).Content)["versions"].ToObject<JArray>();
-            var obj = arr.FirstOrDefault(w => w["id"].ToString() == version).ToObject<JObject>();
+            var arr = await GetMinecraftItems();
 
-            return JObject.Parse((await HttpUtils.Get(obj["url"].ToString())).Content);
-        }
-
-        public async Task Download(string version, MinecraftLocator locator, bool complete = true , bool checkExist = true)
-        {
-            var mc = locator.GetMinecraft(await GetMinecraftJson(version));
-            
-            if (locator is LibrariesLocator lib)
-            {
-                mc.File.Libraries.Create();
-                
-                foreach (var library in lib.GetLibraries(mc).Concat(lib.GetNatives(mc)))
-                {
-                    if (library.File.Exists && checkExist) continue;
-                    
-                    var relativeUrl = library.File.FullName.ToRelativeUrl("\\libraries\\");
-                    var url = Source switch
-                    {
-                        DownloadSource.Official => $"https://libraries.minecraft.net/{relativeUrl}",
-                        DownloadSource.BmclApi =>
-                            $"https://bmclapidoc.bangbang93.com/maven/{relativeUrl}",
-                        DownloadSource.Mcbbs => $"https://download.mcbbs.net/maven/{relativeUrl}",
-                        _ => throw new IndexOutOfRangeException("No such source!")
-                    };
-                        
-                    await base.Download(url, library.File, true);
-                }
-            }
-            else if (locator is AssetsLocator ass)
-            {
-                mc.File.Assets.Create();
-                if (!File.Exists($@"{mc.File.Assets}\indexes\{mc.RootVersion}.json"))
-                {
-                    var index = mc.Json.AssetIndex["url"].ToString();
-
-                    await base.Download(index, new FileInfo($@"{mc.File.Assets}\indexes\{mc.RootVersion}.json"), true);
-                }
-
-                foreach (var asset in ass.GetAssets(mc))
-                {
-                    if (asset.File.Exists && checkExist) continue;
-                    
-                    var relativeUrl = asset.File.FullName.ToRelativeUrl("\\objects\\");
-                    var url = Source switch
-                    {
-                        DownloadSource.Official => $"http://resources.download.minecraft.net/{relativeUrl}",
-                        DownloadSource.BmclApi =>
-                            $"https://bmclapi2.bangbang93.com/assets/{relativeUrl}",
-                        DownloadSource.Mcbbs => $"https://download.mcbbs.net/assets/{relativeUrl}",
-                        _ => throw new IndexOutOfRangeException("No such source!")
-                    };
-                        
-                    await base.Download(url, asset.File, true);
-                }
-            }
-            else
-            {
-                if (complete)
-                {
-                    var lc = new LibrariesLocator(locator.Location);
-                    await Download(version, lc);
-                    
-                    var ac = new AssetsLocator(locator.Location);
-                    await Download(version, ac);
-                }
-                
-                mc.File.Version.Create();
-                
-                var obj = await GetMinecraftJson(version);
-                var sha1 = obj["downloads"]["client"]["sha1"].ToString();
-                var url = Source switch
-                {
-                    DownloadSource.Official => $"https://launcher.mojang.com/v1/objects/{sha1}/client.jar",
-                    DownloadSource.BmclApi =>
-                        $"https://bmclapidoc.bangbang93.com/mc/game/{version}/client/{sha1}/client.jar",
-                    DownloadSource.Mcbbs => $"https://download.mcbbs.net/mc/game/{version}/client/{sha1}/client.jar",
-                    _ => throw new IndexOutOfRangeException("No such source!")
-                };
-
-                if (checkExist)
-                {
-                    if (!mc.File.Json.Exists)
-                        await File.WriteAllTextAsync(mc.File.Json.FullName, obj.ToString());
-                }
-                else
-                {
-                    await File.WriteAllTextAsync(mc.File.Json.FullName, obj.ToString());
-                }
-
-                if (checkExist)
-                {
-                    if (!mc.File.Jar.Exists)
-                        await base.Download(url, new FileInfo(mc.File.Jar.FullName));
-                }
-                else
-                {
-                    await base.Download(url, new FileInfo(mc.File.Jar.FullName));
-                }
-            }
+            return arr.FirstOrDefault(x => x.Id == version);
         }
     }
 }

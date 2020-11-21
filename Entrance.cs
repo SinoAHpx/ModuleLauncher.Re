@@ -17,32 +17,9 @@ namespace AHpx.ModuleLauncher
     {
         public static async Task Main(string[] args)
         {
-            var dl = new MinecraftDownloader
-            {
-                Source = DownloadSource.Mcbbs,
-                OnProgressChanged = (o, eventArgs) => { Console.WriteLine(eventArgs.ProgressPercentage); },
-                OnCompleted = (o, eventArgs) => { Console.WriteLine("Complete!"); }
-            };
-            
-            var mo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
-            var lo = new LibrariesLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
+            var lc = new MinecraftLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
 
-            var lc = new Launcher.Launcher
-            {
-                Locator = lo,
-                LauncherName = "AHpx",
-                JavaPath = @"C:\Program Files\Java\jdk1.8.0_271\bin\javaw.exe",
-                Auth = "Test"
-            };
-            
-            await dl.Download("1.7.10", mo);
-
-            var pro = lc.Launch("1.7.10");
-            
-            while (await pro.StandardOutput.ReadLineAsync() != null)
-            {
-                Console.WriteLine(await pro.StandardOutput.ReadLineAsync());
-            }
+            Console.WriteLine(lc.GetMinecraft("1.7.10-Forge10.13.4.1614-1.7.10").File.Json);
         }
 
         private static void Output<T>(this IEnumerable<T> ex)
