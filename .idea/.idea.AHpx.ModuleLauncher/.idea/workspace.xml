@@ -23,15 +23,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Merge LibrariesLocator.cs &amp; AssetsLocator.cs to MinecraftLocator.cs">
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Move framework version to core 3.1">
+      <change afterPath="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/shelf/Uncommitted_changes_before_rebase_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/Test.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Test/Test.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/global.json" beforeDir="false" afterPath="$PROJECT_DIR$/global.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,10 +46,23 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/CFC53072-CDD1-45A4-BA7A-F31BDE1FA492/1E0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
       <option value="$PROJECT_DIR$/Test/Test.csproj" />
+      <option value="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" />
+      <option value="$PROJECT_DIR$/Entrance.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -66,8 +75,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35016465" />
-    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.30021954" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34993085" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -146,7 +155,7 @@
       <workItem from="1614862962402" duration="328000" />
       <workItem from="1614863311930" duration="46000" />
       <workItem from="1614863382653" duration="127000" />
-      <workItem from="1614863536273" duration="436000" />
+      <workItem from="1614863536273" duration="3525000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -246,7 +255,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605955649816</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Move framework version to core 3.1">
+      <created>1614864007270</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1614864007270</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,6 +308,7 @@
     <MESSAGE value="1.Fixed download slow problem&#10;2.Added complete option in Download()" />
     <MESSAGE value="Added xml summary" />
     <MESSAGE value="Merge LibrariesLocator.cs &amp; AssetsLocator.cs to MinecraftLocator.cs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge LibrariesLocator.cs &amp; AssetsLocator.cs to MinecraftLocator.cs" />
+    <MESSAGE value="Move framework version to core 3.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Move framework version to core 3.1" />
   </component>
 </project>
