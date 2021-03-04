@@ -19,6 +19,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseExpression></PackageLicenseExpression>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
