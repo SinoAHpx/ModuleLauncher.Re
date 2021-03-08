@@ -1,4 +1,4 @@
-# ModuleLauncher.Re 2.7
+# ModuleLauncher.Re 2.8
 
 ![GitHub](https://img.shields.io/github/license/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)![GitHub stars](https://img.shields.io/github/stars/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)![GitHub repo size](https://img.shields.io/github/repo-size/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)
 
@@ -9,34 +9,28 @@ ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 
 如你所见，ModuleLauncher这个项目是[Module-Launcher启动模块](https://www.mcbbs.net/thread-815868-1-1.html)的C#版本，它具有以下特性：
 
-+ 基于最新的.net 5构建
-+ 支持1.7.10及以上的加载器和原版Minecraft
++支持1.7.10及以上的加载器和原版Minecraft
   + 不保证可以启动1.7.10之前的Minecraft
 + 支持补全Minecraft缺失的资源和库文件
 + 支持获取几乎整个[Mcbbs](https://www.mcbbs.net)首页的新闻
 + 支持Yggdrasil和authlib-injector外置的几乎所有接口
-+ 正在快速迭代中
++ 正在~~快速~~迭代中
 
 请访问本项目的[wiki](https://github.com/AHpxChina/ModuleLauncher.Re/wiki)来获取更多信息和使用文档，
 
 ### 安装
 
 + 将ModuleLauncher.Re源码克隆到本地并进行编译成dll以导入引用
-+ 使用[Nuget](https://www.nuget.org/packages/ModuleLauncher.Re/2.6.0)
++ 使用[Nuget](https://www.nuget.org/packages/ModuleLauncher.Re/2.8.0)
 
   ```
-  Install-Package ModuleLauncher.Re -Version 2.7.0
+  Install-Package ModuleLauncher.Re -Version 2.8.0
   ```
 
 ### 更新日志
 
-+ 2.7
-  + 将本项目迁移到了.net 5
-  + 重构了整个项目，使它更易维护和更新
-  + 添加了对authlib-injector的支持
-  + 添加了对资源和库文件的补全和支持
-  + 修复了获取库文件时可能存在的bug
-  + 添加了多下载源支持
++ 2.8
+  + 支持了微软登陆方案，请参考[Microsoft Authentication Scheme](https://wiki.vg/Microsoft_Authentication_Scheme)
 
 ### 计划
 

@@ -20,6 +20,9 @@
         <PackageLicenseExpression></PackageLicenseExpression>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <LangVersion>9</LangVersion>
+        <PackageVersion>2.8.0</PackageVersion>
+        <PackageLicenseUrl>https://github.com/AHpxChina/ModuleLauncher.Re/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://i.loli.net/2021/03/09/NdwvUPWLljSC6rh.png</PackageIconUrl>
     </PropertyGroup>
 
     <ItemGroup>
