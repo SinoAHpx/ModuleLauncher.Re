@@ -13,7 +13,7 @@
         <Description>ModuleLauncher.Re makes developing Minecraft launchers efficient and elegant</Description>
         <Copyright>© 2021 AHpx.</Copyright>
         <PackageProjectUrl>https://github.com/AHpxChina/ModuleLauncher.Re</PackageProjectUrl>
-        <PackageIcon>AHpx.png</PackageIcon>
+        <PackageIconUrl>https://i.loli.net/2021/03/09/NdwvUPWLljSC6rh.png</PackageIconUrl>
         <RepositoryUrl>https://github.com/AHpxChina/ModuleLauncher.Re</RepositoryUrl>
         <NeutralLanguage>zh</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
