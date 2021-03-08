@@ -54,6 +54,7 @@
       <e p="Launcher" t="Include">
         <e p="Launcher.cs" t="Include" />
       </e>
+      <e p="LICENSE" t="Include" />
       <e p="Locators" t="Include">
         <e p="MinecraftLocator.cs" t="Include" />
       </e>

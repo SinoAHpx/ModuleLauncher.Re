@@ -32,10 +32,6 @@
 
     <ItemGroup>
       <None Remove="Test\**" />
-      <None Include="C:\Users\ahpx\Desktop\LICENSE">
-        <Pack>True</Pack>
-        <PackagePath></PackagePath>
-      </None>
     </ItemGroup>
 
     <ItemGroup>
