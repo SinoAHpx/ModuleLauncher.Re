@@ -21,6 +21,8 @@
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <LangVersion>9</LangVersion>
         <PackageVersion>2.8.0</PackageVersion>
+        <PackageLicenseUrl></PackageLicenseUrl>
+        <PackageIconUrl></PackageIconUrl>
     </PropertyGroup>
 
     <ItemGroup>

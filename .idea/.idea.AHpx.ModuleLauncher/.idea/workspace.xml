@@ -23,12 +23,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Complete MicrosoftAuthenticator.cs">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Update README.md" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -158,7 +153,7 @@
       <workItem from="1614863382653" duration="127000" />
       <workItem from="1614863536273" duration="3825000" />
       <workItem from="1614867764609" duration="51000" />
-      <workItem from="1615221105972" duration="514000" />
+      <workItem from="1615221105972" duration="801000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -272,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614867590923</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Update README.md">
+      <created>1615221767559</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1615221767559</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,6 +322,7 @@
     <MESSAGE value="Merge LibrariesLocator.cs &amp; AssetsLocator.cs to MinecraftLocator.cs" />
     <MESSAGE value="Move framework version to core 3.1" />
     <MESSAGE value="Complete MicrosoftAuthenticator.cs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Complete MicrosoftAuthenticator.cs" />
+    <MESSAGE value="Update README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update README.md" />
   </component>
 </project>
