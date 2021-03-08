@@ -9,7 +9,7 @@ ModuleLauncher.Re 使得开发Minecraft启动器变得高效而优雅。
 
 如你所见，ModuleLauncher这个项目是[Module-Launcher启动模块](https://www.mcbbs.net/thread-815868-1-1.html)的C#版本，它具有以下特性：
 
-+支持1.7.10及以上的加载器和原版Minecraft
++ 支持1.7.10及以上的加载器和原版Minecraft
   + 不保证可以启动1.7.10之前的Minecraft
 + 支持补全Minecraft缺失的资源和库文件
 + 支持获取几乎整个[Mcbbs](https://www.mcbbs.net)首页的新闻

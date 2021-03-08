@@ -39,7 +39,6 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -54,11 +53,11 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
       <option value="$PROJECT_DIR$/Test/Test.csproj" />
       <option value="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" />
       <option value="$PROJECT_DIR$/Entrance.cs" />
       <option value="$PROJECT_DIR$/README.md" />
+      <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -154,7 +153,7 @@
       <workItem from="1614863536273" duration="3825000" />
       <workItem from="1614867764609" duration="51000" />
       <workItem from="1615221105972" duration="801000" />
-      <workItem from="1615222211570" duration="459000" />
+      <workItem from="1615222211570" duration="761000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -282,7 +281,28 @@
       <option name="project" value="LOCAL" />
       <updated>1615222254678</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fixed nuget">
+      <created>1615222773501</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1615222773501</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixed nuget">
+      <created>1615222918909</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1615222918909</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixed nuget">
+      <created>1615222955358</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1615222955358</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
