@@ -23,7 +23,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Update README.md" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="fixed nuget" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,6 +154,7 @@
       <workItem from="1614863536273" duration="3825000" />
       <workItem from="1614867764609" duration="51000" />
       <workItem from="1615221105972" duration="801000" />
+      <workItem from="1615222211570" duration="459000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -274,7 +275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615221767559</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fixed nuget">
+      <created>1615222254678</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1615222254678</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,6 +331,7 @@
     <MESSAGE value="Move framework version to core 3.1" />
     <MESSAGE value="Complete MicrosoftAuthenticator.cs" />
     <MESSAGE value="Update README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README.md" />
+    <MESSAGE value="fixed nuget" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed nuget" />
   </component>
 </project>

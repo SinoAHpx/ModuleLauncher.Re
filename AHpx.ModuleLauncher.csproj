@@ -17,8 +17,7 @@
         <RepositoryUrl>https://github.com/AHpxChina/ModuleLauncher.Re</RepositoryUrl>
         <NeutralLanguage>zh</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageLicenseExpression></PackageLicenseExpression>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseUrl>https://github.com/AHpxChina/ModuleLauncher.Re/blob/master/LICENSE</PackageLicenseUrl>
         <LangVersion>9</LangVersion>
         <PackageVersion>2.8.0</PackageVersion>
     </PropertyGroup>
