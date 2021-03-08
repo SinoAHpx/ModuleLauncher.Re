@@ -6,12 +6,12 @@
         <FileVersion>2.7</FileVersion>
         <OutputType>Exe</OutputType>
         <PackageId>ModuleLauncher.Re</PackageId>
-        <Version>2.7.0</Version>
+        <Version>2.8.0</Version>
         <Authors>AHpx</Authors>
         <Company>AHpx</Company>
         <Product>AHpx.ModuleLauncher</Product>
         <Description>ModuleLauncher.Re makes developing Minecraft launchers efficient and elegant</Description>
-        <Copyright>© 2020 AHpx.</Copyright>
+        <Copyright>© 2021 AHpx.</Copyright>
         <PackageProjectUrl>https://github.com/AHpxChina/ModuleLauncher.Re</PackageProjectUrl>
         <PackageIcon>AHpx.png</PackageIcon>
         <RepositoryUrl>https://github.com/AHpxChina/ModuleLauncher.Re</RepositoryUrl>
@@ -21,8 +21,6 @@
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <LangVersion>9</LangVersion>
         <PackageVersion>2.8.0</PackageVersion>
-        <PackageLicenseUrl>https://github.com/AHpxChina/ModuleLauncher.Re/blob/master/LICENSE</PackageLicenseUrl>
-        <PackageIconUrl>https://i.loli.net/2021/03/09/NdwvUPWLljSC6rh.png</PackageIconUrl>
     </PropertyGroup>
 
     <ItemGroup>
@@ -35,10 +33,6 @@
 
     <ItemGroup>
       <None Remove="Test\**" />
-      <None Include="C:\Users\ahpx\Desktop\AHpx.png">
-        <Pack>True</Pack>
-        <PackagePath></PackagePath>
-      </None>
       <None Include="C:\Users\ahpx\Desktop\LICENSE">
         <Pack>True</Pack>
         <PackagePath></PackagePath>
