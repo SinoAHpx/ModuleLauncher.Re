@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AHpx.ModuleLauncher.Authenticators;
 using AHpx.ModuleLauncher.Data.Downloaders;
 using AHpx.ModuleLauncher.Downloaders;
-using AHpx.ModuleLauncher.Downloaders.Locator;
 using AHpx.ModuleLauncher.Locators;
 using AHpx.ModuleLauncher.Utils.Extensions;
 using AHpx.ModuleLauncher.Utils.Network;
