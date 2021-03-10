@@ -4,6 +4,9 @@
     <projectFile>AHpx.ModuleLauncher.csproj</projectFile>
     <projectFile>Test/Test.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -23,7 +26,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="fixed nuget" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Removed useless">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,9 +60,11 @@
     <changedPaths>
       <option value="$PROJECT_DIR$/Test/Test.csproj" />
       <option value="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" />
-      <option value="$PROJECT_DIR$/Entrance.cs" />
       <option value="$PROJECT_DIR$/README.md" />
       <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
+      <option value="$PROJECT_DIR$/Downloaders/DownloaderCore.cs" />
+      <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
+      <option value="$PROJECT_DIR$/Entrance.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -154,6 +161,7 @@
       <workItem from="1614867764609" duration="51000" />
       <workItem from="1615221105972" duration="801000" />
       <workItem from="1615222211570" duration="761000" />
+      <workItem from="1615306144064" duration="2827000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -302,7 +310,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615222955358</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Removed useless">
+      <created>1615306299189</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1615306299189</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,6 +367,7 @@
     <MESSAGE value="Complete MicrosoftAuthenticator.cs" />
     <MESSAGE value="Update README.md" />
     <MESSAGE value="fixed nuget" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed nuget" />
+    <MESSAGE value="Removed useless" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed useless" />
   </component>
 </project>
