@@ -138,7 +138,7 @@ namespace AHpx.ModuleLauncher.Authenticators
             return JObject.Parse(res)["access_token"].ToString();
         }
         
-        public async Task<bool> CheckHaveMinecraft(string MCtoken)
+        public async Task<bool> CheckMinecraftOwnership(string MCtoken)
         {
             //https://api.minecraftservices.com/entitlements/mcstore
 

@@ -26,8 +26,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Removed useless">
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Updated version">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,10 +62,11 @@
       <option value="$PROJECT_DIR$/Test/Test.csproj" />
       <option value="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" />
       <option value="$PROJECT_DIR$/README.md" />
-      <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
       <option value="$PROJECT_DIR$/Downloaders/DownloaderCore.cs" />
       <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
       <option value="$PROJECT_DIR$/Entrance.cs" />
+      <option value="$PROJECT_DIR$/Authenticators/OfflineAuthenticator.cs" />
+      <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -89,7 +91,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected=".NET Project.AHpx.ModuleLauncher">
@@ -162,6 +164,10 @@
       <workItem from="1615221105972" duration="801000" />
       <workItem from="1615222211570" duration="761000" />
       <workItem from="1615306144064" duration="2827000" />
+      <workItem from="1615351525188" duration="2243000" />
+      <workItem from="1616062706714" duration="708000" />
+      <workItem from="1616431348971" duration="815000" />
+      <workItem from="1616666020508" duration="323000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -317,7 +323,21 @@
       <option name="project" value="LOCAL" />
       <updated>1615306299189</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Added constructor for OfflineAuthenticator.cs">
+      <created>1615351628750</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1615351628750</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Updated version">
+      <created>1615351685689</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1615351685689</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -368,6 +388,8 @@
     <MESSAGE value="Update README.md" />
     <MESSAGE value="fixed nuget" />
     <MESSAGE value="Removed useless" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed useless" />
+    <MESSAGE value="Added constructor for OfflineAuthenticator.cs" />
+    <MESSAGE value="Updated version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated version" />
   </component>
 </project>
