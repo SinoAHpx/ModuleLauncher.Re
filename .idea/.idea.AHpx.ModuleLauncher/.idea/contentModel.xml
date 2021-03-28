@@ -29,6 +29,7 @@
           <e p="ExternalAuthenticateMeta.cs" t="Include" />
         </e>
         <e p="Downloaders" t="Include">
+          <e p="DownloadArgs.cs" t="Include" />
           <e p="DownloadSource.cs" t="Include" />
           <e p="MinecraftItem.cs" t="Include" />
         </e>
