@@ -43,7 +43,7 @@ namespace AHpx.ModuleLauncher.Locators
         /// <param name="obj"></param>
         /// <param name="versionIsolation"></param>
         /// <returns></returns>
-        public Minecraft GetMinecraft(JObject obj, bool versionIsolation = true)
+        public Minecraft GetMinecraft(JToken obj, bool versionIsolation = true)
         {
             var json = obj.ToObject<Minecraft.MinecraftJson>();
             var version = json.Id;
