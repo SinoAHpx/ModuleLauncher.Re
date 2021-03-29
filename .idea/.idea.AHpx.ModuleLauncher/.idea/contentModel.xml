@@ -32,7 +32,10 @@
           <e p="DownloadArgs.cs" t="Include" />
           <e p="DownloadItem.cs" t="Include" />
           <e p="DownloadSource.cs" t="Include" />
-          <e p="MinecraftItem.cs" t="Include" />
+          <e p="MINECRAFT" t="Include">
+            <e p="LatestMinecrafts.cs" t="Include" />
+            <e p="MinecraftItem.cs" t="Include" />
+          </e>
         </e>
         <e p="Locators" t="Include">
           <e p="Asset.cs" t="Include" />

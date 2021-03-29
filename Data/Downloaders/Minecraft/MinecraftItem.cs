@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AHpx.ModuleLauncher.Data.Downloaders
+namespace AHpx.ModuleLauncher.Data.Downloaders.Minecraft
 {
     public class MinecraftItem
     {

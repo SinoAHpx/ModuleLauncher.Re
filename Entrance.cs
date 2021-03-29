@@ -19,36 +19,55 @@ namespace AHpx.ModuleLauncher
     {
         public static async Task Main(string[] args)
         {
-            var downloader = new Downloaders.Downloader();
-            
-            downloader.StartedAction += startedArgs =>
+            //TODO: Add the custom exception for each method
+
+            #region Downloader initialized
+
+            // var downloader = new Downloaders.Downloader();
+            //
+            // downloader.StartedAction += startedArgs =>
+            // {
+            //     Console.ForegroundColor = ConsoleColor.Red;
+            //     Console.WriteLine($"Download {startedArgs.FileName} stared!");
+            // };
+            // downloader.CompletedAction += completedArgs =>
+            // {
+            //     Console.ForegroundColor = ConsoleColor.Green;
+            //     Console.WriteLine("Download completed!");
+            // };
+            // downloader.ProgressAction += progressArgs =>
+            // {
+            //     Console.ForegroundColor = ConsoleColor.Blue;
+            //     Console.WriteLine(
+            //         $"The current downloading progress is {progressArgs.ReceivedBytesSize}/{progressArgs.TotalBytesSize} bytes");
+            // };
+            //
+            // var items = new List<DownloadItem>();
+            // for (int i = 0; i < 10; i++)
+            // {
+            //     items.Add(new DownloadItem
+            //     {
+            //         Address = "http://ipv4.download.thinkbroadband.com/5MB.zip",
+            //         FileName = @"C:\Users\ahpx\Desktop\Test\TestA_" + i + ".jar"
+            //     });
+            // }
+            //
+            // await downloader.Download(items, 3);
+
+            #endregion
+
+            var mcd = new MinecraftDownloader
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Download {startedArgs.FileName} stared!");
+                Locator = new MinecraftLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft")
             };
-            downloader.CompletedAction += completedArgs =>
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Download completed!");
-            };
-            downloader.ProgressAction += progressArgs =>
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine(
-                    $"The current downloading progress is {progressArgs.ReceivedBytesSize}/{progressArgs.TotalBytesSize} bytes");
-            };
             
-            var items = new List<DownloadItem>();
-            for (int i = 0; i < 10; i++)
-            {
-                items.Add(new DownloadItem
-                {
-                    Address = "http://ipv4.download.thinkbroadband.com/5MB.zip",
-                    FileName = @"C:\Users\ahpx\Desktop\Test\TestA_" + i + ".jar"
-                });
-            }
+            var re = await mcd.GetMinecraft("1.16.5");
             
-            await downloader.Download(items, 3);
+            Console.WriteLine("File " +  re.File);
+            Console.WriteLine("Inherit " + re.Inherit);
+            Console.WriteLine("id " + re.Json.Id);
+            Console.WriteLine("type " + re.Type);
+            Console.WriteLine("root version " + re.RootVersion);
         }
 
         private static void Output<T>(this IEnumerable<T> ex)

@@ -26,10 +26,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Removed redundancy codes">
-      <change afterPath="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" afterDir="false" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Make GetAssetIndex() non-static">
+      <change afterPath="$PROJECT_DIR$/Data/Downloaders/Minecraft/LatestMinecrafts.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Downloaders/Downloader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Downloaders/Downloader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Downloaders/MinecraftItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Downloaders/Minecraft/MinecraftItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,9 +59,12 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Entrance.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/CFC53072-CDD1-45A4-BA7A-F31BDE1FA492/1E0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2794FF4A-DB9D-481D-9625-798307CC1E23/9/Batch.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Downloaders/MinecraftDownloader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7B333FD0-249C-4BBE-B3AC-A31079BE4F6F/6c/78fc2eae/DownloadService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Locators/MinecraftLocator.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -72,9 +78,12 @@
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadArgs.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadPackage.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadItem.cs" />
-      <option value="$PROJECT_DIR$/Entrance.cs" />
       <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
+      <option value="$PROJECT_DIR$/Data/Downloaders/Minecraft/LatestMinecrafts.cs" />
+      <option value="$PROJECT_DIR$/Data/Locators/Minecraft.cs" />
+      <option value="$PROJECT_DIR$/Locators/MinecraftLocator.cs" />
       <option value="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" />
+      <option value="$PROJECT_DIR$/Entrance.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -100,6 +109,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="RiderCSharpLiveTemplatesSettingsId" />
+    <property name="threadsIsVisibleKey" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected=".NET Project.AHpx.ModuleLauncher">
@@ -194,7 +204,8 @@
       <workItem from="1616922768962" duration="246000" />
       <workItem from="1616950095047" duration="1005000" />
       <workItem from="1617013998606" duration="528000" />
-      <workItem from="1617014550431" duration="1438000" />
+      <workItem from="1617014550431" duration="1564000" />
+      <workItem from="1617030558119" duration="3936000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -392,7 +403,28 @@
       <option name="project" value="LOCAL" />
       <updated>1617015864073</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Added Empty MinecraftDownloader.cs based on Downloader.cs">
+      <created>1617016069397</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1617016069397</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Changed GetMinecraft() JObject -&gt; JToken">
+      <created>1617032338561</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1617032338561</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Make GetAssetIndex() non-static">
+      <created>1617034514885</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1617034514885</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -424,9 +456,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fixed GetLibraries() problem" />
-    <MESSAGE value="1.Added GetNatives()&#10;2.Made GetLibraries() support loaders" />
-    <MESSAGE value="1.Added AssetsLocator.cs &amp; Asset.cs&#10;2.Added GetAssets()" />
     <MESSAGE value="Complete Launcher.cs" />
     <MESSAGE value="Added MojangApi.cs" />
     <MESSAGE value="Added McbbsNews.cs from old project" />
@@ -449,7 +478,10 @@
     <MESSAGE value="Completed Downloader.cs &amp; DownloadArgs.cs" />
     <MESSAGE value="Fixed parallel download in Downloader.cs" />
     <MESSAGE value="Removed redundancy codes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed redundancy codes" />
+    <MESSAGE value="Added Empty MinecraftDownloader.cs based on Downloader.cs" />
+    <MESSAGE value="Changed GetMinecraft() JObject -&gt; JToken" />
+    <MESSAGE value="Make GetAssetIndex() non-static" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make GetAssetIndex() non-static" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
