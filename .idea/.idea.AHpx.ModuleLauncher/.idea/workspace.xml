@@ -26,8 +26,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Fixed parallel download in Downloader.cs">
-      <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Removed redundancy codes">
+      <change afterPath="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Downloaders/Downloader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Downloaders/Downloader.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,8 +72,9 @@
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadArgs.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadPackage.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadItem.cs" />
-      <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
       <option value="$PROJECT_DIR$/Entrance.cs" />
+      <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
+      <option value="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -191,7 +194,7 @@
       <workItem from="1616922768962" duration="246000" />
       <workItem from="1616950095047" duration="1005000" />
       <workItem from="1617013998606" duration="528000" />
-      <workItem from="1617014550431" duration="1124000" />
+      <workItem from="1617014550431" duration="1438000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -382,7 +385,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617015565842</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Removed redundancy codes">
+      <created>1617015864073</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1617015864073</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -438,7 +448,8 @@
     <MESSAGE value="Rename CheckHaveMinecraft to CheckMinecraftOwnerShip" />
     <MESSAGE value="Completed Downloader.cs &amp; DownloadArgs.cs" />
     <MESSAGE value="Fixed parallel download in Downloader.cs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed parallel download in Downloader.cs" />
+    <MESSAGE value="Removed redundancy codes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed redundancy codes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

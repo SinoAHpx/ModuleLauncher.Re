@@ -47,6 +47,7 @@
       </e>
       <e p="Downloaders" t="Include">
         <e p="Downloader.cs" t="Include" />
+        <e p="MinecraftDownloader.cs" t="Include" />
       </e>
       <e p="Entrance.cs" t="Include" />
       <e p="global.json" t="Include" />
