@@ -186,7 +186,7 @@ namespace AHpx.ModuleLauncher.Locators
 
     public partial class MinecraftLocator
     {
-        private static string GetMinecraftAssetIndex(Minecraft.MinecraftJson json)
+        internal string GetMinecraftAssetIndex(Minecraft.MinecraftJson json)
         {
             //if it has a assets property
             try
