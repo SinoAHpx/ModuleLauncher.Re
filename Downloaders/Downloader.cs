@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -6,17 +7,25 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AHpx.ModuleLauncher.Data.Downloaders;
 using Downloader;
+using MoreLinq;
 using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
 namespace AHpx.ModuleLauncher.Downloaders
 {
     public class Downloader
     {
-        private DownloadService _downloadService;
-
         public Downloader()
         {
-            _downloadService = new DownloadService(new DownloadConfiguration
+            
+        }
+
+        public Action<DownloadArgs.StartedArgs> StartedAction { get; set; } = args => { };
+        public Action<DownloadArgs.CompletedArgs> CompletedAction { get; set; } = args => { };
+        public Action<DownloadArgs.ProgressArgs> ProgressAction { get; set; } = args => { };
+        
+        public async Task Download(DownloadItem item)
+        {
+            var downloadService = new DownloadService(new DownloadConfiguration
             {
                 ParallelDownload = true,
                 RequestConfiguration = new RequestConfiguration
@@ -26,18 +35,28 @@ namespace AHpx.ModuleLauncher.Downloaders
                 }
             });
 
-            _downloadService.DownloadStarted += new EventHandler<DownloadStartedEventArgs>(DownloadStared);
-            _downloadService.DownloadFileCompleted += new EventHandler<AsyncCompletedEventArgs>(DownloadCompleted);
-            _downloadService.DownloadProgressChanged += new EventHandler<DownloadProgressChangedEventArgs>(DownloadProgressChanged);
+            downloadService.DownloadStarted += DownloadStared;
+            downloadService.DownloadFileCompleted += DownloadCompleted;
+            downloadService.DownloadProgressChanged += DownloadProgressChanged;
+            
+            await downloadService.DownloadFileTaskAsync(item.Address, item.FileName);
         }
 
-        public Action<DownloadArgs.StartedArgs> StartedAction { get; set; } = args => { };
-        public Action<DownloadArgs.CompletedArgs> CompletedAction { get; set; } = args => { };
-        public Action<DownloadArgs.ProgressArgs> ProgressAction { get; set; } = args => { };
-        
-        public async Task Download(string address, string fileName)
+        public async Task Download(IEnumerable<DownloadItem> items, int maxParallelCount = 3)
         {
-            await _downloadService.DownloadFileTaskAsync(address, fileName);
+            var parallelArr = items.Batch(maxParallelCount);
+            var tasks = new List<Task>();
+            
+            foreach (var item in parallelArr)
+            {
+                foreach (var downloadItem in item)
+                {
+                    tasks.Add(Download(downloadItem));
+                }
+
+                await Task.WhenAll(tasks);
+                tasks.Clear();
+            }
         }
 
         private void DownloadStared(object sender, DownloadStartedEventArgs e)

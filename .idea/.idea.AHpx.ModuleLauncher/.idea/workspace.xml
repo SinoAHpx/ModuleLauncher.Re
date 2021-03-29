@@ -26,11 +26,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Rename CheckHaveMinecraft to CheckMinecraftOwnerShip">
-      <change afterPath="$PROJECT_DIR$/Data/Downloaders/DownloadArgs.cs" afterDir="false" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Completed Downloader.cs &amp; DownloadArgs.cs">
+      <change afterPath="$PROJECT_DIR$/Data/Downloaders/DownloadItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Downloaders/Downloader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Downloaders/Downloader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
     </list>
@@ -61,6 +60,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/CFC53072-CDD1-45A4-BA7A-F31BDE1FA492/1E0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2794FF4A-DB9D-481D-9625-798307CC1E23/9/Batch.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7B333FD0-249C-4BBE-B3AC-A31079BE4F6F/6c/78fc2eae/DownloadService.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -72,8 +72,10 @@
       <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DonwloadArgs.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadArgs.cs" />
-      <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
+      <option value="$PROJECT_DIR$/Data/Downloaders/DownloadPackage.cs" />
+      <option value="$PROJECT_DIR$/Data/Downloaders/DownloadItem.cs" />
       <option value="$PROJECT_DIR$/Entrance.cs" />
+      <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -86,7 +88,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34989503" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34972298" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -189,7 +191,11 @@
       <workItem from="1616915233801" duration="27000" />
       <workItem from="1616915277419" duration="2467000" />
       <workItem from="1616918150597" duration="222000" />
-      <workItem from="1616918388577" duration="2037000" />
+      <workItem from="1616918388577" duration="4320000" />
+      <workItem from="1616922768962" duration="246000" />
+      <workItem from="1616950095047" duration="1005000" />
+      <workItem from="1617013998606" duration="528000" />
+      <workItem from="1617014550431" duration="922000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -366,7 +372,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616666432501</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Completed Downloader.cs &amp; DownloadArgs.cs">
+      <created>1616920454116</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1616920454116</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,7 +433,16 @@
     <MESSAGE value="Added constructor for OfflineAuthenticator.cs" />
     <MESSAGE value="Updated version" />
     <MESSAGE value="Rename CheckHaveMinecraft to CheckMinecraftOwnerShip" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename CheckHaveMinecraft to CheckMinecraftOwnerShip" />
+    <MESSAGE value="Completed Downloader.cs &amp; DownloadArgs.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed Downloader.cs &amp; DownloadArgs.cs" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#Downloader.DownloadConfiguration" memberName="ParallelDownload" />
+        <PinnedItemInfo parentTag="Type#AHpx.ModuleLauncher.Data.Downloaders.DownloadItem" memberName="FileName" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
