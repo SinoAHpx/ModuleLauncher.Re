@@ -14,11 +14,6 @@ namespace AHpx.ModuleLauncher.Downloaders
 {
     public class Downloader
     {
-        public Downloader()
-        {
-            
-        }
-
         public Action<DownloadArgs.StartedArgs> StartedAction { get; set; } = args => { };
         public Action<DownloadArgs.CompletedArgs> CompletedAction { get; set; } = args => { };
         public Action<DownloadArgs.ProgressArgs> ProgressAction { get; set; } = args => { };

@@ -19,10 +19,6 @@ namespace AHpx.ModuleLauncher
     {
         public static async Task Main(string[] args)
         {
-            // var input = new string[] {"AHpx1", "AHpx2", "Ahpx3", "Ahpx4", "Ahpx5"};
-            // await downloadParallel(input);
-
-
             var downloader = new Downloaders.Downloader();
             
             downloader.StartedAction += startedArgs =>
@@ -53,52 +49,6 @@ namespace AHpx.ModuleLauncher
             }
             
             await downloader.Download(items, 3);
-        }
-
-        private static async Task downloadParallel(string[] fileNames, int maxCount = 3)
-        {
-            var name = fileNames.Batch(maxCount);
-            var tasks = new List<Task>();
-            
-            foreach (var enumerable in name)
-            {
-                foreach (var s in enumerable)
-                {
-                    tasks.Add(t1(s));
-                }
-
-                await Task.WhenAll(tasks);
-                tasks.Clear();
-            }
-        }
-
-        private static async Task t1(string name)
-        {
-            var loc = @"C:\Users\ahpx\Desktop\Test\";
-
-            var download = new DownloadService(new DownloadConfiguration
-            {
-                ParallelDownload = true
-            });
-
-            download.DownloadStarted += (sender, eventArgs) =>
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"This download {Path.GetFileName(eventArgs.FileName)} is started!!!");
-            };
-            download.DownloadFileCompleted += (sender, eventArgs) =>
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"This download is finished!!!");
-            };
-            download.DownloadProgressChanged += (sender, eventArgs) =>
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(
-                    $"The current downloading progress is {eventArgs.ReceivedBytesSize}/{eventArgs.TotalBytesToReceive} bytes");
-            };
-
-            await download.DownloadFileTaskAsync("http://ovh.net/files/1Mio.dat", $"{loc}{name}.txt");
         }
 
         private static void Output<T>(this IEnumerable<T> ex)
