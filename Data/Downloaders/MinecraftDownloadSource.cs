@@ -1,6 +1,6 @@
 ﻿namespace AHpx.ModuleLauncher.Data.Downloaders
 {
-    public enum DownloadSource
+    public enum MinecraftDownloadSource
     {
         Official,
         BmclApi,

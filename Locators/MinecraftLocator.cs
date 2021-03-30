@@ -78,6 +78,7 @@ namespace AHpx.ModuleLauncher.Locators
                         : new DirectoryInfo($@"{Location}\saves")
                 },
                 Json = json,
+                OriginalJson = obj,
                 Type = GetMinecraftJsonType(json),
                 RootVersion = GetMinecraftAssetIndex(json)
             };
@@ -224,7 +225,7 @@ namespace AHpx.ModuleLauncher.Locators
             }
         }
 
-        private static Minecraft.MinecraftJson.MinecraftType GetMinecraftJsonType(Minecraft.MinecraftJson json)
+        private Minecraft.MinecraftJson.MinecraftType GetMinecraftJsonType(Minecraft.MinecraftJson json)
         {
             if (json == null) throw new ArgumentException("Minecraft json data is null", nameof(json)); 
             
@@ -273,7 +274,22 @@ namespace AHpx.ModuleLauncher.Locators
                     }
                     catch
                     {
-                        throw new Exception("Unsupported version type!");
+                        try
+                        {
+                            var sp = json.Assets.Split('.');
+                            var ver = new Version($"{sp[0]}.{sp[1]}".Replace("-", "").RemoveAlphabets());
+                            
+                            if (ver < defaultVersion)
+                                return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
+                            if (ver < newVersion && ver >= defaultVersion)
+                                return Minecraft.MinecraftJson.MinecraftType.DefaultVanilla;
+                            if (ver >= newVersion)
+                                return Minecraft.MinecraftJson.MinecraftType.NewVanilla;
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
                     }
                 }
                 

@@ -12,6 +12,8 @@ namespace AHpx.ModuleLauncher.Data.Locators
         /// </summary>
         public MinecraftFile File { get; set; }
         
+        internal JToken OriginalJson { get; set; }
+        
         /// <summary>
         /// Minecraft的json实体
         /// </summary>

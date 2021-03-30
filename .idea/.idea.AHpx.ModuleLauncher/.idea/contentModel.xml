@@ -31,11 +31,11 @@
         <e p="Downloaders" t="Include">
           <e p="DownloadArgs.cs" t="Include" />
           <e p="DownloadItem.cs" t="Include" />
-          <e p="DownloadSource.cs" t="Include" />
           <e p="MINECRAFT" t="Include">
             <e p="LatestMinecrafts.cs" t="Include" />
             <e p="MinecraftItem.cs" t="Include" />
           </e>
+          <e p="MinecraftDownloadSource.cs" t="Include" />
         </e>
         <e p="Locators" t="Include">
           <e p="Asset.cs" t="Include" />
@@ -92,6 +92,7 @@
         <e p="Extensions" t="Include">
           <e p="CollectionExtensions.cs" t="Include" />
           <e p="EnumExtensions.cs" t="Include" />
+          <e p="FileExtensions.cs" t="Include" />
           <e p="StringExtensions.cs" t="Include" />
         </e>
         <e p="Network" t="Include">

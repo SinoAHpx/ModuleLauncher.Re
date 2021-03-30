@@ -26,13 +26,17 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Make GetAssetIndex() non-static">
-      <change afterPath="$PROJECT_DIR$/Data/Downloaders/Minecraft/LatestMinecrafts.cs" afterDir="false" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="1.Added GetMinecraft()&#10;2.Added GetLatestMinecrafts()&#10;3.Added Locator property in MinecraftDownloader.cs">
+      <change afterPath="$PROJECT_DIR$/Utils/Extensions/FileExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Downloaders/MinecraftItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Downloaders/Minecraft/MinecraftItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Downloaders/DownloadSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Downloaders/MinecraftDownloadSource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Downloaders/Minecraft/MinecraftItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Downloaders/Minecraft/MinecraftItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Locators/Minecraft.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Locators/Minecraft.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Downloaders/Downloader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Downloaders/Downloader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Locators/MinecraftLocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Locators/MinecraftLocator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,12 +63,9 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Entrance.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/CFC53072-CDD1-45A4-BA7A-F31BDE1FA492/1E0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2794FF4A-DB9D-481D-9625-798307CC1E23/9/Batch.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Downloaders/MinecraftDownloader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7B333FD0-249C-4BBE-B3AC-A31079BE4F6F/6c/78fc2eae/DownloadService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Locators/MinecraftLocator.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -78,12 +79,15 @@
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadArgs.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadPackage.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/DownloadItem.cs" />
-      <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/Minecraft/LatestMinecrafts.cs" />
-      <option value="$PROJECT_DIR$/Data/Locators/Minecraft.cs" />
+      <option value="$PROJECT_DIR$/Data/Downloaders/Minecraft/MinecraftItem.cs" />
+      <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
+      <option value="$PROJECT_DIR$/Data/Downloaders/MinecraftDownloadSource.cs" />
       <option value="$PROJECT_DIR$/Locators/MinecraftLocator.cs" />
-      <option value="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" />
+      <option value="$PROJECT_DIR$/Data/Locators/Minecraft.cs" />
+      <option value="$PROJECT_DIR$/Utils/Extensions/FileExtensions.cs" />
       <option value="$PROJECT_DIR$/Entrance.cs" />
+      <option value="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -96,7 +100,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34972298" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.3504155" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -205,7 +209,8 @@
       <workItem from="1616950095047" duration="1005000" />
       <workItem from="1617013998606" duration="528000" />
       <workItem from="1617014550431" duration="1564000" />
-      <workItem from="1617030558119" duration="3936000" />
+      <workItem from="1617030558119" duration="7280000" />
+      <workItem from="1617085917732" duration="3891000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -424,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617034514885</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="1.Added GetMinecraft()&#10;2.Added GetLatestMinecrafts()&#10;3.Added Locator property in MinecraftDownloader.cs">
+      <created>1617034584852</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1617034584852</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,7 +468,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Complete Launcher.cs" />
     <MESSAGE value="Added MojangApi.cs" />
     <MESSAGE value="Added McbbsNews.cs from old project" />
     <MESSAGE value="Added DownloaderCore.cs" />
@@ -481,13 +492,33 @@
     <MESSAGE value="Added Empty MinecraftDownloader.cs based on Downloader.cs" />
     <MESSAGE value="Changed GetMinecraft() JObject -&gt; JToken" />
     <MESSAGE value="Make GetAssetIndex() non-static" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make GetAssetIndex() non-static" />
+    <MESSAGE value="1.Added GetMinecraft()&#10;2.Added GetLatestMinecrafts()&#10;3.Added Locator property in MinecraftDownloader.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.Added GetMinecraft()&#10;2.Added GetLatestMinecrafts()&#10;3.Added Locator property in MinecraftDownloader.cs" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs</url>
+          <line>118</line>
+          <properties documentPath="D:\CSharp Projects\MINECRAFT\ModuleLauncher.Re\Downloaders\MinecraftDownloader.cs" initialLine="118" containingFunctionPresentation="method 'Download'">
+            <startOffsets>
+              <option value="4373" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4407" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="Frame#AHpx.ModuleLauncher.Downloaders.MinecraftDownloader.FetchMinecraftDownloadLink" memberName="sha1" />
         <PinnedItemInfo parentTag="Type#Downloader.DownloadConfiguration" memberName="ParallelDownload" />
         <PinnedItemInfo parentTag="Type#AHpx.ModuleLauncher.Data.Downloaders.DownloadItem" memberName="FileName" />
+        <PinnedItemInfo parentTag="Type#AHpx.ModuleLauncher.Data.Locators.Minecraft" memberName="Json" />
       </pinned-members>
     </pin-to-top-manager>
   </component>

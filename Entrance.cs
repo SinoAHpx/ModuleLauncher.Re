@@ -25,22 +25,7 @@ namespace AHpx.ModuleLauncher
 
             // var downloader = new Downloaders.Downloader();
             //
-            // downloader.StartedAction += startedArgs =>
-            // {
-            //     Console.ForegroundColor = ConsoleColor.Red;
-            //     Console.WriteLine($"Download {startedArgs.FileName} stared!");
-            // };
-            // downloader.CompletedAction += completedArgs =>
-            // {
-            //     Console.ForegroundColor = ConsoleColor.Green;
-            //     Console.WriteLine("Download completed!");
-            // };
-            // downloader.ProgressAction += progressArgs =>
-            // {
-            //     Console.ForegroundColor = ConsoleColor.Blue;
-            //     Console.WriteLine(
-            //         $"The current downloading progress is {progressArgs.ReceivedBytesSize}/{progressArgs.TotalBytesSize} bytes");
-            // };
+            
             //
             // var items = new List<DownloadItem>();
             // for (int i = 0; i < 10; i++)
@@ -58,16 +43,28 @@ namespace AHpx.ModuleLauncher
 
             var mcd = new MinecraftDownloader
             {
-                Locator = new MinecraftLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft")
+                Locator = new MinecraftLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft"),
+                DownloadSource = MinecraftDownloadSource.Mcbbs
             };
             
-            var re = await mcd.GetMinecraft("1.16.5");
+            mcd.StartedAction += startedArgs =>
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Download {startedArgs.FileName} stared!");
+            };
+            mcd.CompletedAction += completedArgs =>
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Download completed!");
+            };
+            mcd.ProgressAction += progressArgs =>
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine(
+                    $"The current downloading progress is {progressArgs.ReceivedBytesSize}/{progressArgs.TotalBytesSize} bytes");
+            };
             
-            Console.WriteLine("File " +  re.File);
-            Console.WriteLine("Inherit " + re.Inherit);
-            Console.WriteLine("id " + re.Json.Id);
-            Console.WriteLine("type " + re.Type);
-            Console.WriteLine("root version " + re.RootVersion);
+            await mcd.Download("1.13.2");
         }
 
         private static void Output<T>(this IEnumerable<T> ex)
