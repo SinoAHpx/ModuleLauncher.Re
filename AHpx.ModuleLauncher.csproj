@@ -2,11 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <AssemblyVersion>2.8</AssemblyVersion>
-        <FileVersion>2.8</FileVersion>
+        <AssemblyVersion>2.9</AssemblyVersion>
+        <FileVersion>2.9</FileVersion>
         <OutputType>Exe</OutputType>
         <PackageId>ModuleLauncher.Re</PackageId>
-        <Version>2.8.1</Version>
+        <Version>2.9</Version>
         <Authors>AHpx</Authors>
         <Company>AHpx</Company>
         <Product>AHpx.ModuleLauncher</Product>
@@ -19,7 +19,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseUrl>https://github.com/AHpxChina/ModuleLauncher.Re/blob/master/LICENSE</PackageLicenseUrl>
         <LangVersion>9</LangVersion>
-        <PackageVersion>2.8.1</PackageVersion>
+        <PackageVersion>2.9</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
