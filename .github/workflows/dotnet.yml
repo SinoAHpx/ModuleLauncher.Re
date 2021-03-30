@@ -12,11 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.7.2
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 3.1.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
