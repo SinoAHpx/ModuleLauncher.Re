@@ -29,15 +29,5 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
             return $@"{string.Join('\\', sub)}\{split[1]}\{split[2]}\{split[1]}-{split[2]}" +
                    (addExtension ? ".jar" : string.Empty);
         }
-
-        public static string GetArch(this string s)
-        {
-            return Directory.Exists(@"C:\Program Files (x86)") ? "64" : "32";
-        }
-
-        public static string ToRelativeUrl(this string ex, string split)
-        {
-            return ex.Substring(ex.IndexOf(split) + split.Length).Replace('\\', '/');
-        }
     }
 }
