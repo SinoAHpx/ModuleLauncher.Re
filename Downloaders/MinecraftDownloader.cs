@@ -183,5 +183,59 @@ namespace AHpx.ModuleLauncher.Downloaders
 
             await base.Download(dList, 5);
         }
+
+        public async Task FetchAssetsIndex(string id)
+        {
+            var mc = (await GetMinecraft(id)).Minecraft;
+
+            if (mc.Type.IsLoader())
+            {
+                mc = mc.Inherit;
+            }
+
+            var content = (await HttpUtils.Get(mc.Json.AssetIndex["url"].ToString())).Content;
+
+            if (!Directory.Exists($@"{mc.File.Assets}\indexes"))
+            {
+                Directory.CreateDirectory($@"{mc.File.Assets}\indexes");
+            }
+            
+            await File.WriteAllTextAsync(
+                $@"{mc.File.Assets.FullName}\indexes\{Locator.GetMinecraftAssetIndex(mc.Json)}.json", content);
+        }
+
+        public string FetchAssetDownloadLink(Asset asset)
+        {
+            var re = DownloadSource switch
+            {
+                MinecraftDownloadSource.Official => $"http://resources.download.minecraft.net/{asset.RelativeUrl}",
+                MinecraftDownloadSource.BmclApi =>
+                    $"https://bmclapi2.bangbang93.com/assets/{asset.RelativeUrl}",
+                MinecraftDownloadSource.Mcbbs =>
+                    $"https://download.mcbbs.net/assets/{asset.RelativeUrl}",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            
+            return re;
+        }
+
+        public async Task DownloadAssets(string id)
+        {
+            var mc = (await GetMinecraft(id)).Minecraft;
+            var dList = new List<DownloadItem>();
+            var autoAssets =
+                !File.Exists($@"{mc.File.Assets.FullName}\indexes\{Locator.GetMinecraftAssetIndex(mc.Json)}.json");
+
+            foreach (var asset in await Locator.GetAssets(id, autoAssets))
+            {
+                dList.Add(new DownloadItem
+                {
+                    Address = FetchAssetDownloadLink(asset),
+                    FileName = asset.File.FullName
+                });
+            }
+
+            await base.Download(dList, 5);
+        }
     }
 }

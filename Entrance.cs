@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using AHpx.ModuleLauncher.Authenticators;
 using AHpx.ModuleLauncher.Data.Downloaders;
@@ -41,10 +42,11 @@ namespace AHpx.ModuleLauncher
 
             #endregion
 
+            var lcd = new MinecraftLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
             var mcd = new MinecraftDownloader
             {
-                Locator = new MinecraftLocator(@"C:\Users\ahpx\AppData\Roaming\.minecraft"),
-                DownloadSource = MinecraftDownloadSource.Mcbbs
+                Locator = lcd,
+                DownloadSource = MinecraftDownloadSource.Official
             };
             
             mcd.StartedAction += startedArgs =>
@@ -64,7 +66,25 @@ namespace AHpx.ModuleLauncher
                     $"The current downloading progress is {progressArgs.ReceivedBytesSize}/{progressArgs.TotalBytesSize} bytes");
             };
             
-            await mcd.Download("1.13.2");
+            var la = new Launcher.Launcher
+            {
+                JavaPath = @"C:\Program Files\Java\jre1.8.0_281\bin\javaw.exe",
+                Auth = "AHpx",
+                Locator = lcd
+            };
+
+            var ver = "1.13.2";
+
+            await mcd.Download(ver);
+            await mcd.DownloadLibraries(ver);
+            await mcd.DownloadAssets(ver);
+
+            var p = la.Launch(ver);
+
+            while (await p.StandardOutput.ReadLineAsync() != null)
+            {
+                Console.WriteLine(await p.StandardOutput.ReadLineAsync());
+            }
         }
 
         private static void Output<T>(this IEnumerable<T> ex)

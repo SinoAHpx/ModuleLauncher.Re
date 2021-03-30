@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AHpx.ModuleLauncher.Data.Locators;
+using AHpx.ModuleLauncher.Downloaders;
 using AHpx.ModuleLauncher.Utils.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -161,13 +163,18 @@ namespace AHpx.ModuleLauncher.Locators
             return re;
         }
 
-        public IEnumerable<Asset> GetAssets(string version)
+        public async Task<IEnumerable<Asset>> GetAssets(string version, bool autoFetchAssetsIndex = true)
         {
-            return GetAssets(GetMinecraft(version));
+            return await GetAssets(GetMinecraft(version, autoFetchAssetsIndex));
         }
         
-        public IEnumerable<Asset> GetAssets(Minecraft mc)
+        public async Task<IEnumerable<Asset>> GetAssets(Minecraft mc, bool autoFetchAssetsIndex = true)
         {
+            if (autoFetchAssetsIndex)
+            {
+                await new MinecraftDownloader(this).FetchAssetsIndex(mc.Json.Id);
+            }
+            
             var re = new List<Asset>();
 
             var json = JObject.Parse(File.ReadAllText($@"{mc.File.Assets}\indexes\{mc.RootVersion}.json"));
@@ -179,7 +186,8 @@ namespace AHpx.ModuleLauncher.Locators
 
                 re.Add(new Asset
                 {
-                    File = new FileInfo($@"{mc.File.Assets}\objects\{hash.Substring(0, 2)}\{hash}")
+                    File = new FileInfo($@"{mc.File.Assets}\objects\{hash.Substring(0, 2)}\{hash}"),
+                    RelativeUrl = $@"{hash.Substring(0, 2)}\{hash}".Replace("\\","/")
                 });
             }
             
