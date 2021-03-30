@@ -22,69 +22,70 @@ namespace AHpx.ModuleLauncher
         {
             //TODO: Add the custom exception for each method
 
-            #region Downloader initialized
-
-            // var downloader = new Downloaders.Downloader();
+            Console.WriteLine("Hello, World");
+            // #region Downloader initialized
             //
-            
+            // // var downloader = new Downloaders.Downloader();
+            // //
             //
-            // var items = new List<DownloadItem>();
-            // for (int i = 0; i < 10; i++)
+            // //
+            // // var items = new List<DownloadItem>();
+            // // for (int i = 0; i < 10; i++)
+            // // {
+            // //     items.Add(new DownloadItem
+            // //     {
+            // //         Address = "http://ipv4.download.thinkbroadband.com/5MB.zip",
+            // //         FileName = @"C:\Users\ahpx\Desktop\Test\TestA_" + i + ".jar"
+            // //     });
+            // // }
+            // //
+            // // await downloader.Download(items, 3);
+            //
+            // #endregion
+            //
+            // var lcd = new MinecraftLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
+            // var mcd = new MinecraftDownloader
             // {
-            //     items.Add(new DownloadItem
-            //     {
-            //         Address = "http://ipv4.download.thinkbroadband.com/5MB.zip",
-            //         FileName = @"C:\Users\ahpx\Desktop\Test\TestA_" + i + ".jar"
-            //     });
-            // }
+            //     Locator = lcd,
+            //     DownloadSource = MinecraftDownloadSource.Official
+            // };
             //
-            // await downloader.Download(items, 3);
-
-            #endregion
-
-            var lcd = new MinecraftLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
-            var mcd = new MinecraftDownloader
-            {
-                Locator = lcd,
-                DownloadSource = MinecraftDownloadSource.Official
-            };
-            
-            mcd.StartedAction += startedArgs =>
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Download {startedArgs.FileName} stared!");
-            };
-            mcd.CompletedAction += completedArgs =>
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Download completed!");
-            };
-            mcd.ProgressAction += progressArgs =>
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine(
-                    $"The current downloading progress is {progressArgs.ReceivedBytesSize}/{progressArgs.TotalBytesSize} bytes");
-            };
-            
-            var la = new Launcher.Launcher
-            {
-                JavaPath = @"C:\Program Files\Java\jre1.8.0_281\bin\javaw.exe",
-                Auth = "AHpx",
-                Locator = lcd
-            };
-
-            var ver = "1.13.2";
-
-            await mcd.Download(ver);
-            await mcd.DownloadLibraries(ver);
-            await mcd.DownloadAssets(ver);
-
-            var p = la.Launch(ver);
-
-            while (await p.StandardOutput.ReadLineAsync() != null)
-            {
-                Console.WriteLine(await p.StandardOutput.ReadLineAsync());
-            }
+            // mcd.StartedAction += startedArgs =>
+            // {
+            //     Console.ForegroundColor = ConsoleColor.Red;
+            //     Console.WriteLine($"Download {startedArgs.FileName} stared!");
+            // };
+            // mcd.CompletedAction += completedArgs =>
+            // {
+            //     Console.ForegroundColor = ConsoleColor.Green;
+            //     Console.WriteLine("Download completed!");
+            // };
+            // mcd.ProgressAction += progressArgs =>
+            // {
+            //     Console.ForegroundColor = ConsoleColor.Blue;
+            //     Console.WriteLine(
+            //         $"The current downloading progress is {progressArgs.ReceivedBytesSize}/{progressArgs.TotalBytesSize} bytes");
+            // };
+            //
+            // var la = new Launcher.Launcher
+            // {
+            //     JavaPath = @"C:\Program Files\Java\jre1.8.0_281\bin\javaw.exe",
+            //     Auth = "AHpx",
+            //     Locator = lcd
+            // };
+            //
+            // var ver = "1.13.2";
+            //
+            // await mcd.Download(ver);
+            // await mcd.DownloadLibraries(ver);
+            // await mcd.DownloadAssets(ver);
+            //
+            // var p = la.Launch(ver);
+            //
+            // while (await p.StandardOutput.ReadLineAsync() != null)
+            // {
+            //     Console.WriteLine(await p.StandardOutput.ReadLineAsync());
+            // }
         }
 
         private static void Output<T>(this IEnumerable<T> ex)
