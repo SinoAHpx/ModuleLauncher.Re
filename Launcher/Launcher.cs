@@ -197,7 +197,7 @@ namespace AHpx.ModuleLauncher.Launcher
 
         public Process Launch(string version, bool isolation = true)
         {
-            ExtractNatives(version);
+            ExtractNatives(version, isolation);
             
             var mc = Locator.GetMinecraft(version, isolation);
             
@@ -219,9 +219,9 @@ namespace AHpx.ModuleLauncher.Launcher
             return process;
         }
 
-        public void ExtractNatives(string version)
+        public void ExtractNatives(string version, bool isolation = true)
         {
-            var mc = Locator.GetMinecraft(version);
+            var mc = Locator.GetMinecraft(version, isolation);
             mc.File.Natives.Create();
             
             var natives = Locator.GetNatives(version);

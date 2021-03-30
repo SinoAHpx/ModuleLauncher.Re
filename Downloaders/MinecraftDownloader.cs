@@ -116,23 +116,72 @@ namespace AHpx.ModuleLauncher.Downloaders
             {
                 var address = FetchMinecraftDownloadLink(mc, out var sha1);
 
-                if (mc.File.Jar.GetSha1() != sha1)
+                if (mc.File.Jar.Exists)
                 {
-                    mc.File.Jar.Delete();
-                    
-                    await base.Download(new DownloadItem
+                    if (mc.File.Jar.GetSha1() != sha1)
                     {
-                        Address = address,
-                        FileName = mc.File.Jar.FullName
-                    });
+                        mc.File.Jar.Delete();
+                        
+                        await base.Download(new DownloadItem
+                        {
+                            Address = address,
+                            FileName = mc.File.Jar.FullName
+                        });
+                    }
                 }
+                
+                await base.Download(new DownloadItem
+                {
+                    Address = address,
+                    FileName = mc.File.Jar.FullName
+                });
             }
             catch
             {
                 Console.WriteLine("Download failed by using other source");
                 DownloadSource = MinecraftDownloadSource.Official;
-                await Download(id);
+                try
+                {
+                    await Download(id);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
+        }
+
+        private string FetchLibrariesDownloadLink(Library lib)
+        {
+            var re = DownloadSource switch
+            {
+                MinecraftDownloadSource.Official => $"https://libraries.minecraft.net/{lib.RelativeUrl}",
+                MinecraftDownloadSource.BmclApi =>
+                    $"https://bmclapi2.bangbang93.com/maven/{lib.RelativeUrl}",
+                MinecraftDownloadSource.Mcbbs =>
+                    $"https://download.mcbbs.net/maven/{lib.RelativeUrl}",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            
+            return re;
+        }
+        
+        public async Task DownloadLibraries(string id)
+        {
+            var dList = new List<DownloadItem>();
+            var mc = (await GetMinecraft(id, true)).Minecraft;
+
+            foreach (var library in Locator.GetLibraries(mc, false))
+            {
+                dList.Add(new DownloadItem
+                {
+                    Address = FetchLibrariesDownloadLink(library),
+                    FileName = library.File.FullName
+                });
+            }
+
+            await base.Download(dList, 5);
         }
     }
 }
