@@ -18,7 +18,7 @@ namespace AHpx.ModuleLauncher.Downloaders
         public Action<DownloadArgs.CompletedArgs> CompletedAction { get; set; } = args => { };
         public Action<DownloadArgs.ProgressArgs> ProgressAction { get; set; } = args => { };
         
-        public virtual async Task Download(DownloadItem item)
+        protected async Task Download(DownloadItem item)
         {
             var downloadService = new DownloadService(new DownloadConfiguration
             {
@@ -37,7 +37,7 @@ namespace AHpx.ModuleLauncher.Downloaders
             await downloadService.DownloadFileTaskAsync(item.Address, item.FileName);
         }
 
-        public virtual async Task Download(IEnumerable<DownloadItem> items, int maxParallelCount = 3)
+        protected async Task Download(IEnumerable<DownloadItem> items, int maxParallelCount = 3)
         {
             var parallelArr = items.Batch(maxParallelCount);
             var tasks = new List<Task>();
