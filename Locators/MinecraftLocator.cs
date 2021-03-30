@@ -116,7 +116,8 @@ namespace AHpx.ModuleLauncher.Locators
                 re.Add(new Library
                 {
                     File = new FileInfo(@$"{Location}\libraries\{x["name"].ToString().ToLibraryFile()}"),
-                    Name = x["name"].ToString()
+                    Name = x["name"].ToString(),
+                    RelativeUrl = x["name"].ToString().ToLibraryFile().Replace("\\", "/")
                 });
             });
             
@@ -147,7 +148,8 @@ namespace AHpx.ModuleLauncher.Locators
                 re.Add(new Library
                 {
                     File = new FileInfo($@"{Location}\libraries\{x["name"].ToString().ToLibraryFile(false)}-{suffix}.jar"),
-                    Name = x["name"].ToString()
+                    Name = x["name"].ToString(),
+                    RelativeUrl = $"{x["name"].ToString().ToLibraryFile(false)}-{suffix}.jar".Replace("\\","/")
                 });
             });
             
