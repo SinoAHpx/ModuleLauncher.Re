@@ -26,8 +26,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Update to 2.9">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="hello, world">
+      <change beforePath="$PROJECT_DIR$/AHpx.ModuleLauncher.sln" beforeDir="false" afterPath="$PROJECT_DIR$/AHpx.ModuleLauncher.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +66,7 @@
     <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Locators/MinecraftLocator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Downloaders/MinecraftDownloader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Entrance.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Test/UnitTest1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Data/Locators/Minecraft.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -88,9 +89,10 @@
       <option value="$PROJECT_DIR$/Launcher/Launcher.cs" />
       <option value="$PROJECT_DIR$/Locators/MinecraftLocator.cs" />
       <option value="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" />
-      <option value="$PROJECT_DIR$/Entrance.cs" />
       <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
       <option value="$PROJECT_DIR$/README.md" />
+      <option value="$PROJECT_DIR$/Entrance.cs" />
+      <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.sln" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -213,7 +215,7 @@
       <workItem from="1617013998606" duration="528000" />
       <workItem from="1617014550431" duration="1564000" />
       <workItem from="1617030558119" duration="7280000" />
-      <workItem from="1617085917732" duration="12317000" />
+      <workItem from="1617085917732" duration="12751000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -488,7 +490,21 @@
       <option name="project" value="LOCAL" />
       <updated>1617097850695</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Update README.md">
+      <created>1617098426568</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1617098426568</updated>
+    </task>
+    <task id="LOCAL-00041" summary="hello, world">
+      <created>1617098531996</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1617098531996</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -520,12 +536,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="1.Fixed download slow problem&#10;2.Added complete option in Download()" />
     <MESSAGE value="Added xml summary" />
     <MESSAGE value="Merge LibrariesLocator.cs &amp; AssetsLocator.cs to MinecraftLocator.cs" />
     <MESSAGE value="Move framework version to core 3.1" />
     <MESSAGE value="Complete MicrosoftAuthenticator.cs" />
-    <MESSAGE value="Update README.md" />
     <MESSAGE value="fixed nuget" />
     <MESSAGE value="Removed useless" />
     <MESSAGE value="Added constructor for OfflineAuthenticator.cs" />
@@ -545,7 +559,9 @@
     <MESSAGE value="Complete DownloadLibraries()" />
     <MESSAGE value="Completed MinecraftDownloader.cs" />
     <MESSAGE value="Update to 2.9" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 2.9" />
+    <MESSAGE value="Update README.md" />
+    <MESSAGE value="hello, world" />
+    <option name="LAST_COMMIT_MESSAGE" value="hello, world" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
