@@ -26,10 +26,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Fixed exposed third-party libraries api">
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Added withExtensionName parameter for StringExtensions.cs">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils/Extensions/StringExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/Extensions/StringExtensions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +56,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2794FF4A-DB9D-481D-9625-798307CC1E23/9/Batch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/CFC53072-CDD1-45A4-BA7A-F31BDE1FA492/1E0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/CSharp Projects/MINECRAFT/ModuleLauncher.Re/Utils/Extensions/StringExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8AFC9EB4-1DD6-4F3C-A80C-9EF9A86B0871/90/76f57cfe/HtmlNode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7B333FD0-249C-4BBE-B3AC-A31079BE4F6F/6c/78fc2eae/DownloadService.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -112,7 +111,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="RiderCSharpLiveTemplatesSettingsId" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
     <property name="threadsIsVisibleKey" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -213,6 +212,7 @@
       <workItem from="1617085917732" duration="13337000" />
       <workItem from="1617433936218" duration="5700000" />
       <workItem from="1617441093448" duration="2061000" />
+      <workItem from="1617464918978" duration="477000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -522,7 +522,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617437007538</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Added withExtensionName parameter for StringExtensions.cs">
+      <created>1617465217343</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1617465217343</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -554,7 +561,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Complete MicrosoftAuthenticator.cs" />
     <MESSAGE value="fixed nuget" />
     <MESSAGE value="Removed useless" />
     <MESSAGE value="Added constructor for OfflineAuthenticator.cs" />
@@ -579,7 +585,8 @@
     <MESSAGE value="Removed redundancy project" />
     <MESSAGE value="Added exception for Authenticators" />
     <MESSAGE value="Fixed exposed third-party libraries api" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed exposed third-party libraries api" />
+    <MESSAGE value="Added withExtensionName parameter for StringExtensions.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added withExtensionName parameter for StringExtensions.cs" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
