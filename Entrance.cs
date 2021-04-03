@@ -13,6 +13,7 @@ using AHpx.ModuleLauncher.Utils.Extensions;
 using AHpx.ModuleLauncher.Utils.Network;
 using Downloader;
 using MoreLinq;
+using Newtonsoft.Json.Linq;
 
 namespace AHpx.ModuleLauncher
 {
@@ -20,7 +21,13 @@ namespace AHpx.ModuleLauncher
     {
         public static async Task Main(string[] args)
         {
+            var dir = new DirectoryInfo(@"C:\Users\ahpx\Desktop\Test");
+            var locator = new MinecraftLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
             
+            foreach (var minecraft in locator.GetMinecrafts())
+            {
+                Console.WriteLine(minecraft.File.Json);
+            }
         }
 
         private static void Output<T>(this IEnumerable<T> ex)

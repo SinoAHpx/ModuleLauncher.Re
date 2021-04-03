@@ -6,9 +6,9 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
 {
     public static class StringExtensions
     {
-        public static string GetFileName(this string src)
+        public static string GetFileName(this string src, bool withExtensionName = true)
         {
-            return Path.GetFileName(src);
+            return withExtensionName ? Path.GetFileName(src) : Path.GetFileNameWithoutExtension(src);
         }
 
         public static string RemoveAlphabets(this string ex)
