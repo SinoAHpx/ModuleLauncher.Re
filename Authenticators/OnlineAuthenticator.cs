@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using AHpx.ModuleLauncher.Data.Authentications;
 using AHpx.ModuleLauncher.Utils.Authentication;
+using AHpx.ModuleLauncher.Utils.Extensions;
 using AHpx.ModuleLauncher.Utils.Network;
 using Newtonsoft.Json.Linq;
 
@@ -16,7 +18,7 @@ namespace AHpx.ModuleLauncher.Authenticators
         public string Password { get; set; }
         
         /// <summary>
-        /// clientToken应该是一个随机生成的标识符而且必须每次请求都是相同的
+        /// ClientToken should be a randomly generated identifier and must be the same every time the request is
         /// </summary>
         public string ClientToken { get; set; }
 
@@ -25,7 +27,7 @@ namespace AHpx.ModuleLauncher.Authenticators
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        /// <param name="clientToken">clientToken应该是一个随机生成的标识符而且必须每次请求都是相同的</param>
+        /// <param name="clientToken">ClientToken should be a randomly generated identifier and must be the same every time the request is</param>
         public OnlineAuthenticator(string username = null, string password = null, string clientToken = null)
         {
             Username = username;
@@ -40,11 +42,16 @@ namespace AHpx.ModuleLauncher.Authenticators
         }
 
         /// <summary>
-        /// 使用密码认证用户
+        /// Authenicate users using password
         /// </summary>
         /// <returns></returns>
         public virtual async Task<AuthenticateResult> Authenticate()
         {
+            if (Username.IsNullOrEmpty() || Password.IsNullOrEmpty())
+            {
+                throw new ArgumentException($"Invalid {nameof(Username)} or {nameof(Password)}!");
+            }
+            
             var payload = this.GetPayload(AuthenticateEndpoints.Authenticate);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Authenticate, payload);
             var json = JObject.Parse(response.Content);
@@ -53,12 +60,17 @@ namespace AHpx.ModuleLauncher.Authenticators
         }
 
         /// <summary>
-        /// 刷新一个有效的accessToken。它可以用于在游戏会话间保持登录状态
+        /// Refresh a valid AccessToken. It can be used to keep login in the game session
         /// </summary>
-        /// <param name="result">注意：提供的accessToken将失效。</param>
+        /// <param name="result">Note: The AccessToken provided will be invalid.</param>
         /// <returns></returns>
         public virtual async Task<AuthenticateResult> Refresh(AuthenticateResult result)
         {
+            if (result == null)
+            {
+                throw new ArgumentException($"Argument {nameof(result)} can't be null!");
+            }
+            
             var payload = this.GetPayload(result.AccessToken, result.ClientToken);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Refresh, payload);
             var json = JObject.Parse(response.Content);
@@ -67,12 +79,17 @@ namespace AHpx.ModuleLauncher.Authenticators
         }
 
         /// <summary>
-        /// 检查accessToken是否可用于Minecraft服务器的认证。
+        /// Check if AccessToken can be used for authentication of the Minecraft server.
         /// </summary>
-        /// <param name="result">可以在有或没有clientToken时调用。如果提供了clientToken，它应当与获取accessToken的那个相匹配</param>
+        /// <param name="result">Can be called when there is or without ClientToken. If you provide ClientToken, it should match the one get access to AccessToken</param>
         /// <returns></returns>
         public virtual async Task<bool> Validate(AuthenticateResult result)
         {
+            if (result == null)
+            {
+                throw new ArgumentException($"Argument {nameof(result)} can't be null!");
+            }
+            
             var payload = this.GetPayload(result.AccessToken, result.ClientToken);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Validate, payload);
             
@@ -80,12 +97,17 @@ namespace AHpx.ModuleLauncher.Authenticators
         }
         
         /// <summary>
-        /// 检查accessToken是否可用于Minecraft服务器的认证。
+        /// Check if AccessToken can be used for authentication of the Minecraft server.
         /// </summary>
         /// <param name="accessToken"></param>
         /// <returns></returns>
         public virtual async Task<bool> Validate(string accessToken)
         {
+            if (accessToken.IsNullOrEmpty())
+            {
+                throw new ArgumentException($"Argument {nameof(accessToken)} can't be null!");
+            }
+            
             var payload = this.GetPayload(accessToken);
             var response = await HttpUtils.Post(AuthenticateEndpoints.Validate, payload);
             
@@ -93,22 +115,32 @@ namespace AHpx.ModuleLauncher.Authenticators
         }
 
         /// <summary>
-        /// 使用client/access令牌对使accessToken失效。
+        /// Use the Client / Access token to make AccessToken fail.
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
         public virtual async Task Invalidate(AuthenticateResult result)
         {
+            if (result == null)
+            {
+                throw new ArgumentException($"Argument {nameof(result)} can't be null!");
+            }
+            
             var payload = this.GetPayload(result.AccessToken, result.ClientToken);
             await HttpUtils.Post(AuthenticateEndpoints.Invalidate, payload);
         }
 
         /// <summary>
-        /// 使用帐号的用户名和密码使accessToken失效。
+        /// Use an account username and password to make AccessToken useless.
         /// </summary>
         /// <returns></returns>
         public virtual async Task Signout()
         {
+            if (Username.IsNullOrEmpty() || Password.IsNullOrEmpty())
+            {
+                throw new ArgumentException($"Invalid {nameof(Username)} or {nameof(Password)}!");
+            }
+            
             var payload = this.GetPayload(AuthenticateEndpoints.Signout);
             await HttpUtils.Post(AuthenticateEndpoints.Signout, payload);
         }

@@ -17,6 +17,10 @@ namespace AHpx.ModuleLauncher.Authenticators
 
         public string MicrosoftAuthorizationCode { get; set; }
 
+        /// <summary>
+        /// Authenticate microsoft account by using authorization code that can be obtain in web
+        /// </summary>
+        /// <returns></returns>
         public async Task<AuthenticateResult> Authenticate()
         {
             var re = new AuthenticateResult
@@ -138,6 +142,11 @@ namespace AHpx.ModuleLauncher.Authenticators
             return JObject.Parse(res)["access_token"].ToString();
         }
         
+        /// <summary>
+        /// Check minecraft ownership by using minecraft access token
+        /// </summary>
+        /// <param name="MCtoken">Minecraft access token</param>
+        /// <returns></returns>
         public async Task<bool> CheckMinecraftOwnership(string MCtoken)
         {
             //https://api.minecraftservices.com/entitlements/mcstore
@@ -151,7 +160,7 @@ namespace AHpx.ModuleLauncher.Authenticators
 
             return jsonArr.Count > 0;
         }
-
+        
         private async Task<string> GetMcProfile(string MCtoken)
         {
             //https://api.minecraftservices.com/minecraft/profile

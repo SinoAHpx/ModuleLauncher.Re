@@ -29,5 +29,10 @@ namespace AHpx.ModuleLauncher.Utils.Extensions
             return $@"{string.Join('\\', sub)}\{split[1]}\{split[2]}\{split[1]}-{split[2]}" +
                    (addExtension ? ".jar" : string.Empty);
         }
+
+        public static bool IsNullOrEmpty(this string ex)
+        {
+            return string.IsNullOrEmpty(ex);
+        }
     }
 }
