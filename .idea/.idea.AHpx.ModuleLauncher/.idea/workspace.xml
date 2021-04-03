@@ -26,11 +26,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Removed redundancy project">
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Added exception for Authenticators">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authenticators/OnlineAuthenticator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Authenticators/OnlineAuthenticator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils/Extensions/StringExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/Extensions/StringExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Locators/Minecraft.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Locators/Minecraft.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Locators/MinecraftLocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Locators/MinecraftLocator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/Extensions/CollectionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/Extensions/CollectionExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/Network/HttpUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/Network/HttpUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +61,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2794FF4A-DB9D-481D-9625-798307CC1E23/9/Batch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/CFC53072-CDD1-45A4-BA7A-F31BDE1FA492/1E0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8AFC9EB4-1DD6-4F3C-A80C-9EF9A86B0871/90/76f57cfe/HtmlNode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7B333FD0-249C-4BBE-B3AC-A31079BE4F6F/6c/78fc2eae/DownloadService.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -73,19 +76,21 @@
       <option value="$PROJECT_DIR$/Data/Downloaders/Minecraft/LatestMinecrafts.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/Minecraft/MinecraftItem.cs" />
       <option value="$PROJECT_DIR$/Data/Downloaders/MinecraftDownloadSource.cs" />
-      <option value="$PROJECT_DIR$/Data/Locators/Minecraft.cs" />
       <option value="$PROJECT_DIR$/Utils/Extensions/FileExtensions.cs" />
       <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
       <option value="$PROJECT_DIR$/Launcher/Launcher.cs" />
-      <option value="$PROJECT_DIR$/Locators/MinecraftLocator.cs" />
       <option value="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" />
       <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
       <option value="$PROJECT_DIR$/README.md" />
-      <option value="$PROJECT_DIR$/Entrance.cs" />
       <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.sln" />
       <option value="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" />
-      <option value="$PROJECT_DIR$/Authenticators/OnlineAuthenticator.cs" />
       <option value="$PROJECT_DIR$/Utils/Extensions/StringExtensions.cs" />
+      <option value="$PROJECT_DIR$/Authenticators/OnlineAuthenticator.cs" />
+      <option value="$PROJECT_DIR$/Entrance.cs" />
+      <option value="$PROJECT_DIR$/Data/Locators/Minecraft.cs" />
+      <option value="$PROJECT_DIR$/Locators/MinecraftLocator.cs" />
+      <option value="$PROJECT_DIR$/Utils/Extensions/CollectionExtensions.cs" />
+      <option value="$PROJECT_DIR$/Utils/Network/HttpUtils.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -209,7 +214,7 @@
       <workItem from="1617014550431" duration="1564000" />
       <workItem from="1617030558119" duration="7280000" />
       <workItem from="1617085917732" duration="13337000" />
-      <workItem from="1617433936218" duration="1678000" />
+      <workItem from="1617433936218" duration="3048000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
       <created>1605791346838</created>
@@ -505,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617098763186</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Added exception for Authenticators">
+      <created>1617435639486</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1617435639486</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -537,7 +549,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Merge LibrariesLocator.cs &amp; AssetsLocator.cs to MinecraftLocator.cs" />
     <MESSAGE value="Move framework version to core 3.1" />
     <MESSAGE value="Complete MicrosoftAuthenticator.cs" />
     <MESSAGE value="fixed nuget" />
@@ -562,7 +573,8 @@
     <MESSAGE value="Update README.md" />
     <MESSAGE value="hello, world" />
     <MESSAGE value="Removed redundancy project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed redundancy project" />
+    <MESSAGE value="Added exception for Authenticators" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added exception for Authenticators" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

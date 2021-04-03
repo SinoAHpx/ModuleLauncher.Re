@@ -17,22 +17,22 @@ namespace AHpx.ModuleLauncher.Utils.Network
             UserAgent = $"{typeof(Entrance).Namespace?.Split('.')[1]}/{ver?.Major}.{ver?.Minor}";
         }
 
-        public static async Task<HttpResponse> Get(string url)
+        internal static async Task<HttpResponse> Get(string url)
         {
             return await Execute(url, new RestRequest(Method.GET));
         }
         
-        public static async Task<HttpResponse> Post(string url, string json)
+        internal static async Task<HttpResponse> Post(string url, string json)
         {
             return await Execute(url, new RestRequest(Method.POST).AddJsonBody(json));
         }
 
-        public static async Task<HttpResponse> Post(AuthenticateEndpoints endpoints, string json)
+        internal static async Task<HttpResponse> Post(AuthenticateEndpoints endpoints, string json)
         {
             return await Post($"https://authserver.mojang.com/{endpoints.GetValue()}", json);
         }
 
-        private static async Task<HttpResponse> Execute(string url, IRestRequest request)
+        internal static async Task<HttpResponse> Execute(string url, IRestRequest request)
         {
             var client = new RestClient
             {

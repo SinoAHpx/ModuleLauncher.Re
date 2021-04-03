@@ -23,7 +23,7 @@ namespace AHpx.ModuleLauncher.Data.Locators
         /// <summary>
         /// 1.16.4 => 1.16
         /// </summary>
-        internal string RootVersion { get; set; }
+        public string RootVersion { get; set; }
         
         /// <summary>
         /// loader类型的minecraft才会拥有此值

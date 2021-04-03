@@ -22,10 +22,9 @@ namespace AHpx.ModuleLauncher.Locators
         }
 
         /// <summary>
-        /// 获取Location\versions下的所有Minecraft
+        /// Get all Minecraft under %Location%\Versions
         /// </summary>
-        /// <param name="versionIsolation">是否版本隔离</param>
-        /// <param name="readJson">是否读取json</param>
+        /// <param name="versionIsolation">Whether the version is isolated</param>
         /// <returns></returns>
         public IEnumerable<Minecraft> GetMinecrafts(bool versionIsolation = true)
         {
@@ -40,7 +39,7 @@ namespace AHpx.ModuleLauncher.Locators
         }
 
         /// <summary>
-        /// 根据json获取指定的Minecraft对象
+        /// Get the specified Minecraft object according to JSON
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="versionIsolation"></param>
@@ -90,7 +89,7 @@ namespace AHpx.ModuleLauncher.Locators
         }
         
         /// <summary>
-        /// 根据版本获取指定的Minecraft对象
+        /// Get the specified Minecraft object according to the version
         /// </summary>
         /// <param name="version"></param>
         /// <param name="versionIsolation"></param>
