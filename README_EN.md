@@ -21,7 +21,7 @@ Please visit [Wiki] (https://github.com/ahpxchina/modulecher.re/wiki) of this it
 ### Installation
 
 + Clone the source code of ModuleLauncher.Re to the local and compiled into a DLL to import reference
-+ 使用[Nuget](https://www.nuget.org/packages/ModuleLauncher.Re/2.9.1)
++ Use [Nuget](https://www.nuget.org/packages/ModuleLauncher.Re/2.9.1)
 
   ```
   Install-Package ModuleLauncher.Re -Version 2.9.1
