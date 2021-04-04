@@ -1,4 +1,4 @@
-﻿# ModuleLauncher.Re 2.9。1
+﻿# ModuleLauncher.Re 2.9.1
 
 ![GitHub](https://img.shields.io/github/license/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)![GitHub stars](https://img.shields.io/github/stars/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)![GitHub repo size](https://img.shields.io/github/repo-size/AHpxChina/ModuleLauncher.RE?logo=github&style=for-the-badge)
 
