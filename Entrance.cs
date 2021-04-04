@@ -42,7 +42,7 @@ namespace AHpx.ModuleLauncher
                 Auth = "AHpx",
                 JavaPath = @"C:\Program Files\Java\jre1.8.0_281\bin\javaw.exe"
             };
-            var ver = "1.8.9";
+            var ver = "21w13a";
 
             await mcd.Download(ver);
             await mcd.DownloadAssets(ver, 64);

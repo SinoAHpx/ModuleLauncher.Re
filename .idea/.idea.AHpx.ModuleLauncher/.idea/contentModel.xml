@@ -62,6 +62,7 @@
       </e>
       <e p="packages" t="ExcludeRecursive" />
       <e p="README.md" t="Include" />
+      <e p="README_EN.md" t="Include" />
       <e p="Utils" t="Include">
         <e p="Authentication" t="Include">
           <e p="AuthenticationUtils.cs" t="Include" />

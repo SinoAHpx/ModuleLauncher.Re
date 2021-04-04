@@ -26,7 +26,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="1.Enhanced version isolation mode" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Updated version">
+      <change afterPath="$PROJECT_DIR$/README_EN.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/AHpx.ModuleLauncher/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/AHpx.ModuleLauncher/v16/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,8 +82,6 @@
       <option value="$PROJECT_DIR$/Data/Downloaders/MinecraftDownloadSource.cs" />
       <option value="$PROJECT_DIR$/Utils/Extensions/FileExtensions.cs" />
       <option value="$PROJECT_DIR$/Downloaders/Downloader.cs" />
-      <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
-      <option value="$PROJECT_DIR$/README.md" />
       <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.sln" />
       <option value="$PROJECT_DIR$/Authenticators/MicrosoftAuthenticator.cs" />
       <option value="$PROJECT_DIR$/Authenticators/OnlineAuthenticator.cs" />
@@ -86,9 +91,12 @@
       <option value="$PROJECT_DIR$/Data/Locators/Minecraft.cs" />
       <option value="$PROJECT_DIR$/Utils/Extensions/EnumExtensions.cs" />
       <option value="$PROJECT_DIR$/Launcher/Launcher.cs" />
-      <option value="$PROJECT_DIR$/Entrance.cs" />
       <option value="$PROJECT_DIR$/Locators/MinecraftLocator.cs" />
       <option value="$PROJECT_DIR$/Downloaders/MinecraftDownloader.cs" />
+      <option value="$PROJECT_DIR$/AHpx.ModuleLauncher.csproj" />
+      <option value="$PROJECT_DIR$/Entrance.cs" />
+      <option value="$PROJECT_DIR$/README.md" />
+      <option value="$PROJECT_DIR$/README_EN.md" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kGZK39YvblOZY1yMSR0ERkfKAr" />
@@ -216,14 +224,7 @@
       <workItem from="1617441093448" duration="2061000" />
       <workItem from="1617464918978" duration="550000" />
       <workItem from="1617465496457" duration="3502000" />
-      <workItem from="1617514790907" duration="7742000" />
-    </task>
-    <task id="LOCAL-00001" summary="Fixed GetLibraries() problem">
-      <created>1605791346838</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1605791346838</updated>
+      <workItem from="1617514790907" duration="10008000" />
     </task>
     <task id="LOCAL-00002" summary="1.Added GetNatives()&#10;2.Made GetLibraries() support loaders">
       <created>1605794274106</created>
@@ -561,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617522814448</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Updated version">
+      <created>1617523042180</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1617523042180</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -593,7 +601,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Updated version" />
     <MESSAGE value="Rename CheckHaveMinecraft to CheckMinecraftOwnerShip" />
     <MESSAGE value="Completed Downloader.cs &amp; DownloadArgs.cs" />
     <MESSAGE value="Fixed parallel download in Downloader.cs" />
@@ -618,7 +625,8 @@
     <MESSAGE value="Updated new GetMinecraftJsonType()" />
     <MESSAGE value="1.Added CheckExist parameter for download methods&#10;2.Added ParallelCount parameter for download methods" />
     <MESSAGE value="1.Enhanced version isolation mode" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.Enhanced version isolation mode" />
+    <MESSAGE value="Updated version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated version" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
