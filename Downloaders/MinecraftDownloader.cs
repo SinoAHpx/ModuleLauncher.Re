@@ -103,7 +103,7 @@ namespace AHpx.ModuleLauncher.Downloaders
             return re;
         }
         
-        public async Task Download(string id)
+        public async Task Download(string id, bool checkExist = true)
         {
             var mc = (await GetMinecraft(id, true)).Minecraft;
             
@@ -116,7 +116,7 @@ namespace AHpx.ModuleLauncher.Downloaders
             {
                 var address = FetchMinecraftDownloadLink(mc, out var sha1);
 
-                if (mc.File.Jar.Exists)
+                if (mc.File.Jar.Exists && checkExist)
                 {
                     if (mc.File.Jar.GetSha1() != sha1)
                     {
@@ -129,12 +129,14 @@ namespace AHpx.ModuleLauncher.Downloaders
                         });
                     }
                 }
-                
-                await base.Download(new DownloadItem
+                else
                 {
-                    Address = address,
-                    FileName = mc.File.Jar.FullName
-                });
+                    await base.Download(new DownloadItem
+                    {
+                        Address = address,
+                        FileName = mc.File.Jar.FullName
+                    });
+                }
             }
             catch
             {
@@ -167,21 +169,35 @@ namespace AHpx.ModuleLauncher.Downloaders
             return re;
         }
         
-        public async Task DownloadLibraries(string id)
+        public async Task DownloadLibraries(string id, int maxParallelCount = 5, bool checkExist = true)
         {
             var dList = new List<DownloadItem>();
             var mc = (await GetMinecraft(id, true)).Minecraft;
 
             foreach (var library in Locator.GetLibraries(mc, false))
             {
-                dList.Add(new DownloadItem
+                if (checkExist)
                 {
-                    Address = FetchLibrariesDownloadLink(library),
-                    FileName = library.File.FullName
-                });
+                    if (!library.File.Exists)
+                    {
+                        dList.Add(new DownloadItem
+                        {
+                            Address = FetchLibrariesDownloadLink(library),
+                            FileName = library.File.FullName
+                        });
+                    }
+                }
+                else
+                {
+                    dList.Add(new DownloadItem
+                    {
+                        Address = FetchLibrariesDownloadLink(library),
+                        FileName = library.File.FullName
+                    });
+                }
             }
 
-            await base.Download(dList, 5);
+            await base.Download(dList, maxParallelCount);
         }
 
         public async Task FetchAssetsIndex(string id)
@@ -204,7 +220,7 @@ namespace AHpx.ModuleLauncher.Downloaders
                 $@"{mc.File.Assets.FullName}\indexes\{Locator.GetMinecraftAssetIndex(mc.Json)}.json", content);
         }
 
-        public string FetchAssetDownloadLink(Asset asset)
+        private string FetchAssetDownloadLink(Asset asset)
         {
             var re = DownloadSource switch
             {
@@ -219,7 +235,7 @@ namespace AHpx.ModuleLauncher.Downloaders
             return re;
         }
 
-        public async Task DownloadAssets(string id)
+        public async Task DownloadAssets(string id, int maxParallelCount = 5, bool checkExist = true)
         {
             var mc = (await GetMinecraft(id)).Minecraft;
             var dList = new List<DownloadItem>();
@@ -228,14 +244,28 @@ namespace AHpx.ModuleLauncher.Downloaders
 
             foreach (var asset in await Locator.GetAssets(id, autoAssets))
             {
-                dList.Add(new DownloadItem
+                if (checkExist)
                 {
-                    Address = FetchAssetDownloadLink(asset),
-                    FileName = asset.File.FullName
-                });
+                    if (!asset.File.Exists)
+                    {
+                        dList.Add(new DownloadItem
+                        {
+                            Address = FetchAssetDownloadLink(asset),
+                            FileName = asset.File.FullName
+                        });
+                    }
+                }
+                else
+                {
+                    dList.Add(new DownloadItem
+                    {
+                        Address = FetchAssetDownloadLink(asset),
+                        FileName = asset.File.FullName
+                    });
+                }
             }
 
-            await base.Download(dList, 5);
+            await base.Download(dList, maxParallelCount);
         }
     }
 }
