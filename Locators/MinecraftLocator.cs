@@ -16,9 +16,12 @@ namespace AHpx.ModuleLauncher.Locators
     {
         public string Location { get; set; }
 
-        public MinecraftLocator(string location = null)
+        public bool VersionIsolation { get; set; }
+
+        public MinecraftLocator(string location = null, bool versionIsolation = default)
         {
             Location = location;
+            VersionIsolation = versionIsolation;
         }
 
         /// <summary>
@@ -26,13 +29,13 @@ namespace AHpx.ModuleLauncher.Locators
         /// </summary>
         /// <param name="versionIsolation">Whether the version is isolated</param>
         /// <returns></returns>
-        public IEnumerable<Minecraft> GetMinecrafts(bool versionIsolation = true)
+        public IEnumerable<Minecraft> GetMinecrafts()
         {
             var dirs = Directory.GetDirectories($"{Location}\\versions").ToList();
             var result = new List<Minecraft>();
             dirs.ForEach(x =>
             {
-                result.Add(GetMinecraft(x.GetFileName(), versionIsolation));
+                result.Add(GetMinecraft(x.GetFileName()));
             });
 
             return result;
@@ -44,7 +47,7 @@ namespace AHpx.ModuleLauncher.Locators
         /// <param name="obj"></param>
         /// <param name="versionIsolation"></param>
         /// <returns></returns>
-        public Minecraft GetMinecraft(JToken obj, bool versionIsolation = true)
+        public Minecraft GetMinecraft(JToken obj)
         {
             var json = obj.ToObject<Minecraft.MinecraftJson>();
             var version = json.Id;
@@ -58,23 +61,23 @@ namespace AHpx.ModuleLauncher.Locators
                     Version = new DirectoryInfo($@"{Location}\versions\{version}"),
                     Assets = new DirectoryInfo($@"{Location}\assets"),
                     Libraries = new DirectoryInfo($@"{Location}\libraries"),
-                    Root = versionIsolation
+                    Root = VersionIsolation
                         ? new DirectoryInfo($@"{Location}\versions\{version}")
                         : new DirectoryInfo(Location),
-                    Mod = versionIsolation
+                    Mod = VersionIsolation
                         ? new DirectoryInfo($@"{Location}\versions\{version}\mods")
                         : new DirectoryInfo($@"{Location}\mods"),
                     Natives = new DirectoryInfo($@"{Location}\versions\{version}\natives"),
-                    ResourcePacks = versionIsolation
+                    ResourcePacks = VersionIsolation
                         ? new DirectoryInfo($@"{Location}\versions\{version}\resourcepacks")
                         : new DirectoryInfo($@"{Location}\resourcepacks"),
-                    TexturePacks = versionIsolation
+                    TexturePacks = VersionIsolation
                         ? new DirectoryInfo($@"{Location}\versions\{version}\texturepacks")
                         : new DirectoryInfo($@"{Location}\texturepacks"),
-                    ShaderPacks = versionIsolation
+                    ShaderPacks = VersionIsolation
                         ? new DirectoryInfo($@"{Location}\versions\{version}\shaderpacks")
                         : new DirectoryInfo($@"{Location}\shaderpacks"),
-                    Saves = versionIsolation
+                    Saves = VersionIsolation
                         ? new DirectoryInfo($@"{Location}\versions\{version}\saves")
                         : new DirectoryInfo($@"{Location}\saves")
                 },
@@ -83,7 +86,7 @@ namespace AHpx.ModuleLauncher.Locators
                 Type = GetMinecraftJsonType(json),
                 RootVersion = GetMinecraftAssetIndex(json)
             };
-            re.Inherit = GetInheritMinecraft(re, versionIsolation);
+            re.Inherit = GetInheritMinecraft(re);
             
             return re;
         }
@@ -94,11 +97,11 @@ namespace AHpx.ModuleLauncher.Locators
         /// <param name="version"></param>
         /// <param name="versionIsolation"></param>
         /// <returns></returns>
-        public Minecraft GetMinecraft(string version, bool versionIsolation = true)
+        public Minecraft GetMinecraft(string version)
         {
             var obj = JObject.Parse(File.ReadAllText($@"{Location}\versions\{version}\{version}.json"));
 
-            return GetMinecraft(obj, versionIsolation);
+            return GetMinecraft(obj);
         }
 
         public IEnumerable<Library> GetLibraries(string version, bool excludeNatives = true)
@@ -164,7 +167,7 @@ namespace AHpx.ModuleLauncher.Locators
 
         public async Task<IEnumerable<Asset>> GetAssets(string version, bool autoFetchAssetsIndex = true)
         {
-            return await GetAssets(GetMinecraft(version, autoFetchAssetsIndex));
+            return await GetAssets(GetMinecraft(version), autoFetchAssetsIndex);
         }
         
         public async Task<IEnumerable<Asset>> GetAssets(Minecraft mc, bool autoFetchAssetsIndex = true)
@@ -277,13 +280,13 @@ namespace AHpx.ModuleLauncher.Locators
             }
         }
         
-        private Minecraft GetInheritMinecraft(Minecraft mc, bool isolation = true)
+        private Minecraft GetInheritMinecraft(Minecraft mc)
         {
             var json = mc.Json;
 
             if (mc.Type.IsLoader())
             {
-                return GetMinecraft(json.InheritsFrom, isolation);
+                return GetMinecraft(json.InheritsFrom);
             }
 
             if (mc.Type == Minecraft.MinecraftJson.MinecraftType.OldLoader)

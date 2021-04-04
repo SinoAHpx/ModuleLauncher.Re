@@ -119,9 +119,9 @@ namespace AHpx.ModuleLauncher.Launcher
             JavaPath = javaPath;
         }
 
-        public string GetArgument(string version, bool isolation = true)
+        public string GetArgument(string version)
         {
-            var mc = Locator.GetMinecraft(version, isolation);
+            var mc = Locator.GetMinecraft(version);
             var argument = new StringBuilder();
 
             #region Jvm args
@@ -195,11 +195,11 @@ namespace AHpx.ModuleLauncher.Launcher
             return argument.ToString().Trim();
         }
 
-        public Process Launch(string version, bool isolation = true)
+        public Process Launch(string version)
         {
-            ExtractNatives(version, isolation);
+            ExtractNatives(version);
             
-            var mc = Locator.GetMinecraft(version, isolation);
+            var mc = Locator.GetMinecraft(version);
             
             var process = new Process
             {
@@ -219,9 +219,9 @@ namespace AHpx.ModuleLauncher.Launcher
             return process;
         }
 
-        public void ExtractNatives(string version, bool isolation = true)
+        public void ExtractNatives(string version)
         {
-            var mc = Locator.GetMinecraft(version, isolation);
+            var mc = Locator.GetMinecraft(version);
             mc.File.Natives.Create();
             
             var natives = Locator.GetNatives(version);
