@@ -133,12 +133,30 @@ namespace AHpx.ModuleLauncher.Data.Locators
             [JsonProperty("mainClass")]
             internal string MainClass { get; set; }
             
+            [JsonProperty("time")]
+            internal string ReleaseTime { get; set; }
+            
             internal enum MinecraftType
             {
+                //1.7.10 <= DefaultVanilla < 1.13
                 DefaultVanilla,
+                
+                //1.13 <= NewVanilla
                 NewVanilla,
+                
+                //asset = legacy
                 OldVanilla,
+                
+                //asset = pre-1.6
+                Ancient,
+                
+                //1.5.2 <= OldLoader <= 1.7.2
+                OldLoader,
+                
+                //1.7.10 <= DefaultLoader <= 1.12.2
                 DefaultLoader,
+                
+                //1.13 <= NewLoader
                 NewLoader
             }
         }

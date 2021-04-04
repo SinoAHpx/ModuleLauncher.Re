@@ -21,12 +21,13 @@ namespace AHpx.ModuleLauncher
     {
         public static async Task Main(string[] args)
         {
-            var dir = new DirectoryInfo(@"C:\Users\ahpx\Desktop\Test");
             var locator = new MinecraftLocator(@"C:\Users\ahpx\Desktop\Test\.minecraft");
-            
+
+
+            //Console.WriteLine(locator.GetMinecraft("LiteLoader1.6.2").Type);
             foreach (var minecraft in locator.GetMinecrafts())
             {
-                Console.WriteLine(minecraft.File.Json);
+                Console.WriteLine($"{minecraft.File.Json.Name}: {minecraft.Type}");
             }
         }
 

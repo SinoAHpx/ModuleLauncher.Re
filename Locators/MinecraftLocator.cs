@@ -236,82 +236,81 @@ namespace AHpx.ModuleLauncher.Locators
 
         private Minecraft.MinecraftJson.MinecraftType GetMinecraftJsonType(Minecraft.MinecraftJson json)
         {
-            if (json == null) throw new ArgumentException("Minecraft json data is null", nameof(json)); 
-            
-            var defaultVersion = new Version("1.7.10");
-            var newVersion = new Version("1.13");
+            var time = DateTime.Parse(json.ReleaseTime).ToFileTimeUtc();
 
-            //trying to parse inheritsFrom property
-            try
+            const long pre = 130151251210000000;
+            const long legacy = 130299645680000000;
+            const long standard = 131460540830000000;
+
+            if (time > pre)
             {
-                var ver = new Version(json.InheritsFrom);
-                if (ver < defaultVersion)
-                    throw new Exception("Unsupported version type!");
-                if (ver < newVersion && ver >= defaultVersion)
-                    return Minecraft.MinecraftJson.MinecraftType.DefaultLoader;
-                if (ver >= newVersion)
-                    return Minecraft.MinecraftJson.MinecraftType.NewLoader;
-            }
-            //if failed, it's vanilla or old loader
-            catch
-            {
-                //trying to parse assets property
-                try
+                if (time > legacy)
                 {
-                    if (json.Assets == "pre-1.6" || json.Assets == "legacy")
-                        return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
-                    var ver = new Version(json.Assets);
-                    if (ver < defaultVersion)
-                        return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
-                    if (ver < newVersion && ver >= defaultVersion)
-                        return Minecraft.MinecraftJson.MinecraftType.DefaultVanilla;
-                    if (ver >= newVersion)
-                        return Minecraft.MinecraftJson.MinecraftType.NewVanilla;
-                }
-                //if failed, trying to parse id property
-                catch
-                {
-                    try
+                    if (time > standard)
                     {
-                        var ver = new Version(json.Id);
-                        if (ver < defaultVersion)
-                            return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
-                        if (ver < newVersion && ver >= defaultVersion)
-                            return Minecraft.MinecraftJson.MinecraftType.DefaultVanilla;
-                        if (ver >= newVersion)
-                            return Minecraft.MinecraftJson.MinecraftType.NewVanilla;
+                        return json.Assets.IsNullOrEmpty()
+                            ? Minecraft.MinecraftJson.MinecraftType.NewLoader
+                            : Minecraft.MinecraftJson.MinecraftType.NewVanilla;
                     }
-                    catch
+                    else
                     {
-                        try
-                        {
-                            var sp = json.Assets.Split('.');
-                            var ver = new Version($"{sp[0]}.{sp[1]}".Replace("-", "").RemoveAlphabets());
-                            
-                            if (ver < defaultVersion)
-                                return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
-                            if (ver < newVersion && ver >= defaultVersion)
-                                return Minecraft.MinecraftJson.MinecraftType.DefaultVanilla;
-                            if (ver >= newVersion)
-                                return Minecraft.MinecraftJson.MinecraftType.NewVanilla;
-                        }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                        return json.Assets.IsNullOrEmpty()
+                            ? Minecraft.MinecraftJson.MinecraftType.DefaultLoader
+                            : Minecraft.MinecraftJson.MinecraftType.DefaultVanilla;
                     }
                 }
-                
+                else
+                {
+                    if (json.Id == "13w23b")
+                    {
+                        return Minecraft.MinecraftJson.MinecraftType.OldVanilla;
+                    }
+                    
+                    return json.Assets.IsNullOrEmpty()
+                        ? Minecraft.MinecraftJson.MinecraftType.OldLoader
+                        : Minecraft.MinecraftJson.MinecraftType.OldVanilla;
+                }
             }
-            
-            throw new ArgumentException("Version parse failed", nameof(json));
+            else
+            {
+                return Minecraft.MinecraftJson.MinecraftType.Ancient;
+            }
         }
-
+        
         private Minecraft GetInheritMinecraft(Minecraft mc, bool isolation = true)
         {
             var json = mc.Json;
 
-            return mc.Type.IsLoader() ? GetMinecraft(json.InheritsFrom, isolation) : mc;
+            if (mc.Type.IsLoader())
+            {
+                return GetMinecraft(json.InheritsFrom, isolation);
+            }
+
+            if (mc.Type == Minecraft.MinecraftJson.MinecraftType.OldLoader)
+            {
+                var id = mc.Json.Id.Replace("-", "");
+                if (id.Contains("LiteLoader"))
+                {
+                    return GetMinecraft(id.Replace("LiteLoader", ""));
+                }
+
+                else if (id.Contains("Forge"))
+                {
+                    return GetMinecraft(id.Replace(id.Substring(id.IndexOf("Forge")), ""));
+                }
+                
+                else if (id.Contains("OptiFine"))
+                {
+                    return GetMinecraft(id.Replace(id.Substring(id.IndexOf("OptiFine")), ""));
+                }
+
+                else
+                {
+                    throw new SystemException("Unsupported versions!");
+                }
+            }
+
+            return mc;
         }
         
         private bool IsAllow(JToken token)
