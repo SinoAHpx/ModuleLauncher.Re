@@ -16,7 +16,7 @@ As you can see, Modulelauncher This project is the C # version of [Module-Launch
 + Support YggDrasil and Authlib-Injector almost all interfaces
 + Is now ~~fast~~ iteration
 
-Please visit [Wiki] (https://github.com/ahpxchina/modulecher.re/wiki) of this item to get more information and use documentation,
+Please visit [Wiki](https://github.com/ahpxchina/modulecher.re/wiki) of this item to get more information and use documentation,
 
 ### Installation
 
