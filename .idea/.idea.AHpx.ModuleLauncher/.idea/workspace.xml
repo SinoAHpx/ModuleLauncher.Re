@@ -26,13 +26,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="Updated version">
-      <change afterPath="$PROJECT_DIR$/README_EN.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AHpx.ModuleLauncher/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/AHpx.ModuleLauncher/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/AHpx.ModuleLauncher/v16/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Entrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entrance.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="5994d29a-bc0f-4586-a9a6-f76fb204af7d" name="Default Changelist" comment="fixed">
+      <change beforePath="$PROJECT_DIR$/README_EN.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_EN.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,21 +219,7 @@
       <workItem from="1617441093448" duration="2061000" />
       <workItem from="1617464918978" duration="550000" />
       <workItem from="1617465496457" duration="3502000" />
-      <workItem from="1617514790907" duration="10008000" />
-    </task>
-    <task id="LOCAL-00002" summary="1.Added GetNatives()&#10;2.Made GetLibraries() support loaders">
-      <created>1605794274106</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1605794274106</updated>
-    </task>
-    <task id="LOCAL-00003" summary="1.Added AssetsLocator.cs &amp; Asset.cs&#10;2.Added GetAssets()">
-      <created>1605796030182</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1605796030182</updated>
+      <workItem from="1617514790907" duration="10376000" />
     </task>
     <task id="LOCAL-00004" summary="Complete Launcher.cs">
       <created>1605807478642</created>
@@ -569,7 +550,21 @@
       <option name="project" value="LOCAL" />
       <updated>1617523042180</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Updated README.md &amp; added README_EN.md">
+      <created>1617525406249</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1617525406249</updated>
+    </task>
+    <task id="LOCAL-00052" summary="fixed">
+      <created>1617525465464</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1617525465464</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -601,8 +596,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Rename CheckHaveMinecraft to CheckMinecraftOwnerShip" />
-    <MESSAGE value="Completed Downloader.cs &amp; DownloadArgs.cs" />
     <MESSAGE value="Fixed parallel download in Downloader.cs" />
     <MESSAGE value="Removed redundancy codes" />
     <MESSAGE value="Added Empty MinecraftDownloader.cs based on Downloader.cs" />
@@ -626,7 +619,9 @@
     <MESSAGE value="1.Added CheckExist parameter for download methods&#10;2.Added ParallelCount parameter for download methods" />
     <MESSAGE value="1.Enhanced version isolation mode" />
     <MESSAGE value="Updated version" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated version" />
+    <MESSAGE value="Updated README.md &amp; added README_EN.md" />
+    <MESSAGE value="fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
