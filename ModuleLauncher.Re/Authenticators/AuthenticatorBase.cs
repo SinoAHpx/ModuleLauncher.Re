@@ -10,9 +10,9 @@ namespace ModuleLauncher.Re.Authenticators
 {
     public abstract class AuthenticatorBase
     {
-        public string Account { get; set; }
-        public string Password { get; set; }
-        public string ClientToken { get; set; }
+        public abstract string Account { get; set; }
+        public abstract string Password { get; set; }
+        public virtual string ClientToken { get; set; }
         
         public abstract Task<AuthenticateResult> Authenticate();
 

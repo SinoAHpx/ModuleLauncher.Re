@@ -12,19 +12,19 @@ namespace ModuleLauncher.Re.Authenticators
         private string _password;
         private string _clientToken;
 
-        public string Account
+        public override string Account
         {
             get => _account;
             set => _account = value ?? throw new ArgumentNullException($"{nameof(Account)} can't be null!");
         }
 
-        public string Password
+        public override string Password
         {
             get => _password;
             set => _password = value ?? throw new ArgumentNullException($"{nameof(Password)} can't be null!");
         }
 
-        public string ClientToken
+        public override string ClientToken
         {
             get => _clientToken;
             set => _clientToken = value ?? Guid.NewGuid().ToString("N");
