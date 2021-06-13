@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
@@ -10,6 +11,16 @@ namespace ModuleLauncher.Re.Utils.Extensions
             {
                 NullValueHandling = ignoreNull ?  NullValueHandling.Ignore :  NullValueHandling.Include
             });
+        }
+
+        public static T ToJsonEntity<T>(this string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        public static string Fetch(this JObject jObject, string key)
+        {
+            return jObject[key].ToString();
         }
     }
 }
