@@ -13,14 +13,14 @@ namespace ModuleLauncher.Re.Utils
             _client = new RestClient();
         }
 
-        public static async Task<string> PostJson(string url, string json)
+        public static async Task<IRestResponse> PostJson(string url, string json)
         {
             _client.BaseUrl = new Uri(url);
 
             var request = new RestRequest(Method.POST);
             request.AddJsonBody(json);
 
-            return (await _client.ExecuteAsync(request)).Content;
+            return await _client.ExecuteAsync(request);
         }
     }
 }
