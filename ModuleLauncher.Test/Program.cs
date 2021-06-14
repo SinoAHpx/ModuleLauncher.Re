@@ -17,7 +17,12 @@ namespace ModuleLauncher.Test
                 Password = "asd123,./"
             };
 
-            Console.WriteLine((await ac.Authenticate()).ToJsonString());
+            var re = await ac.Authenticate();
+            Console.WriteLine(re.ToJsonString());
+
+            var re2 = await ac.Refresh(re.AccessToken, re.ClientToken);
+
+            Console.WriteLine(re2.ToJsonString());
         }
     }
 }

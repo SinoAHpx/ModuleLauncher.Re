@@ -90,9 +90,35 @@ namespace ModuleLauncher.Re.Authenticators
             return result.Content.ToJsonEntity<AuthenticateResult>();
         }
 
-        public override Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null)
+        /// <summary>
+        /// Refreshes a valid accessToken. It can be used to keep a user logged in between gaming sessions and is preferred over storing the user's password in a file
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="clientToken">If its value is null, the ClientToken property of current object will be use</param>
+        /// <returns></returns>
+        public override async Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null)
         {
+            if (clientToken.IsNullOrEmpty())
+            {
+                clientToken = ClientToken;
+            }
+
+            var url = $"https://authserver.mojang.com/refresh";
+            var payload = new
+            {
+                accessToken,
+                clientToken,
+                requestUser = true
+            }.ToJsonString();
+
+            var result = await HttpUtility.PostJson(url, payload);
             
+            if (!IsSuccess(result))
+            {
+                throw GetException(result);
+            }
+
+            return result.Content.ToJsonEntity<AuthenticateResult>(); 
         }
     }
 }
