@@ -16,6 +16,8 @@ namespace ModuleLauncher.Re.Authenticators
         
         public abstract Task<AuthenticateResult> Authenticate();
 
+        public abstract Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null);
+
         internal Exception GetException(IRestResponse response)
         {
             var obj = JObject.Parse(response.Content);
