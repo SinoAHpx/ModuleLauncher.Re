@@ -18,16 +18,13 @@ namespace ModuleLauncher.Re.Authenticators
 
         public abstract Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null);
 
+        public abstract Task<bool> Validate(string accessToken, string clientToken = null, bool throwException = false);
+
         internal Exception GetException(IRestResponse response)
         {
             var obj = JObject.Parse(response.Content);
                 
             return new Exception($"Error: {obj.Fetch("error")}\r\nMessage: {obj.Fetch("errorMessage")}");
-        }
-
-        internal bool IsSuccess(IRestResponse response)
-        {
-            return response.StatusCode == HttpStatusCode.OK;
         }
     }
 }
