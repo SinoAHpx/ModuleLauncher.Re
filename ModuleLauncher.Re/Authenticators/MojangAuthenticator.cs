@@ -162,7 +162,6 @@ namespace ModuleLauncher.Re.Authenticators
         /// <summary>
         /// Invalidates accessTokens using an account's username and password.
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
         public override async Task SignOut()
         {
             var url = "https://authserver.mojang.com/signout";
