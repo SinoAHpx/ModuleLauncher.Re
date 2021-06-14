@@ -158,5 +158,21 @@ namespace ModuleLauncher.Re.Authenticators
 
             return result.StatusCode == HttpStatusCode.NoContent;
         }
+
+        /// <summary>
+        /// Invalidates accessTokens using an account's username and password.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        public override async Task SignOut()
+        {
+            var url = "https://authserver.mojang.com/signout";
+            var payload = new
+            {
+                username = Account,
+                password = Password
+            }.ToJsonString();
+
+            await HttpUtility.PostJson(url, payload);
+        }
     }
 }

@@ -20,6 +20,8 @@ namespace ModuleLauncher.Re.Authenticators
 
         public abstract Task<bool> Validate(string accessToken, string clientToken = null, bool throwException = false);
 
+        public abstract Task SignOut();
+
         internal Exception GetException(IRestResponse response)
         {
             var obj = JObject.Parse(response.Content);
