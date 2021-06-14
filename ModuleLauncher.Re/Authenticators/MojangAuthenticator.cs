@@ -7,6 +7,7 @@ using ModuleLauncher.Re.Utils.Extensions;
 
 namespace ModuleLauncher.Re.Authenticators
 {
+    [Obsolete("This authentication method will be abandoned in late 2021")]
     public class MojangAuthenticator : AuthenticatorBase
     {
         private string _account;
