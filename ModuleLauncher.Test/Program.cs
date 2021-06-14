@@ -14,6 +14,7 @@ namespace ModuleLauncher.Test
             var ac = new MojangAuthenticator
             {
                 Account = "AHpx@yandex.com",
+                //Updated, don't try it
                 Password = "asd123,./"
             };
 
