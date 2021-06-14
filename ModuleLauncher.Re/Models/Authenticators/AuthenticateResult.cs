@@ -6,9 +6,6 @@ namespace ModuleLauncher.Re.Models.Authenticators
     [JsonConverter(typeof(JsonPathConverter))]
     public class AuthenticateResult
     {
-        [JsonProperty("user.username")]
-        public string Account { get; set; }
-        
         [JsonProperty("selectedProfile.name")]
         public string Name { get; set; }
         
