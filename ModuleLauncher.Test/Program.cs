@@ -25,7 +25,8 @@ namespace ModuleLauncher.Test
 
             Console.WriteLine(re2.ToJsonString());
 
-            Console.WriteLine($"R1: {await ac.Validate(re.AccessToken)}");
+            Console.WriteLine($"R1: {await ac.Validate(re.AccessToken)}");// or you can use extension methods like re.Validate()
+
             Console.WriteLine($"R2: {await ac.Validate(re2.AccessToken)}");
 
             await ac.SignOut();
