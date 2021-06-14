@@ -11,18 +11,13 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var obj = JObject.Parse(File.ReadAllText(@"C:\Users\ahpx\Desktop\account.json"));
-            
             var ac = new MojangAuthenticator
             {
-                Account = obj.Fetch("Account"),
-                Password = "lwidkjmawd",
-                ClientToken = null
+                Account = "AHpx@yandex.com",
+                Password = "asd123,./"
             };
 
-            var re = await ac.Authenticate();
-
-            Console.WriteLine(re.ToJsonString());
+            Console.WriteLine((await ac.Authenticate()).ToJsonString());
         }
     }
 }
