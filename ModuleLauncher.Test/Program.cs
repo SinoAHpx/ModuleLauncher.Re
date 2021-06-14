@@ -13,17 +13,20 @@ namespace ModuleLauncher.Test
         {
             var ac = new MojangAuthenticator
             {
-                Account = "AHpx@yandex.com",
-                //Updated, don't try it
-                Password = "asd123,./"
+                Account = AuthenticatorPWD.GetPWD().Account,
+                Password = AuthenticatorPWD.GetPWD().Password
             };
 
             var re = await ac.Authenticate();
             Console.WriteLine(re.ToJsonString());
+            Console.WriteLine($"R1: {await ac.Validate(re.AccessToken)}");
 
             var re2 = await ac.Refresh(re.AccessToken, re.ClientToken);
 
             Console.WriteLine(re2.ToJsonString());
+
+            Console.WriteLine($"R1: {await ac.Validate(re.AccessToken, null, true)}");
+            Console.WriteLine($"R2: {await ac.Validate(re2.AccessToken)}");
         }
     }
 }
