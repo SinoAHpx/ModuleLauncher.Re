@@ -22,6 +22,8 @@ namespace ModuleLauncher.Re.Authenticators
 
         public abstract Task SignOut();
 
+        public abstract Task Invalidate(string accessToken, string clientToken);
+
         internal Exception GetException(IRestResponse response)
         {
             var obj = JObject.Parse(response.Content);

@@ -174,5 +174,17 @@ namespace ModuleLauncher.Re.Authenticators
 
             await HttpUtility.PostJson(url, payload);
         }
+
+        public override async Task Invalidate(string accessToken, string clientToken)
+        {
+            var url = "https://authserver.mojang.com/invalidate";
+            var payload = new
+            {
+                accessToken,
+                clientToken
+            }.ToJsonString();
+
+            await HttpUtility.PostJson(url, payload);
+        }
     }
 }

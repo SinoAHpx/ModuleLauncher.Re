@@ -31,6 +31,15 @@ namespace ModuleLauncher.Test
             await ac.SignOut();
             
             Console.WriteLine($"R2: {await ac.Validate(re2.AccessToken)}");
+
+            var re3 = await ac.Authenticate();
+            Console.WriteLine(re3.ToJsonString());
+
+            Console.WriteLine($"R3: {await ac.Validate(re3.AccessToken)}");
+            await ac.Invalidate(re3.AccessToken, re3.ClientToken);
+
+            Console.WriteLine($"R3: {await ac.Validate(re3.AccessToken)}");
+
         }
     }
 }
