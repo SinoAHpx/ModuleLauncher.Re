@@ -22,5 +22,10 @@ namespace ModuleLauncher.Re.Utils.Extensions
         {
             return jObject[key].ToString();
         }
+        
+        public static string Fetch(this JToken jObject, string key)
+        {
+            return jObject[key].ToString();
+        }
     }
 }
