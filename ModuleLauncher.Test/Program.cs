@@ -11,36 +11,14 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var ac = new MojangAuthenticator
+            var mc = new MicrosoftAuthenticator
             {
-                Account = AuthenticatorPWD.GetPWD().Account,
-                Password = AuthenticatorPWD.GetPWD().Password
+                Code = "M.R3_BAY.cf2e856b-9d44-9f86-2905-a999e02766c5"
             };
 
-            var re = await ac.Authenticate();
-            Console.WriteLine(re.ToJsonString());
-            Console.WriteLine($"R1: {await ac.Validate(re.AccessToken)}");
+            var result = await mc.Authenticate();
 
-            var re2 = await ac.Refresh(re.AccessToken, re.ClientToken);
-
-            Console.WriteLine(re2.ToJsonString());
-
-            Console.WriteLine($"R1: {await ac.Validate(re.AccessToken)}");// or you can use extension methods like re.Validate()
-
-            Console.WriteLine($"R2: {await ac.Validate(re2.AccessToken)}");
-
-            await ac.SignOut();
-            
-            Console.WriteLine($"R2: {await ac.Validate(re2.AccessToken)}");
-
-            var re3 = await ac.Authenticate();
-            Console.WriteLine(re3.ToJsonString());
-
-            Console.WriteLine($"R3: {await ac.Validate(re3.AccessToken)}");
-            await ac.Invalidate(re3.AccessToken, re3.ClientToken);
-
-            Console.WriteLine($"R3: {await ac.Validate(re3.AccessToken)}");
-
+            Console.WriteLine(result.ToJsonString());
         }
     }
 }
