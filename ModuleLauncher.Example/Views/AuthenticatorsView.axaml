@@ -7,16 +7,11 @@
              xmlns:authenticators1="clr-namespace:ModuleLauncher.Example.Views.Authenticators"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ModuleLauncher.Example.Views.AuthenticatorsView">
-
-    <Design.DataContext>
-        <authenticators:MojangAuthenticatorViewModel />
-    </Design.DataContext>
-
     <ScrollViewer>
         <StackPanel>
             <authenticators1:MojangAuthenticatorView />
 
-            <TabItem IsSelected="True" Header="MicrosoftAuthenticator" FontSize="18" />
+            <authenticators1:MicrosoftAuthenticatorView/>
             <TabItem IsSelected="True" Header="OfflineAuthenticator" FontSize="18" />
         </StackPanel>
     </ScrollViewer>

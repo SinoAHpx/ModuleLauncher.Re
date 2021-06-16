@@ -13,6 +13,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.3" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.3" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.3" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.3.3" />
     <PackageReference Include="CefGlue.Avalonia" Version="85.4183.60025" />
     <PackageReference Include="MessageBox.Avalonia" Version="1.2.0" />
   </ItemGroup>
