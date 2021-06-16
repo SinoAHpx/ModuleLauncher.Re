@@ -1,16 +1,17 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using ModuleLauncher.Example.ViewModels;
 using ModuleLauncher.Example.ViewModels.Authenticators;
 
-namespace ModuleLauncher.Example.Views
+namespace ModuleLauncher.Example.Views.Authenticators
 {
-    public partial class AuthenticatorsView : UserControl
+    public partial class MojangAuthenticatorView : UserControl
     {
-        public AuthenticatorsView()
+        public MojangAuthenticatorView()
         {
             InitializeComponent();
+
+            DataContext = new MojangAuthenticatorViewModel();
         }
 
         private void InitializeComponent()

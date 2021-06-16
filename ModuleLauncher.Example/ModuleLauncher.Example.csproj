@@ -19,4 +19,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ModuleLauncher.Re\ModuleLauncher.Re.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Authenticators\MojangAuthenticatorView.axaml.cs">
+      <DependentUpon>MojangAuthenticatorView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

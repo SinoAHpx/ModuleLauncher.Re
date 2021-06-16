@@ -3,39 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ModuleLauncher.Example.ViewModels"
+             xmlns:authenticators="clr-namespace:ModuleLauncher.Example.ViewModels.Authenticators"
+             xmlns:authenticators1="clr-namespace:ModuleLauncher.Example.Views.Authenticators"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ModuleLauncher.Example.Views.AuthenticatorsView">
 
-  <Design.DataContext>
-    <viewModels:AuthenticatorsViewModel/>
-  </Design.DataContext>
+    <Design.DataContext>
+        <authenticators:MojangAuthenticatorViewModel />
+    </Design.DataContext>
 
     <ScrollViewer>
         <StackPanel>
-            <TabItem IsSelected="True" Foreground="{Binding TitleColor}" Header="MojangAuthenticator" FontSize="18" />
-
-            <TextBlock Text="Account" Margin="10,5,10,5" />
-            <TextBox Text="{Binding Account}" Margin="10,5,10,5" />
-
-            <TextBlock Text="Password" Margin="10,5,10,5" />
-            <TextBox Text="{Binding Password, Mode=TwoWay}" RevealPassword="{Binding IsChecked,ElementName=RevealPasswordCheckBox}" PasswordChar="·"
-                     Margin="10,5,10,5" />
-            <CheckBox Name="RevealPasswordCheckBox" Content="Show" HorizontalAlignment="Right" Margin="10,5,10,5" />
-
-            <TextBlock Text="Client Token (optional)" Margin="10,5,10,5" />
-            <TextBox Text="{Binding ClientToken}" Margin="10,5,10,5" />
-            <Button Command="{Binding GetRandomClientToken}" HorizontalAlignment="Right" Margin="10,5,10,5" Content="Random" />
-
-            <Rectangle Height="1" Fill="Gray" Margin="10" />
-
-            <StackPanel Margin="10,5,10,5" Orientation="Horizontal">
-                <Button Command="{Binding Authenticate}" Content="Authenticate" Margin="0,0,5,0" />
-                <Button Command="{Binding Refresh}" Content="Refresh" Margin="0,0,5,0" />
-                <Button Command="{Binding Validate}" Content="Validate" Margin="0,0,5,0" />
-                <Button Command="{Binding Invalidate}" Content="Invalidate" Margin="0,0,5,0" />
-                <Button Command="{Binding SignOut}" Content="SignOut" Margin="0,0,5,0" />
-            </StackPanel>
-
+            <authenticators1:MojangAuthenticatorView />
 
             <TabItem IsSelected="True" Header="MicrosoftAuthenticator" FontSize="18" />
             <TabItem IsSelected="True" Header="OfflineAuthenticator" FontSize="18" />

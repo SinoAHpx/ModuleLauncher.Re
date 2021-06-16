@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Reactive;
-using Avalonia.Animation.Easings;
-using MessageBox.Avalonia;
 using ModuleLauncher.Example.Extensions;
-using ModuleLauncher.Example.Views;
 using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Utils.Extensions;
 using ReactiveUI;
 
-namespace ModuleLauncher.Example.ViewModels
+namespace ModuleLauncher.Example.ViewModels.Authenticators
 {
-    public class AuthenticatorsViewModel : ViewModelBase
+    public class MojangAuthenticatorViewModel : ViewModelBase
     {
         private string _account;
 
@@ -45,7 +41,7 @@ namespace ModuleLauncher.Example.ViewModels
             set => this.RaiseAndSetIfChanged(ref _titleColor, value);
         }
 
-        public AuthenticatorsViewModel()
+        public MojangAuthenticatorViewModel()
         {
             
         }
@@ -90,7 +86,7 @@ namespace ModuleLauncher.Example.ViewModels
 
                 //or you can use:
                 //
-                // var ma = new MojangAuthenticator
+                // var ma = new MojangAuthenticatorView
                 //  {
                 //      Account = Account,
                 //      Password = Password,
