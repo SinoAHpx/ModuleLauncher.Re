@@ -16,13 +16,13 @@ namespace ModuleLauncher.Re.Authenticators
         
         public abstract Task<AuthenticateResult> Authenticate();
 
-        public abstract Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null);
+        public virtual Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null) => null;
 
-        public abstract Task<bool> Validate(string accessToken, string clientToken = null, bool throwException = false);
+        public virtual Task<bool> Validate(string accessToken, string clientToken = null, bool throwException = false) => null;
 
-        public abstract Task SignOut();
+        public virtual Task SignOut() => null;
 
-        public abstract Task Invalidate(string accessToken, string clientToken);
+        public virtual Task Invalidate(string accessToken, string clientToken) => null;
 
         internal Exception GetException(IRestResponse response)
         {
