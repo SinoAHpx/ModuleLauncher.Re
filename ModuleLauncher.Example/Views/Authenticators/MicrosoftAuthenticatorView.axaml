@@ -11,11 +11,15 @@
         <authenticators:MicrosoftAuthenticatorViewModel />
     </Design.DataContext>
 
-  <StackPanel>
-      <TabItem IsSelected="True" Header="MicrosoftAuthenticator" FontSize="18" />
+    <StackPanel>
+        <TabItem IsSelected="True" Header="MicrosoftAuthenticator" FontSize="18" />
 
-      <TextBlock Text="Microsoft authorize code" Margin="10,5,10,5"/>
-      <TextBox Text="{Binding Code}" Margin="10,5,10,5"/>
-      <Button Content="Show web browser" Command="{Binding ShowWebBrowser}" Margin="10,5,10,5" HorizontalAlignment="Right"/>
-  </StackPanel>
+        <TextBlock Text="Microsoft authorize code" Margin="10,5,10,5" />
+        <TextBox Text="{Binding Code}" Margin="10,5,10,5" />
+        <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Authenticate" Margin="10,0,0,0" Command="{Binding Authenticate}" />
+            <Button Content="CheckOwnership" Margin="10,0,10,0" Command="{Binding CheckOwnership}" />
+            <Button Content="Show web browser" Command="{Binding ShowWebBrowser}"/>
+        </StackPanel>
+    </StackPanel>
 </UserControl>
