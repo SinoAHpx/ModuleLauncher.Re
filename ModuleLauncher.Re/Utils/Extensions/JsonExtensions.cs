@@ -18,14 +18,19 @@ namespace ModuleLauncher.Re.Utils.Extensions
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public static string Fetch(this JObject jObject, string key)
-        {
-            return jObject[key].ToString();
-        }
-        
         public static string Fetch(this JToken jObject, string key)
         {
             return jObject[key].ToString();
+        }
+
+        public static JObject ToJObject(this string json)
+        {
+            return JObject.Parse(json);
+        }
+        
+        public static JArray ToJArray(this string json)
+        {
+            return JArray.Parse(json);
         }
     }
 }
