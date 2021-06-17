@@ -2,6 +2,8 @@
 using Avalonia.Metadata;
 using ModuleLauncher.Example.Extensions;
 using ModuleLauncher.Example.Views.Authenticators;
+using ModuleLauncher.Re.Authenticators;
+using ModuleLauncher.Re.Utils.Extensions;
 using ReactiveUI;
 
 namespace ModuleLauncher.Example.ViewModels.Authenticators
@@ -18,6 +20,23 @@ namespace ModuleLauncher.Example.ViewModels.Authenticators
             await window.ShowDialog(GlobalUtility.GetMainWindow());
 
             Code = window.Code;
+        }
+
+        private MicrosoftAuthenticator _authenticator;
+        public async void Authenticate()
+        {
+            _authenticator = new MicrosoftAuthenticator(Code);
+
+            var re = await _authenticator.GetMicrosoftAuthorizeToken();
+
+            var de = await _authenticator.AuthenticateXboxLive(re);
+
+            await MessageBoxEx.Show(de.ToJsonString());
+        }
+
+        public void CheckOwnership()
+        {
+
         }
 
         private string _code;
