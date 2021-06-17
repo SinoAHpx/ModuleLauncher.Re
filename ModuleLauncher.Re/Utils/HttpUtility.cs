@@ -43,5 +43,19 @@ namespace ModuleLauncher.Re.Utils
 
             return await _client.ExecuteAsync(request);
         }
+        
+        public static async Task<IRestResponse> Get(string url, string contentType)
+        {
+            _client.BaseUrl = new Uri(url);
+
+            var request = new RestRequest(Method.GET);
+
+            if (!contentType.IsNullOrEmpty())
+            {
+                request.AddHeader("Content-Type", contentType);
+            }
+
+            return await _client.ExecuteAsync(request);
+        }
     }
 }
