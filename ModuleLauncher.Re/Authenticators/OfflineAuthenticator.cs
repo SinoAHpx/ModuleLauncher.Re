@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Models.Authenticators;
 
-namespace ModuleLauncher.Example.ViewModels.Authenticators
+namespace ModuleLauncher.Re.Authenticators
 {
     public class OfflineAuthenticator : AuthenticatorBase
     {
