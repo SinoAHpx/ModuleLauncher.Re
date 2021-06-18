@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
+    /// <summary>
+    /// MojangAuthenticator-based authenticate result related tools
+    /// </summary>
     public static class MojangAuthenticatorExtensions
     {
         private static MojangAuthenticator _mojangAuthenticator = new MojangAuthenticator();
