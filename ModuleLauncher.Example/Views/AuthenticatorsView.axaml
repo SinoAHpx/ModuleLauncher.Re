@@ -12,7 +12,8 @@
             <authenticators1:MojangAuthenticatorView />
 
             <authenticators1:MicrosoftAuthenticatorView/>
-            <TabItem IsSelected="True" Header="OfflineAuthenticator" FontSize="18" />
+            
+            <authenticators1:OfflineAuthenticatorView/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

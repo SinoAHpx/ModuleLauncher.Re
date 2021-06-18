@@ -3,6 +3,8 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="ModuleLauncher.Example/Views/Authenticators/MojangAuthenticatorView.axaml" value="ModuleLauncher.Example/ModuleLauncher.Example.csproj" />
+        <entry key="ModuleLauncher.Example/Views/Authenticators/OfflineAuthenticatorView.axaml" value="ModuleLauncher.Example/ModuleLauncher.Example.csproj" />
         <entry key="ModuleLauncher.Example/Views/AuthenticatorsView.axaml" value="ModuleLauncher.Example/ModuleLauncher.Example.csproj" />
       </map>
     </option>
