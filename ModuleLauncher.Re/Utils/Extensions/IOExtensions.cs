@@ -22,5 +22,22 @@ namespace ModuleLauncher.Re.Utils.Extensions
         {
             return new FileInfo(s);
         }
+
+        /// <summary>
+        /// E.g. .minecraft => .minecraft/versions
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="sub">e.g. versions (without any slash)</param>
+        /// <returns></returns>
+        public static DirectoryInfo ToSubDirectoryInfo(this DirectoryInfo info, string sub)
+        {
+            var dir = info.FullName;
+            if (!dir.EndsWith("\\"))
+            {
+                dir += "\\";
+            }
+
+            return new DirectoryInfo($@"{dir}{sub.TrimStart('\\')}");
+        }
     }
 }
