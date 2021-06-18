@@ -31,6 +31,7 @@ namespace ModuleLauncher.Re.Locators
             {
                 var locality = Locality.ToDirectoryInfo(); ;
 
+                //we don't care 
                 var version = new Version
                 {
                     Root = locality,
