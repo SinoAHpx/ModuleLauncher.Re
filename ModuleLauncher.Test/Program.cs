@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Authenticators;
+using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json.Linq;
 
@@ -11,7 +12,6 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            
         }
     }
 }

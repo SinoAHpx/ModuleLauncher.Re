@@ -1,4 +1,5 @@
-﻿using ModuleLauncher.Re.Utils.Extensions;
+﻿using System;
+using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json;
 
 namespace ModuleLauncher.Re.Models.Authenticators
@@ -17,5 +18,16 @@ namespace ModuleLauncher.Re.Models.Authenticators
         
         [JsonProperty("selectedProfile.id")]
         public string Uuid { get; set; }
+
+        public static implicit operator AuthenticateResult(string s)
+        {
+            return new AuthenticateResult
+            {
+                Name = s,
+                AccessToken = Guid.NewGuid().ToString("N"),
+                ClientToken = Guid.NewGuid().ToString("N"),
+                Uuid = Guid.NewGuid().ToString("N"),
+            };
+        } 
     }
 }
