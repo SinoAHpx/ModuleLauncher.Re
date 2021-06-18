@@ -11,6 +11,9 @@ using RestSharp;
 
 namespace ModuleLauncher.Re.Authenticators
 {
+    /// <summary>
+    /// MicrosoftAuthenticator, there's a only Authenticate and CheckMinecraftOwnership method available
+    /// </summary>
     public class MicrosoftAuthenticator : AuthenticatorBase
     {
         [Obsolete("Please use Code property instead")]
@@ -44,7 +47,11 @@ namespace ModuleLauncher.Re.Authenticators
 
             return JArray.Parse(JObject.Parse(result.Content).Fetch("items")).Count() != 0;
         }
-            
+        
+        /// <summary>
+        /// Execute Microsoft authentication via authorize code
+        /// </summary>
+        /// <returns></returns>
         public override async Task<AuthenticateResult> Authenticate()
         {
             //We can get authorize code from the web browser by visit:
@@ -61,7 +68,7 @@ namespace ModuleLauncher.Re.Authenticators
 
             return re;
         }
-
+        
         private async Task<string> GetMicrosoftAuthorizeToken()
         {
             var url = new StringBuilder("https://login.live.com/oauth20_token.srf");
@@ -85,7 +92,7 @@ namespace ModuleLauncher.Re.Authenticators
                 throw new Exception($"Error: {json.Fetch("error")}\r\nMessage: {json.Fetch("error_description")}", e);
             }
         }
-
+        
         private async Task<Dictionary<string, string>> GetXboxLiveTokenAndUhs(string microsoftAuthorizeToken)
         {
             var url = "https://user.auth.xboxlive.com/user/authenticate";
