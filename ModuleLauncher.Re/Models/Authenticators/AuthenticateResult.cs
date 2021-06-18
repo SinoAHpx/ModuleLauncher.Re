@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace ModuleLauncher.Re.Models.Authenticators
 {
     [JsonConverter(typeof(JsonPathConverter))]
-    public class AuthenticateResult
+    public struct AuthenticateResult
     {
         [JsonProperty("selectedProfile.name")]
         public string Name { get; set; }
