@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Metadata;
 using ModuleLauncher.Example.Extensions;
 using ModuleLauncher.Example.Views.Authenticators;
@@ -22,21 +23,38 @@ namespace ModuleLauncher.Example.ViewModels.Authenticators
             Code = window.Code;
         }
 
+        private string _token;
         private MicrosoftAuthenticator _authenticator;
+        
         public async void Authenticate()
         {
-            _authenticator = new MicrosoftAuthenticator(Code);
+            _authenticator = new(Code);
 
-            var re = await _authenticator.GetMicrosoftAuthorizeToken();
+            try
+            {
+                var re = await _authenticator.Authenticate();
 
-            var de = await _authenticator.AuthenticateXboxLive(re);
+                _token = re.AccessToken;
 
-            await MessageBoxEx.Show(de.ToJsonString());
+                await MessageBoxEx.Show(re.ToJsonString());
+            }
+            catch (Exception e)
+            {
+                await MessageBoxEx.Show(e.ToString());
+            }
         }
 
-        public void CheckOwnership()
+        public async void CheckOwnership()
         {
-
+            try
+            {
+                var hasMinecraft = await _authenticator.CheckMinecraftOwnership(_token);
+                await MessageBoxEx.Show($"Your account has {(hasMinecraft ? "" : "no ")}minecraft");
+            }
+            catch
+            {
+                await MessageBoxEx.Show("Authenticate first");
+            }
         }
 
         private string _code;

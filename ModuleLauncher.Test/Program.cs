@@ -11,7 +11,7 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine(new MicrosoftAuthenticator().GetMicrosoftAuthorizeToken());
+            
         }
     }
 }
