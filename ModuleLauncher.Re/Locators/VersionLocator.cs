@@ -97,9 +97,35 @@ namespace ModuleLauncher.Re.Locators
         /// Get single version
         /// </summary>
         /// <param name="name">directory name of specify minecraft local version</param>
+        /// <param name="ignoreExisting">if you don't even care if it exist</param>
         /// <returns></returns>
-        public LocalVersion GetLocalVersion(string name)
+        public LocalVersion GetLocalVersion(string name, bool ignoreExisting = false)
         {
+            if (ignoreExisting)
+            {
+                var locality = Locality.ToDirectoryInfo();
+                var info = locality.ToSubDirectoryInfo($"versions\\{name}");
+                
+                var version = new LocalVersion
+                {
+                    Root = locality,
+                    Versions = info.Parent,
+                    Saves = locality.ToSubDirectoryInfo("saves"),
+                    Mods = locality.ToSubDirectoryInfo("mods"),
+                    ResourcesPacks = locality.ToSubDirectoryInfo("resourcepacks"),
+                    TexturePacks = locality.ToSubDirectoryInfo("texturepacks"),
+                    Libraries = locality.ToSubDirectoryInfo("libraries"),
+                    Assets = locality.ToSubDirectoryInfo("assets\\objects"),
+                    AssetsIndexes = locality.ToSubDirectoryInfo("assets\\indexes"),
+                    Jar = $"{info}\\{info.Name}.jar".ToFileInfo(),
+                    Json = $"{info}\\{info.Name}.json".ToFileInfo(),
+                    VersionDir = info,
+                    Natives = info.ToSubDirectoryInfo("natives")
+                };
+
+                return version;
+            }
+            
             try
             {
                 var versions = GetLocalVersions().Where(x => x.VersionDir.Name == name);
