@@ -6,7 +6,7 @@ namespace ModuleLauncher.Re.Models.Locators
     /// <summary>
     /// Description the file structure of a minecraft version
     /// </summary>
-    public class Version
+    public class LocalVersion
     {
         /// <summary>
         /// .minecraft

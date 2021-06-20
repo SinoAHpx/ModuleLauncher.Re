@@ -21,9 +21,9 @@ namespace ModuleLauncher.Re.Locators
             Locality = locality;
         }
 
-        public IEnumerable<Version> GetVersions()
+        public IEnumerable<LocalVersion> GetLocalVersions()
         {
-            var re = new List<Version>();
+            var re = new List<LocalVersion>();
             var versions = Directory.GetDirectories($@"{Locality}\versions").Select(x => x.ToDirectoryInfo());
             
             //info should be .minecraft/versions/%ver%
@@ -32,7 +32,7 @@ namespace ModuleLauncher.Re.Locators
                 var locality = Locality.ToDirectoryInfo(); ;
 
                 //we don't care 
-                var version = new Version
+                var version = new LocalVersion
                 {
                     Root = locality,
                     Versions = info.Parent,
@@ -54,5 +54,7 @@ namespace ModuleLauncher.Re.Locators
 
             return re;
         } 
+        
+        
     }
 }
