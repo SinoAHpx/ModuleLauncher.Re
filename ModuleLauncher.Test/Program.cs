@@ -13,7 +13,8 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var lct = new VersionLocator(@"D:\Minecraft\Solution1\.minecraft");
+            var lct = new VersionLocator();
+            Console.WriteLine(lct.Locality);
             foreach (var version in lct.GetLocalVersions())
             {
                 Console.WriteLine("=========================================================");
