@@ -67,7 +67,7 @@ namespace ModuleLauncher.Re.Models.Locators
         /// <summary>
         /// .minecraft/versions/%ver%
         /// </summary>
-        public DirectoryInfo VersionDir { get; set; }
+        public DirectoryInfo Version { get; set; }
 
         /// <summary>
         /// .minecraft/versions/%ver%/natives
