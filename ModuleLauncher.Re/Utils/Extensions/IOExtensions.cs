@@ -39,5 +39,15 @@ namespace ModuleLauncher.Re.Utils.Extensions
 
             return new DirectoryInfo($@"{dir}{sub.TrimStart('\\')}");
         }
+
+        /// <summary>
+        /// Equals to File.ReadAllText
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static string ReadAllText(this FileInfo info)
+        {
+            return File.ReadAllText(info.FullName);
+        }
     }
 }
