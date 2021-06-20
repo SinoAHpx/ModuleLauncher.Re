@@ -47,7 +47,7 @@ namespace ModuleLauncher.Re.Locators
         /// Get a collection that contain specify locality versions
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<LocalVersion> GetLocalVersions()
+        internal IEnumerable<LocalVersion> GetLocalVersions()
         {
             var re = new List<LocalVersion>();
 
@@ -99,7 +99,7 @@ namespace ModuleLauncher.Re.Locators
         /// <param name="name">directory name of specify minecraft local version</param>
         /// <param name="ignoreExisting">if you don't even care if it exist</param>
         /// <returns></returns>
-        public LocalVersion GetLocalVersion(string name, bool ignoreExisting = false)
+        internal LocalVersion GetLocalVersion(string name, bool ignoreExisting = false)
         {
             if (ignoreExisting)
             {
