@@ -83,7 +83,7 @@ namespace ModuleLauncher.Re.Locators
                     AssetsIndexes = locality.ToSubDirectoryInfo("assets\\indexes"),
                     Jar = $"{info}\\{info.Name}.jar".ToFileInfo(),
                     Json = $"{info}\\{info.Name}.json".ToFileInfo(),
-                    VersionDir = info,
+                    Version = info,
                     Natives = info.ToSubDirectoryInfo("natives")
                 };
 
@@ -119,7 +119,7 @@ namespace ModuleLauncher.Re.Locators
                     AssetsIndexes = locality.ToSubDirectoryInfo("assets\\indexes"),
                     Jar = $"{info}\\{info.Name}.jar".ToFileInfo(),
                     Json = $"{info}\\{info.Name}.json".ToFileInfo(),
-                    VersionDir = info,
+                    Version = info,
                     Natives = info.ToSubDirectoryInfo("natives")
                 };
 
@@ -128,7 +128,7 @@ namespace ModuleLauncher.Re.Locators
             
             try
             {
-                var versions = GetLocalVersions().Where(x => x.VersionDir.Name == name);
+                var versions = GetLocalVersions().Where(x => x.Version.Name == name);
 
                 return versions.First();
             }
