@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.IO;
+using System.Runtime.CompilerServices;
 using ModuleLauncher.Re.Locators.Dependencies;
 
 namespace ModuleLauncher.Re.Utils.Extensions
@@ -38,6 +39,16 @@ namespace ModuleLauncher.Re.Utils.Extensions
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Equals to Path.GetFileName
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string GetFileName(this string s)
+        {
+            return Path.GetFileName(s);
         }
     }
 }
