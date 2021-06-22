@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
 using ModuleLauncher.Re.Utils.Extensions;
+using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Locators.Concretes
 {
@@ -71,6 +72,28 @@ namespace ModuleLauncher.Re.Locators.Concretes
             {
                 throw new ArgumentException("The specified Minecraft was not found!", e);
             }
+        }
+        
+        /// <summary>
+        /// Get minecraft entity via raw JToken
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        internal Minecraft GetMinecraft(JToken json)
+        {
+            if (json is JObject jo)
+            {
+                var mc = jo.ToObject<MinecraftJson>() ?? throw new ArgumentException("Incoming json is not a valid minecraft json!");
+                var version = _locator.GetLocalVersion(mc.Id);
+
+                return new Minecraft
+                {
+                    Locality = version,
+                    Raw = mc
+                };
+            }
+
+            throw new ArgumentException("Incoming json is not valid!");
         }
     }
 }
