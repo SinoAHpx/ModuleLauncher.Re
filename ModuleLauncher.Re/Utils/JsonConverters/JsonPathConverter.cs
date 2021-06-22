@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ModuleLauncher.Re.Utils.Extensions
+namespace ModuleLauncher.Re.Utils.JsonConverters
 {
     /// <summary>
     /// Inherits from JsonConverter, copy from
