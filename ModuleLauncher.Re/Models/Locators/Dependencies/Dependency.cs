@@ -2,7 +2,7 @@
 
 namespace ModuleLauncher.Re.Models.Locators.Dependencies
 {
-    public class Dependence
+    public class Dependency
     {
         /// <summary>
         /// Name of this dependence item

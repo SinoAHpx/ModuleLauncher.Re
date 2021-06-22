@@ -5,6 +5,6 @@ namespace ModuleLauncher.Re.Locators.Dependencies
 {
     public interface IDependenciesLocator
     {
-        public IEnumerable<Dependence> GetDependencies(string id);
+        public IEnumerable<Dependency> GetDependencies(string id);
     }
 }

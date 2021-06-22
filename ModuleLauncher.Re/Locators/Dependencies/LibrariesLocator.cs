@@ -23,9 +23,9 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         /// </summary>
         /// <param name="minecraft"></param>
         /// <returns></returns>
-        public IEnumerable<Dependence> GetDependencies(Minecraft mc)
+        public IEnumerable<Dependency> GetDependencies(Minecraft mc)
         {
-            var re = new List<Dependence>();
+            var re = new List<Dependency>();
 
             var libraries = mc.Raw.Libraries.ToObject<JArray>();
 
@@ -44,7 +44,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                     var relativeUrl = this.GetRelativeUrl(rawName);
                     var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
 
-                    var dependence = new Dependence
+                    var dependence = new Dependency
                     {
                         Name = relativeUrl.GetFileName(),
                         RelativeUrl = relativeUrl,
@@ -64,11 +64,21 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public IEnumerable<Dependence> GetDependencies(string id)
+        public IEnumerable<Dependency> GetDependencies(string id)
         {
             var mc = _locator.GetLocalMinecraft(id);
 
             return GetDependencies(mc);
+        }
+        
+        public IEnumerable<Dependency> GetNativeDependencies(string id)
+        {
+            
+        }
+
+        private bool IsNativeDependence()
+        {
+            
         }
     }
 }
