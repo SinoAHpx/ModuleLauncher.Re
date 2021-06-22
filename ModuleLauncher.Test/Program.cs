@@ -22,12 +22,9 @@ namespace ModuleLauncher.Test
 
             var bar = new LibrariesLocator(foo);
 
-            foreach (var minecraft in foo.GetLocalMinecrafts())
+            foreach (var dependency in bar.GetDependencies("1.16.5"))
             {
-                foreach (var dependence in bar.GetDependencies(minecraft))
-                {
-                    Console.WriteLine(dependence.RelativeUrl);
-                }
+                Console.WriteLine(dependency.RelativeUrl);
             }
         }
     }

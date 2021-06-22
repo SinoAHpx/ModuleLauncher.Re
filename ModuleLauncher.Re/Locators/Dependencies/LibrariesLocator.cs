@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Models.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
@@ -21,9 +22,10 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         /// <summary>
         /// Get libraries dependencies via minecraft entity
         /// </summary>
-        /// <param name="minecraft"></param>
+        /// <param name="mc"></param>
+        /// <param name="excludeNatives">Exclude native dependency or not</param>
         /// <returns></returns>
-        public IEnumerable<Dependency> GetDependencies(Minecraft mc)
+        public IEnumerable<Dependency> GetDependencies(Minecraft mc, bool excludeNatives = true)
         {
             var re = new List<Dependency>();
 
@@ -36,28 +38,75 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             
             foreach (var token in libraries)
             {
-                if (token is JObject jo)
-                {
-                    var rawName = jo.Fetch("name") ??
-                                  throw new JsonException($"{token} is a unknown minecraft json format!");
+                if (!(token is JObject jo)) continue;
 
-                    var relativeUrl = this.GetRelativeUrl(rawName);
-                    var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
-
-                    var dependence = new Dependency
-                    {
-                        Name = relativeUrl.GetFileName(),
-                        RelativeUrl = relativeUrl,
-                        File = new FileInfo(localFile)
-                    };
-                    
-                    re.Add(dependence);
-                }
+                if (excludeNatives && IsNativeDependency(token)) continue;
+                
+                re.Add(BuildDependency(mc, jo));
             }
 
             return re;
         }
+
+        public IEnumerable<Dependency> GetNativeDependencies(Minecraft mc)
+        {
+            var re = new List<Dependency>();
+
+            var libraries = mc.Raw.Libraries.ToObject<JArray>();
+
+            if (libraries == null)
+            {
+                throw new JsonException($"{mc.Raw.ToJsonString()} is not a valid minecraft json!");
+            }
+            
+            foreach (var token in libraries)
+            {
+                if (!(token is JObject jo)) continue;
+
+                if (!IsNativeDependency(token)) continue;
+                
+                re.Add(BuildDependency(mc, jo));
+            }
+
+            return re;
+        }
+
+        #region Private
+
+        private Dependency BuildDependency(Minecraft mc, JToken jo)
+        {
+            var rawName = jo.Fetch("name") ??
+                          throw new JsonException($"{jo} is a unknown minecraft json format!");
+
+            var relativeUrl = this.GetRelativeUrl(rawName);
+            var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
+
+            var dependency = new Dependency
+            {
+                Name = relativeUrl.GetFileName(),
+                RelativeUrl = relativeUrl,
+                File = new FileInfo(localFile)
+            };
+
+            return dependency;
+        }
         
+        private bool IsNativeDependency(JToken json)
+        {
+            if (json is JObject jo)
+            {
+                return jo.ContainsKey("natives");
+            }
+            else
+            {
+                throw new JsonException($"{json} is not a JObject!");
+            }
+        }
+
+        #endregion
+        
+        #region Overloads
+
         /// <summary>
         /// Get libraries dependencies via local minecraft id
         /// </summary>
@@ -73,12 +122,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         
         public IEnumerable<Dependency> GetNativeDependencies(string id)
         {
-            
+            var mc = _locator.GetLocalMinecraft(id);
+
+            return GetNativeDependencies(mc);
         }
 
-        private bool IsNativeDependence()
-        {
-            
-        }
+        #endregion
     }
 }
