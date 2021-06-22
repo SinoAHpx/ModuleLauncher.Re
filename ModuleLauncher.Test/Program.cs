@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Locators;
 using ModuleLauncher.Re.Locators.Concretes;
+using ModuleLauncher.Re.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
@@ -19,7 +20,10 @@ namespace ModuleLauncher.Test
         {
             var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
 
-            Console.WriteLine(foo.GetLocalMinecraft("1.14").Raw.ToJsonString());
+            var bar = new LibrariesLocator(foo);
+
+            Console.WriteLine(bar.GetRelativeUrl("com.mojang:netty:1.6"));
+            Console.WriteLine(bar.GetRelativeUrl("commons-codec:commons-codec:1.9"));
         }
     }
 }
