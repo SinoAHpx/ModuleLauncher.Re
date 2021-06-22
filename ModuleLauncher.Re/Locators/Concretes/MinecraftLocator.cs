@@ -4,7 +4,7 @@ using ModuleLauncher.Re.Utils.Extensions;
 
 namespace ModuleLauncher.Re.Locators.Concretes
 {
-    public class MinecraftLocator : VersionLocator
+    public class MinecraftLocator : LocalityLocator
     {
         public MinecraftLocator(string locality = null) : base(locality)
         {

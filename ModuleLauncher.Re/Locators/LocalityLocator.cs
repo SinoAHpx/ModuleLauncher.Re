@@ -10,7 +10,7 @@ namespace ModuleLauncher.Re.Locators
     /// <summary>
     /// Locate a local or remote pure minecraft version
     /// </summary>
-    public class VersionLocator
+    public class LocalityLocator
     {
         private string _locality = @".\.minecraft";
 
@@ -38,7 +38,7 @@ namespace ModuleLauncher.Re.Locators
             }
         }
 
-        public VersionLocator(string locality = null)
+        public LocalityLocator(string locality = null)
         {
             Locality = locality;
         }
