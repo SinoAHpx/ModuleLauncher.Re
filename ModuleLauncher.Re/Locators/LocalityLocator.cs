@@ -137,5 +137,10 @@ namespace ModuleLauncher.Re.Locators
                 throw new ArgumentException($"No such a local version called {name}", e);
             }
         }
+
+        public static implicit operator LocalityLocator(string s)
+        {
+            return new LocalityLocator(s);
+        }
     }
 }

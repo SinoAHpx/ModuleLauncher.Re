@@ -4,16 +4,19 @@ using ModuleLauncher.Re.Utils.Extensions;
 
 namespace ModuleLauncher.Re.Locators.Concretes
 {
-    public class MinecraftLocator : LocalityLocator
+    public class MinecraftLocator
     {
-        public MinecraftLocator(string locality = null) : base(locality)
+        private readonly LocalityLocator _locator;
+
+        public MinecraftLocator(LocalityLocator locator)
         {
+            _locator = locator;
         }
 
         public IEnumerable<Minecraft> GetMinecrafts()
         {
             var re = new List<Minecraft>();
-            var versions = GetLocalVersions();
+            var versions = _locator.GetLocalVersions();
             
             foreach (var version in versions)
             {
