@@ -4,6 +4,6 @@
     {
         public LocalVersion Locality { get; set; }
 
-        public MinecraftJson Json { get; set; }
+        public MinecraftJson Raw { get; set; }
     }
 }

@@ -23,17 +23,17 @@ namespace ModuleLauncher.Test
             
             foreach (var minecraft in version)
             {
-                if (minecraft.Json.Arguments != null)
+                if (minecraft.Raw.Arguments != null)
                 {
-                    Console.WriteLine("Version:" + minecraft.Json.Id);
-                    Console.WriteLine(minecraft.Json.Arguments.Fetch("game").ToJArray().Where(x => x.Type == JTokenType.String).ToJsonString());
-                    Console.WriteLine(minecraft.Json.Libraries.Count);
-                    Console.WriteLine(minecraft.Json.Type);
-                    Console.WriteLine(minecraft.Json.AssetId);
-                    Console.WriteLine(minecraft.Json.InheritsFrom);
-                    Console.WriteLine(minecraft.Json.MainClass);
-                    Console.WriteLine(minecraft.Json.MinecraftArguments);
-                    Console.WriteLine(minecraft.Json.AssetIndexUrl);
+                    Console.WriteLine("Version:" + minecraft.Raw.Id);
+                    Console.WriteLine(minecraft.Raw.Arguments.Fetch("game").ToJArray().Where(x => x.Type == JTokenType.String).ToJsonString());
+                    Console.WriteLine(minecraft.Raw.Libraries.Count);
+                    Console.WriteLine(minecraft.Raw.Type);
+                    Console.WriteLine(minecraft.Raw.AssetId);
+                    Console.WriteLine(minecraft.Raw.InheritsFrom);
+                    Console.WriteLine(minecraft.Raw.MainClass);
+                    Console.WriteLine(minecraft.Raw.MinecraftArguments);
+                    Console.WriteLine(minecraft.Raw.AssetIndexUrl);
                     Console.WriteLine();
                 }
             }

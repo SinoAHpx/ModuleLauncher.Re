@@ -26,7 +26,7 @@ namespace ModuleLauncher.Re.Locators.Concretes
                 var mc = new Minecraft
                 {
                     Locality = version,
-                    Json = entity
+                    Raw = entity
                 };
                 
                 re.Add(mc);
