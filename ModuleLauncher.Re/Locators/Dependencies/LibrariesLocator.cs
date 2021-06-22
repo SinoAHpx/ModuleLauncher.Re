@@ -18,14 +18,13 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             _locator = locator;
         }
 
-        public IEnumerable<Dependence> GetDependencies(Minecraft minecraft)
+        /// <summary>
+        /// Get libraries dependencies via minecraft entity
+        /// </summary>
+        /// <param name="minecraft"></param>
+        /// <returns></returns>
+        public IEnumerable<Dependence> GetDependencies(Minecraft mc)
         {
-            return GetDependencies(minecraft.Raw.Id);
-        }
-        
-        public IEnumerable<Dependence> GetDependencies(string id)
-        {
-            var mc = _locator.GetLocalMinecraft(id);
             var re = new List<Dependence>();
 
             var libraries = mc.Raw.Libraries.ToObject<JArray>();
@@ -57,6 +56,19 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             }
 
             return re;
+        }
+        
+        /// <summary>
+        /// Get libraries dependencies via local minecraft id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public IEnumerable<Dependence> GetDependencies(string id)
+        {
+            var mc = _locator.GetLocalMinecraft(id);
+
+            return GetDependencies(mc);
         }
     }
 }
