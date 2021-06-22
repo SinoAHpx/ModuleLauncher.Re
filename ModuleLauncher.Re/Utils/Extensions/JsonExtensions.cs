@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Utils.Extensions
@@ -27,7 +28,17 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <returns></returns>
         public static T ToJsonEntity<T>(this string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            try
+            {
+                var re = JsonConvert.DeserializeObject<T>(json);
+                
+                return re;
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("The incoming json:\n" + json +
+                                            "\ncannot be resolved to the specified entity!", e);
+            }
         }
 
         /// <summary>
