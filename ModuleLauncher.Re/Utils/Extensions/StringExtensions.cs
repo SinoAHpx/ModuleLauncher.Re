@@ -50,5 +50,15 @@ namespace ModuleLauncher.Re.Utils.Extensions
         {
             return Path.GetFileName(s);
         }
+
+        /// <summary>
+        /// string.Replace(newValue, oldValue)
+        /// The default is to replace / with \
+        /// </summary>
+        /// <returns></returns>
+        public static string Replace(this string s, string oldValue = "/", string newValue = "\\")
+        {
+            return s.Replace(oldValue, newValue);
+        }
     }
 }
