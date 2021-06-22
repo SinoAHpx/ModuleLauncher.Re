@@ -31,14 +31,25 @@ namespace ModuleLauncher.Re.Utils.Extensions
         }
 
         /// <summary>
-        /// Fetch a json value from JToken via using a json key
+        /// Fetch a json value from JToken via using a json path
         /// </summary>
         /// <param name="jObject"></param>
-        /// <param name="key"></param>
+        /// <param name="path">xxx or xxx.xxx.xx</param>
         /// <returns></returns>
-        public static string Fetch(this JToken jObject, string key)
+        public static string Fetch(this JToken jObject, string path)
         {
-            return jObject[key].ToString();
+            return jObject.SelectToken(path)?.ToString();
+        }
+
+        /// <summary>
+        /// Fetch a json value from a string string via using a json path
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="path">xxx or xxx.xxx.xxx</param>
+        /// <returns>return a JToken</returns>
+        public static JToken Fetch(this string json, string path)
+        {
+            return json.ToJObject().SelectToken(path);
         }
 
         /// <summary>

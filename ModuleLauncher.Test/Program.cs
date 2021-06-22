@@ -7,6 +7,7 @@ using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Locators;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Models.Authenticators;
+using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json.Linq;
 
@@ -16,34 +17,26 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var lct = new MinecraftLocator(@"D:\Minecraft\Solution1\.minecraft");
+            var lct = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
             
             var version = lct.GetMinecrafts();
             
             foreach (var minecraft in version)
             {
-                var arr = minecraft.Json.Arguments?.Fetch("game").ToJArray();
-
-                if (minecraft.Locality.Version.Name == "1.14.4")
+                if (minecraft.Json.Arguments != null)
                 {
-                    if (arr != null)
-                    {
-                        var a2 = new List<string>();
-
-                        foreach (var token in arr)
-                        {
-                            if (token.Type == JTokenType.String)
-                            {
-                                a2.Add(token.ToString());
-                            }
-                        }
-
-                        Console.WriteLine(a2.ToJsonString());
-                    }
+                    Console.WriteLine("Version:" + minecraft.Json.Id);
+                    Console.WriteLine(minecraft.Json.Arguments.Fetch("game").ToJArray().Where(x => x.Type == JTokenType.String).ToJsonString());
+                    Console.WriteLine(minecraft.Json.Libraries.Count);
+                    Console.WriteLine(minecraft.Json.Type);
+                    Console.WriteLine(minecraft.Json.AssetId);
+                    Console.WriteLine(minecraft.Json.InheritsFrom);
+                    Console.WriteLine(minecraft.Json.MainClass);
+                    Console.WriteLine(minecraft.Json.MinecraftArguments);
+                    Console.WriteLine(minecraft.Json.AssetIndexUrl);
+                    Console.WriteLine();
                 }
-                
             }
-            Console.WriteLine();
         }
     }
 }
