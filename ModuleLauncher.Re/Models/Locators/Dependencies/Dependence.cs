@@ -19,12 +19,12 @@ namespace ModuleLauncher.Re.Models.Locators.Dependencies
         public FileInfo File { get; set; }
         
         /// <summary>
-        /// The download url of the dependence item
+        /// The relative download url of the dependence item
         /// e.g.
-        /// https://libraries.minecraft.net/net/java/dev/jna/jna/3.4.0/jna-3.4.0.jar
+        /// net/java/dev/jna/jna/3.4.0/jna-3.4.0.jar
         /// or
-        /// https://resources.download.minecraft.net/92/92750c5f93c312ba9ab413d546f32190c56d6f1f
+        /// 92/92750c5f93c312ba9ab413d546f32190c56d6f1f
         /// </summary>
-        public string Url { get; set; }
+        public string RelativeUrl { get; set; }
     }
 }
