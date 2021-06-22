@@ -17,9 +17,9 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var mc = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
+            var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
 
-            Console.WriteLine(mc.GetLocalMinecraft("1.14").Raw.ToJsonString());
+            Console.WriteLine(foo.GetLocalMinecraft("1.14").Raw.ToJsonString());
         }
     }
 }
