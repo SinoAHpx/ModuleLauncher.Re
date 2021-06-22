@@ -22,8 +22,13 @@ namespace ModuleLauncher.Test
 
             var bar = new LibrariesLocator(foo);
 
-            Console.WriteLine(bar.GetRelativeUrl("com.mojang:netty:1.6"));
-            Console.WriteLine(bar.GetRelativeUrl("commons-codec:commons-codec:1.9"));
+            foreach (var minecraft in foo.GetLocalMinecrafts())
+            {
+                foreach (var dependence in bar.GetDependencies(minecraft))
+                {
+                    Console.WriteLine(dependence.RelativeUrl);
+                }
+            }
         }
     }
 }
