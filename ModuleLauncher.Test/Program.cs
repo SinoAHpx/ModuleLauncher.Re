@@ -19,7 +19,7 @@ namespace ModuleLauncher.Test
         {
             var lct = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
             
-            var version = lct.GetMinecrafts();
+            var version = lct.GetLocalMinecrafts();
             
             foreach (var minecraft in version)
             {

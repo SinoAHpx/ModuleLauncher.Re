@@ -13,7 +13,14 @@ namespace ModuleLauncher.Re.Locators.Concretes
             _locator = locator;
         }
 
-        public IEnumerable<Minecraft> GetMinecrafts()
+        /// <summary>
+        /// Get local minecraft entities
+        /// </summary>
+        /// <returns>
+        /// If there are some values that are not included in the json file,
+        /// the corresponding property value is null
+        /// </returns>
+        public IEnumerable<Minecraft> GetLocalMinecrafts()
         {
             var re = new List<Minecraft>();
             var versions = _locator.GetLocalVersions();
