@@ -1,6 +1,10 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using ModuleLauncher.Re.Locators.Dependencies;
+using ModuleLauncher.Re.Models.Locators.Dependencies;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
@@ -59,6 +63,23 @@ namespace ModuleLauncher.Re.Utils.Extensions
         public static string Replace(this string s, string oldValue = "/", string newValue = "\\")
         {
             return s.Replace(oldValue, newValue);
+        }
+
+        /// <summary>
+        /// Convert a enum to string via Description attribute
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string GetDependencySystemString(this DependencySystem system)
+        {
+            //stackoverflow oriented programming
+            //https://stackoverflow.com/questions/630803/associating-enums-with-strings-in-c-sharp
+            var attributes = (DescriptionAttribute[])system
+                .GetType()
+                .GetField(system.ToString())
+                .GetCustomAttributes(typeof(DescriptionAttribute), false);
+            
+            return attributes.Length > 0 ? attributes[0].Description : string.Empty;
         }
     }
 }
