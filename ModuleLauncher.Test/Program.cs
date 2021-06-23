@@ -23,7 +23,7 @@ namespace ModuleLauncher.Test
             
             var bar = new LibrariesLocator(foo);
             
-            foreach (var dependency in bar.GetNativeDependencies("1.8.9"))
+            foreach (var dependency in await bar.GetNativeDependencies("1.8.9"))
             {
                 Console.WriteLine(dependency.RelativeUrl);
             }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
@@ -62,7 +63,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="info"></param>
         /// <param name="content"></param>
-        public static async void WriteAllText(this FileInfo info, string content)
+        public static async Task WriteAllText(this FileInfo info, string content)
         {
             await File.WriteAllTextAsync(info.FullName, content);
         }
@@ -72,9 +73,9 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static string ReadAllText(this FileInfo info)
+        public static async Task<string> ReadAllText(this FileInfo info)
         {
-            return File.ReadAllText(info.FullName);
+            return await File.ReadAllTextAsync(info.FullName);
         }
     }
 }

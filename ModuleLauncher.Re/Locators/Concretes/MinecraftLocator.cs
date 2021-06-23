@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
 using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json.Linq;
@@ -28,7 +29,7 @@ namespace ModuleLauncher.Re.Locators.Concretes
         /// If there are some values that are not included in the json file,
         /// the corresponding property value is null
         /// </returns>
-        public IEnumerable<Minecraft> GetLocalMinecrafts()
+        public async Task<IEnumerable<Minecraft>> GetLocalMinecrafts()
         {
             var re = new List<Minecraft>();
             var versions = _locator.GetLocalVersions();
@@ -40,7 +41,7 @@ namespace ModuleLauncher.Re.Locators.Concretes
                     throw new IOException($"No json file exist for {version.Version.Name}!");
                 }
                 
-                var json = version.Json.ReadAllText();
+                var json = await version.Json.ReadAllText();
                 var entity = json.ToJsonEntity<MinecraftJson>();
 
                 var mc = new Minecraft
@@ -60,11 +61,11 @@ namespace ModuleLauncher.Re.Locators.Concretes
         /// </summary>
         /// <param name="id">e.g. 1.8.9</param>
         /// <returns></returns>
-        public Minecraft GetLocalMinecraft(string id)
+        public async Task<Minecraft> GetLocalMinecraft(string id)
         {
             try
             {
-                var minecrafts = GetLocalMinecrafts();
+                var minecrafts = await GetLocalMinecrafts();
 
                 return minecrafts.First(x => x.Raw.Id == id);
             }

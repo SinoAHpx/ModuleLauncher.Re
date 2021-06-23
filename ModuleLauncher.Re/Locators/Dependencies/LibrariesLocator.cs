@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Models.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
@@ -26,7 +27,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         /// <param name="mc"></param>
         /// <param name="excludeNatives">Exclude native dependency or not</param>
         /// <returns></returns>
-        public IEnumerable<Dependency> GetDependencies(Minecraft mc, bool excludeNatives = true)
+        public async Task<IEnumerable<Dependency>> GetDependencies(Minecraft mc, bool excludeNatives = true)
         {
             var re = new List<Dependency>();
 
@@ -50,8 +51,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             {
                 try
                 {
-                    var inheritFrom = _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
-                    var dependencies = GetDependencies(inheritFrom, excludeNatives);
+                    var inheritFrom = await _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
+                    var dependencies = await GetDependencies(inheritFrom, excludeNatives);
                 
                     re.AddRange(dependencies);
                 }
@@ -64,7 +65,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             return re;
         }
 
-        public IEnumerable<Dependency> GetNativeDependencies(Minecraft mc)
+        public async Task<IEnumerable<Dependency>> GetNativeDependencies(Minecraft mc)
         {
             var re = new List<Dependency>();
 
@@ -88,8 +89,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             {
                 try
                 {
-                    var inheritFrom = _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
-                    var dependencies = GetNativeDependencies(inheritFrom);
+                    var inheritFrom = await _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
+                    var dependencies = await GetNativeDependencies(inheritFrom);
                 
                     re.AddRange(dependencies);
                 }
@@ -182,18 +183,18 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public IEnumerable<Dependency> GetDependencies(string id)
+        public async Task<IEnumerable<Dependency>> GetDependencies(string id)
         {
-            var mc = _locator.GetLocalMinecraft(id);
+            var mc = await _locator.GetLocalMinecraft(id);
 
-            return GetDependencies(mc);
+            return await GetDependencies(mc);
         }
         
-        public IEnumerable<Dependency> GetNativeDependencies(string id)
+        public async Task<IEnumerable<Dependency>> GetNativeDependencies(string id)
         {
-            var mc = _locator.GetLocalMinecraft(id);
+            var mc = await _locator.GetLocalMinecraft(id);
 
-            return GetNativeDependencies(mc);
+            return await GetNativeDependencies(mc);
         }
 
         #endregion

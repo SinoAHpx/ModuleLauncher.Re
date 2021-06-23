@@ -18,11 +18,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             _locator = locator;
         }
 
-        public IEnumerable<Dependency> GetDependencies(string id)
+        public async Task<IEnumerable<Dependency>> GetDependencies(string id)
         {
-            var mc = _locator.GetLocalMinecraft(id);
+            var mc = await _locator.GetLocalMinecraft(id);
 
-            return GetDependencies(mc);
+            return await GetDependencies(mc);
         }
 
         public async Task<IEnumerable<Dependency>> GetDependencies(Minecraft mc)
@@ -34,7 +34,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                     throw new Exception($"{mc.Raw.Id} has no any valid assets!");
                 }
 
-                mc = _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
+                mc = await _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
             }
             
             var assetIndex = mc.Locality.AssetsIndexes.GetSubFileInfo($"{mc.Raw.AssetId}.json");
@@ -43,9 +43,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             {
                 var response = await HttpUtility.Get(mc.Raw.AssetIndexUrl ??
                                                      throw new Exception($"{mc.Raw.Id} without any assets index!"));
-                
-                
+
+                await assetIndex.WriteAllText(response.Content);
             }
+
+            return null;
         }
     }
 }
