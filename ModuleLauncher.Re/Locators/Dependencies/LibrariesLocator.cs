@@ -30,6 +30,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         {
             var re = new List<Dependency>();
 
+            if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
+            {
+                re.AddRange(GetDependencies(_locator.GetLocalMinecraft(mc.Raw.InheritsFrom), excludeNatives));
+            }
+
             var libraries = mc.Raw.Libraries.ToObject<JArray>();
 
             if (libraries == null)
@@ -42,8 +47,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 if (!IsAddableDependency(token)) continue;
                 if (!(token is JObject jo)) continue;
                 if (excludeNatives && IsNativeDependency(token)) continue;
-                
-                re.Add(BuildDependency(mc, jo));
+
+                re.Add(BuildDependency(jo, mc));
             }
 
             return re;
@@ -52,6 +57,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         public IEnumerable<Dependency> GetNativeDependencies(Minecraft mc)
         {
             var re = new List<Dependency>();
+            
+            if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
+            {
+                re.AddRange(GetNativeDependencies(_locator.GetLocalMinecraft(mc.Raw.InheritsFrom)));
+            }
 
             var libraries = mc.Raw.Libraries.ToObject<JArray>();
 
@@ -62,15 +72,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             
             foreach (var token in libraries)
             {
-                var name = token.Fetch("name");
-
-                Console.WriteLine(name);
-                var can = IsAddableDependency(token);
-                if (!can) continue;
+                if (!IsAddableDependency(token)) continue;
                 if (!(token is JObject jo)) continue;
                 if (!IsNativeDependency(token)) continue;
                 
-                re.Add(BuildDependency(mc, jo));
+                re.Add(BuildDependency(jo, mc));
             }
 
             return re;
@@ -78,7 +84,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
 
         #region Private
 
-        private Dependency BuildDependency(Minecraft mc, JToken jo)
+        private Dependency BuildDependency(JToken jo, Minecraft mc)
         {
             var rawName = jo.Fetch("name") ??
                           throw new JsonException($"{jo} is a unknown minecraft json format!");
