@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Utils.Extensions;
-using RestSharp;
 
 namespace ModuleLauncher.Re.Utils
 {
@@ -11,13 +13,6 @@ namespace ModuleLauncher.Re.Utils
     /// </summary>
     public static class HttpUtility
     {
-        private static RestClient _client;
-        
-        static HttpUtility()
-        {
-            _client = new RestClient();
-        }
-
         /// <summary>
         /// Post json content to specify url with custom content type(optional)
         /// </summary>
@@ -25,39 +20,31 @@ namespace ModuleLauncher.Re.Utils
         /// <param name="json"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static async Task<IRestResponse> PostJson(string url, string json, string contentType = null)
+        public static async Task<HttpResponseMessage> PostJson(string url, string json, string contentType = "application/json")
         {
-            _client.BaseUrl = new Uri(url);
+            var client = new HttpClient();
+            var content = new StringContent(json, Encoding.Default, contentType);
+            
+            var response = await client.PostAsync(url, content);
 
-            var request = new RestRequest(Method.POST);
-            request.AddJsonBody(json);
-
-            if (!contentType.IsNullOrEmpty())
-            {
-                request.AddHeader("Content-Type", contentType!);
-            }
-
-            return await _client.ExecuteAsync(request);
+            return response;
         }
-        
+
         /// <summary>
-        /// Send a get request to specify url with a custom header dictionary(optinal)
+        /// Send a get request to specify url with a authorization header
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="customHeaders"></param>
+        /// <param name="authorization"></param>
+        /// <param name="scheme"></param>
         /// <returns></returns>
-        public static async Task<IRestResponse> Get(string url, Dictionary<string, string> customHeaders = null)
+        public static async Task<HttpResponseMessage> Get(string url, string authorization = null, string scheme = "Bearer")
         {
-            _client.BaseUrl = new Uri(url);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, authorization);
+            
+            var response = await client.GetAsync(url);
 
-            var request = new RestRequest(Method.GET);
-
-            if (customHeaders != null)
-            {
-                request.AddHeaders(customHeaders);
-            }
-
-            return await _client.ExecuteAsync(request);
+            return response;
         }
         
         /// <summary>
@@ -66,18 +53,15 @@ namespace ModuleLauncher.Re.Utils
         /// <param name="url"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static async Task<IRestResponse> Get(string url, string contentType)
+        public static async Task<HttpResponseMessage> Get(string url, string contentType)
         {
-            _client.BaseUrl = new Uri(url);
+            var client = new HttpClient();
+      
+            var response = await client.GetAsync(url);
 
-            var request = new RestRequest(Method.GET);
-
-            if (!contentType.IsNullOrEmpty())
-            {
-                request.AddHeader("Content-Type", contentType);
-            }
-
-            return await _client.ExecuteAsync(request);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            
+            return response;
         }
     }
 }

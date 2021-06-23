@@ -19,14 +19,11 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
+            var ma = new MicrosoftAuthenticator("M.R3_BAY.66916ac2-41ec-3579-e573-8cfe920749ca");
+
+            var re = await ma.Authenticate();
             
-            var bar = new AssetsLocator(foo);
-            
-            foreach (var dependency in await bar.GetDependencies("1.8.9-forge1.8.9-11.15.1.2318-1.8.9"))
-            {
-                Console.WriteLine(dependency.RelativeUrl);
-            }
+            Console.WriteLine(re.ToJsonString());
         }
     }
 }

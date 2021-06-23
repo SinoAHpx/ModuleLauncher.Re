@@ -51,7 +51,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 var response = await HttpUtility.Get(mc.Raw.AssetIndexUrl ??
                                                      throw new Exception($"{mc.Raw.Id} without any assets index!"));
 
-                await assetIndex.WriteAllText(response.Content);
+                var content = await response.Content.ReadAsStringAsync();
+                await assetIndex.WriteAllText(content);
             }
 
             var assetIndexContent = await assetIndex.ReadAllText();

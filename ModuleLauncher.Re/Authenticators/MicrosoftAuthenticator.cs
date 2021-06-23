@@ -7,7 +7,6 @@ using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json.Linq;
-using RestSharp;
 
 namespace ModuleLauncher.Re.Authenticators
 {
@@ -40,12 +39,12 @@ namespace ModuleLauncher.Re.Authenticators
         public async Task<bool> CheckMinecraftOwnership(string accessToken)
         {
             var result = await HttpUtility.Get("https://api.minecraftservices.com/entitlements/mcstore",
-                new Dictionary<string, string>
-                {
-                    {"Authorization", $"Bearer {accessToken}"}
-                });
+                authorization: accessToken);
 
-            return JArray.Parse(JObject.Parse(result.Content).Fetch("items")).Count() != 0;
+            var content = await result.Content.ReadAsStringAsync();
+            var items = JObject.Parse(content).Fetch("items");
+            
+            return JArray.Parse(items).Count() != 0;
         }
         
         /// <summary>
@@ -78,8 +77,8 @@ namespace ModuleLauncher.Re.Authenticators
             url.Append("redirect_uri=https://login.live.com/oauth20_desktop.srf&");
             url.Append("scope=service::user.auth.xboxlive.com::MBI_SSL&");
 
-            var response = await HttpUtility.Get(url.ToString(), "Content-Type: application/x-www-form-urlencoded");
-            var json = response.Content.ToJObject();
+            var response = await HttpUtility.Get(url.ToString(), "application/x-www-form-urlencoded");
+            var json = (await response.Content.ReadAsStringAsync()).ToJObject();
 
             try
             {
@@ -109,7 +108,8 @@ namespace ModuleLauncher.Re.Authenticators
             }.ToJsonString();
 
             var response = await HttpUtility.PostJson(url, payload);
-            var json = response.Content.ToJObject();
+            var content = await response.Content.ReadAsStringAsync();
+            var json = content.ToJObject();
 
             var re = new Dictionary<string, string> {{"token", json.Fetch("Token")}};
 
@@ -138,7 +138,8 @@ namespace ModuleLauncher.Re.Authenticators
             }.ToJsonString();
 
             var response = await HttpUtility.PostJson(url, payload);
-            var json = response.Content.ToJObject();
+            var content = await response.Content.ReadAsStringAsync();
+            var json = content.ToJObject();
             
             return json.Fetch("Token");
         }
@@ -152,7 +153,8 @@ namespace ModuleLauncher.Re.Authenticators
             }.ToJsonString();
 
             var response = await HttpUtility.PostJson(url, payload);
-            var json = response.Content.ToJObject();
+            var content = await response.Content.ReadAsStringAsync();
+            var json = content.ToJObject();
 
             return json.Fetch("access_token");
         }
@@ -160,12 +162,10 @@ namespace ModuleLauncher.Re.Authenticators
         private async Task<AuthenticateResult> GetMinecraftProfile(string accessToken)
         {
             var url = "https://api.minecraftservices.com/minecraft/profile";
-            var response = await HttpUtility.Get(url, new Dictionary<string, string>
-            {
-                {"Authorization", $"Bearer {accessToken}"}
-            });
-
-            var json = response.Content.ToJObject();
+            var response = await HttpUtility.Get(url, authorization: accessToken);
+            
+            var content = await response.Content.ReadAsStringAsync();
+            var json = content.ToJObject();
 
             if (json.ContainsKey("error"))
             {

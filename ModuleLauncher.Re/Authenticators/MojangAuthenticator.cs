@@ -83,13 +83,15 @@ namespace ModuleLauncher.Re.Authenticators
             }.ToJsonString();
 
             var result = await HttpUtility.PostJson(url, payload);
-
+            var content = await result.Content.ReadAsStringAsync();
+            
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                throw GetException(result);
+                throw GetException(content);
             }
 
-            return result.Content.ToJsonEntity<AuthenticateResult>();
+
+            return content.ToJsonEntity<AuthenticateResult>();
         }
 
         /// <summary>
@@ -114,13 +116,15 @@ namespace ModuleLauncher.Re.Authenticators
             }.ToJsonString();
 
             var result = await HttpUtility.PostJson(url, payload);
+            var content = await result.Content.ReadAsStringAsync();
             
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                throw GetException(result);
+                throw GetException(content);
             }
 
-            return result.Content.ToJsonEntity<AuthenticateResult>(); 
+
+            return content.ToJsonEntity<AuthenticateResult>();
         }
 
         /// <summary>
@@ -147,12 +151,13 @@ namespace ModuleLauncher.Re.Authenticators
             }.ToJsonString();
 
             var result = await HttpUtility.PostJson(url, payload);
+            var content = await result.Content.ReadAsStringAsync();
             
             if (throwException)
             {
                 if (result.StatusCode != HttpStatusCode.NoContent)
                 {
-                    throw GetException(result);
+                    throw GetException(content);
                 }
             }
 

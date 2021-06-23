@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json.Linq;
-using RestSharp;
 
 namespace ModuleLauncher.Re.Authenticators
 {
@@ -24,9 +24,9 @@ namespace ModuleLauncher.Re.Authenticators
 
         public virtual Task Invalidate(string accessToken, string clientToken) => null;
 
-        internal Exception GetException(IRestResponse response)
+        internal Exception GetException(string response)
         {
-            var obj = JObject.Parse(response.Content);
+            var obj = JObject.Parse(response);
                 
             return new Exception($"Error: {obj.Fetch("error")}\r\nMessage: {obj.Fetch("errorMessage")}");
         }
