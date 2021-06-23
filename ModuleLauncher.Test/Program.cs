@@ -19,16 +19,14 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            // var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
-            //
-            // var bar = new LibrariesLocator(foo);
-            //
-            // foreach (var dependency in bar.GetDependencies("1.16.5"))
-            // {
-            //     Console.WriteLine(dependency.RelativeUrl);
-            // }
-
-            Console.WriteLine(DependencySystem.Windows.GetDependencySystemString());
+            var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
+            
+            var bar = new LibrariesLocator(foo);
+            
+            foreach (var dependency in bar.GetDependencies(foo.GetLocalMinecraft("1.16.5")))
+            {
+                Console.WriteLine(dependency.RelativeUrl);
+            }
         }
     }
 }

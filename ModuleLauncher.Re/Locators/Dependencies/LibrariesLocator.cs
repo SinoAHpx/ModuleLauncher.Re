@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ModuleLauncher.Re.Locators.Concretes;
@@ -38,8 +39,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             
             foreach (var token in libraries)
             {
+                if (!IsAddableDependency(token)) continue;
                 if (!(token is JObject jo)) continue;
-
                 if (excludeNatives && IsNativeDependency(token)) continue;
                 
                 re.Add(BuildDependency(mc, jo));
@@ -61,8 +62,12 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             
             foreach (var token in libraries)
             {
-                if (!(token is JObject jo)) continue;
+                var name = token.Fetch("name");
 
+                Console.WriteLine(name);
+                var can = IsAddableDependency(token);
+                if (!can) continue;
+                if (!(token is JObject jo)) continue;
                 if (!IsNativeDependency(token)) continue;
                 
                 re.Add(BuildDependency(mc, jo));
@@ -97,10 +102,48 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             {
                 return jo.ContainsKey("natives");
             }
-            else
+
+            throw new JsonException($"{json} is not a JObject!");
+        }
+
+        private bool IsAddableDependency(JToken json, DependencySystem system = DependencySystem.Linux)
+        {
+            if (json is JObject jo)
             {
-                throw new JsonException($"{json} is not a JObject!");
+                if (jo.ContainsKey("rules"))
+                {
+                    var rules = jo.Fetch("rules").ToJArray();
+                    var os = system.GetDependencySystemString();
+
+                    var disallows = rules.Where(x => x.Fetch("action") == "disallow").ToList();
+                    if (disallows.Any())
+                    {
+                        foreach (var token in disallows)
+                        {
+                            if (token.Fetch("os.name") == os)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var rule in rules)
+                        {
+                            if (rule.ContainsKey("os"))
+                            {
+                                return rule.Fetch("os.name") == os && rule.Fetch("action") == "allow";
+                            }
+                        
+                            return rule.Fetch("action") == "allow";
+                        }
+                    }
+                }
+
+                return true;
             }
+
+            throw new JsonException($"{json} is not a JObject!");
         }
 
         #endregion

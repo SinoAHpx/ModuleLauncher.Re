@@ -64,6 +64,24 @@ namespace ModuleLauncher.Re.Utils.Extensions
         }
 
         /// <summary>
+        /// Equals to JObject.ContainsKey if this token is a JObject
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool ContainsKey(this JToken token, string key)
+        {
+            if (token is JObject jObject)
+            {
+                return jObject.ContainsKey(key);
+            }
+            else
+            {
+                throw new JsonException("This token is not a valid JObject!");
+            }
+        }
+
+        /// <summary>
         /// Convert a string to a JObject if it is a json string
         /// </summary>
         /// <param name="json"></param>
