@@ -21,9 +21,9 @@ namespace ModuleLauncher.Test
         {
             var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
             
-            var bar = new LibrariesLocator(foo);
+            var bar = new AssetsLocator(foo);
             
-            foreach (var dependency in await bar.GetNativeDependencies("1.8.9"))
+            foreach (var dependency in await bar.GetDependencies("1.8.9-forge1.8.9-11.15.1.2318-1.8.9"))
             {
                 Console.WriteLine(dependency.RelativeUrl);
             }
