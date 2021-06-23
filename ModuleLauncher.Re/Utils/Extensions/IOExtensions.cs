@@ -41,6 +41,33 @@ namespace ModuleLauncher.Re.Utils.Extensions
         }
 
         /// <summary>
+        /// e.g. assets/indexes -> assets/indexes/1.8.json
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="sub"></param>
+        /// <returns></returns>
+        public static FileInfo GetSubFileInfo(this DirectoryInfo info, string sub)
+        {
+            var dir = info.FullName;
+            if (!dir.EndsWith("\\"))
+            {
+                dir += "\\";
+            }
+
+            return new FileInfo($@"{dir}{sub.TrimStart('\\')}");
+        }
+
+        /// <summary>
+        /// Equals to File.WriteAllText
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="content"></param>
+        public static async void WriteAllText(this FileInfo info, string content)
+        {
+            await File.WriteAllTextAsync(info.FullName, content);
+        }
+
+        /// <summary>
         /// Equals to File.ReadAllText
         /// </summary>
         /// <param name="info"></param>
