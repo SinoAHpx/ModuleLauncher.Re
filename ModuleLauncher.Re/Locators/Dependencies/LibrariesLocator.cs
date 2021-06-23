@@ -30,11 +30,6 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         {
             var re = new List<Dependency>();
 
-            if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
-            {
-                re.AddRange(GetDependencies(_locator.GetLocalMinecraft(mc.Raw.InheritsFrom), excludeNatives));
-            }
-
             var libraries = mc.Raw.Libraries.ToObject<JArray>();
 
             if (libraries == null)
@@ -50,6 +45,21 @@ namespace ModuleLauncher.Re.Locators.Dependencies
 
                 re.Add(BuildDependency(jo, mc));
             }
+            
+            if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
+            {
+                try
+                {
+                    var inheritFrom = _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
+                    var dependencies = GetDependencies(inheritFrom, excludeNatives);
+                
+                    re.AddRange(dependencies);
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException($"No {mc.Raw.Id} inherited minecraft found!", e);
+                }
+            }
 
             return re;
         }
@@ -57,11 +67,6 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         public IEnumerable<Dependency> GetNativeDependencies(Minecraft mc)
         {
             var re = new List<Dependency>();
-            
-            if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
-            {
-                re.AddRange(GetNativeDependencies(_locator.GetLocalMinecraft(mc.Raw.InheritsFrom)));
-            }
 
             var libraries = mc.Raw.Libraries.ToObject<JArray>();
 
@@ -79,6 +84,21 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 re.Add(BuildDependency(jo, mc));
             }
 
+            if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
+            {
+                try
+                {
+                    var inheritFrom = _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
+                    var dependencies = GetNativeDependencies(inheritFrom);
+                
+                    re.AddRange(dependencies);
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException($"No {mc.Raw.Id} inherited minecraft found!", e);
+                }
+            }
+            
             return re;
         }
 
@@ -112,7 +132,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             throw new JsonException($"{json} is not a JObject!");
         }
 
-        private bool IsAddableDependency(JToken json, DependencySystem system = DependencySystem.Linux)
+        private bool IsAddableDependency(JToken json, DependencySystem system = DependencySystem.Windows)
         {
             if (json is JObject jo)
             {

@@ -23,7 +23,7 @@ namespace ModuleLauncher.Test
             
             var bar = new LibrariesLocator(foo);
             
-            foreach (var dependency in bar.GetDependencies(foo.GetLocalMinecraft("1.16.5")))
+            foreach (var dependency in bar.GetNativeDependencies("1.8.9"))
             {
                 Console.WriteLine(dependency.RelativeUrl);
             }
