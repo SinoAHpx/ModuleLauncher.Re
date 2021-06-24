@@ -19,11 +19,13 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var ma = new MicrosoftAuthenticator("M.R3_BAY.66916ac2-41ec-3579-e573-8cfe920749ca");
-
-            var re = await ma.Authenticate();
+            var foo = new LibrariesLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
             
-            Console.WriteLine(re.ToJsonString());
+            var bar = await foo.GetNativeDependencies("1.16.5");
+            foreach (var dependency in bar)
+            {
+                Console.WriteLine(dependency.RelativeUrl);
+            }
         }
     }
 }

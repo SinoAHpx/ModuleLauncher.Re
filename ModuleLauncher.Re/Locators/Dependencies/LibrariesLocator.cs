@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Models.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
+using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -44,7 +45,20 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 if (!(token is JObject jo)) continue;
                 if (excludeNatives && IsNativeDependency(token)) continue;
 
-                re.Add(BuildDependency(jo, mc));
+                var rawName = jo.Fetch("name") ??
+                              throw new JsonException($"{jo} is a unknown minecraft json format!");
+
+                var relativeUrl = this.GetRelativeUrl(rawName);
+                var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
+
+                var dependency = new Dependency
+                {
+                    Name = relativeUrl.GetFileName(),
+                    RelativeUrl = relativeUrl,
+                    File = new FileInfo(localFile)
+                };
+
+                re.Add(dependency);
             }
             
             if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
@@ -88,8 +102,18 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 if (!IsAddableDependency(token)) continue;
                 if (!(token is JObject jo)) continue;
                 if (!IsNativeDependency(token)) continue;
+
+                var relativeUrl = this.AppendNative(jo);
+                var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
+
+                var dependency = new Dependency
+                {
+                    Name = relativeUrl.GetFileName(),
+                    RelativeUrl = relativeUrl,
+                    File = new FileInfo(localFile)
+                };
                 
-                re.Add(BuildDependency(jo, mc));
+                re.Add(dependency);
             }
 
             if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
@@ -112,31 +136,6 @@ namespace ModuleLauncher.Re.Locators.Dependencies
 
         #region Private
 
-        /// <summary>
-        /// build up dependency object via single json node and minecraft entity
-        /// </summary>
-        /// <param name="jo"></param>
-        /// <param name="mc"></param>
-        /// <returns></returns>
-        /// <exception cref="JsonException"></exception>
-        private Dependency BuildDependency(JToken jo, Minecraft mc)
-        {
-            var rawName = jo.Fetch("name") ??
-                          throw new JsonException($"{jo} is a unknown minecraft json format!");
-
-            var relativeUrl = this.GetRelativeUrl(rawName);
-            var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
-
-            var dependency = new Dependency
-            {
-                Name = relativeUrl.GetFileName(),
-                RelativeUrl = relativeUrl,
-                File = new FileInfo(localFile)
-            };
-
-            return dependency;
-        }
-        
         /// <summary>
         /// Determine if incoming json node is a native dependency json node
         /// </summary>
