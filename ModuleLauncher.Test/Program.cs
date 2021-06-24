@@ -21,7 +21,7 @@ namespace ModuleLauncher.Test
         {
             var foo = new LibrariesLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
             
-            var bar = await foo.GetNativeDependencies("1.16.5");
+            var bar = await foo.GetDependencies("1.16.5");
             foreach (var dependency in bar)
             {
                 Console.WriteLine(dependency.RelativeUrl);

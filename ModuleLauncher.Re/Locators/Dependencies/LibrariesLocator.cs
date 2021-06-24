@@ -28,7 +28,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         /// <param name="mc"></param>
         /// <param name="excludeNatives">Exclude native dependency or not</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Dependency>> GetDependencies(Minecraft mc, bool excludeNatives = true)
+        public async Task<IEnumerable<Dependency>> GetDependencies(Minecraft mc, bool excludeNatives = false)
         {
             var re = new List<Dependency>();
 
@@ -43,7 +43,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             {
                 if (!IsAddableDependency(token)) continue;
                 if (!(token is JObject jo)) continue;
-                if (excludeNatives && IsNativeDependency(token)) continue;
+                if (IsNativeDependency(token)) continue;
 
                 var rawName = jo.Fetch("name") ??
                               throw new JsonException($"{jo} is a unknown minecraft json format!");
@@ -76,7 +76,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 }
             }
 
-            return re;
+            return excludeNatives ? re : re.Union(await GetNativeDependencies(mc));
         }
 
         /// <summary>
