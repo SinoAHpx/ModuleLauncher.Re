@@ -20,6 +20,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         {
             _locator = locator;
         }
+        
+        public static implicit operator AssetsLocator(string s)
+        {
+            return new AssetsLocator(s);
+        }
 
         /// <summary>
         /// Get asset dependencies via local minecraft id

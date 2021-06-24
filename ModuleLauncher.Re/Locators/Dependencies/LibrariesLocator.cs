@@ -22,6 +22,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             _locator = locator;
         }
 
+        public static implicit operator LibrariesLocator(string s)
+        {
+            return new LibrariesLocator(s);
+        }
+
         /// <summary>
         /// Get library dependencies via minecraft entity
         /// </summary>
