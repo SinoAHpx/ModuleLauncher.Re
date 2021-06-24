@@ -21,6 +21,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             _locator = locator;
         }
 
+        /// <summary>
+        /// Get asset dependencies via local minecraft id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Dependency>> GetDependencies(string id)
         {
             var mc = await _locator.GetLocalMinecraft(id);
@@ -28,6 +33,12 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             return await GetDependencies(mc);
         }
 
+        /// <summary>
+        /// Get asset dependencies via minecraft entity
+        /// </summary>
+        /// <param name="mc"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<IEnumerable<Dependency>> GetDependencies(Minecraft mc)
         {
             var re = new List<Dependency>();

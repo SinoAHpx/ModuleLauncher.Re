@@ -22,7 +22,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         }
 
         /// <summary>
-        /// Get libraries dependencies via minecraft entity
+        /// Get library dependencies via minecraft entity
         /// </summary>
         /// <param name="mc"></param>
         /// <param name="excludeNatives">Exclude native dependency or not</param>
@@ -65,6 +65,13 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             return re;
         }
 
+        /// <summary>
+        /// Get native librart dependencies via minecraft entity
+        /// </summary>
+        /// <param name="mc"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<Dependency>> GetNativeDependencies(Minecraft mc)
         {
             var re = new List<Dependency>();
@@ -105,6 +112,13 @@ namespace ModuleLauncher.Re.Locators.Dependencies
 
         #region Private
 
+        /// <summary>
+        /// build up dependency object via single json node and minecraft entity
+        /// </summary>
+        /// <param name="jo"></param>
+        /// <param name="mc"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
         private Dependency BuildDependency(JToken jo, Minecraft mc)
         {
             var rawName = jo.Fetch("name") ??
@@ -123,6 +137,12 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             return dependency;
         }
         
+        /// <summary>
+        /// Determine if incoming json node is a native dependency json node
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
         private bool IsNativeDependency(JToken json)
         {
             if (json is JObject jo)
@@ -133,6 +153,13 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             throw new JsonException($"{json} is not a JObject!");
         }
 
+        /// <summary>
+        /// Determine if incoming json node could be used for set operating system
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
         private bool IsAddableDependency(JToken json, DependencySystem system = DependencySystem.Windows)
         {
             if (json is JObject jo)
@@ -190,6 +217,11 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             return await GetDependencies(mc);
         }
         
+        /// <summary>
+        /// Get native library dependencies via local minecraft id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Dependency>> GetNativeDependencies(string id)
         {
             var mc = await _locator.GetLocalMinecraft(id);
