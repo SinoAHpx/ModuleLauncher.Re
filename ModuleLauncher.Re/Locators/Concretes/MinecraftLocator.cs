@@ -13,6 +13,11 @@ namespace ModuleLauncher.Re.Locators.Concretes
     {
         private readonly LocalityLocator _locator;
 
+        public static implicit operator MinecraftLocator(string s)
+        {
+            return new MinecraftLocator(s);
+        }
+
         /// <summary>
         /// 
         /// </summary>
