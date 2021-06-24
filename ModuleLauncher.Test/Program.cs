@@ -19,13 +19,11 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var foo = new LibrariesLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
-            
-            var bar = await foo.GetDependencies("1.16.5");
-            foreach (var dependency in bar)
-            {
-                Console.WriteLine(dependency.RelativeUrl);
-            }
+            var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
+
+            var bar = await foo.GetLocalMinecraft("1.16.5");
+
+            Console.WriteLine(bar.Raw.Arguments.ToNormalArguments());
         }
     }
 }

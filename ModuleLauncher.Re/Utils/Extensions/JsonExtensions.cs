@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -99,6 +100,24 @@ namespace ModuleLauncher.Re.Utils.Extensions
         public static JArray ToJArray(this string json)
         {
             return JArray.Parse(json);
+        }
+        
+        /// <summary>
+        /// Only available for modern version of minecraft
+        /// Convert the arguments property of modern version minecraft to old-like minecraftArguments
+        /// </summary>
+        /// <param name="token">mc.Raw.Arguments</param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static string ToNormalArguments(this JToken token)
+        {
+            var game = token["game"] ?? throw new JsonException($"Invalid json: {token}");
+            var array = game.ToObject<JArray>();
+
+            var arguments = array!.Where(x => x.Type == JTokenType.String);
+            var re = string.Join(" ", arguments.Select(x => x.ToString()));
+
+            return re.Trim();
         }
     }
 }
