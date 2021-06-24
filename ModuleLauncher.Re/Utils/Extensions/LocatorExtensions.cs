@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Locators.Dependencies;
+using ModuleLauncher.Re.Models.Locators.Minecraft;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
@@ -35,6 +36,15 @@ namespace ModuleLauncher.Re.Utils.Extensions
             var mc = await minecraftLocator.GetLocalMinecraft(id);
 
             return await librariesLocator.GetNativeDependencies(mc); 
+        }
+
+        /// <summary>
+        /// Determine if a minecraft entity has an inheritFrom proerty
+        /// </summary>
+        /// <returns></returns>
+        internal static bool IsInherit(this Minecraft minecraft)
+        {
+            return !minecraft.Raw.InheritsFrom.IsNullOrEmpty();
         }
     }
 }
