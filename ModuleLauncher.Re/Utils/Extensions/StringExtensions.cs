@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using ModuleLauncher.Re.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Locators.Dependencies;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
@@ -80,6 +82,27 @@ namespace ModuleLauncher.Re.Utils.Extensions
                 .GetCustomAttributes(typeof(DescriptionAttribute), false);
             
             return attributes.Length > 0 ? attributes[0].Description : string.Empty;
+        }
+
+        /// <summary>
+        /// Append natives suffix for GetNativeDependencies
+        /// </summary>
+        /// <param name="locator"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static string AppendNative(this IDependenciesLocator locator,  JToken token)
+        {
+            var rawName = token.Fetch("name") ??
+                          throw new JsonException($"{token} is a unknown minecraft json format!");
+            var rawNatives =
+                $"{rawName}-{token.Fetch("natives.windows").Replace("${arch}", SystemUtility.GetSystemBit())}";
+            
+            var appendedName = GetRelativeUrl(locator, rawNatives).GetFileName(); 
+            
+            var relativeUrl = GetRelativeUrl(locator, rawName);
+
+            return relativeUrl.Replace(relativeUrl.GetFileName(), appendedName);
         }
     }
 }
