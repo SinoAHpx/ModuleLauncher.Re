@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Authenticators;
+using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Locators;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Locators.Dependencies;
@@ -19,11 +20,23 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var foo = new MinecraftLocator(@"C:\Users\ahpx\Desktop\MinecraftsLab\.minecraft");
+            var bar = new MojangAuthenticator("ahpx@yandex.com", "ASDasdASD123,./");
+            
+            var foo = new Launcher(@"C:\Users\ahpx\AppData\Roaming\.minecraft")
+            {
+                Authentication = await bar.Authenticate(),
+                Java = @"C:\Program Files\Java\jre1.8.0_291\bin\java.exe",
+                MaximumMemorySize = 1024,
+                LauncherName = "Ahpx",
+                Fullscreen = false
+            };
 
-            var bar = await foo.GetLocalMinecraft("1.16.5");
+            var re = await foo.Launch("1.6.4");
 
-            Console.WriteLine(bar.Raw.Arguments.ToNormalArguments());
+            while (await re.StandardOutput.ReadLineAsync() != null)
+            {
+                Console.WriteLine(await re.StandardOutput.ReadLineAsync());
+            }
         }
     }
 }

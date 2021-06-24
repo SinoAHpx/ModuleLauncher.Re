@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Locators.Dependencies;
@@ -45,6 +46,19 @@ namespace ModuleLauncher.Re.Utils.Extensions
         internal static bool IsInherit(this Minecraft minecraft)
         {
             return !minecraft.Raw.InheritsFrom.IsNullOrEmpty();
+        }
+
+        internal static async Task<Minecraft> GetInherit(this Minecraft minecraft)
+        {
+            if (minecraft.IsInherit())
+            {
+                var locator = new MinecraftLocator(minecraft.Locality.Root.FullName);
+                var re = await locator.GetLocalMinecraft(minecraft.Raw.InheritsFrom);
+
+                return re;
+            }
+
+            throw new Exception("Incoming minecraft doesn't inherit from any minecraft!");
         }
     }
 }
