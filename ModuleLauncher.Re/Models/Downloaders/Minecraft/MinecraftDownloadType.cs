@@ -10,6 +10,12 @@ namespace ModuleLauncher.Re.Models.Downloaders.Minecraft
         Release,
         [Description("snapshot")]
         [EnumMember(Value = "snapshot")]
-        Snapshot
+        Snapshot,
+        [Description("old_alpha")]
+        [EnumMember(Value = "old_alpha")]
+        OldAlpha,
+        [Description("old_beta")]
+        [EnumMember(Value = "old_beta")]
+        OldBeta
     }
 }
