@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace ModuleLauncher.Re.Models.Downloaders.Minecraft
@@ -21,7 +22,7 @@ namespace ModuleLauncher.Re.Models.Downloaders.Minecraft
         /// minecraft release time
         /// </summary>
         [JsonProperty("releaseTime")]
-        public string ReleaseTime { get; set; }
+        public DateTime ReleaseTime { get; set; }
         
         /// <summary>
         /// minecraft type, Release or Snapshot
