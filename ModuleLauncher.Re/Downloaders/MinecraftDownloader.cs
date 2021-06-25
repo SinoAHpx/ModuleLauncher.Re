@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Models.Downloaders;
+using ModuleLauncher.Re.Models.Downloaders.Minecraft;
 using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Downloaders
 {
@@ -46,6 +50,38 @@ namespace ModuleLauncher.Re.Downloaders
             var re = (manifest.Fetch("latest.release"), manifest.Fetch("latest.snapshot"));
 
             return re;
+        }
+
+        /// <summary>
+        /// Get remote minecrafts collections
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<MinecraftDownloadItem>> GetRemoteMinecrafts()
+        {
+            var manifest = await FetchManifest();
+            var versions = manifest.Fetch("versions").ToObject<JArray>();
+            var re = new List<MinecraftDownloadItem>();
+            
+            foreach (var token in versions!)
+            {
+                var item = JsonConvert.DeserializeObject<MinecraftDownloadItem>(token.ToString());
+
+                re.Add(item);
+            }
+            
+            return re;
+        }
+
+        /// <summary>
+        /// Get single minecraft via minecraft id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<MinecraftDownloadItem> GetRemoteMinecraft(string id)
+        {
+            var minecrafts = await GetRemoteMinecrafts();
+
+            return minecrafts.First(x => x.Id == id);
         }
     }
 }
