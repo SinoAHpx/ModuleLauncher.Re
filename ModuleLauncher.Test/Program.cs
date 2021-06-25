@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Downloader;
 using ModuleLauncher.Re.Authenticators;
+using ModuleLauncher.Re.Downloaders;
 using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Locators;
 using ModuleLauncher.Re.Locators.Concretes;
@@ -20,28 +23,38 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var foo = new Launcher(@"C:\Users\ahpx\AppData\Roaming\.minecraft")
+            var downloader = new DownloaderT();
+
+            await downloader.Download();
+        }
+    }
+
+    class DownloaderT : DownloaderBase
+    {
+        protected override List<(string, FileInfo)> Files { get; set; }
+
+        public DownloaderT()
+        {
+            Files = new List<(string, FileInfo)>
             {
-                Authentication = "AHpx",
-                Java = @"C:\Program Files\Java\jre1.8.0_291\bin\javaw.exe",
-                MaximumMemorySize = 1024,
-                LauncherName = "Ahpx",
-                Fullscreen = false
+                ("https://launcher.mojang.com/v1/objects/1cf89c77ed5e72401b869f66410934804f3d6f52/client.jar", 
+                    new FileInfo(@"C:\Users\ahpx\Desktop\MinecraftsLab\files\test.jar"))
             };
+        }
 
-            var re = await foo.Launch("1.8.9");
+        protected override void DownloaderOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Console.WriteLine($"{e.ProgressPercentage:F1}%");
+        }
 
-            re.Exited += (_, _) =>
-            {
-                Console.WriteLine("Game exited with code " + re.ExitCode);
-            };
+        protected override void DownloaderOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            Console.WriteLine("Download accomplished!");
+        }
 
-            while (await re.StandardOutput.ReadLineAsync() != null)
-            {
-                Console.WriteLine(await re.StandardOutput.ReadLineAsync());
-            }
-
-            await re.WaitForExitAsync();
+        protected override void DownloaderOnDownloadStarted(object sender, DownloadStartedEventArgs e)
+        {
+            Console.WriteLine("Download started!");
         }
     }
 }
