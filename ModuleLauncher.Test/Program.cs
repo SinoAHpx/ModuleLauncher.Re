@@ -14,20 +14,37 @@ namespace ModuleLauncher.Test
         {
             var downloader = new DownloaderT();
 
-            await downloader.Download();
+            downloader.DownloadStarted += eventArgs =>
+            {
+                Console.WriteLine($"Start to downloading {eventArgs.FileName}");
+            };
+            downloader.DownloadProgressChanged += eventArgs =>
+            {
+                Console.WriteLine($"{eventArgs.ProgressId} is current {eventArgs.ProgressPercentage:F1}");
+            };
+            downloader.DownloadCompleted += eventArgs =>
+            {
+                Console.WriteLine($"Completed!");
+            };
+
+            await downloader.DownloadParallel(2);
         }
     }
 
     class DownloaderT : DownloaderBase
     {
-        protected override List<(string, FileInfo)> Files { get; set; }
+        protected sealed override List<(string, FileInfo)> Files { get; set; }
 
         public DownloaderT()
         {
             Files = new List<(string, FileInfo)>
             {
                 ("https://launcher.mojang.com/v1/objects/1cf89c77ed5e72401b869f66410934804f3d6f52/client.jar", 
-                    new FileInfo(@"C:\Users\ahpx\Desktop\MinecraftsLab\files\test.jar"))
+                    new FileInfo(@"C:\Users\ahpx\Desktop\MinecraftsLab\files\test1.jar")),
+                ("https://launcher.mojang.com/v1/objects/1cf89c77ed5e72401b869f66410934804f3d6f52/client.jar", 
+                    new FileInfo(@"C:\Users\ahpx\Desktop\MinecraftsLab\files\test2.jar")),
+                ("https://launcher.mojang.com/v1/objects/1cf89c77ed5e72401b869f66410934804f3d6f52/client.jar", 
+                    new FileInfo(@"C:\Users\ahpx\Desktop\MinecraftsLab\files\test3.jar")),
             };
         }
     }

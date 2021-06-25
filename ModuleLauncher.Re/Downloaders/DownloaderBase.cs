@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Downloader;
+using MoreLinq.Extensions;
 using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
 namespace ModuleLauncher.Re.Downloaders
@@ -55,6 +58,54 @@ namespace ModuleLauncher.Re.Downloaders
                 #endregion
 
                 await downloader.DownloadFileTaskAsync(url, file.FullName);
+            }
+        }
+
+        /// <summary>
+        /// Download single file
+        /// </summary>
+        /// <param name="file"></param>
+        private async Task Download((string, FileInfo) file)
+        {
+            var configuration = new DownloadConfiguration();
+            
+            var downloader = new DownloadService(configuration);
+
+            #region Invoking event handlers
+
+            downloader.DownloadStarted += (sender, args) =>
+            {
+                DownloadStarted?.Invoke(args);
+            };
+            downloader.DownloadFileCompleted += (sender, args) =>
+            {
+                DownloadCompleted?.Invoke(args);
+            };
+            downloader.DownloadProgressChanged += (sender, args) =>
+            {
+                DownloadProgressChanged?.Invoke(args);
+            };
+
+            #endregion
+
+            var (url, fileInfo) = file;
+            
+            await downloader.DownloadFileTaskAsync(url, fileInfo.FullName);
+        }
+
+        /// <summary>
+        /// Parallel download files in colletion
+        /// </summary>
+        /// <param name="count"></param>
+        public virtual async Task DownloadParallel(int count = 5)
+        {
+            var subFiles = Files.Batch(count);
+
+            foreach (var tuples in subFiles)
+            {
+                var tasks = tuples.Select(Download).ToList();
+
+                await Task.WhenAll(tasks);
             }
         }
     }
