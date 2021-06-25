@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using Downloader;
+using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
 namespace ModuleLauncher.Re.Downloaders
 {
@@ -17,6 +20,12 @@ namespace ModuleLauncher.Re.Downloaders
         /// </summary>
         protected abstract List<(string, FileInfo)> Files { get; set; }
 
+        public Action<DownloadStartedEventArgs> DownloadStarted { get; set; }
+
+        public Action<AsyncCompletedEventArgs> DownloadCompleted { get; set; }
+
+        public Action<DownloadProgressChangedEventArgs> DownloadProgressChanged { get; set; }
+        
         /// <summary>
         /// Download files in collection one-by-one
         /// </summary>
@@ -28,18 +37,25 @@ namespace ModuleLauncher.Re.Downloaders
             {
                 var downloader = new DownloadService(configuration);
 
-                downloader.DownloadStarted += DownloaderOnDownloadStarted;
-                downloader.DownloadFileCompleted += DownloaderOnDownloadFileCompleted;
-                downloader.DownloadProgressChanged += DownloaderOnDownloadProgressChanged;
-                
+                #region Invoking event handlers
+
+                downloader.DownloadStarted += (sender, args) =>
+                {
+                    DownloadStarted?.Invoke(args);
+                };
+                downloader.DownloadFileCompleted += (sender, args) =>
+                {
+                    DownloadCompleted?.Invoke(args);
+                };
+                downloader.DownloadProgressChanged += (sender, args) =>
+                {
+                    DownloadProgressChanged?.Invoke(args);
+                };
+
+                #endregion
+
                 await downloader.DownloadFileTaskAsync(url, file.FullName);
             }
         }
-
-        protected abstract void DownloaderOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e);
-
-        protected abstract void DownloaderOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e);
-
-        protected abstract void DownloaderOnDownloadStarted(object sender, DownloadStartedEventArgs e);
     }
 }
