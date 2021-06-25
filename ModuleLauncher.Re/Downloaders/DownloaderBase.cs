@@ -32,7 +32,7 @@ namespace ModuleLauncher.Re.Downloaders
         /// <summary>
         /// Download files in collection one-by-one
         /// </summary>
-        public virtual async Task Download()
+        protected virtual async Task Download()
         {
             var configuration = new DownloadConfiguration();
             
@@ -97,7 +97,7 @@ namespace ModuleLauncher.Re.Downloaders
         /// Parallel download files in colletion
         /// </summary>
         /// <param name="count"></param>
-        public virtual async Task DownloadParallel(int count = 5)
+        protected virtual async Task DownloadParallel(int count = 5)
         {
             var subFiles = Files.Batch(count);
 
