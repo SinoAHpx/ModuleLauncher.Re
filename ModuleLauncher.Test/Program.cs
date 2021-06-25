@@ -20,23 +20,28 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var bar = new MojangAuthenticator("ahpx@yandex.com", "ASDasdASD123,./");
-            
             var foo = new Launcher(@"C:\Users\ahpx\AppData\Roaming\.minecraft")
             {
-                Authentication = await bar.Authenticate(),
-                Java = @"C:\Program Files\Java\jre1.8.0_291\bin\java.exe",
+                Authentication = "AHpx",
+                Java = @"C:\Program Files\Java\jre1.8.0_291\bin\javaw.exe",
                 MaximumMemorySize = 1024,
                 LauncherName = "Ahpx",
                 Fullscreen = false
             };
 
-            var re = await foo.Launch("1.6.4");
+            var re = await foo.Launch("1.8.9");
+
+            re.Exited += (_, _) =>
+            {
+                Console.WriteLine("Game exited with code " + re.ExitCode);
+            };
 
             while (await re.StandardOutput.ReadLineAsync() != null)
             {
                 Console.WriteLine(await re.StandardOutput.ReadLineAsync());
             }
+
+            await re.WaitForExitAsync();
         }
     }
 }

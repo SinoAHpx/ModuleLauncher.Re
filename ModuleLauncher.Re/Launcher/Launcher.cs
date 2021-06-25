@@ -26,15 +26,15 @@ namespace ModuleLauncher.Re.Launcher
 
         /// <summary>
         /// The unit is MB, you don't have to append a suffix,
-        /// How much memory is allocated to jvm of minecraft at most, optional, default is 2
+        /// How much memory is allocated to jvm of minecraft at most, optional, default is 1024
         /// </summary>
-        public int MaximumMemorySize { get; set; }
+        public int MaximumMemorySize { get; set; } = 1024;
 
         /// <summary>
         /// The unit is MB, you don't have to append a suffix,
         /// How much memory is allocated to jvm of minecraft at least, optional, default is null
         /// </summary>
-        public int? MinimumMemorySize { get; set; }
+        public int? MinimumMemorySize { get; set; } = null;
 
         /// <summary>
         /// AuthenticateResult object, could be implicit convert via string 
@@ -158,7 +158,7 @@ namespace ModuleLauncher.Re.Launcher
             #endregion
 
             Console.WriteLine(argument);
-            
+
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -170,11 +170,12 @@ namespace ModuleLauncher.Re.Launcher
                     RedirectStandardInput = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
-                }
+                },
+                EnableRaisingEvents = true
             };
-
-            await ExtractNatives(id);
             
+            await ExtractNatives(id);
+
             process.Start();
             
             return process;
