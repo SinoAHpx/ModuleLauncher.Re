@@ -1,0 +1,15 @@
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
+
+namespace ModuleLauncher.Re.Models.Downloaders.Minecraft
+{
+    public enum MinecraftDownloadType
+    {
+        [Description("release")]
+        [EnumMember(Value = "release")]
+        Release,
+        [Description("snapshot")]
+        [EnumMember(Value = "snapshot")]
+        Snapshot
+    }
+}
