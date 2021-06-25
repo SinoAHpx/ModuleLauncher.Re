@@ -144,6 +144,11 @@ namespace ModuleLauncher.Re.Launcher
             minecraftArguments = minecraftArguments.Replace("${auth_access_token}", $"\"{Authentication.AccessToken}\"");
             minecraftArguments = minecraftArguments.Replace("${user_properties}", "{}");
             minecraftArguments = minecraftArguments.Replace("${user_type}", "mojang");
+            
+            //handle legacy minecraft
+            minecraftArguments = minecraftArguments.Replace("${game_assets}", $"\"{mc.Locality.Assets.Parent}\\virtual\\legacy\"");
+            minecraftArguments = minecraftArguments.Replace("${auth_session}", $"\"{Authentication.AccessToken}\"");
+            
             argument.Append($"{minecraftArguments} ");
             
             argument.Append(WindowWidth != null ? $"--width {WindowWidth} " : string.Empty);
