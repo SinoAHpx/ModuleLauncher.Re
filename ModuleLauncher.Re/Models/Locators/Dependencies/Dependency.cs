@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Models.Locators.Dependencies
 {
@@ -26,5 +27,10 @@ namespace ModuleLauncher.Re.Models.Locators.Dependencies
         /// 92/92750c5f93c312ba9ab413d546f32190c56d6f1f
         /// </summary>
         public string RelativeUrl { get; set; }
+        
+        /// <summary>
+        /// Raw json data of libraries item, not exist in assets downloader
+        /// </summary>
+        internal JToken Raw { get; set; }
     }
 }

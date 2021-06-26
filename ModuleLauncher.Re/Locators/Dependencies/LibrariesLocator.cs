@@ -60,7 +60,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 {
                     Name = relativeUrl.GetFileName(),
                     RelativeUrl = relativeUrl,
-                    File = new FileInfo(localFile)
+                    File = new FileInfo(localFile),
+                    Raw = token
                 };
 
                 re.Add(dependency);
@@ -115,7 +116,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 {
                     Name = relativeUrl.GetFileName(),
                     RelativeUrl = relativeUrl,
-                    File = new FileInfo(localFile)
+                    File = new FileInfo(localFile),
+                    Raw = token
                 };
                 
                 re.Add(dependency);
