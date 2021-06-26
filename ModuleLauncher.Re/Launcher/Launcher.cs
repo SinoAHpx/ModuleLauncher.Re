@@ -157,7 +157,24 @@ namespace ModuleLauncher.Re.Launcher
 
             #endregion
 
-            Console.WriteLine(argument);
+            var launcherProfilesFile = mc.Locality.Root.GetSubFileInfo("launcher_profiles.json");
+
+            if (!launcherProfilesFile.Exists)
+            {
+                await launcherProfilesFile.WriteAllText(new
+                {
+                    selectedProfile = "(Default)",
+                    profiles = new
+                    {
+                        Default = new
+                        {
+                            name = "(Default)"
+                        }
+                    },
+                    clientToken = Guid.NewGuid()
+                }.ToJsonString());
+            }
+            
 
             var process = new Process
             {
