@@ -9,6 +9,7 @@ using ModuleLauncher.Re.Downloaders;
 using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Locators.Dependencies;
+using ModuleLauncher.Re.Models.Downloaders;
 using ModuleLauncher.Re.Models.Downloaders.Minecraft;
 using ModuleLauncher.Re.Utils.Extensions;
 
@@ -18,49 +19,43 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            // var foobar = new AssetsLocator(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
-            //
-            // var foo = new MinecraftDownloader(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
-            //
-            // foo.DownloadStarted += e =>
-            // {
-            //     Console.WriteLine($"{e.FileName} started to download!");
-            // };
-            //
-            // foo.DownloadCompleted += e =>
-            // {
-            //     Console.WriteLine("Download accomplished!");
-            // };
-            //
-            // foo.DownloadProgressChanged += e =>
-            // {
-            //     Console.WriteLine(
-            //         $"Progress: {e.ProgressPercentage:F1} {e.ReceivedBytesSize / 1024 :F1}KB/{e.TotalBytesToReceive / 1024 :F1}KB");
-            // };
-            //
-            // await foo.DownloadMinecraft("1.16.5");
-            //
-            // var barfoo = await foobar.GetDependencies("1.16.5");
-            // var bar = new DependenciesDownloader(barfoo);
-            //
-            // bar.DownloadCompleted += foo.DownloadCompleted;
-            // bar.DownloadStarted += foo.DownloadStarted;
-            // bar.DownloadProgressChanged += foo.DownloadProgressChanged;
-            //
-            // await bar.Download();
-            //
-            // foreach (var dependency in barfoo)
-            // {
-            //     Console.WriteLine(dependency.File.Exists);
-            // }
+            var librariesLocator = new LibrariesLocator(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
+            var assetsLocator = new AssetsLocator(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
 
-            var foo = new Launcher(@"C:\Users\ahpx\Desktop\MCD\.minecraft")
+            var bar = await librariesLocator.GetDependencies("1.16.5-forge-36.1.32");
+
+            bar = bar.Union(await assetsLocator.GetDependencies("1.16.5-forge-36.1.32"));
+
+            var foo = new DependenciesDownloader(bar)
             {
-                Authentication = "AHpx",
+                Source = DownloaderSource.Bmclapi
+            };
+            
+            foo.DownloadStarted += e =>
+            {
+                Console.WriteLine($"{e.FileName} started to download!");
+            };
+            
+            foo.DownloadCompleted += e =>
+            {
+                Console.WriteLine("Download accomplished!");
+            };
+            
+            foo.DownloadProgressChanged += e =>
+            {
+                Console.WriteLine(
+                    $"Progress: {e.ProgressPercentage:F1} {e.ReceivedBytesSize / 1024 :F1}KB/{e.TotalBytesToReceive / 1024 :F1}KB");
+            };
+
+            await foo.Download(20);
+
+            var launcher = new Launcher(@"C:\Users\ahpx\Desktop\MCD\.minecraft")
+            {
+                Authentication = "Ahpx",
                 Java = @"C:\Program Files\Java\jre1.8.0_291\bin\javaw.exe"
             };
 
-            var process = await foo.Launch("1.16.5");
+            var process = await launcher.Launch("1.16.5-forge-36.1.32");
 
             while (await process.StandardOutput.ReadLineAsync() != null)
             {

@@ -26,9 +26,11 @@ namespace ModuleLauncher.Re.Downloaders
         {
             foreach (var dependency in Dependencies)
             {
+                var url = GetDownloadUrl(dependency);
+
                 if (!dependency.File.Exists)
                 {
-                    Files.Add((GetDownloadUrl(dependency), dependency.File));
+                    Files.Add((url, dependency.File));
                 }
             }
 
@@ -39,9 +41,41 @@ namespace ModuleLauncher.Re.Downloaders
         {
             if (dependency.IsLibraryDependency())
             {
+                var url = $"https://libraries.minecraft.net/{dependency.RelativeUrl}";
+
+                if (dependency.Raw != null)
+                {
+                    if (dependency.Raw.IsPathExist("url"))
+                    {
+                        var rootUrl = dependency.Raw.Fetch("url").TrimEnd('/');
+                        
+                        if (rootUrl.EndsWith(".jar"))
+                        {
+                            url = rootUrl;
+                        }
+                        else
+                        {
+                            url = $"{rootUrl}/{dependency.RelativeUrl}";
+                        }
+                        
+                    }
+
+                    if (dependency.Raw.IsPathExist("downloads.artifact"))
+                    {
+                        if (!dependency.Raw.Fetch("downloads.artifact.url").IsNullOrEmpty())
+                        {
+                            url = dependency.Raw.Fetch("downloads.artifact.url");
+                        }
+                        else
+                        {
+                            url = $"https://bmclapi2.bangbang93.com/maven/{dependency.RelativeUrl}";
+                        }
+                    }
+                }
+                
                 return Source switch
                 {
-                    DownloaderSource.Mojang => $"https://libraries.minecraft.net/{dependency.RelativeUrl}",
+                    DownloaderSource.Mojang => url,
                     DownloaderSource.Bmclapi => $"https://bmclapi2.bangbang93.com/maven/{dependency.RelativeUrl}",
                     DownloaderSource.Mcbbs => $"https://download.mcbbs.net/maven/{dependency.RelativeUrl}",
                     _ => throw new ArgumentOutOfRangeException()
