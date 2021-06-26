@@ -70,16 +70,14 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="token"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static bool ContainsKey(this JToken token, string key)
+        public static bool IsPathExist(this JToken token, string key)
         {
             if (token is JObject jObject)
             {
-                return jObject.ContainsKey(key);
+                return jObject.SelectToken(key) != null;
             }
-            else
-            {
-                throw new JsonException("This token is not a valid JObject!");
-            }
+
+            throw new JsonException("This token is not a valid JObject!");
         }
 
         /// <summary>

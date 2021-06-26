@@ -190,7 +190,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                     {
                         foreach (var rule in rules)
                         {
-                            if (rule.ContainsKey("os"))
+                            if (rule.IsPathExist("os"))
                             {
                                 return rule.Fetch("os.name") == os && rule.Fetch("action") == "allow";
                             }
