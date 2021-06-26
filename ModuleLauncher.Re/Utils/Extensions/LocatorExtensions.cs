@@ -48,6 +48,12 @@ namespace ModuleLauncher.Re.Utils.Extensions
             return !minecraft.Raw.InheritsFrom.IsNullOrEmpty();
         }
 
+        /// <summary>
+        /// Get inheritance of incoming minecraft
+        /// </summary>
+        /// <param name="minecraft"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         internal static async Task<Minecraft> GetInherit(this Minecraft minecraft)
         {
             if (minecraft.IsInherit())
@@ -59,6 +65,11 @@ namespace ModuleLauncher.Re.Utils.Extensions
             }
 
             throw new Exception("Incoming minecraft doesn't inherit from any minecraft!");
+        }
+
+        internal static bool IsLibraryDependency(this Dependency dependency)
+        {
+            return dependency.RelativeUrl.EndsWith(".jar");
         }
     }
 }
