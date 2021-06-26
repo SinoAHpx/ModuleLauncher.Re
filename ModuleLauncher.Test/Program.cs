@@ -19,48 +19,61 @@ namespace ModuleLauncher.Test
     {
         static async Task Main(string[] args)
         {
-            var librariesLocator = new LibrariesLocator(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
-            var assetsLocator = new AssetsLocator(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
-
-            var bar = await librariesLocator.GetDependencies("1.16.5-forge-36.1.32");
-
-            bar = bar.Union(await assetsLocator.GetDependencies("1.16.5-forge-36.1.32"));
-
-            var foo = new DependenciesDownloader(bar)
-            {
-                Source = DownloaderSource.Bmclapi
-            };
+            var root = @"C:\Users\ahpx\Desktop\MCD\.minecraft";
+            var version = "fabric-loader-0.11.6-1.16.5";
+            //
+            // var mcd = new MinecraftDownloader(root);
+            //
+            // mcd.DownloadStarted += DownloadStarted;
+            // mcd.DownloadCompleted += DownloadCompleted;
+            // mcd.DownloadProgressChanged += DownloadProgressChanged;
+            //
+            // await mcd.DownloadMinecraft(version);
             
-            foo.DownloadStarted += e =>
-            {
-                Console.WriteLine($"{e.FileName} started to download!");
-            };
+            var librariesLocator = new LibrariesLocator(root);
+            var assetsLocator = new AssetsLocator(root);
+
+            var bar = await librariesLocator.GetDependencies(version);
+
+            bar = bar.Union(await assetsLocator.GetDependencies(version));
+
+            var foo = new DependenciesDownloader(bar);
             
-            foo.DownloadCompleted += e =>
-            {
-                Console.WriteLine("Download accomplished!");
-            };
-            
-            foo.DownloadProgressChanged += e =>
-            {
-                Console.WriteLine(
-                    $"Progress: {e.ProgressPercentage:F1} {e.ReceivedBytesSize / 1024 :F1}KB/{e.TotalBytesToReceive / 1024 :F1}KB");
-            };
+            foo.DownloadStarted += DownloadStarted;
+            foo.DownloadCompleted += DownloadCompleted;
+            foo.DownloadProgressChanged += DownloadProgressChanged;
 
             await foo.Download(20);
 
-            var launcher = new Launcher(@"C:\Users\ahpx\Desktop\MCD\.minecraft")
+            var launcher = new Launcher(root)
             {
                 Authentication = "Ahpx",
                 Java = @"C:\Program Files\Java\jre1.8.0_291\bin\javaw.exe"
             };
 
-            var process = await launcher.Launch("1.16.5-forge-36.1.32");
+            var process = await launcher.Launch(version);
 
             while (await process.StandardOutput.ReadLineAsync() != null)
             {
                 Console.WriteLine(await process.StandardOutput.ReadLineAsync());
             }
+        }
+
+        private static void DownloadStarted(DownloadStartedEventArgs e)
+        {
+            Console.WriteLine($"{e.FileName} started to download!");
+        }
+
+        private static void DownloadCompleted(AsyncCompletedEventArgs e)
+        {
+            Console.WriteLine("Download accomplished!");
+        }
+
+
+        private static void DownloadProgressChanged(DownloadProgressChangedEventArgs e)
+        {
+            Console.WriteLine(
+                $"Progress: {e.ProgressPercentage:F1}% - {e.ReceivedBytesSize / 1024 :F1}KB/{e.TotalBytesToReceive / 1024 :F1}KB");
         }
     }
 }

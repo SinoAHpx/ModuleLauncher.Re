@@ -43,7 +43,7 @@ namespace ModuleLauncher.Re.Downloaders
             {
                 var url = $"https://libraries.minecraft.net/{dependency.RelativeUrl}";
 
-                if (dependency.Raw != null)
+                if (dependency.Raw != null && !dependency.Raw.IsPathExist("natives"))
                 {
                     if (dependency.Raw.IsPathExist("url"))
                     {
