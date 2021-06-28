@@ -3,6 +3,15 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>3.0.0</PackageVersion>
+        <Authors>AHpx</Authors>
+        <Description>A cross-platform Minecraft launcher library</Description>
+        <Copyright>© ️AHpx2021</Copyright>
+        <PackageProjectUrl>https://github.com/AHpxChina/ModuleLauncher.Re</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/AHpxChina/ModuleLauncher.Re/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://i.loli.net/2021/03/09/NdwvUPWLljSC6rh.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/AHpxChina/ModuleLauncher.Re</RepositoryUrl>
+        <PackageTags>MinecraftLauncher, Minecraft, Cross-platform, Launcher</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
