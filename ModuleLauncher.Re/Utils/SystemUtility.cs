@@ -36,5 +36,18 @@ namespace ModuleLauncher.Re.Utils
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
+        
+        public static char GetSystemSeparator()
+        {
+            var system = GetSystemType();
+            
+            return system switch
+            {
+                DependencySystem.Windows => '\\',
+                DependencySystem.Linux => '/',
+                DependencySystem.Mac => '/',
+                _ => throw new ArgumentOutOfRangeException(nameof(system), system, null)
+            };
+        }
     }
 }

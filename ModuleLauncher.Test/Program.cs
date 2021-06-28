@@ -19,9 +19,10 @@ namespace ModuleLauncher.Test
 {
     class Program
     {
+        //java executable file: 
         static async Task Main(string[] args)
         {
-            Console.WriteLine(SystemUtility.GetSystemType().GetDependencySystemString());
+            Console.WriteLine(SystemUtility.GetSystemSeparator());
         }
 
         private static void DownloadStarted(DownloadStartedEventArgs e)

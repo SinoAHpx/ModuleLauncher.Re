@@ -32,13 +32,15 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <returns></returns>
         public static DirectoryInfo ToSubDirectoryInfo(this DirectoryInfo info, string sub)
         {
+            var separator = SystemUtility.GetSystemSeparator();
+            
             var dir = info.FullName;
-            if (!dir.EndsWith("\\"))
+            if (!dir.EndsWith(separator))
             {
-                dir += "\\";
+                dir += separator;
             }
 
-            return new DirectoryInfo($@"{dir}{sub.TrimStart('\\')}");
+            return new DirectoryInfo($@"{dir}{sub.TrimStart(separator)}");
         }
 
         /// <summary>
@@ -49,13 +51,15 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <returns></returns>
         public static FileInfo GetSubFileInfo(this DirectoryInfo info, string sub)
         {
+            var separator = SystemUtility.GetSystemSeparator();
+            
             var dir = info.FullName;
-            if (!dir.EndsWith("\\"))
+            if (!dir.EndsWith(separator))
             {
-                dir += "\\";
+                dir += separator;
             }
 
-            return new FileInfo($@"{dir}{sub.TrimStart('\\')}");
+            return new FileInfo($@"{dir}{sub.TrimStart(separator)}");
         }
 
         /// <summary>
