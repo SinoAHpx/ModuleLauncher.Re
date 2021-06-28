@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/AHpxChina/ModuleLauncher.Re">
     <img src="https://i.loli.net/2021/03/09/NdwvUPWLljSC6rh.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -8,14 +8,14 @@
   <p align="center">
     Makes it possible to develop Minecraft launchers with efficiency and elegance.
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://ahpxchina.github.io/ModuleLauncher.Re.Document/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/AHpxChina/ModuleLauncher.Re/tree/master/ModuleLauncher.Example">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/AHpxChina/ModuleLauncher.Re/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/AHpxChina/ModuleLauncher.Re/issues">Request Feature</a>
   </p>
 
 ## About The Project
@@ -23,9 +23,10 @@
 This is an easy-to-use, trainee-friendly Minecraft launcher library. It's enough for you to develop a high-performance, elegant Minecraft launcher application.
 
 Here's why:
-* We chose .Net Starndard 2.1 as the development framework.
+* We chose .Net Standard 2.1 as the development framework.
 * Simple but not spartan, focusing on core features.
 * Complete documentation and examples, and almost every method with xml-doc.
+* Cross-platform, same code, different os.
 
 This library still has many shortcomings and defects, we welcome anyone to submit [issues](https://github.com/AHpxChina/ModuleLauncher.Re/issues).
 
@@ -46,8 +47,8 @@ To get a local copy up and running follow these simple example steps.
 
 + Install **ModuleLauncher.Re** via Nuget:
   + IDE interface
-  + Nuget Package Manger: ```Install-Package ModuleLauncher.Re -Version 3.0.0-pre1```
-  + .Net CLI: ```dotnet add package ModuleLauncher.Re --version 3.0.0-pre1```
+  + Nuget Package Manger: ```Install-Package ModuleLauncher.Re -Version 3.0.0```
+  + .Net CLI: ```dotnet add package ModuleLauncher.Re --version 3.0.0```
 
 + Or clone the repo and compile it to dynamic link library
 
@@ -73,7 +74,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 ## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/AHpxChina/ModuleLauncher.Re/issues) for a list of proposed features (and known issues).
 
 ## Contributing
 
