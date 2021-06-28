@@ -1,4 +1,5 @@
 ﻿using System;
+using ModuleLauncher.Re.Models.Locators.Dependencies;
 
 namespace ModuleLauncher.Re.Utils
 {
@@ -12,6 +13,28 @@ namespace ModuleLauncher.Re.Utils
         public static string GetSystemBit()
         {
             return Environment.Is64BitOperatingSystem ? "64" : "32";
+        }
+
+        /// <summary>
+        /// Get current operating system type
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">Linux Windows Macos</exception>
+        public static DependencySystem GetSystemType()
+        {
+            var platform = Environment.OSVersion.Platform;
+
+            return platform switch
+            {
+                PlatformID.MacOSX => DependencySystem.Mac,
+                PlatformID.Unix => DependencySystem.Linux,
+                PlatformID.Win32NT => DependencySystem.Windows,
+                PlatformID.Win32S => DependencySystem.Windows,
+                PlatformID.Win32Windows => DependencySystem.Windows,
+                PlatformID.WinCE => DependencySystem.Windows,
+                PlatformID.Xbox => throw new ArgumentOutOfRangeException(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }
