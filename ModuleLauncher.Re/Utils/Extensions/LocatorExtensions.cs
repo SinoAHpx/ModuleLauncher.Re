@@ -8,7 +8,7 @@ using ModuleLauncher.Re.Models.Locators.Minecraft;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
-    static class LocatorExtensions
+    internal static class LocatorExtensions
     {
         /// <summary>
         /// Extension GetLibraries method for MinecraftLocator via local minecraft id

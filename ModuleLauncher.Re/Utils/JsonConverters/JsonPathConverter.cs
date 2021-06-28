@@ -9,7 +9,7 @@ namespace ModuleLauncher.Re.Utils.JsonConverters
     /// Inherits from JsonConverter, copy from
     /// https://stackoverflow.com/questions/33088462/can-i-specify-a-path-in-an-attribute-to-map-a-property-in-my-class-to-a-child-pr
     /// </summary>
-    class JsonPathConverter : JsonConverter
+    internal class JsonPathConverter : JsonConverter
     {
         public override object ReadJson(JsonReader reader, Type objectType, 
             object existingValue, JsonSerializer serializer)

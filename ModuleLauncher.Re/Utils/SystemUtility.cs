@@ -10,7 +10,7 @@ namespace ModuleLauncher.Re.Utils
         /// An encapsulation of Environment.Is64BitOperatingSystem
         /// </summary>
         /// <returns>for 64-bit system, the return result will be the string "64", and the 32-bit system is "32" as same</returns>
-        public static string GetSystemBit()
+        internal static string GetSystemBit()
         {
             return Environment.Is64BitOperatingSystem ? "64" : "32";
         }
@@ -20,7 +20,7 @@ namespace ModuleLauncher.Re.Utils
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">Linux Windows Macos</exception>
-        public static DependencySystem GetSystemType()
+        internal static DependencySystem GetSystemType()
         {
             var platform = Environment.OSVersion.Platform;
 
@@ -37,7 +37,12 @@ namespace ModuleLauncher.Re.Utils
             };
         }
         
-        public static char GetSystemSeparator()
+        /// <summary>
+        /// Get directory separator char of current operating system
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        internal static char GetSystemSeparator()
         {
             var system = GetSystemType();
             

@@ -23,7 +23,7 @@ namespace ModuleLauncher.Test
         //java executable file: 
         static async Task Main(string[] args)
         {
-            const string root = @"/home/ahpx/.minecraft";
+            const string root = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
             const string ver = "fabric-loader-0.11.6-1.15.2";
 
             try
@@ -58,7 +58,7 @@ namespace ModuleLauncher.Test
             
             var launcher = new Launcher(root)
             {
-                Java = "/home/ahpx/.minecraft/runtime/jre-legacy/linux/jre-legacy/bin/java",
+                Java = @"C:\Program Files\Java\jre1.8.0_291\bin\javaw.exe",
                 Authentication = "AHpx"
             };
 

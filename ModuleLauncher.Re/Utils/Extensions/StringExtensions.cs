@@ -10,14 +10,14 @@ using Newtonsoft.Json.Linq;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         /// <summary>
         /// A string extension method that equals to string.IsNullOrEmpty()
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty(this string s)
+        internal static bool IsNullOrEmpty(this string s)
         {
             return string.IsNullOrEmpty(s);
         }
@@ -29,7 +29,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="rawName">e.g. commons-codec:commons-codec:1.9 or bdf48ef6b5d0d23bbb02e17d04865216179f510a</param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string GetRelativeUrl(this IDependenciesLocator locator, string rawName, string separator = "/")
+        internal static string GetRelativeUrl(this IDependenciesLocator locator, string rawName, string separator = "/")
         {
             if (locator is LibrariesLocator librariesLocator)
             {
@@ -52,7 +52,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static string GetFileName(this string s)
+        internal static string GetFileName(this string s)
         {
             return Path.GetFileName(s);
         }
@@ -62,7 +62,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="system"></param>
         /// <returns></returns>
-        public static string GetDependencySystemString(this DependencySystem system)
+        internal static string GetDependencySystemString(this DependencySystem system)
         {
             //stackoverflow oriented programming
             //https://stackoverflow.com/questions/630803/associating-enums-with-strings-in-c-sharp
@@ -81,7 +81,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="token"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public static string AppendNative(this IDependenciesLocator locator,  JToken token)
+        internal static string AppendNative(this IDependenciesLocator locator,  JToken token)
         {
             var rawName = token.Fetch("name") ??
                           throw new JsonException($"{token} is a unknown minecraft json format!");
@@ -100,7 +100,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="origin"></param>
         /// <returns></returns>
-        public static string BuildPath(this string origin)
+        internal static string BuildPath(this string origin)
         {
             return origin.Replace("/", SystemUtility.GetSystemSeparator().ToString());
         }

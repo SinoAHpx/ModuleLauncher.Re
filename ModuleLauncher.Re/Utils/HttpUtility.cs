@@ -11,7 +11,7 @@ namespace ModuleLauncher.Re.Utils
     /// <summary>
     /// Http related tools
     /// </summary>
-    public static class HttpUtility
+    internal static class HttpUtility
     {
         /// <summary>
         /// Post json content to specify url with custom content type(optional)
@@ -20,7 +20,7 @@ namespace ModuleLauncher.Re.Utils
         /// <param name="json"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PostJson(string url, string json, string contentType = "application/json")
+        internal static async Task<HttpResponseMessage> PostJson(string url, string json, string contentType = "application/json")
         {
             var client = new HttpClient();
             var content = new StringContent(json, Encoding.Default, contentType);
@@ -37,7 +37,7 @@ namespace ModuleLauncher.Re.Utils
         /// <param name="authorization"></param>
         /// <param name="scheme"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> Get(string url, string authorization = null, string scheme = "Bearer")
+        internal static async Task<HttpResponseMessage> Get(string url, string authorization = null, string scheme = "Bearer")
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, authorization);
@@ -53,7 +53,7 @@ namespace ModuleLauncher.Re.Utils
         /// <param name="url"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> Get(string url, string contentType)
+        internal static async Task<HttpResponseMessage> Get(string url, string contentType)
         {
             var client = new HttpClient();
       

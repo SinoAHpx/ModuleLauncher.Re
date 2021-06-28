@@ -27,7 +27,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="json"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T ToJsonEntity<T>(this string json)
+        internal static T ToJsonEntity<T>(this string json)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="jObject"></param>
         /// <param name="path">xxx or xxx.xxx.xx</param>
         /// <returns></returns>
-        public static string Fetch(this JToken jObject, string path)
+        internal static string Fetch(this JToken jObject, string path)
         {
             return jObject.SelectToken(path)?.ToString();
         }
@@ -59,7 +59,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="json"></param>
         /// <param name="path">xxx or xxx.xxx.xxx</param>
         /// <returns>return a JToken</returns>
-        public static JToken Fetch(this string json, string path)
+        internal static JToken Fetch(this string json, string path)
         {
             return json.ToJObject().SelectToken(path);
         }
@@ -70,7 +70,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="token"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static bool IsPathExist(this JToken token, string key)
+        internal static bool IsPathExist(this JToken token, string key)
         {
             if (token is JObject jObject)
             {
@@ -85,7 +85,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static JObject ToJObject(this string json)
+        internal static JObject ToJObject(this string json)
         {
             return JObject.Parse(json);
         }
@@ -95,7 +95,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static JArray ToJArray(this string json)
+        internal static JArray ToJArray(this string json)
         {
             return JArray.Parse(json);
         }
@@ -107,7 +107,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="token">mc.Raw.Arguments</param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public static string ToNormalArguments(this JToken token)
+        internal static string ToNormalArguments(this JToken token)
         {
             var game = token["game"] ?? throw new JsonException($"Invalid json: {token}");
             var array = game.ToObject<JArray>();

@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 
 namespace ModuleLauncher.Re.Utils.Extensions
 {
-    public static class IOExtensions
+    internal static class IOExtensions
     {
         /// <summary>
         /// Convert a directory path string to DirectoryInfo
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static DirectoryInfo ToDirectoryInfo(this string s)
+        internal static DirectoryInfo ToDirectoryInfo(this string s)
         {
             return new DirectoryInfo(s);
         }
@@ -19,7 +19,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// Convert a file path string to FileInfo
         /// </summary>
         /// <returns></returns>
-        public static FileInfo ToFileInfo(this string s)
+        internal static FileInfo ToFileInfo(this string s)
         {
             return new FileInfo(s);
         }
@@ -30,7 +30,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="info"></param>
         /// <param name="sub">e.g. versions (without any slash)</param>
         /// <returns></returns>
-        public static DirectoryInfo ToSubDirectoryInfo(this DirectoryInfo info, string sub)
+        internal static DirectoryInfo ToSubDirectoryInfo(this DirectoryInfo info, string sub)
         {
             var separator = SystemUtility.GetSystemSeparator();
             
@@ -49,7 +49,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// <param name="info"></param>
         /// <param name="sub"></param>
         /// <returns></returns>
-        public static FileInfo GetSubFileInfo(this DirectoryInfo info, string sub)
+        internal static FileInfo GetSubFileInfo(this DirectoryInfo info, string sub)
         {
             var separator = SystemUtility.GetSystemSeparator();
             
@@ -67,7 +67,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="info"></param>
         /// <param name="content"></param>
-        public static async Task WriteAllText(this FileInfo info, string content)
+        internal static async Task WriteAllText(this FileInfo info, string content)
         {
             await File.WriteAllTextAsync(info.FullName, content);
         }
@@ -77,7 +77,7 @@ namespace ModuleLauncher.Re.Utils.Extensions
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static async Task<string> ReadAllText(this FileInfo info)
+        internal static async Task<string> ReadAllText(this FileInfo info)
         {
             return await File.ReadAllTextAsync(info.FullName);
         }
