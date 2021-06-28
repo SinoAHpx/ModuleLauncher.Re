@@ -46,7 +46,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             
             foreach (var token in libraries)
             {
-                if (!IsAddableDependency(token)) continue;
+                if (!IsAddableDependency(token, SystemUtility.GetSystemType())) continue;
                 if (!(token is JObject jo)) continue;
                 if (IsNativeDependency(token)) continue;
 
@@ -54,7 +54,8 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                               throw new JsonException($"{jo} is a unknown minecraft json format!");
 
                 var relativeUrl = this.GetRelativeUrl(rawName);
-                var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
+                
+                var localFile = $"{mc.Locality.Libraries}/{relativeUrl}".BuildPath();
 
                 var dependency = new Dependency
                 {
@@ -105,12 +106,12 @@ namespace ModuleLauncher.Re.Locators.Dependencies
             
             foreach (var token in libraries)
             {
-                if (!IsAddableDependency(token)) continue;
+                if (!IsAddableDependency(token, SystemUtility.GetSystemType())) continue;
                 if (!(token is JObject jo)) continue;
                 if (!IsNativeDependency(token)) continue;
 
                 var relativeUrl = this.AppendNative(jo);
-                var localFile = $"{mc.Locality.Libraries}\\{relativeUrl.Replace()}";
+                var localFile = $"{mc.Locality.Libraries}/{relativeUrl}".BuildPath();
 
                 var dependency = new Dependency
                 {
@@ -166,7 +167,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
         /// <param name="system"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        private bool IsAddableDependency(JToken json, DependencySystem system = DependencySystem.Windows)
+        private bool IsAddableDependency(JToken json, DependencySystem system)
         {
             if (json is JObject jo)
             {

@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Models.Authenticators;
+using ModuleLauncher.Re.Models.Locators.Dependencies;
+using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
 
 namespace ModuleLauncher.Re.Launcher
@@ -88,8 +90,10 @@ namespace ModuleLauncher.Re.Launcher
             argument.Append($"-Djava.library.path=\"{mc.Locality.Natives}\" ");
             argument.Append($"-Xmx{MaximumMemorySize}M ");
             argument.Append(MinimumMemorySize != null ? $"-Xmn{MinimumMemorySize}M " : "");
+
+            var classPathSeparator = SystemUtility.GetSystemType() == DependencySystem.Windows ? ';' : ':';
             argument.Append(
-                $"-classpath \"{string.Join(';', (await _minecraftLocator.GetLibraries(id)).Select(x => x.File))};");
+                $"-classpath \"{string.Join(classPathSeparator, (await _minecraftLocator.GetLibraries(id)).Select(x => x.File))}{classPathSeparator}");
 
             if (mc.IsInherit())
             {
@@ -146,7 +150,7 @@ namespace ModuleLauncher.Re.Launcher
             minecraftArguments = minecraftArguments.Replace("${user_type}", "mojang");
             
             //handle legacy minecraft
-            minecraftArguments = minecraftArguments.Replace("${game_assets}", $"\"{mc.Locality.Assets.Parent}\\virtual\\legacy\"");
+            minecraftArguments = minecraftArguments.Replace("${game_assets}", $"\"{mc.Locality.Assets.Parent}/virtual/legacy\"".BuildPath());
             minecraftArguments = minecraftArguments.Replace("${auth_session}", $"\"{Authentication.AccessToken}\"");
             
             argument.Append($"{minecraftArguments} ");
@@ -202,6 +206,14 @@ namespace ModuleLauncher.Re.Launcher
         {
             var mc = await _minecraftLocator.GetLocalMinecraft(id);
             mc.Locality.Natives.Create();
+
+            var libSuffix = SystemUtility.GetSystemType() switch
+            {
+                DependencySystem.Windows => ".dll",
+                DependencySystem.Linux => ".so",
+                DependencySystem.Mac => ".dylib",
+                _ => throw new ArgumentOutOfRangeException()
+            };
             
             var natives = await _minecraftLocator.GetNatives(id);
             foreach (var dependency in natives)
@@ -210,7 +222,7 @@ namespace ModuleLauncher.Re.Launcher
                 
                 foreach (var entry in entries)
                 {
-                    if (entry.FullName.EndsWith("dll"))
+                    if (entry.FullName.EndsWith(libSuffix))
                     {
                         var file = mc.Locality.Natives.GetSubFileInfo(entry.FullName);
                         if (!file.Exists)

@@ -58,16 +58,6 @@ namespace ModuleLauncher.Re.Utils.Extensions
         }
 
         /// <summary>
-        /// string.Replace(newValue, oldValue)
-        /// The default is to replace / with \
-        /// </summary>
-        /// <returns></returns>
-        public static string Replace(this string s, string oldValue = "/", string newValue = "\\")
-        {
-            return s.Replace(oldValue, newValue);
-        }
-
-        /// <summary>
         /// Convert a enum to string via Description attribute
         /// </summary>
         /// <param name="system"></param>
@@ -96,13 +86,23 @@ namespace ModuleLauncher.Re.Utils.Extensions
             var rawName = token.Fetch("name") ??
                           throw new JsonException($"{token} is a unknown minecraft json format!");
             var rawNatives =
-                $"{rawName}-{token.Fetch("natives.windows").Replace("${arch}", SystemUtility.GetSystemBit())}";
+                $"{rawName}-{token.Fetch($"natives.{SystemUtility.GetSystemType().GetDependencySystemString()}").Replace("${arch}", SystemUtility.GetSystemBit())}";
             
             var appendedName = GetRelativeUrl(locator, rawNatives).GetFileName(); 
             
             var relativeUrl = GetRelativeUrl(locator, rawName);
 
             return relativeUrl.Replace(relativeUrl.GetFileName(), appendedName);
+        }
+
+        /// <summary>
+        /// Incoming demo: xx/xx/xx/xxx, automatically convert to right directory separator
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <returns></returns>
+        public static string BuildPath(this string origin)
+        {
+            return origin.Replace("/", SystemUtility.GetSystemSeparator().ToString());
         }
     }
 }

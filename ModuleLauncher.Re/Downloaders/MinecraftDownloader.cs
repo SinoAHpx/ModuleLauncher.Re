@@ -123,7 +123,7 @@ namespace ModuleLauncher.Re.Downloaders
         /// Download minecraft jar & json via specify id
         /// </summary>
         /// <param name="id"></param>
-        public async Task DownloadMinecraft(string id)
+        public async Task Download(string id)
         {
             var json = await FetchMinecraftJson(id);
             var mc = _locator.GetLocalVersion(id, true);

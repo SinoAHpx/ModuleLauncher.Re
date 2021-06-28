@@ -12,7 +12,7 @@ namespace ModuleLauncher.Test
             public string Password { get; set; }
         }
 
-        public static PWD GetPWD(string filePath = @"C:\Users\ahpx\Desktop\account.json")
+        public static PWD GetPWD(string filePath = "/home/ahpx/公共/CodeBase/account.json")
         {
             return JsonConvert.DeserializeObject<PWD>(File.ReadAllText(filePath));
         }

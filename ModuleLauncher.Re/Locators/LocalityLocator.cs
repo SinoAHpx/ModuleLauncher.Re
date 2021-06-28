@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ModuleLauncher.Re.Models.Locators;
+using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
 
 namespace ModuleLauncher.Re.Locators
@@ -12,14 +13,14 @@ namespace ModuleLauncher.Re.Locators
     /// </summary>
     public class LocalityLocator
     {
-        private string _locality = @".\.minecraft";
+        private string _locality = @$"./.minecraft".BuildPath();
 
         /// <summary>
         /// Specify .minecraft directory, default value is .\.minecraft
         /// </summary>
         public string Locality
         {
-            get => _locality ?? ".\\.minecraft";
+            get => _locality ?? $"./.minecraft".BuildPath();
             set
             {
                 if (!value.IsNullOrEmpty())
@@ -33,7 +34,7 @@ namespace ModuleLauncher.Re.Locators
                 }
                 else
                 {
-                    _locality = ".\\.minecraft";
+                    _locality = $"./.minecraft".BuildPath();
                 }
             }
         }
@@ -79,10 +80,10 @@ namespace ModuleLauncher.Re.Locators
                     ResourcesPacks = locality.ToSubDirectoryInfo("resourcepacks"),
                     TexturePacks = locality.ToSubDirectoryInfo("texturepacks"),
                     Libraries = locality.ToSubDirectoryInfo("libraries"),
-                    Assets = locality.ToSubDirectoryInfo("assets\\objects"),
-                    AssetsIndexes = locality.ToSubDirectoryInfo("assets\\indexes"),
-                    Jar = $"{info}\\{info.Name}.jar".ToFileInfo(),
-                    Json = $"{info}\\{info.Name}.json".ToFileInfo(),
+                    Assets = locality.ToSubDirectoryInfo($"assets/objects".BuildPath()),
+                    AssetsIndexes = locality.ToSubDirectoryInfo($"assets/indexes".BuildPath()),
+                    Jar = $"{info}/{info.Name}.jar".BuildPath().ToFileInfo(),
+                    Json = $"{info}/{info.Name}.json".BuildPath().ToFileInfo(),
                     Version = info,
                     Natives = info.ToSubDirectoryInfo("natives")
                 };
@@ -104,7 +105,7 @@ namespace ModuleLauncher.Re.Locators
             if (ignoreExisting)
             {
                 var locality = Locality.ToDirectoryInfo();
-                var info = locality.ToSubDirectoryInfo($"versions\\{name}");
+                var info = locality.ToSubDirectoryInfo($"versions{SystemUtility.GetSystemSeparator()}{name}");
                 
                 var version = new LocalVersion
                 {
@@ -115,10 +116,10 @@ namespace ModuleLauncher.Re.Locators
                     ResourcesPacks = locality.ToSubDirectoryInfo("resourcepacks"),
                     TexturePacks = locality.ToSubDirectoryInfo("texturepacks"),
                     Libraries = locality.ToSubDirectoryInfo("libraries"),
-                    Assets = locality.ToSubDirectoryInfo("assets\\objects"),
-                    AssetsIndexes = locality.ToSubDirectoryInfo("assets\\indexes"),
-                    Jar = $"{info}\\{info.Name}.jar".ToFileInfo(),
-                    Json = $"{info}\\{info.Name}.json".ToFileInfo(),
+                    Assets = locality.ToSubDirectoryInfo($"assets/objects".BuildPath()),
+                    AssetsIndexes = locality.ToSubDirectoryInfo($"assets/indexes".BuildPath()),
+                    Jar = $"{info}/{info.Name}.jar".BuildPath().ToFileInfo(),
+                    Json = $"{info}/{info.Name}.json".BuildPath().ToFileInfo(),
                     Version = info,
                     Natives = info.ToSubDirectoryInfo("natives")
                 };

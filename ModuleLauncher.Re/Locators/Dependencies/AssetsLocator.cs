@@ -87,7 +87,7 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 {
                     Name = hash,
                     RelativeUrl = url,
-                    File = mc.Locality.Assets.GetSubFileInfo(url.Replace())
+                    File = mc.Locality.Assets.GetSubFileInfo(url.BuildPath())
                 };
                 
                 re.Add(dependency);
