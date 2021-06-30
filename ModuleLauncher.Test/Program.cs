@@ -23,15 +23,16 @@ namespace ModuleLauncher.Test
         //java executable file: 
         static async Task Main(string[] args)
         {
-            const string root = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
-            const string ver = "1.15.2";
 
-            var librariesLocator = new LibrariesLocator(root);
-
-            foreach (var dependency in await librariesLocator.GetDependencies(ver))
-            {
-                Console.WriteLine(dependency.Name);
-            }
+            // const string root = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
+            // const string ver = "1.15.2";
+            //
+            // var librariesLocator = new LibrariesLocator(root);
+            //
+            // foreach (var dependency in await librariesLocator.GetDependencies(ver))
+            // {
+            //     Console.WriteLine(dependency.Name);
+            // }
             // try
             // {
             //     var minecraftDownloader = new MinecraftDownloader(root);

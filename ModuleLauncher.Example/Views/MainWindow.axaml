@@ -16,17 +16,18 @@
 
     <Grid>
         <TabControl>
-          <TabItem Header="Authenticators">
-              <views:AuthenticatorsView/>
-          </TabItem>
-          <TabItem Header="Locators">
-              <views:LocatorsView/>
-          </TabItem>
-          <TabItem Header="Launcher">
-              <views:LauncherView/>
-          </TabItem>
-            <TabItem Header="Downloaders" />
-            <TabItem Header="Utils" />
+            <TabItem Header="Authenticators">
+                <views:AuthenticatorsView />
+            </TabItem>
+            <TabItem Header="Locators">
+                <views:LocatorsView />
+            </TabItem>
+            <TabItem Header="Launcher">
+                <views:LauncherView />
+            </TabItem>
+            <TabItem Header="Downloaders">
+                <views:DownloadersView />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

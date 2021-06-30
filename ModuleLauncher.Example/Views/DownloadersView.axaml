@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:downloaders="clr-namespace:ModuleLauncher.Example.ViewModels.Downloaders"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ModuleLauncher.Example.Views.DownloadersView">
+    <Design.DataContext>
+        <downloaders:DownloadersViewModel />
+    </Design.DataContext>
+    <ScrollViewer>
+        <StackPanel>
+            <TabItem Header="Downloaders" IsSelected="True" />
+
+            <TextBlock Text="Minecraft root" Margin="10,5,10,5" />
+            <TextBox Text="{Binding Root}" Margin="10,5,10,5" />
+            <Button Command="{Binding Browser}" Content="Browser" Margin="10,5,10,5" HorizontalAlignment="Right" />
+
+            <TabItem IsSelected="True" Header="Minecraft Downloader" />
+
+            <ComboBox SelectedItem="{Binding SelectMc}" Items="{Binding Minecrafts}" Margin="10,5,10,5"
+                      HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Id}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5,10,5">
+                <Button Content="Get latest minecrafts" Command="{Binding GetLatest}" Margin="0,0,10,0" />
+                <Button Content="Get minecraft list" Command="{Binding GetMinecrafts}" Margin="0,0,10,0" />
+            </StackPanel>
+
+            <ComboBox Name="ComboBox_Source" Margin="10,5,10,5" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="Official" IsSelected="True" />
+                <ComboBoxItem Content="Bmclapi" />
+                <ComboBoxItem Content="Mcbbs" />
+            </ComboBox>
+
+            <DockPanel Margin="10,5,10,5">
+                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Content="DownloadMc"
+                        CommandParameter="{Binding SelectedItem, ElementName=ComboBox_Source}"
+                        Command="{Binding DownloadMc}" />
+
+                <ProgressBar Value="{Binding McDownloadProgress, Mode=TwoWay}" Maximum="100" Minimum="0"
+                             DockPanel.Dock="Left" Margin="0,0,10,0" />
+            </DockPanel>
+
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
