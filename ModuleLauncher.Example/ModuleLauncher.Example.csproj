@@ -30,5 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Locators\" />
+    <Folder Include="ViewModels\Launcher\" />
   </ItemGroup>
 </Project>

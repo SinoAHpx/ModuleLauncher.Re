@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:launcher="clr-namespace:ModuleLauncher.Example.ViewModels.Launcher"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ModuleLauncher.Example.Views.LauncherView">
+    <Design.DataContext>
+        <launcher:LauncherViewModel />
+    </Design.DataContext>
+    <ScrollViewer>
+        <StackPanel>
+            <TabItem IsSelected="True" Header="Launcher" />
+
+            <TextBlock Text="Minecraft root" Margin="10,5,10,5" />
+            <TextBox Text="{Binding Root}" Margin="10,5,10,5" />
+            <Button Command="{Binding Browser}" Content="Browser" Margin="10,5,10,5" HorizontalAlignment="Right" />
+
+            <TextBlock Text="Java executable file" Margin="10,5,10,5" />
+            <TextBox Text="{Binding Java}" Margin="10,5,10,5" />
+            <Button Command="{Binding BrowserJava}" Content="Browser" Margin="10,5,10,5" HorizontalAlignment="Right" />
+
+            <TextBlock Text="Launcher name" Margin="10,5,10,5" />
+            <TextBox Text="{Binding LauncherName}" Margin="10,5,10,5" />
+
+            <TextBlock Text="Maximum and minimum memory size" Margin="10,5,10,5" />
+            <Grid Margin="10,5,10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox Watermark="maximum" Text="{Binding MaxMemory}" Margin="0,0,5,0" />
+                <TextBox Watermark="minimum" Text="{Binding MinMemory}" Margin="5,0,0,0" Grid.Column="1" />
+            </Grid>
+
+            <TextBlock Text="Player name" Margin="10,5,10,5" />
+            <TextBox Text="{Binding PlayerName}" Margin="10,5,10,5" />
+
+            <TextBlock Text="Minecraft windows height and width" Margin="10,5,10,5" />
+            <Grid Margin="10,5,10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox Watermark="height" Text="{Binding MinecraftHeight}" Margin="0,0,5,0" />
+                <TextBox Watermark="width" Text="{Binding MinecraftWidth}" Margin="5,0,0,0" Grid.Column="1" />
+            </Grid>
+
+            <CheckBox Margin="10,5,10,5" IsChecked="{Binding Fullscreen}" HorizontalAlignment="Right" Content="Fullscreen" />
+
+            <TextBlock Text="Minecraft list" Margin="10,5,10,5" />
+            <ComboBox SelectedItem="{Binding SelectMc}" Items="{Binding Minecrafts}" Margin="10,5,10,5" HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Raw.Id}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <DockPanel Margin="10,5,10,5">
+                <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left" Text="{Binding Output}" MaxWidth="800" />
+
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Get minecraft list" Command="{Binding GetMinecraftList}" Margin="10,0,10,0" />
+                    <Button Content="Launch" Command="{Binding Launch}" />
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
