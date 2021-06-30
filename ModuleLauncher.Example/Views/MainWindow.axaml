@@ -19,7 +19,9 @@
           <TabItem Header="Authenticators">
               <views:AuthenticatorsView/>
           </TabItem>
-            <TabItem Header="Locators" />
+          <TabItem Header="Locators">
+              <views:LocatorsView/>
+          </TabItem>
             <TabItem Header="Launcher" />
             <TabItem Header="Downloaders" />
             <TabItem Header="Utils" />
