@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using ModuleLauncher.Example.Extensions;
 using ModuleLauncher.Re.Downloaders;
+using ModuleLauncher.Re.Locators.Concretes;
+using ModuleLauncher.Re.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Downloaders;
 using ModuleLauncher.Re.Models.Downloaders.Minecraft;
 using ModuleLauncher.Re.Utils.Extensions;
@@ -25,6 +29,7 @@ namespace ModuleLauncher.Example.ViewModels.Downloaders
             get => _root;
             set => this.RaiseAndSetIfChanged(ref _root, value);
         }
+
         public async void Browser()
         {
             var dialog = new OpenFolderDialog
@@ -40,7 +45,7 @@ namespace ModuleLauncher.Example.ViewModels.Downloaders
 
         #region Minecrafts
 
-        public ObservableCollection<MinecraftDownloadItem> Minecrafts { get; set; } = new ();
+        public ObservableCollection<MinecraftDownloadItem> Minecrafts { get; set; } = new();
 
         private MinecraftDownloadItem _selectMc;
 
@@ -84,7 +89,7 @@ namespace ModuleLauncher.Example.ViewModels.Downloaders
 
         #endregion
 
-        #region Downloads
+        #region Downloads miencraft
 
         private double _mcDownloadProgress;
 
@@ -109,10 +114,7 @@ namespace ModuleLauncher.Example.ViewModels.Downloaders
                     }
                 };
 
-                downloader.DownloadProgressChanged += args =>
-                {
-                    McDownloadProgress = args.ProgressPercentage;
-                };
+                downloader.DownloadProgressChanged += args => { McDownloadProgress = args.ProgressPercentage; };
 
                 downloader.DownloadCompleted += async args =>
                 {
@@ -125,6 +127,91 @@ namespace ModuleLauncher.Example.ViewModels.Downloaders
                 };
 
                 await downloader.Download(SelectMc.Id);
+            }
+            catch (Exception e)
+            {
+                await MessageBoxEx.Show(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region Download libraries
+
+        public ObservableCollection<LibrariesDownloaderItemViewModel> Libraries { get; set; } = new();
+
+        public async void GetLibraries()
+        {
+            try
+            {
+                Libraries.Clear();
+
+                var minecraftLocator = new MinecraftLocator(Root);
+                var librariesLocator = new LibrariesLocator(minecraftLocator);
+
+                if (!(await minecraftLocator.GetLocalMinecraft(SelectMc.Id)).Locality.Jar.Exists)
+                {
+                    await MessageBoxEx.Show($"Please download {SelectMc.Id} first!");
+                }
+
+                var dependencies = await librariesLocator.GetDependencies(SelectMc.Id);
+
+                foreach (var dependency in dependencies)
+                {
+                    Libraries.Add(new()
+                    {
+                        Library = dependency
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                await MessageBoxEx.Show(e.Message);
+            }
+            
+        }
+
+        public async void DownloadLibraries(string downloadSource)
+        {
+            try
+            {
+                var dependencies = new List<LibrariesDownloaderItemViewModel>(Libraries);
+
+
+                foreach (var libs in dependencies.Batch(5))
+                {
+                    var tasks = new List<Task>();
+
+                    foreach (var lib in libs)
+                    {
+                        var librariesDownloader = new DependenciesDownloader
+                        {
+                            Source = downloadSource switch
+                            {
+                                "Official" => DownloaderSource.Mojang,
+                                "Bmclapi" => DownloaderSource.Bmclapi,
+                                "Mcbbs" => DownloaderSource.Mcbbs,
+                                _ => DownloaderSource.Mojang
+                            }
+                        };
+
+                        librariesDownloader.DownloadProgressChanged += args =>
+                        {
+                            lib.Progress = args.ProgressPercentage;
+                        };
+
+                        librariesDownloader.DownloadCompleted += args =>
+                        {
+                            Libraries.Remove(lib);
+                        };
+
+                        tasks.Add(librariesDownloader.Download(lib.Library));
+                    }
+
+                    await Task.WhenAll(tasks);
+                }
+
+                await MessageBoxEx.Show("Download complete!");
             }
             catch (Exception e)
             {

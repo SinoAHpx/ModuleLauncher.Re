@@ -22,8 +22,14 @@ namespace ModuleLauncher.Re.Downloaders
             Dependencies = dependencies;
         }
 
+        public DependenciesDownloader()
+        {
+        }
+
         public async Task Download(int parallelCount = 5)
         {
+            Files.Clear();
+
             foreach (var dependency in Dependencies)
             {
                 var url = GetDownloadUrl(dependency);
@@ -35,6 +41,20 @@ namespace ModuleLauncher.Re.Downloaders
             }
 
             await base.DownloadParallel(parallelCount); 
+        }
+
+        public async Task Download(Dependency dependency)
+        {
+            Files.Clear();
+
+            var url = GetDownloadUrl(dependency);
+
+            if (!dependency.File.Exists)
+            {
+                Files.Add((url, dependency.File));
+            }
+
+            await base.Download();
         }
 
         private string GetDownloadUrl(Dependency dependency)

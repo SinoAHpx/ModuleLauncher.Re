@@ -24,6 +24,19 @@ namespace ModuleLauncher.Test
         static async Task Main(string[] args)
         {
 
+            var list1 = new List<string>()
+            {
+                "aa",
+                "bb",
+                "cc"
+            };
+
+            var list2 = new List<string>(list1);
+
+            list2.Add("dd");
+
+            list1.ForEach(Console.WriteLine);
+
             // const string root = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
             // const string ver = "1.15.2";
             //

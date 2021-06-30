@@ -31,6 +31,5 @@
   <ItemGroup>
     <Folder Include="Models\Locators\" />
     <Folder Include="ViewModels\Launcher\" />
-    <Folder Include="ViewModels\Downloaders\" />
   </ItemGroup>
 </Project>
