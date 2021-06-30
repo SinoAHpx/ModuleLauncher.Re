@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Avalonia.Controls;
 using ModuleLauncher.Example.Extensions;
 using ModuleLauncher.Re.Locators.Concretes;
+using ModuleLauncher.Re.Locators.Dependencies;
+using ModuleLauncher.Re.Models.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
 using MoreLinq;
 using ReactiveUI;
@@ -65,6 +69,17 @@ namespace ModuleLauncher.Example.ViewModels.Locators
                                     $"\r\nArguments: {(string.IsNullOrEmpty(args) ? SelectedMc.Raw.MinecraftArguments : args)}" +
                                     $"\r\nInherit from: {SelectedMc.Raw.InheritsFrom}" +
                                     $"\r\n{locality}");
+        }
+
+        public ObservableCollection<Dependency> Libraries { get; set; } = new();
+
+        public async void GetLibraries()
+        {
+            var lc = new LibrariesLocator(Root);
+
+            var re = await lc.GetDependencies(SelectedMc?.Raw.Id);
+
+            re.ForEach(x => Libraries.Add(x));
         }
     }
 }

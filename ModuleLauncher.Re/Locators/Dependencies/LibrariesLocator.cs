@@ -68,12 +68,12 @@ namespace ModuleLauncher.Re.Locators.Dependencies
                 re.Add(dependency);
             }
             
-            if (!mc.Raw.InheritsFrom.IsNullOrEmpty())
+            if (mc.IsInherit())
             {
                 try
                 {
-                    var inheritFrom = await _locator.GetLocalMinecraft(mc.Raw.InheritsFrom);
-                    var dependencies = await GetDependencies(inheritFrom, excludeNatives);
+                    var inheritFrom = await mc.GetInherit();
+                    var dependencies = await GetDependencies(inheritFrom, true);
                 
                     re.AddRange(dependencies);
                 }
