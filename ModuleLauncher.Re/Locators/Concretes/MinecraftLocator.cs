@@ -85,7 +85,7 @@ namespace ModuleLauncher.Re.Locators.Concretes
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        internal Minecraft GetLocalMinecraft(JToken json)
+        public Minecraft GetLocalMinecraft(JToken json)
         {
             if (json is JObject jo)
             {
