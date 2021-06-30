@@ -41,5 +41,15 @@
         <Button Command="{Binding GetLibraries}" Margin="10,5,10,5" Content="Get libraries"
                 HorizontalAlignment="Right" />
 
+        <TextBlock Text="Assets" Margin="10,5,10,5" />
+        <ListBox MaxHeight="500" Items="{Binding Assets}" Margin="10,5,10,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeUrl}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Command="{Binding GetAssets}" Margin="10,5,10,5" Content="Get assets"
+                HorizontalAlignment="Right" />
     </StackPanel>
 </UserControl>
