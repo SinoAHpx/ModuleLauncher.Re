@@ -25,7 +25,7 @@ namespace ModuleLauncher.Re.Utils
 
         internal Action<DownloadProgressChangedEventArgs> DownloadProgressChanged { get; set; }
 
-        public Action<Exception, int> OnRetry { get; set; }
+        internal Action<Exception, int> OnRetry { get; set; }
 
         internal (string url, FileInfo file) DownloadInfo { get; set; }
 
