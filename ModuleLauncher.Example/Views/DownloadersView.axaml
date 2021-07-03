@@ -55,7 +55,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBlock Text="{Binding Library.Name}" Margin="0,0,0,10" />
+                            <TextBlock Text="{Binding Dependency.Name}" Margin="0,0,0,10" />
                             <ProgressBar Width="400" Maximum="100" Minimum="0" Value="{Binding Progress}" />
                         </StackPanel>
                     </DataTemplate>
@@ -65,6 +65,23 @@
             <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding GetLibraries}" Content="Get libraries" Margin="0,0,10,0" />
                 <Button Command="{Binding DownloadLibraries}" CommandParameter="{Binding SelectItem, ElementName=ComboBox_Source}" Content="Download libraries" />
+            </StackPanel>
+            
+            <TabItem Header="Assets Downloader" IsSelected="True" />
+            <ListBox MaxHeight="300" Items="{Binding Assets}" Margin="10,5,10,5">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Dependency.Name}" Margin="0,0,0,10" />
+                            <ProgressBar Width="400" Maximum="100" Minimum="0" Value="{Binding Progress}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="{Binding GetAssets}" Content="Get aseets" Margin="0,0,10,0" />
+                <Button Command="{Binding DownloadAssets}" CommandParameter="{Binding SelectItem, ElementName=ComboBox_Source}" Content="Download aseets" />
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

@@ -15,23 +15,23 @@ namespace ModuleLauncher.Re.Utils
     /// <summary>
     /// Download utilities
     /// </summary>
-    internal class DownloadUtility
+    public class DownloadUtility
     {
         private readonly string UserAgent = $"ModuleLauncher.Re/{SystemUtility.GetAssemblyVersion()}";
         
-        internal Action<DownloadStartedEventArgs> DownloadStarted { get; set; }
+        public Action<DownloadStartedEventArgs> DownloadStarted { get; set; }
 
-        internal Action<AsyncCompletedEventArgs> DownloadCompleted { get; set; }
+        public Action<AsyncCompletedEventArgs> DownloadCompleted { get; set; }
 
-        internal Action<DownloadProgressChangedEventArgs> DownloadProgressChanged { get; set; }
+        public Action<DownloadProgressChangedEventArgs> DownloadProgressChanged { get; set; }
 
-        internal Action<Exception, int> OnRetry { get; set; }
+        public Action<Exception, int> OnRetry { get; set; }
 
-        internal (string url, FileInfo file) DownloadInfo { get; set; }
+        public (string url, FileInfo file) DownloadInfo { get; set; }
 
         private DownloadService _service;
 
-        internal async Task Download()
+        public async Task Download()
         {
             var configuration = new DownloadConfiguration
             {

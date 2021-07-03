@@ -28,6 +28,13 @@ namespace ModuleLauncher.Re.Downloaders
             }
         }
 
+        public async Task Download(Dependency dependency, bool ignoreExist = false)
+        {
+            var url = GetDownloadUrl(dependency);
+
+            await base.Download((url, dependency.File), ignoreExist);
+        }
+
         internal async Task DownloadParallel(IEnumerable<Dependency> dependencies, bool ignoreExist = false, int maxParallel = 5)
         {
             var files = dependencies.Select(x => (GetDownloadUrl(x), x.File));

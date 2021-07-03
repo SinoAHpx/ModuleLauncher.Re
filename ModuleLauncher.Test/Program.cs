@@ -25,20 +25,40 @@ namespace ModuleLauncher.Test
         //java executable file: 
         static async Task Main(string[] args)
         {
-            var downloader = new AssetsDownloader(@"C:\Users\ahpx\Desktop\MCD\.minecraft")
-            {
-                Source = DownloaderSource.Bmclapi
-            };
-            
-            // downloader.DownloadStarted += DownloadStarted;
-            downloader.DownloadCompleted += DownloadCompleted;
-            // downloader.DownloadProgressChanged += DownloadProgressChanged;
-            downloader.OnRetry += (exception, i) =>
-            {
-                Console.WriteLine($"Exception occured: {exception.Message}, this is the {i} times of retry");
-            };
+            var r = 0;
 
-            await downloader.DownloadParallel("1.8.9", false, 8);
+            var action = new Action<int>(Console.WriteLine);
+
+            var tasks = new List<Task>();
+            foreach (var i in Enumerable.Range(1, 10))
+            {
+                var downloader = new DownloadUtility
+                {
+                    DownloadInfo = ("https://bmclapi2.bangbang93.com/version/1.8.9/client",
+                        new FileInfo(@$"C:\Users\ahpx\Desktop\MCD\file_{i}"))
+                };
+
+                downloader.DownloadCompleted += DownloadCompleted;
+
+                tasks.Add(downloader.Download());
+            }
+
+            await Task.WhenAll(tasks);
+
+            // var downloader = new AssetsDownloader(@"C:\Users\ahpx\Desktop\MCD\.minecraft")
+            // {
+            //     Source = DownloaderSource.Bmclapi
+            // };
+            //
+            // // downloader.DownloadStarted += DownloadStarted;
+            // downloader.DownloadCompleted += DownloadCompleted;
+            // // downloader.DownloadProgressChanged += DownloadProgressChanged;
+            // downloader.OnRetry += (exception, i) =>
+            // {
+            //     Console.WriteLine($"Exception occured: {exception.Message}, this is the {i} times of retry");
+            // };
+            //
+            // await downloader.DownloadParallel("1.8.9", false, 8);
         }
 
         private static void DownloadStarted(DownloadStartedEventArgs e)
