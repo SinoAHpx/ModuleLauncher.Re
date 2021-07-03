@@ -46,9 +46,14 @@ namespace ModuleLauncher.Re.Utils
 
             var policy = Policy
                 .Handle<Exception>()
-                .RetryAsync(3, (exception, i) =>
+                .WaitAndRetryAsync(new[]
                 {
-                    OnRetry?.Invoke(exception, i);
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(3),
+                    TimeSpan.FromSeconds(5),
+                }, (exception, time, count, _) =>
+                {
+                    OnRetry?.Invoke(exception, count);
                 });
 
             try

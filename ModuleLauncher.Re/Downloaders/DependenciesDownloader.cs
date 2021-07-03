@@ -13,7 +13,7 @@ namespace ModuleLauncher.Re.Downloaders
 {
     public class DependenciesDownloader : DownloaderBase
     {
-        internal DownloaderSource Source { get; set; }
+        public DownloaderSource Source { get; set; } = DownloaderSource.Official;
 
         /// <summary>
         /// Download dependency one-by-one

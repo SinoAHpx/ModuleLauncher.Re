@@ -25,13 +25,20 @@ namespace ModuleLauncher.Test
         //java executable file: 
         static async Task Main(string[] args)
         {
-            var downloader = new LibrariesDownloader(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
-
-            downloader.DownloadStarted += DownloadStarted;
+            var downloader = new AssetsDownloader(@"C:\Users\ahpx\Desktop\MCD\.minecraft")
+            {
+                Source = DownloaderSource.Bmclapi
+            };
+            
+            // downloader.DownloadStarted += DownloadStarted;
             downloader.DownloadCompleted += DownloadCompleted;
-            downloader.DownloadProgressChanged += DownloadProgressChanged;
+            // downloader.DownloadProgressChanged += DownloadProgressChanged;
+            downloader.OnRetry += (exception, i) =>
+            {
+                Console.WriteLine($"Exception occured: {exception.Message}, this is the {i} times of retry");
+            };
 
-            await downloader.DownloadParallel("1.16.5", false);
+            await downloader.DownloadParallel("1.8.9", false, 8);
         }
 
         private static void DownloadStarted(DownloadStartedEventArgs e)
