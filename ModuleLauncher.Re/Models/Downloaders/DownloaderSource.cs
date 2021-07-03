@@ -2,7 +2,7 @@
 {
     public enum DownloaderSource
     {
-        Mojang,
+        Official,
         Bmclapi,
         Mcbbs
     }
