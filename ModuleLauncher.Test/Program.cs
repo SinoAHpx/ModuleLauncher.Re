@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Downloader;
 using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Downloaders;
+using ModuleLauncher.Re.Downloaders.Concrete;
 using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Locators;
 using ModuleLauncher.Re.Locators.Concretes;
@@ -24,7 +25,13 @@ namespace ModuleLauncher.Test
         //java executable file: 
         static async Task Main(string[] args)
         {
-            
+            var downloader = new LibrariesDownloader(@"C:\Users\ahpx\Desktop\MCD\.minecraft");
+
+            downloader.DownloadStarted += DownloadStarted;
+            downloader.DownloadCompleted += DownloadCompleted;
+            downloader.DownloadProgressChanged += DownloadProgressChanged;
+
+            await downloader.DownloadParallel("1.16.5", false);
         }
 
         private static void DownloadStarted(DownloadStartedEventArgs e)
