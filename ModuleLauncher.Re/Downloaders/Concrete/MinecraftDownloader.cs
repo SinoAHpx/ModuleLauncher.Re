@@ -4,16 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Locators;
-using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Models.Downloaders;
 using ModuleLauncher.Re.Models.Downloaders.Minecraft;
-using ModuleLauncher.Re.Models.Locators.Minecraft;
 using ModuleLauncher.Re.Utils;
 using ModuleLauncher.Re.Utils.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ModuleLauncher.Re.Downloaders
+namespace ModuleLauncher.Re.Downloaders.Concrete
 {
     public class MinecraftDownloader : DownloaderBase
     {
@@ -21,9 +19,7 @@ namespace ModuleLauncher.Re.Downloaders
 
         private readonly LocalityLocator _locator;
 
-        protected override List<(string, FileInfo)> Files { get; set; } = new List<(string, FileInfo)>();
-
-        public DownloaderSource Source { get; set; } = DownloaderSource.Mojang;
+        public DownloaderSource Source { get; set; } = DownloaderSource.Official;
 
         private const string ManifestUrl = "http://launchermeta.mojang.com/mc/game/version_manifest.json";
 
@@ -66,7 +62,7 @@ namespace ModuleLauncher.Re.Downloaders
         {
             return Source switch
             {
-                DownloaderSource.Mojang => raw.Fetch("downloads.client.url"),
+                DownloaderSource.Official => raw.Fetch("downloads.client.url"),
                 DownloaderSource.Bmclapi => $"https://bmclapi2.bangbang93.com/version/{raw.Fetch("id")}/client",
                 DownloaderSource.Mcbbs => $"https://download.mcbbs.net/version/{raw.Fetch("id")}/client",
                 _ => throw new ArgumentOutOfRangeException()
@@ -123,7 +119,8 @@ namespace ModuleLauncher.Re.Downloaders
         /// Download minecraft jar & json via specify id
         /// </summary>
         /// <param name="id"></param>
-        public async Task Download(string id)
+        /// <param name="ignoreExist"></param>
+        public async Task Download(string id, bool ignoreExist = false)
         {
             var json = await FetchMinecraftJson(id);
             var mc = _locator.GetLocalVersion(id, true);
@@ -142,12 +139,7 @@ namespace ModuleLauncher.Re.Downloaders
             
             //Start to download jar file
 
-            if (!mc.Jar.Exists)
-            {
-                Files.Add((url, mc.Jar));
-            
-                await base.Download();
-            }
+            await base.Download((url, mc.Jar), ignoreExist);
         }
     }
 }

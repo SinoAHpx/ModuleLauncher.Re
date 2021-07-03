@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Downloader;
+using ModuleLauncher.Re.Utils;
 using MoreLinq.Extensions;
 using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
@@ -18,92 +19,66 @@ namespace ModuleLauncher.Re.Downloaders
     /// </summary>
     public abstract class DownloaderBase
     {
-        /// <summary>
-        /// item1 is url, item2 is local file info
-        /// </summary>
-        protected abstract List<(string, FileInfo)> Files { get; set; }
-
         public Action<DownloadStartedEventArgs> DownloadStarted { get; set; }
 
         public Action<AsyncCompletedEventArgs> DownloadCompleted { get; set; }
 
         public Action<DownloadProgressChangedEventArgs> DownloadProgressChanged { get; set; }
-        
-        /// <summary>
-        /// Download files in collection one-by-one
-        /// </summary>
-        protected virtual async Task Download()
-        {
-            var configuration = new DownloadConfiguration();
-            
-            foreach (var (url, file) in Files)
-            {
-                var downloader = new DownloadService(configuration);
 
-                #region Invoking event handlers
-
-                downloader.DownloadStarted += (sender, args) =>
-                {
-                    DownloadStarted?.Invoke(args);
-                };
-                downloader.DownloadFileCompleted += (sender, args) =>
-                {
-                    DownloadCompleted?.Invoke(args);
-                };
-                downloader.DownloadProgressChanged += (sender, args) =>
-                {
-                    DownloadProgressChanged?.Invoke(args);
-                };
-
-                #endregion
-
-                await downloader.DownloadFileTaskAsync(url, file.FullName);
-            }
-        }
+        public Action<Exception, int> OnRetry { get; set; }
 
         /// <summary>
         /// Download single file
         /// </summary>
         /// <param name="file"></param>
-        private async Task Download((string, FileInfo) file)
+        /// <param name="ignoreExist"></param>
+        public async Task Download((string, FileInfo) file, bool ignoreExist = false)
         {
-            var configuration = new DownloadConfiguration();
+            if (file.Item2.Exists && !ignoreExist)
+                return;
             
-            var downloader = new DownloadService(configuration);
+            var downloader = new DownloadUtility
+            {
+                DownloadInfo = file
+            };
 
             #region Invoking event handlers
 
-            downloader.DownloadStarted += (sender, args) =>
+            downloader.DownloadStarted += args =>
             {
                 DownloadStarted?.Invoke(args);
             };
-            downloader.DownloadFileCompleted += (sender, args) =>
+            downloader.DownloadCompleted += args =>
             {
                 DownloadCompleted?.Invoke(args);
             };
-            downloader.DownloadProgressChanged += (sender, args) =>
+            downloader.DownloadProgressChanged += args =>
             {
                 DownloadProgressChanged?.Invoke(args);
+            };
+            downloader.OnRetry += (exception, i) =>
+            {
+                OnRetry?.Invoke(exception, i);
             };
 
             #endregion
 
-            var (url, fileInfo) = file;
-            
-            await downloader.DownloadFileTaskAsync(url, fileInfo.FullName);
+            await downloader.Download();
         }
 
         /// <summary>
         /// Parallel download files in colletion
         /// </summary>
+        /// <param name="files"></param>
+        /// <param name="ignoreExist"></param>
         /// <param name="count"></param>
-        protected virtual async Task DownloadParallel(int count = 5)
+        protected virtual async Task DownloadParallel(IEnumerable<(string, FileInfo)> files, bool ignoreExist = false, int count = 5)
         {
-            var subFiles = Files.Batch(count);
+            var subFiles = files.Batch(count);
 
             foreach (var tuples in subFiles)
             {
-                var tasks = tuples.Select(Download).ToList();
+                var tasks = tuples.Select(x => Download(x, ignoreExist)).ToList();
 
                 await Task.WhenAll(tasks);
             }

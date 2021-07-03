@@ -1,62 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ModuleLauncher.Re.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Downloaders;
 using ModuleLauncher.Re.Models.Locators.Dependencies;
 using ModuleLauncher.Re.Utils.Extensions;
+using MoreLinq;
 
 namespace ModuleLauncher.Re.Downloaders
 {
     public class DependenciesDownloader : DownloaderBase
     {
-        public IEnumerable<Dependency> Dependencies { get; set; }
+        internal DownloaderSource Source { get; set; }
 
-        public DownloaderSource Source { get; set; }
-        
-        protected override List<(string, FileInfo)> Files { get; set; } = new List<(string, FileInfo)>();
-
-        public DependenciesDownloader(IEnumerable<Dependency> dependencies)
+        /// <summary>
+        /// Download dependency one-by-one
+        /// </summary>
+        internal async Task Download(IEnumerable<Dependency> dependencies, bool ignoreExist = false)
         {
-            Dependencies = dependencies;
-        }
-
-        public DependenciesDownloader()
-        {
-        }
-
-        public async Task Download(int parallelCount = 5)
-        {
-            Files.Clear();
-
-            foreach (var dependency in Dependencies)
+            foreach (var dependency in dependencies)
             {
                 var url = GetDownloadUrl(dependency);
 
-                if (!dependency.File.Exists)
-                {
-                    Files.Add((url, dependency.File));
-                }
+                await base.Download((url, dependency.File), ignoreExist);
             }
-
-            await base.DownloadParallel(parallelCount); 
         }
 
-        public async Task Download(Dependency dependency)
+        internal async Task DownloadParallel(IEnumerable<Dependency> dependencies, bool ignoreExist = false, int maxParallel = 5)
         {
-            Files.Clear();
+            var files = dependencies.Select(x => (GetDownloadUrl(x), x.File));
 
-            var url = GetDownloadUrl(dependency);
-
-            if (!dependency.File.Exists)
-            {
-                Files.Add((url, dependency.File));
-            }
-
-            await base.Download();
+            await base.DownloadParallel(files,ignoreExist, maxParallel);
         }
 
+        /// <summary>
+        /// Get download link via dependency object
+        /// </summary>
+        /// <param name="dependency"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         private string GetDownloadUrl(Dependency dependency)
         {
             if (dependency.IsLibraryDependency())
@@ -95,7 +79,7 @@ namespace ModuleLauncher.Re.Downloaders
                 
                 return Source switch
                 {
-                    DownloaderSource.Mojang => url,
+                    DownloaderSource.Official => url,
                     DownloaderSource.Bmclapi => $"https://bmclapi2.bangbang93.com/maven/{dependency.RelativeUrl}",
                     DownloaderSource.Mcbbs => $"https://download.mcbbs.net/maven/{dependency.RelativeUrl}",
                     _ => throw new ArgumentOutOfRangeException()
@@ -104,7 +88,7 @@ namespace ModuleLauncher.Re.Downloaders
 
             return Source switch
             {
-                DownloaderSource.Mojang => $"http://resources.download.minecraft.net/{dependency.RelativeUrl}",
+                DownloaderSource.Official => $"http://resources.download.minecraft.net/{dependency.RelativeUrl}",
                 DownloaderSource.Bmclapi => $"https://bmclapi2.bangbang93.com/assets/{dependency.RelativeUrl}",
                 DownloaderSource.Mcbbs => $"https://download.mcbbs.net/{dependency.RelativeUrl}",
                 _ => throw new ArgumentOutOfRangeException()
