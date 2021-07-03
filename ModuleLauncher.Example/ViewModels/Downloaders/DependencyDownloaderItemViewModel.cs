@@ -3,9 +3,9 @@ using ReactiveUI;
 
 namespace ModuleLauncher.Example.ViewModels.Downloaders
 {
-    public class LibrariesDownloaderItemViewModel : ViewModelBase
+    public class DependencyDownloaderItemViewModel : ViewModelBase
     {
-        public Dependency Library { get; set; }
+        public Dependency Dependency { get; set; }
 
         private double _progress;
 

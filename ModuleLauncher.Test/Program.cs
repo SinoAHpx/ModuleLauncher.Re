@@ -25,20 +25,74 @@ namespace ModuleLauncher.Test
         //java executable file: 
         static async Task Main(string[] args)
         {
-            var downloader = new AssetsDownloader(@"C:\Users\ahpx\Desktop\MCD\.minecraft")
+            var root = @"C:\Users\ahpx\Desktop\Tester4Mod\.minecraft";
+            var ver = "1.8.9-forge1.8.9-11.15.1.2318-1.8.9";
+
+            // var mcd = new MinecraftDownloader(root)
+            // {
+            //     
+            // };
+            // mcd.DownloadCompleted += DownloadCompleted;
+            // mcd.DownloadStarted += DownloadStarted;
+            // mcd.DownloadProgressChanged += DownloadProgressChanged;
+            // mcd.OnRetry += OnRetry;
+            // await mcd.Download(ver);
+            
+            var downloader = new AssetsDownloader(root)
             {
-                Source = DownloaderSource.Bmclapi
+                
             };
             
-            // downloader.DownloadStarted += DownloadStarted;
-            downloader.DownloadCompleted += DownloadCompleted;
-            // downloader.DownloadProgressChanged += DownloadProgressChanged;
-            downloader.OnRetry += (exception, i) =>
+            var libd = new LibrariesDownloader(root)
             {
-                Console.WriteLine($"Exception occured: {exception.Message}, this is the {i} times of retry");
+                
+            };
+            
+            downloader.DownloadStarted += DownloadStarted;
+            downloader.DownloadCompleted += DownloadCompleted;
+            downloader.DownloadProgressChanged += DownloadProgressChanged;
+            downloader.OnRetry += OnRetry;
+            
+            libd.DownloadCompleted   += DownloadCompleted;
+            libd.DownloadStarted    += DownloadStarted;
+            libd.DownloadProgressChanged    += DownloadProgressChanged;
+            libd.OnRetry += OnRetry;
+            
+            await downloader.DownloadParallel(ver, false, 32);
+            await libd.DownloadParallel(ver, false, 8);
+            
+            // var ma = new MojangAuthenticator("AHpx@yandex.com", "ASDasdASD123,./");
+
+            var la = new Launcher(root)
+            {
+                Authentication = Guid.NewGuid().ToString("N"),
+                Java = @"C:\Program Files (x86)\Minecraft Launcher\runtime\jre-legacy\windows-x64\jre-legacy\bin\javaw.exe",
+                MaximumMemorySize = 4096
             };
 
-            await downloader.DownloadParallel("1.8.9", false, 8);
+            var process = await la.Launch(ver);
+            
+            process.Exited += (sender, eventArgs) =>
+            {
+                Console.WriteLine($"Process exited with code {process.ExitCode}");
+            };
+
+            while (!process.HasExited)
+            {
+                var output = await process.StandardOutput.ReadLineAsync();
+
+                if (!string.IsNullOrEmpty(output))
+                {
+                    Console.WriteLine(await process.StandardOutput.ReadLineAsync());
+                }
+            }
+            
+            // process.WaitForExit();
+        }
+
+        private static void OnRetry(Exception arg1, int arg2)
+        {
+            Console.WriteLine($"Exception occurred: {arg1.Message}, this is the {arg2} times of retry");
         }
 
         private static void DownloadStarted(DownloadStartedEventArgs e)

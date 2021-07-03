@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>3.0.0</PackageVersion>
+        <PackageVersion>3.1.0</PackageVersion>
         <Authors>AHpx</Authors>
         <Description>A cross-platform Minecraft launcher library</Description>
         <Copyright>© ️AHpx2021</Copyright>
