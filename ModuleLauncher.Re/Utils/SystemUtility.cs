@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using ModuleLauncher.Re.Models.Locators.Dependencies;
 
 namespace ModuleLauncher.Re.Utils
@@ -53,6 +55,18 @@ namespace ModuleLauncher.Re.Utils
                 DependencySystem.Mac => '/',
                 _ => throw new ArgumentOutOfRangeException(nameof(system), system, null)
             };
+        }
+
+        /// <summary>
+        /// Fetch the version of current executing assembly
+        /// </summary>
+        /// <returns></returns>
+        internal static string GetAssemblyVersion()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var info = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            return info.FileVersion;
         }
     }
 }
