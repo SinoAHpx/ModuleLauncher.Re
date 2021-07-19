@@ -15,20 +15,6 @@ namespace ModuleLauncher.Re.Authenticators
     /// </summary>
     public class MicrosoftAuthenticator : AuthenticatorBase
     {
-        [Obsolete("Please use Code property instead")]
-        public override string Account
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-        
-        [Obsolete("Please use Code property instead")]
-        public override string Password
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
         public string Code { get; set; }
 
         public MicrosoftAuthenticator(string code = null)

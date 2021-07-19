@@ -9,10 +9,7 @@ namespace ModuleLauncher.Re.Authenticators
         /// <summary>
         /// Your offline account name
         /// </summary>
-        public override string Account { get; set; }
-        
-        [Obsolete("You don't have to set password for a offline authenticator")]
-        public override string Password { get; set; }
+        public string Account { get; set; }
 
         public OfflineAuthenticator(string account = null)
         {

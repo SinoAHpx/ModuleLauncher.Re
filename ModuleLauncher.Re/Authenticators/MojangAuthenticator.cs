@@ -18,7 +18,7 @@ namespace ModuleLauncher.Re.Authenticators
         /// Mojang account for authenticate, can't be null
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
-        public override string Account
+        public string Account
         {
             get => _account ?? throw new ArgumentNullException($"{nameof(Account)} can't be null!");
             set => _account = value ?? throw new ArgumentNullException($"{nameof(Account)} can't be null!");
@@ -28,7 +28,7 @@ namespace ModuleLauncher.Re.Authenticators
         /// The password of the Mojang account, can't be null
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
-        public override string Password
+        public string Password
         {
             get => _password ?? throw new ArgumentNullException($"{nameof(Password)} can't be null!");
             set => _password = value ?? throw new ArgumentNullException($"{nameof(Password)} can't be null!");
@@ -37,7 +37,7 @@ namespace ModuleLauncher.Re.Authenticators
         /// <summary>
         /// Client identifier, if its value is null, a new Guid will be instead
         /// </summary>
-        public override string ClientToken
+        public string ClientToken
         {
             get => _clientToken ?? Guid.NewGuid().ToString("N");
             set => _clientToken = value ?? Guid.NewGuid().ToString("N");
@@ -100,7 +100,7 @@ namespace ModuleLauncher.Re.Authenticators
         /// <param name="accessToken"></param>
         /// <param name="clientToken">If its value is null, the ClientToken property of current object will be use</param>
         /// <returns></returns>
-        public override async Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null)
+        public async Task<AuthenticateResult> Refresh(string accessToken, string clientToken = null)
         {
             if (clientToken.IsNullOrEmpty())
             {
@@ -141,7 +141,7 @@ namespace ModuleLauncher.Re.Authenticators
         /// The Minecraft Launcher does send a clientToken to Validate</param>
         /// <param name="throwException">Throw exception when validate result is false</param>
         /// <returns></returns>
-        public override async Task<bool> Validate(string accessToken, string clientToken = null, bool throwException = false)
+        public async Task<bool> Validate(string accessToken, string clientToken = null, bool throwException = false)
         {
             var url = "https://authserver.mojang.com/validate";
             var payload = new
@@ -167,7 +167,7 @@ namespace ModuleLauncher.Re.Authenticators
         /// <summary>
         /// Invalidates accessTokens using an account's username and password.
         /// </summary>
-        public override async Task SignOut()
+        public async Task SignOut()
         {
             var url = "https://authserver.mojang.com/signout";
             var payload = new
@@ -179,7 +179,7 @@ namespace ModuleLauncher.Re.Authenticators
             await HttpUtility.PostJson(url, payload);
         }
 
-        public override async Task Invalidate(string accessToken, string clientToken)
+        public async Task Invalidate(string accessToken, string clientToken)
         {
             var url = "https://authserver.mojang.com/invalidate";
             var payload = new
