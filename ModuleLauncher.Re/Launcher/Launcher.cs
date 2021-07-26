@@ -22,7 +22,7 @@ namespace ModuleLauncher.Re.Launcher
         public string Java { get; set; }
 
         /// <summary>
-        /// You launcher name, optioanl
+        /// You launcher name, optional
         /// </summary>
         public string LauncherName { get; set; } = "ml.net";
 
@@ -36,7 +36,7 @@ namespace ModuleLauncher.Re.Launcher
         /// The unit is MB, you don't have to append a suffix,
         /// How much memory is allocated to jvm of minecraft at least, optional, default is null
         /// </summary>
-        public int? MinimumMemorySize { get; set; } = null;
+        public int? MinimumMemorySize { get; set; }
 
         /// <summary>
         /// AuthenticateResult object, could be implicit convert via string 
@@ -46,17 +46,17 @@ namespace ModuleLauncher.Re.Launcher
         /// <summary>
         /// Set the height of minecraft window, optional
         /// </summary>
-        public int? WindowHeight { get; set; } = null;
+        public int? WindowHeight { get; set; }
 
         /// <summary>
         /// Set the width of minecraft window, optional
         /// </summary>
-        public int? WindowWidth { get; set; } = null;
+        public int? WindowWidth { get; set; }
 
         /// <summary>
         /// Whether to play in fullscreen, optional
         /// </summary>
-        public bool? Fullscreen { get; set; } = null;
+        public bool? Fullscreen { get; set; }
 
         /// <summary>
         /// You can pass in a string directly
@@ -75,8 +75,52 @@ namespace ModuleLauncher.Re.Launcher
         public async Task<Process> Launch(string id)
         {
             var mc = await _minecraftLocator.GetLocalMinecraft(id);
+            var argument = FetchLaunchArgument(id);
+            var launcherProfilesFile = mc.Locality.Root.GetSubFileInfo("launcher_profiles.json");
 
+            //write launcher_profiles.json if it doesnt exist
+            if (!launcherProfilesFile.Exists)
+            {
+                await launcherProfilesFile.WriteAllText(new
+                {
+                    selectedProfile = "(Default)",
+                    profiles = new
+                    {
+                        Default = new
+                        {
+                            name = "(Default)"
+                        }
+                    },
+                    clientToken = Guid.NewGuid()
+                }.ToJsonString());
+            }
+            
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = Java,
+                    Arguments = argument.ToString(),
+                    WorkingDirectory = mc.Locality.Root.FullName,
+                    UseShellExecute = false,
+                    RedirectStandardInput = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                },
+                EnableRaisingEvents = true
+            };
+            
+            await ExtractNatives(id);
+
+            process.Start();
+            
+            return process;
+        }
+
+        public async Task<string> FetchLaunchArgument(string id)
+        {
             var argument = new StringBuilder();
+            var mc = await _minecraftLocator.GetLocalMinecraft(id);
 
             #region Jvm args
 
@@ -161,47 +205,9 @@ namespace ModuleLauncher.Re.Launcher
 
             #endregion
 
-            var launcherProfilesFile = mc.Locality.Root.GetSubFileInfo("launcher_profiles.json");
-
-            if (!launcherProfilesFile.Exists)
-            {
-                await launcherProfilesFile.WriteAllText(new
-                {
-                    selectedProfile = "(Default)",
-                    profiles = new
-                    {
-                        Default = new
-                        {
-                            name = "(Default)"
-                        }
-                    },
-                    clientToken = Guid.NewGuid()
-                }.ToJsonString());
-            }
-            
-
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = Java,
-                    Arguments = argument.ToString(),
-                    WorkingDirectory = mc.Locality.Root.FullName,
-                    UseShellExecute = false,
-                    RedirectStandardInput = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
-                },
-                EnableRaisingEvents = true
-            };
-            
-            await ExtractNatives(id);
-
-            process.Start();
-            
-            return process;
+            return argument.ToString();
         }
-
+        
         private async Task ExtractNatives(string id)
         {
             var mc = await _minecraftLocator.GetLocalMinecraft(id);

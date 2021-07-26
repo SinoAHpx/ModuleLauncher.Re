@@ -25,8 +25,8 @@ namespace ModuleLauncher.Test
         //java executable file: 
         static async Task Main(string[] args)
         {
-            var root = @"C:\Users\ahpx\Desktop\Tester4Mod\.minecraft";
-            var ver = "1.8.9-forge1.8.9-11.15.1.2318-1.8.9";
+            var root = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
+            var ver = "1.17.1-forge-37.0.8";
 
             // var mcd = new MinecraftDownloader(root)
             // {
@@ -60,13 +60,11 @@ namespace ModuleLauncher.Test
             
             await downloader.DownloadParallel(ver, false, 32);
             await libd.DownloadParallel(ver, false, 8);
-            
-            // var ma = new MojangAuthenticator("AHpx@yandex.com", "ASDasdASD123,./");
 
             var la = new Launcher(root)
             {
                 Authentication = Guid.NewGuid().ToString("N"),
-                Java = @"C:\Program Files (x86)\Minecraft Launcher\runtime\jre-legacy\windows-x64\jre-legacy\bin\javaw.exe",
+                Java = @"C:\Program Files (x86)\Minecraft Launcher\runtime\java-runtime-alpha\windows-x64\java-runtime-alpha\bin\javaw.exe",
                 MaximumMemorySize = 4096
             };
 
