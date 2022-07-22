@@ -7,4 +7,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
+      <PackageReference Include="Manganese" Version="1.2.1" />
+      <PackageReference Include="morelinq" Version="3.3.2" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
+      <PackageReference Include="Spectre.Console" Version="0.44.1-preview.0.29" />
+    </ItemGroup>
+
 </Project>

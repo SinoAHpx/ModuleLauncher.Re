@@ -1,3 +1,3 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using ModuleLauncher.NET.Runtime;
 
-Console.WriteLine("Hello, World!");
+await McDebuggingPack.DownloadAsync(@"C:\Users\ahpx\Desktop\Minecraft Debugging Pack");
