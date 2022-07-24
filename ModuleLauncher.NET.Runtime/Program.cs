@@ -1,5 +1,5 @@
 ﻿using Manganese.Array;
+using ModuleLauncher.NET.Models.Authentication;
 using ModuleLauncher.NET.Runtime;
 
-var lines = await LauncherProfileWriter.GeneratePrpfilesAsync();
-lines.Output();
+AuthenticateResult a = "w";
