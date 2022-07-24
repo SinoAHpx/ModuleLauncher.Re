@@ -1,3 +1,5 @@
-﻿using ModuleLauncher.NET.Runtime;
+﻿using Manganese.Array;
+using ModuleLauncher.NET.Runtime;
 
-Guid.NewGuid().ToString("N").Log();
+var lines = await LauncherProfileWriter.GeneratePrpfilesAsync();
+lines.Output();
