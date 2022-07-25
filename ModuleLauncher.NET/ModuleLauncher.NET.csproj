@@ -12,4 +12,8 @@
       <PackageReference Include="Manganese" Version="1.2.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Resource" />
+    </ItemGroup>
+
 </Project>

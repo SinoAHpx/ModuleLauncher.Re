@@ -34,9 +34,6 @@ public class MicrosoftAuthenticator
 
     #region Consts
 
-    private static readonly (string authorization_code, string refresh_token) GrantType = ("authorization_code",
-        "refresh_token");
-
     /// <summary>
     /// Microfost login url, this procedure needs to be done in browser/webview
     /// </summary>
@@ -58,14 +55,14 @@ public class MicrosoftAuthenticator
             {
                 client_id = ClientId,
                 code = Code,
-                grant_type = GrantType.authorization_code,
+                grant_type = "authorization_code",
                 redirect_uri = RedirectUrl,
             }
             : new
             {
                 client_id = ClientId,
                 refresh_token = token,
-                grant_type = GrantType.refresh_token,
+                grant_type = "refresh_token",
                 redirect_uri = RedirectUrl
             };
         
