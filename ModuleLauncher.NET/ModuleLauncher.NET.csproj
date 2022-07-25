@@ -7,4 +7,9 @@
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
+      <PackageReference Include="Manganese" Version="1.2.1" />
+    </ItemGroup>
+
 </Project>
