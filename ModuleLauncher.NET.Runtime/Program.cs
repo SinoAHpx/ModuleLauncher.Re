@@ -1,20 +1,26 @@
 ﻿using Flurl.Http;
 using Manganese.Text;
+using ModuleLauncher.NET.Authentication;
+using ModuleLauncher.NET.Models.Authentication;
 using ModuleLauncher.NET.Runtime;
+using ModuleLauncher.NET.Utilities;
+using Newtonsoft.Json.Linq;
+using Spectre.Console;
 
-//https://login.live.com/oauth20_authorize.srf?client_id=1b0c7f80-247c-4101-bdc9-a98c479471a4&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access
-Console.Write("Waiting for: ");
-var code = Console.ReadLine()!.SubstringBetween("code=", "&lc");
-Console.WriteLine($"Code is: {code}");
-
-var url = "https://login.live.com/oauth20_token.srf";
-var response = await url.PostUrlEncodedAsync(new
+var code = AnsiConsole.Ask<string>("What is your [red]code[/]? ");
+var authenticator = new MicrosoftAuthenticator
 {
-    grant_type = "authorization_code",
-    code,
-    client_id = Credentiality.ReadCredential<OAuthInfo>().ClientId,
-    redirect_uri = "https://login.live.com/oauth20_desktop.srf"
-});
+    ClientId = "1b0c7f80-247c-4101-bdc9-a98c479471a4",
+    Code = code.ExtractCode()
+};
 
-var str = await response.GetStringAsync();
-Console.WriteLine(str);
+var result = await authenticator.AuthenticateAsync();
+
+AnsiConsole.MarkupLine(result.ToJsonString().EscapeMarkup());
+
+AnsiConsole.MarkupLine("[red]refreshing...[/]");
+
+var refreshToken = result.RefreshToken;
+var newResult = await authenticator.RefreshAuthenticateAsync(refreshToken);
+
+AnsiConsole.MarkupLine($"new result: {newResult.ToJsonString()}");

@@ -23,6 +23,16 @@ public class AuthenticateResult
     public string? AccessToken { get; set; }
 
     /// <summary>
+    /// Token for get a new token
+    /// </summary>
+    public string RefreshToken { get; set; }
+
+    /// <summary>
+    /// When this result will be expired
+    /// </summary>
+    public TimeSpan ExpireIn { get; set; }
+
+    /// <summary>
     /// User's client token, available for legacy authentication or external authenticators
     /// </summary>
     public string? ClientToken { get; set; }
