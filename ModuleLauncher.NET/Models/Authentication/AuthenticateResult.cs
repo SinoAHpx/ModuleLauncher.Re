@@ -25,7 +25,7 @@ public class AuthenticateResult
     /// <summary>
     /// Token for get a new token
     /// </summary>
-    public string RefreshToken { get; set; }
+    public string? RefreshToken { get; set; }
 
     /// <summary>
     /// When this result will be expired
