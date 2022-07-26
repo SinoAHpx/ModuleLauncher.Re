@@ -9,7 +9,9 @@ public static class CommonUtils
     /// <summary>
     /// <example>Windows -> windows, Linux -> linux, MacOS -> osx</example>
     /// </summary>
-    public static string CurrentSystemName => GetCurrentSystem();
+    public static readonly string CurrentSystemName = GetCurrentSystem();
+
+    public static readonly string SystemArch = Environment.Is64BitOperatingSystem ? "64" : "32";
 
     public static string? GetDescription(this Enum t)
     {
@@ -19,7 +21,7 @@ public static class CommonUtils
 
         return description?.Description;
     }
-    
+
     private static string GetCurrentSystem()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
