@@ -1,7 +1,33 @@
-﻿using ModuleLauncher.NET.Models.Resources;
+﻿using Manganese.Array;
+using Manganese.Text;
+using ModuleLauncher.NET.Models.Resources;
+using ModuleLauncher.NET.Resources;
 using ModuleLauncher.NET.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-MinecraftJsonType.Release.GetDescription().Print();
+
+while (true)
+{
+    var jsonPath = AnsiConsole.Ask<string>("Input your [red]json path[/]: ");
+    var json = File.ReadAllText(jsonPath);
+    var mj = JsonConvert.DeserializeObject<MinecraftJson>(json);
+    var mc = new MinecraftEntry
+    {
+        Json = mj
+    };
+    var resolver = new LibrariesResolver
+    {
+        Minecraft = mc
+    };
+
+    foreach (var libraryEntry in resolver.GetLibraries())
+    {
+        AnsiConsole.MarkupLine($"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.Name}[/]");
+    }
+}
+
+
 
 static class RuntimeUtils
 {
