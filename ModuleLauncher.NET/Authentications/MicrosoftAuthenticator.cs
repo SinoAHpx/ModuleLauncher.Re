@@ -4,7 +4,7 @@ using ModuleLauncher.NET.Models.Authentication;
 using ModuleLauncher.NET.Models.Exceptions;
 using Newtonsoft.Json;
 
-namespace ModuleLauncher.NET.Authentication;
+namespace ModuleLauncher.NET.Authentications;
 
 /// <summary>
 /// An implementation of microsoft OAuth for Minecraft

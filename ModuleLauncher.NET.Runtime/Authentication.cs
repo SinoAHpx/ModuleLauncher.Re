@@ -1,5 +1,5 @@
 ﻿using Manganese.Text;
-using ModuleLauncher.NET.Authentication;
+using ModuleLauncher.NET.Authentications;
 using ModuleLauncher.NET.Utilities;
 using Spectre.Console;
 

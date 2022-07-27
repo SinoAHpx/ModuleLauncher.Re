@@ -1,6 +1,6 @@
 ﻿using ModuleLauncher.NET.Models.Authentication;
 
-namespace ModuleLauncher.NET.Authentication;
+namespace ModuleLauncher.NET.Authentications;
 
 /// <summary>
 /// Local authentication without going through network, simply a random UUID and access token generator
