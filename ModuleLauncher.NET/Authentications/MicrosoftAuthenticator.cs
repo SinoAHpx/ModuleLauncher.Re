@@ -212,6 +212,12 @@ public class MicrosoftAuthenticator
         }
     }
 
+    /// <summary>
+    /// Get player's minecraft profile
+    /// </summary>
+    /// <param name="accessToken">Minecraft access token</param>
+    /// <returns></returns>
+    /// <exception cref="FailedAuthenticationException">If authenticated user don't have minecraft, the exception will be thrown</exception>
     public async Task<MinecraftProfile> GetMinecraftProfileAsync(string accessToken)
     {
         var endpoint = "https://api.minecraftservices.com/minecraft/profile";
@@ -228,6 +234,28 @@ public class MicrosoftAuthenticator
         return re;
     }
 
+    /// <summary>
+    /// Check if authenticated user have minecraft
+    /// </summary>
+    /// <param name="accessToken"></param>
+    /// <returns></returns>
+    public async Task<bool> CheckOwnershipAsync(string accessToken)
+    {
+        try
+        {
+            _ = await GetMinecraftProfileAsync(accessToken);
+            return true;
+        }
+        catch (FailedAuthenticationException)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Authenticate minecraft
+    /// </summary>
+    /// <returns></returns>
     public async Task<AuthenticateResult> AuthenticateAsync()
     {
         var token = await GetAuthorizationTokenAsync();
@@ -244,6 +272,11 @@ public class MicrosoftAuthenticator
         };
     }
 
+    /// <summary>
+    /// Refresh authentication, getting a new access token after old one expired
+    /// </summary>
+    /// <param name="refreshToken"></param>
+    /// <returns></returns>
     public async Task<AuthenticateResult> RefreshAuthenticateAsync(string refreshToken)
     {
         var token = await GetAuthorizationTokenAsync(refreshToken);
