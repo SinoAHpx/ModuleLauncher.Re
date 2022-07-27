@@ -9,23 +9,18 @@ public class LibrariesChecker
 {
     public static void Check()
     {
+        var mcPath = AnsiConsole.Confirm("Use default .minecraft path?")
+            ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft")
+            : AnsiConsole.Ask<string>("What is your expected path? ");
+        var resolver = new MinecraftResolver(mcPath);
         while (true)
         {
-            var jsonPath = AnsiConsole.Ask<string>("Input your [red]json path[/]: ");
-            var json = File.ReadAllText(jsonPath);
-            var mj = JsonConvert.DeserializeObject<MinecraftJson>(json);
-            var mc = new MinecraftEntry
-            {
-                Json = mj
-            };
-            var resolver = new LibrariesResolver
-            {
-                Minecraft = mc
-            };
-
+            var mc = resolver.GetMinecraft(AnsiConsole.Ask<string>("Minecraft id: "));
+            var libResolver = new LibrariesResolver();
+            
             AnsiConsole.MarkupLine($"Minecraft type: [red]{mc.Json.GetMinecraftType()}[/]");
 
-            foreach (var libraryEntry in resolver.GetLibraries())
+            foreach (var libraryEntry in libResolver.GetLibraries(mc))
             {
                 AnsiConsole.MarkupLine($"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.Name}[/]");
             }

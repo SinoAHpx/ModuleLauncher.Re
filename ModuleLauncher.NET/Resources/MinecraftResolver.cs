@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 
 namespace ModuleLauncher.NET.Resources;
 
+/// <summary>
+/// Minecraft resolver, could be convert mutually with string
+/// </summary>
 public class MinecraftResolver
 {
     /// <summary>
@@ -17,6 +20,16 @@ public class MinecraftResolver
     public MinecraftResolver(string? rootPath = null)
     {
         RootPath = rootPath;
+    }
+
+    public static implicit operator MinecraftResolver(string minecraftRootPath)
+    {
+        return new MinecraftResolver(minecraftRootPath);
+    }
+
+    public static implicit operator string(MinecraftResolver resolver)
+    {
+        return resolver.RootPath.ThrowIfNullOrEmpty<NullReferenceException>("Root path of resolver could not be null");
     }
 
     /// <summary>

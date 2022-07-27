@@ -9,15 +9,64 @@ namespace ModuleLauncher.NET.Resources;
 
 public class LibrariesResolver
 {
-    public MinecraftEntry Minecraft { get; set; }
+    /// <summary>
+    /// Minecraft resolver, you'll need to provide this only when you need to get libraries by minecraft id
+    /// </summary>
+    public MinecraftResolver? MinecraftResolver { get; set; }
 
-    public List<LibraryEntry> GetLibraries()
+    /// <summary>
+    /// Construct resolver via minecraft resolver
+    /// </summary>
+    /// <param name="minecraftResolver"></param>
+    public LibrariesResolver(MinecraftResolver? minecraftResolver)
     {
-        var libraries = new List<LibraryEntry>();
+        MinecraftResolver = minecraftResolver;
+    }
 
-        var rawLibraries = Minecraft.Json.Libraries
+    /// <summary>
+    /// Construct libraries resolver via minecraft root path
+    /// </summary>
+    /// <param name="minecraftRootPath"></param>
+    public LibrariesResolver(string? minecraftRootPath)
+    {
+        MinecraftResolver =
+            minecraftRootPath.ThrowIfNullOrEmpty<NullReferenceException>("Root path of resolver could not be null");
+    }
+
+    /// <summary>
+    /// Just an empty constructor
+    /// </summary>
+    public LibrariesResolver()
+    {
+    }
+
+    /// <summary>
+    /// Get minecraft libraries by id
+    /// <remarks>Need to provide MinecraftSolver if you need to get libraries by minecraft id</remarks>
+    /// </summary>
+    /// <param name="minecraftId"></param>
+    /// <returns></returns>
+    public List<LibraryEntry> GetLibraries(string minecraftId)
+    {
+        var minecraftEntry = MinecraftResolver
+            .ThrowIfNull(new InvalidOperationException("Need to provide MinecraftSolver if you need to get libraries by minecraft id"))
+            .GetMinecraft(minecraftId);
+
+        return GetLibraries(minecraftEntry);
+    }
+
+    /// <summary>
+    /// Get 
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    /// <returns></returns>
+    public List<LibraryEntry> GetLibraries(MinecraftEntry minecraftEntry)
+    {
+        var rawLibraries = minecraftEntry.Json.Libraries
             .ThrowIfNull(new ErrorParsingLibraryException("Corrupted json"));
 
+        var libraries = new List<LibraryEntry>();
+        
         foreach (var rawLibrary in rawLibraries)
         {
             if (!IsAvailableLibrary(rawLibrary))
@@ -31,11 +80,25 @@ public class LibrariesResolver
             else
                 libraries.Add(ProcessLibrary(rawLibrary));
         }
+        
+        if (minecraftEntry.Json.GetMinecraftType() != MinecraftType.Vanilla)
+        {
+            // note: in the version which don't really have a "inheritFrom" key,
+            // we don't have to give them additional libraries neither
+            if (!minecraftEntry.Json.InheritsFrom.IsNullOrEmpty())
+            {
+                var resolver = new MinecraftResolver(minecraftEntry.Tree.Root.FullName);
+                var inheritMinecraft = resolver.GetMinecraft(minecraftEntry.Json.InheritsFrom);
+
+                var inheritLibraries = GetLibraries(inheritMinecraft);
+                libraries.AddRange(inheritLibraries);
+            }
+        }
 
         return libraries.DistinctBy(e => e.Name).ToList();
     }
 
-    internal LibraryEntry ProcessLibrary(JToken rawLib)
+    private static LibraryEntry ProcessLibrary(JToken rawLib)
     {
         var rawName = rawLib.Fetch("name")
             .ThrowIfNullOrEmpty<ErrorParsingLibraryException>($"Cannot find name in {rawLib}");
@@ -53,7 +116,7 @@ public class LibrariesResolver
         return libEntry;
     }
 
-    internal LibraryEntry ProcessNative(JToken rawNative)
+    private static LibraryEntry ProcessNative(JToken rawNative)
     {
         var rawObj = rawNative.ToObject<JObject>()
             .ThrowIfNull(new ErrorParsingLibraryException("Corrupted json file"));
@@ -83,7 +146,7 @@ public class LibrariesResolver
     /// Checking rules
     /// </summary>
     /// <returns></returns>
-    internal bool IsAvailableLibrary(JToken rawLib)
+    private static bool IsAvailableLibrary(JToken rawLib)
     {
         try
         {

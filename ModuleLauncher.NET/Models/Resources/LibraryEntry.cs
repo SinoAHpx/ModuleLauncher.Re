@@ -28,14 +28,5 @@ public class LibraryEntry
     /// <summary>
     /// What kind of json file this entry in
     /// </summary>
-    public LibraryEntryType Type { get; set; }
-}
-
-public enum LibraryEntryType
-{
-    Vanilla,
-    Forge,
-    Optifine,
-    LiteLoader,
-    Fabric
+    public MinecraftType Type { get; set; }
 }

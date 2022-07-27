@@ -1,12 +1,6 @@
-﻿using Manganese.Text;
-using ModuleLauncher.NET.Resources;
+﻿using ModuleLauncher.NET.Runtime;
 
-var mcResolver = new MinecraftResolver(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
-foreach (var entry in mcResolver.GetMinecrafts())
-{
-    Console.WriteLine(entry.Tree.VersionRoot.Name);
-}
-
+LibrariesChecker.Check();
 
 static class RuntimeUtils
 {
