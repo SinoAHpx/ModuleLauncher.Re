@@ -1,4 +1,6 @@
-﻿namespace ModuleLauncher.NET.Models.Resources;
+﻿using Manganese.Text;
+
+namespace ModuleLauncher.NET.Models.Resources;
 
 /// <summary>
 /// Tree structure of specified Minecraft version
@@ -8,7 +10,7 @@ public class MinecraftTree
     /// <summary>
     /// .minecraft
     /// </summary>
-    public DirectoryInfo? Root { get; set; }
+    public DirectoryInfo Root { get; set; }
 
     /// <summary>
     /// .minecraft/versions
@@ -64,10 +66,30 @@ public class MinecraftTree
     /// <summary>
     /// .minecraft/versions/%ver%
     /// </summary>
-    public DirectoryInfo Version { get; set; }
+    public DirectoryInfo VersionRoot { get; set; }
 
     /// <summary>
     /// .minecraft/versions/%ver%/natives
     /// </summary>
     public DirectoryInfo Natives { get; set; }
+
+    public override string ToString()
+    {
+        return new
+        {
+            Root = Root.FullName,
+            Versions = Versions.FullName,
+            Saves = Saves.FullName,
+            Mods = Mods.FullName,
+            ResourcesPacks = ResourcesPacks.FullName,
+            TexturePacks = TexturePacks.FullName,
+            Libraries = Libraries.FullName,
+            Assets = Assets.FullName,
+            AssetsIndexes = AssetsIndexes.FullName,
+            Jar = Jar.FullName,
+            Json = Json.FullName,
+            VersionRoot = VersionRoot.FullName,
+            Natives = Natives.FullName
+        }.ToJsonString();
+    }
 }

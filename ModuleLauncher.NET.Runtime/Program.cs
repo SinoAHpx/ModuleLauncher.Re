@@ -1,34 +1,11 @@
-﻿using Manganese.Array;
-using Manganese.Text;
-using ModuleLauncher.NET.Models.Resources;
+﻿using Manganese.Text;
 using ModuleLauncher.NET.Resources;
-using ModuleLauncher.NET.Runtime;
-using ModuleLauncher.NET.Utilities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-while (true)
+var mcResolver = new MinecraftResolver(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
+foreach (var entry in mcResolver.GetMinecrafts())
 {
-    var jsonPath = AnsiConsole.Ask<string>("Input your [red]json path[/]: ");
-    var json = File.ReadAllText(jsonPath);
-    var mj = JsonConvert.DeserializeObject<MinecraftJson>(json);
-    var mc = new MinecraftEntry
-    {
-        Json = mj
-    };
-    var resolver = new LibrariesResolver
-    {
-        Minecraft = mc
-    };
-
-    AnsiConsole.MarkupLine($"Minecraft type: [red]{mc.Json.GetMinecraftType()}[/]");
-
-    foreach (var libraryEntry in resolver.GetLibraries())
-    {
-        AnsiConsole.MarkupLine($"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.Name}[/]");
-    }
+    Console.WriteLine(entry.Tree.VersionRoot.Name);
 }
-
 
 
 static class RuntimeUtils

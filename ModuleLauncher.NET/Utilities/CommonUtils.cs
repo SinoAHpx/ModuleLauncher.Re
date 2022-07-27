@@ -42,7 +42,60 @@ public static class CommonUtils
 
         throw new SystemException("Unsupported operating system");
     }
-    
 
+    /// <summary>
+    /// Dive into child directories
+    /// </summary>
+    /// <param name="parentDir"></param>
+    /// <param name="childDirHierarchy">Child directories hierarchy, suppose to be split by "/"</param>
+    /// <returns></returns>
+    public static DirectoryInfo Dive(this DirectoryInfo parentDir, string childDirHierarchy)
+    {
+        var divePath = parentDir.FullName;
+        if (childDirHierarchy.Contains('/'))
+        {
+            var split = childDirHierarchy.Split('/');
+            divePath = split.Aggregate(divePath, (current, s) => current.AppendPath(s));
+        }
+        else
+        {
+            divePath = divePath.AppendPath(childDirHierarchy);
+        }
+
+        return new DirectoryInfo(divePath);
+    }
+    
+    /// <summary>
+    /// Dive into child directories
+    /// </summary>
+    /// <param name="parentDir"></param>
+    /// <param name="childFileNameHierarchy">Hierarchy of sub directory, suppose to be split by "/"</param>
+    /// <returns></returns>
+    public static FileInfo DiveToFile(this DirectoryInfo parentDir, string childFileNameHierarchy)
+    {
+        var divePath = parentDir.FullName;
+        if (childFileNameHierarchy.Contains('/'))
+        {
+            var split = childFileNameHierarchy.Split('/');
+            divePath = split.Aggregate(divePath, (current, s) => current.AppendPath(s));
+        }
+        else
+        {
+            divePath = divePath.AppendPath(childFileNameHierarchy);
+        }
+
+        return new FileInfo(divePath);
+    }
+
+    /// <summary>
+    /// Encapsulation of Path.Combine
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="toAppend"></param>
+    /// <returns></returns>
+    public static string AppendPath(this string path, string toAppend)
+    {
+        return Path.Combine(path, toAppend);
+    }
 }
 
