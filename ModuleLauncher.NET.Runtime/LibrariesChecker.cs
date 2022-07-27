@@ -18,11 +18,12 @@ public class LibrariesChecker
             var mc = resolver.GetMinecraft(AnsiConsole.Ask<string>("Minecraft id: "));
             var libResolver = new LibrariesResolver();
             
-            AnsiConsole.MarkupLine($"Minecraft type: [red]{mc.Json.GetMinecraftType()}[/]");
+            AnsiConsole.MarkupLine($"Minecraft type: [red]{mc.GetMinecraftType()}[/]");
 
             foreach (var libraryEntry in libResolver.GetLibraries(mc))
             {
-                AnsiConsole.MarkupLine($"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.Name}[/]");
+                AnsiConsole.MarkupLine(
+                    $"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.Name}[/], Type: [blue]{libraryEntry.Type}[/]");
             }
         }
     }

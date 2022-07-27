@@ -9,18 +9,18 @@ public static class MinecraftUtils
     /// <summary>
     /// Get minecraft json type, mainly check by id property, if id contains specified keyword
     /// </summary>
-    /// <param name="minecraftJson"></param>
+    /// <param name="minecraftEntry"></param>
     /// <returns></returns>
-    public static MinecraftType GetMinecraftType(this MinecraftJson minecraftJson)
+    public static MinecraftType GetMinecraftType(this MinecraftEntry minecraftEntry)
     {
-        switch (minecraftJson.Type)
+        switch (minecraftEntry.Json.Type)
         {
             case MinecraftJsonType.Snapshot:
             case MinecraftJsonType.OldAlpha:
             case MinecraftJsonType.OldBeta:
                 return MinecraftType.Vanilla;
             case MinecraftJsonType.Release:
-                var id = minecraftJson.Id
+                var id = minecraftEntry.Json.Id
                     .ThrowIfNullOrEmpty<CorruptedStuctureException>("Minecraft json file may corrupted")
                     .ToLower();
                 if (id.Contains("forge"))

@@ -74,14 +74,17 @@ public class LibrariesResolver
 
             var rawLibraryObj = rawLibrary.ToObject<JObject>()
                 .ThrowIfNull(new ErrorParsingLibraryException($"Json file corrupted: {rawLibrary}"));
+
+            var toAdd = rawLibraryObj.ContainsKey("natives")
+                ? ProcessNative(rawLibrary)
+                : ProcessLibrary(rawLibrary);
+
+            toAdd.Type = minecraftEntry.GetMinecraftType();
             
-            if (rawLibraryObj.ContainsKey("natives"))
-                libraries.Add(ProcessNative(rawLibrary));
-            else
-                libraries.Add(ProcessLibrary(rawLibrary));
+            libraries.Add(toAdd);
         }
         
-        if (minecraftEntry.Json.GetMinecraftType() != MinecraftType.Vanilla)
+        if (minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
         {
             // note: in the version which don't really have a "inheritFrom" key,
             // we don't have to give them additional libraries neither
