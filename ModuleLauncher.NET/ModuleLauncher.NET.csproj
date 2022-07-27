@@ -18,8 +18,4 @@
         </AssemblyAttribute>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Launcher" />
-    </ItemGroup>
-
 </Project>
