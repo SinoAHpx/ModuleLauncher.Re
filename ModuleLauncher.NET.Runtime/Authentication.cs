@@ -7,16 +7,21 @@ namespace ModuleLauncher.NET.Runtime;
 
 public class Authentication
 {
-    public async Task DoAuthAsync()
+    public static async Task DoAuthAsync()
     {
-        var code = AnsiConsole.Ask<string>("What is your [red]code[/]? ");
         var authenticator = new MicrosoftAuthenticator
         {
             ClientId = "1b0c7f80-247c-4101-bdc9-a98c479471a4",
-            Code = code.ExtractCode()
         };
+        
+        Console.WriteLine(authenticator.LoginUrl);
+        
+        var code = AnsiConsole.Ask<string>("What is your [red]code[/]? ");
+        authenticator.Code = code.ExtractCode();
 
         var result = await authenticator.AuthenticateAsync();
+        var haveMc = await authenticator.CheckOwnershipAsync(result.AccessToken);
+        AnsiConsole.MarkupLine($"This user {(haveMc ? "have" : "don't have")} a minecraft");
 
         AnsiConsole.MarkupLine(result.ToJsonString().EscapeMarkup());
 

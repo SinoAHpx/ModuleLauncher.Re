@@ -1,6 +1,6 @@
 ﻿using ModuleLauncher.NET.Runtime;
 
-LibrariesChecker.Check();
+await Authentication.DoAuthAsync(); 
 
 static class RuntimeUtils
 {
