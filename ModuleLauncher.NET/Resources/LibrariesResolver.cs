@@ -60,7 +60,7 @@ public class LibrariesResolver
     /// </summary>
     /// <param name="minecraftEntry"></param>
     /// <returns></returns>
-    public List<LibraryEntry> GetLibraries(MinecraftEntry minecraftEntry)
+    public static List<LibraryEntry> GetLibraries(MinecraftEntry minecraftEntry)
     {
         var rawLibraries = minecraftEntry.Json.Libraries
             .ThrowIfNull(new ErrorParsingLibraryException("Corrupted json"));

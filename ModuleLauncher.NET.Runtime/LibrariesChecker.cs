@@ -20,7 +20,7 @@ public class LibrariesChecker
             
             AnsiConsole.MarkupLine($"Minecraft type: [red]{mc.GetMinecraftType()}[/]");
 
-            foreach (var libraryEntry in libResolver.GetLibraries(mc))
+            foreach (var libraryEntry in LibrariesResolver.GetLibraries(mc))
             {
                 AnsiConsole.MarkupLine(
                     $"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.Name}[/], Type: [blue]{libraryEntry.Type}[/]");
