@@ -2,10 +2,10 @@
 using Manganese.Text;
 using ModuleLauncher.NET.Models.Resources;
 using ModuleLauncher.NET.Resources;
+using ModuleLauncher.NET.Runtime;
 using ModuleLauncher.NET.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 
 while (true)
 {
@@ -20,6 +20,8 @@ while (true)
     {
         Minecraft = mc
     };
+
+    AnsiConsole.MarkupLine($"Minecraft type: [red]{mc.Json.GetMinecraftType()}[/]");
 
     foreach (var libraryEntry in resolver.GetLibraries())
     {
