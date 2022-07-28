@@ -61,4 +61,14 @@ public static class MinecraftUtils
     {
         return t.ThrowIfNull(new CorruptedStuctureException("Minecraft json file corrupted"));
     }
+
+    /// <summary>
+    /// Check if minecraft entry has inheritFrom source 
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    /// <returns></returns>
+    public static bool HasInheritSource(this MinecraftEntry minecraftEntry)
+    {
+        return !minecraftEntry.HasInheritSource();
+    }
 }
