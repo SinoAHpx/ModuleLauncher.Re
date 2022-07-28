@@ -44,7 +44,7 @@ public class MinecraftResolver
     /// <param name="id">e.g. 1.16.1</param>
     /// <returns></returns>
     /// <exception cref="CorruptedStuctureException"></exception>
-    public MinecraftEntry GetMinecraft(string id)
+    public MinecraftEntry? GetMinecraft(string id)
     {
         if (!RootDirectory.Exists)
             throw new CorruptedStuctureException("Minecraft path does not exist");
@@ -65,6 +65,9 @@ public class MinecraftResolver
             VersionRoot = RootDirectory.Dive($"versions/{id}"),
             Natives = RootDirectory.Dive($"versions/{id}/natives")
         };
+        if (!tree.VersionRoot.Exists)
+            return null;
+
         var jsonText = tree.Json.ReadAllText();
         var json = JsonConvert.DeserializeObject<MinecraftJson>(jsonText);
 

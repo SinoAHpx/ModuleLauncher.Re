@@ -49,8 +49,11 @@ public class LibrariesResolver
     public List<LibraryEntry> GetLibraries(string minecraftId)
     {
         var minecraftEntry = MinecraftResolver
-            .ThrowIfNull(new InvalidOperationException("Need to provide MinecraftSolver if you need to get libraries by minecraft id"))
-            .GetMinecraft(minecraftId);
+            .ThrowIfNull(
+                new InvalidOperationException(
+                    "Need to provide MinecraftSolver if you need to get libraries by minecraft id"))
+            .GetMinecraft(minecraftId)
+            .ThrowIfNull(new InvalidOperationException($"Specify Minecraft {minecraftId} does not exist"));
 
         return GetLibraries(minecraftEntry);
     }
@@ -91,7 +94,8 @@ public class LibrariesResolver
             if (!minecraftEntry.Json.InheritsFrom.IsNullOrEmpty())
             {
                 var resolver = new MinecraftResolver(minecraftEntry.Tree.Root.FullName);
-                var inheritMinecraft = resolver.GetMinecraft(minecraftEntry.Json.InheritsFrom);
+                var inheritMinecraft = resolver.GetMinecraft(minecraftEntry.Json.InheritsFrom)
+                    .ThrowIfNull(new InvalidOperationException($"Specify Minecraft {minecraftEntry.Json.InheritsFrom} does not exist"));
 
                 var inheritLibraries = GetLibraries(inheritMinecraft);
                 libraries.AddRange(inheritLibraries);
