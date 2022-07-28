@@ -44,7 +44,7 @@ public class MinecraftTree
     public DirectoryInfo Libraries { get; set; }
 
     /// <summary>
-    /// .minecraft/assets/objects
+    /// .minecraft/assets or .minecraft/assets/virtual/legacy
     /// </summary>
     public DirectoryInfo Assets { get; set; }
 
