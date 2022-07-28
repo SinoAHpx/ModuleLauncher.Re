@@ -41,7 +41,7 @@ public class MinecraftJson
     [JsonProperty("assetIndex.url")] public string? AssetIndexUrl { get; set; }
     
     [JsonProperty("javaVersion.majorVersion")]
-    public int JavaVersion {get; set;}
+    public int? JavaVersion {get; set;}
 
     [JsonProperty("arguments")] public JToken? Arguments { get; set; }
 
