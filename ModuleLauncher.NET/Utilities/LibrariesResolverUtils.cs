@@ -19,7 +19,7 @@ public static class LibrariesResolverUtils
     /// <param name="suffix">$"{libName}-{libVersion}{suffix}.jar"</param>
     /// <returns>com/mojang/patchy/1.3.9/patchy-1.3.9.jar</returns>
     /// <exception cref="ErrorParsingLibraryException"></exception>
-    internal static (string Name, string RelativeUrl, string RelativePath) ResolveRawName(this string rawName, string? suffix = null)
+    internal static (string Name, string RelativeUrl) ResolveRawName(this string rawName, string? suffix = null)
     {
         var segments = rawName.Split(":");
         if (segments.Length == 4)
@@ -41,9 +41,8 @@ public static class LibrariesResolverUtils
 
         var rawUrl = new[] { libOwner, libName, libVersion, $"{libName}-{libVersion}{suffix}.jar" };
         var url = rawUrl.JoinToString("/");
-        var path = url.Replace('/', Path.DirectorySeparatorChar);
-        var name = path.GetFileName();
+        var name = url.GetFileName();
 
-        return (name, url, path);
+        return (name, url);
     }
 }

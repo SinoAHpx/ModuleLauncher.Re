@@ -23,7 +23,7 @@ public class LibrariesChecker
             foreach (var libraryEntry in LibrariesResolver.GetLibraries(mc))
             {
                 AnsiConsole.MarkupLine(
-                    $"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.Name}[/], Type: [blue]{libraryEntry.Type}[/]");
+                    $"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.File.Name}[/], Type: [blue]{libraryEntry.Type}[/]");
             }
         }
     }
