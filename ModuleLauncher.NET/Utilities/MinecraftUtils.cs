@@ -45,10 +45,14 @@ public static class MinecraftUtils
     /// </summary>
     /// <param name="minecraftEntry"></param>
     /// <returns></returns>
-    public static MinecraftEntry GetInheritSource(this MinecraftEntry minecraftEntry)
+    public static MinecraftEntry? GetInheritSource(this MinecraftEntry minecraftEntry)
     {
-        return MinecraftResolver.Of(minecraftEntry).GetMinecraft(minecraftEntry.Json.InheritsFrom!)
-            .ThrowIfNull(new CorruptedStuctureException($"Missing inherit source: {minecraftEntry.Json.InheritsFrom}"));
+        if (minecraftEntry.HasInheritSource())
+        {
+            return MinecraftResolver.Of(minecraftEntry).GetMinecraft(minecraftEntry.Json.InheritsFrom!);
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -69,6 +73,6 @@ public static class MinecraftUtils
     /// <returns></returns>
     public static bool HasInheritSource(this MinecraftEntry minecraftEntry)
     {
-        return !minecraftEntry.HasInheritSource();
+        return !minecraftEntry.Json.InheritsFrom.IsNullOrEmpty();
     }
 }

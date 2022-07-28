@@ -79,10 +79,10 @@ public class MinecraftResolver
             Json = json
         };
 
-        if (entry.Json.AssetId == "legacy" || entry.Json.AssetId == "pre-1.6")
+        if (entry.Json.AssetId is "legacy" or "pre-1.6")
             entry.Tree.Assets = entry.Tree.Assets.Dive("virtual/legacy");
         
-        if (entry.GetMinecraftType() != MinecraftType.Vanilla && entry.Json.InheritsFrom.IsNullOrEmpty())
+        if (entry.GetMinecraftType() != MinecraftType.Vanilla && entry.HasInheritSource())
             entry.Tree.Assets = entry.Tree.Assets.Dive("virtual/legacy");
         
 

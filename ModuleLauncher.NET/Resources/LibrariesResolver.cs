@@ -91,10 +91,10 @@ public class LibrariesResolver
         {
             // note: in the version which don't really have a "inheritFrom" key,
             // we don't have to give them additional libraries neither
-            if (!minecraftEntry.HasInheritSource())
+            if (minecraftEntry.HasInheritSource())
             {
                 var resolver = new MinecraftResolver(minecraftEntry.Tree.Root.FullName);
-                var inheritMinecraft = resolver.GetMinecraft(minecraftEntry.Json.InheritsFrom)
+                var inheritMinecraft = resolver.GetMinecraft(minecraftEntry.Json.InheritsFrom!)
                     .ThrowIfNull(new InvalidOperationException($"Specify Minecraft {minecraftEntry.Json.InheritsFrom} does not exist"));
 
                 var inheritLibraries = GetLibraries(inheritMinecraft);

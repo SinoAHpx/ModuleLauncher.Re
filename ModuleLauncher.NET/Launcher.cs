@@ -81,7 +81,7 @@ public class Launcher
         {
             if (minecraftEntry.HasInheritSource())
             {
-                var inheritMinecraft = minecraftEntry.GetInheritSource();
+                var inheritMinecraft = minecraftEntry.GetInheritSource()!;
                 javaVersion = inheritMinecraft.Json.JavaVersion;
             }
             else
@@ -132,6 +132,7 @@ public class Launcher
                     if (Path.HasExtension(zipArchiveEntry.FullName))
                     {
                         var toExtract = minecraftEntry.Tree.Natives.DiveToFile(zipArchiveEntry.FullName);
+                        toExtract.Directory?.Create();
                         if (!toExtract.Exists)
                         {
                             zipArchiveEntry.ExtractToFile(toExtract.FullName, true);
@@ -171,7 +172,7 @@ public class Launcher
             .Replace("${game_directory}", $"\"{minecraftEntry.Tree.Root}\"")
             .Replace("${assets_root}", $"\"{minecraftEntry.Tree.Assets}\"")
             .ReplaceIfNull("${assets_index_name}", minecraftEntry.Json.AssetId,
-                minecraftEntry.GetInheritSource().Json.AssetId)
+                minecraftEntry.GetInheritSource()?.Json.AssetId)
             .Replace("${auth_uuid}", LauncherConfig.Authentication.UUID)
             .Replace("${auth_access_token}", LauncherConfig.Authentication.AccessToken)
             .Replace("${user_properties}", "{}")
@@ -206,10 +207,10 @@ public class Launcher
                 .Where(x => !x.ToLower().Contains("xuid") && !x.ToLower().Contains("clientid"))
                 .JoinToString(" ");
 
-            if (!minecraftEntry.HasInheritSource())
+            if (minecraftEntry.HasInheritSource())
             {
                 boilerplate +=
-                    $" {GetMinecraftArgumentBoilerplate(minecraftEntry.GetInheritSource())}";
+                    $" {GetMinecraftArgumentBoilerplate(minecraftEntry.GetInheritSource()!)}";
             }
         }
         else
@@ -273,13 +274,13 @@ public class Launcher
             .Select(l => minecraftEntry.Tree.Libraries.DiveToFile(l.RelativeUrl))
             .ToList();
 
-        if (minecraftEntry.HasInheritSource() || minecraftEntry.Tree.Jar.Exists)
+        if (!minecraftEntry.HasInheritSource() || minecraftEntry.Tree.Jar.Exists)
             raw.Add(minecraftEntry.Tree.Jar);
         else
         {
             var inheritMinecraft = minecraftEntry.GetInheritSource();
 
-            raw.Add(inheritMinecraft.Tree.Jar);
+            raw.Add(inheritMinecraft!.Tree.Jar);
         }
 
         var classpath = raw.JoinToString($"{Path.PathSeparator}");
