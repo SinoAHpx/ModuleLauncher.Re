@@ -79,8 +79,8 @@ public class LibrariesResolver
                 .ThrowIfNull(new ErrorParsingLibraryException($"Json file corrupted: {rawLibrary}"));
 
             var toAdd = rawLibraryObj.ContainsKey("natives")
-                ? ProcessNative(rawLibrary)
-                : ProcessLibrary(rawLibrary);
+                ? ProcessNative(minecraftEntry, rawLibrary)
+                : ProcessLibrary(minecraftEntry, rawLibrary);
 
             toAdd.Type = minecraftEntry.GetMinecraftType();
             
@@ -102,10 +102,10 @@ public class LibrariesResolver
             }
         }
 
-        return libraries.DistinctBy(e => e.Name).ToList();
+        return libraries.DistinctBy(e => e.File.Name).ToList();
     }
 
-    private static LibraryEntry ProcessLibrary(JToken rawLib)
+    private static LibraryEntry ProcessLibrary(MinecraftEntry minecraftEntry, JToken rawLib)
     {
         var rawName = rawLib.Fetch("name")
             .ThrowIfNullOrEmpty<ErrorParsingLibraryException>($"Cannot find name in {rawLib}");
@@ -114,16 +114,15 @@ public class LibrariesResolver
 
         var libEntry = new LibraryEntry
         {
-            Name = processName.Name,
+            File = minecraftEntry.Tree.Libraries.DiveToFile(processName.RelativeUrl),
             IsNative = false,
             RelativeUrl = processName.RelativeUrl,
-            RelativePath = processName.RelativePath
         };
 
         return libEntry;
     }
 
-    private static LibraryEntry ProcessNative(JToken rawNative)
+    private static LibraryEntry ProcessNative(MinecraftEntry minecraftEntry, JToken rawNative)
     {
         var rawObj = rawNative.ToObject<JObject>()
             .ThrowIfNull(new ErrorParsingLibraryException("Corrupted json file"));
@@ -139,11 +138,11 @@ public class LibrariesResolver
                 .ThrowIfNullOrEmpty<ErrorParsingLibraryException>("Corrupted json file");
             suffix = suffix.Replace("${arch}", CommonUtils.SystemArch);
 
-            libEntry.Name = rawName.ResolveRawName(suffix).Name;
+            libEntry.File = minecraftEntry.Tree.Libraries.DiveToFile(rawName.ResolveRawName(suffix).RelativeUrl);
         }
         else
         {
-            libEntry.Name = rawName.ResolveRawName().Name;
+            libEntry.File = minecraftEntry.Tree.Libraries.DiveToFile(rawName.ResolveRawName().RelativeUrl);
         }
 
         return libEntry;
