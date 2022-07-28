@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Manganese.Text;
 
 namespace ModuleLauncher.NET.Utilities;
 
@@ -11,6 +12,9 @@ public static class CommonUtils
     /// </summary>
     public static readonly string CurrentSystemName = GetCurrentSystem();
 
+    /// <summary>
+    /// "64" or "32"
+    /// </summary>
     public static readonly string SystemArch = Environment.Is64BitOperatingSystem ? "64" : "32";
 
     public static string? GetDescription(this Enum t)
@@ -96,6 +100,25 @@ public static class CommonUtils
     public static string AppendPath(this string path, string toAppend)
     {
         return Path.Combine(path, toAppend);
+    }
+
+    /// <summary>
+    /// If first replace candidate is null, second one will be used, second candidate can be also null, if so, nothing will be replaced
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="placeholder"></param>
+    /// <param name="toReplaceWith"></param>
+    /// <param name="backupReplace"></param>
+    /// <returns></returns>
+    public static string ReplaceIfNull(this string source, string placeholder, string? toReplaceWith, string? backupReplace)
+    {
+        if (!toReplaceWith.IsNullOrEmpty())
+            return source.Replace(placeholder, toReplaceWith);
+
+        if (backupReplace.IsNullOrEmpty())
+            return source;
+
+        return source.Replace(placeholder, backupReplace);
     }
 }
 

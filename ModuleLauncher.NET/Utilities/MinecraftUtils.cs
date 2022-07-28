@@ -1,6 +1,8 @@
-﻿using Manganese.Text;
+﻿using Manganese.Data;
+using Manganese.Text;
 using ModuleLauncher.NET.Models.Exceptions;
 using ModuleLauncher.NET.Models.Resources;
+using ModuleLauncher.NET.Resources;
 
 namespace ModuleLauncher.NET.Utilities;
 
@@ -21,7 +23,7 @@ public static class MinecraftUtils
                 return MinecraftType.Vanilla;
             case MinecraftJsonType.Release:
                 var id = minecraftEntry.Json.Id
-                    .ThrowIfNullOrEmpty<CorruptedStuctureException>("Minecraft json file may corrupted")
+                    .ThrowCorruptedIfNull()
                     .ToLower();
                 if (id.Contains("forge"))
                     return MinecraftType.Forge;
@@ -36,5 +38,27 @@ public static class MinecraftUtils
             default:
                 return MinecraftType.Vanilla;
         }
+    }
+
+    /// <summary>
+    /// Get inheritFrom minecraft
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    /// <returns></returns>
+    public static MinecraftEntry GetInheritSource(this MinecraftEntry minecraftEntry)
+    {
+        return MinecraftResolver.Of(minecraftEntry).GetMinecraft(minecraftEntry.Json.InheritsFrom!)
+            .ThrowIfNull(new CorruptedStuctureException($"Missing inherit source: {minecraftEntry.Json.InheritsFrom}"));
+    }
+
+    /// <summary>
+    /// Throw a CorruptedStuctureException if object is null
+    /// </summary>
+    /// <param name="t">Could be MinecraftJson MinecraftEntry...</param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static T ThrowCorruptedIfNull<T>(this T? t)
+    {
+        return t.ThrowIfNull(new CorruptedStuctureException("Minecraft json file corrupted"));
     }
 }
