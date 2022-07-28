@@ -1,4 +1,5 @@
-﻿using Manganese.IO;
+﻿using Manganese.Data;
+using Manganese.IO;
 using Manganese.Text;
 using ModuleLauncher.NET.Models.Exceptions;
 using ModuleLauncher.NET.Models.Resources;
@@ -36,7 +37,7 @@ public class MinecraftResolver
     /// Private wrapper of <see cref="RootPath"/>
     /// </summary>
     private DirectoryInfo RootDirectory =>
-        new(RootPath.ThrowIfNullOrEmpty<CorruptedStuctureException>("Root path cannot be null"));
+        new(RootPath.ThrowCorruptedIfNull());
     
     /// <summary>
     /// Retrieve Minecraft entry by Minecraft id
@@ -44,7 +45,7 @@ public class MinecraftResolver
     /// <param name="id">e.g. 1.16.1</param>
     /// <returns></returns>
     /// <exception cref="CorruptedStuctureException"></exception>
-    public MinecraftEntry? GetMinecraft(string id)
+    public MinecraftEntry GetMinecraft(string id)
     {
         if (!RootDirectory.Exists)
             throw new CorruptedStuctureException("Minecraft path does not exist");
@@ -58,24 +59,34 @@ public class MinecraftResolver
             ResourcesPacks = RootDirectory.Dive("resourcepacks"),
             TexturePacks = RootDirectory.Dive("texturepacks"),
             Libraries = RootDirectory.Dive("libraries"),
-            Assets = RootDirectory.Dive("assets/objects"),
+            Assets = RootDirectory.Dive("assets"),
             AssetsIndexes = RootDirectory.Dive("assets/indexes"),
             Jar = RootDirectory.DiveToFile($"versions/{id}/{id}.jar"),
             Json = RootDirectory.DiveToFile($"versions/{id}/{id}.json"),
             VersionRoot = RootDirectory.Dive($"versions/{id}"),
             Natives = RootDirectory.Dive($"versions/{id}/natives")
         };
+
         if (!tree.VersionRoot.Exists)
-            return null;
+            throw new CorruptedStuctureException("Minecraft path does not exist");
 
         var jsonText = tree.Json.ReadAllText();
-        var json = JsonConvert.DeserializeObject<MinecraftJson>(jsonText);
+        var json = JsonConvert.DeserializeObject<MinecraftJson>(jsonText).ThrowCorruptedIfNull();
 
-        return new MinecraftEntry
+        var entry = new MinecraftEntry
         {
             Tree = tree,
             Json = json
         };
+
+        if (entry.Json.AssetId == "legacy" || entry.Json.AssetId == "pre-1.6")
+            entry.Tree.Assets = entry.Tree.Assets.Dive("virtual/legacy");
+        
+        if (entry.GetMinecraftType() != MinecraftType.Vanilla && entry.Json.InheritsFrom.IsNullOrEmpty())
+            entry.Tree.Assets = entry.Tree.Assets.Dive("virtual/legacy");
+        
+
+        return entry;
     }
 
     /// <summary>
@@ -92,5 +103,15 @@ public class MinecraftResolver
         }
 
         return re;
+    }
+
+    /// <summary>
+    /// Initialize MinecraftResolver by minecraft entry
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    /// <returns></returns>
+    public static MinecraftResolver Of(MinecraftEntry minecraftEntry)
+    {
+        return new MinecraftResolver(minecraftEntry.Tree.Root.FullName);
     }
 }
