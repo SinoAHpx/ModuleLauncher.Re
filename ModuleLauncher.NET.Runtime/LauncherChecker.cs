@@ -25,7 +25,15 @@ public class LauncherChecker
                 {
                     Version = 8,
                     Executable =
-                        new FileInfo(@"C:\Program Files\Android\jdk\jdk-8.0.302.8-hotspot\jdk8u302-b08\jre\bin\javaw.exe")
+                        new FileInfo(
+                            @"C:\Program Files\Android\jdk\jdk-8.0.302.8-hotspot\jdk8u302-b08\jre\bin\javaw.exe")
+                },
+                new()
+                {
+                    Version = 16,
+                    Executable =
+                        new FileInfo(
+                            @"C:\Users\ahpx\AppData\Local\Packages\Microsoft.4297127D64EC6_8wekyb3d8bbwe\LocalCache\Local\runtime\java-runtime-alpha\windows-x64\java-runtime-alpha\bin\javaw.exe")
                 }
             },
             LauncherName = "AHpxLauncher",

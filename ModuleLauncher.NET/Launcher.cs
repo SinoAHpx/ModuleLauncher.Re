@@ -248,14 +248,15 @@ public class Launcher
 
         rawArgs.Add($"-cp \"{GetClassPath(minecraftEntry, libraries)}\"");
 
-        if (minecraftEntry.Json.Arguments != null && minecraftEntry.GetMinecraftType() == MinecraftType.Forge)
+        if (minecraftEntry.Json.Arguments != null && minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
         {
             var forgeArgs = minecraftEntry.Json.Arguments.FetchJToken("jvm")
                 .ThrowCorruptedIfNull()
                 .Where(x => x.Type == JTokenType.String)
                 .Select(x => x.ToString())
                 .Select(x =>
-                    x.Replace("${library_directory}", $"{minecraftEntry.Tree.Libraries}")
+                    x.Replace(" ", "")
+                        .Replace("${library_directory}", $"{minecraftEntry.Tree.Libraries}")
                         .Replace("${classpath_separator}", $"{Path.PathSeparator}")
                         .Replace("${version_name}", minecraftEntry.Json.Id));
 
