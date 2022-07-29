@@ -314,7 +314,7 @@ public class MicrosoftAuthenticator
                 throw new FailedAuthenticationException("The account needs adult verification on Xbox page.");
             case "2148916238":
                 throw new FailedAuthenticationException(
-                    "he account is a child (under 18) and cannot proceed unless the account is added to a Family by an adult. This only seems to occur when using a custom Microsoft Azure application. When using the Minecraft launchers client id, this doesn't trigger.");
+                    "The account is a child (under 18) and cannot proceed unless the account is added to a Family by an adult. This only seems to occur when using a custom Microsoft Azure application. When using the Minecraft launchers client id, this doesn't trigger.");
             default:
                 throw new FailedAuthenticationException(
                     $"Authenticate failed with code {errorCode}: {json.Fetch("Message")}");
