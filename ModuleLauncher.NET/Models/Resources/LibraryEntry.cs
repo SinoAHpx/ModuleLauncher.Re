@@ -1,4 +1,7 @@
-﻿namespace ModuleLauncher.NET.Models.Resources;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace ModuleLauncher.NET.Models.Resources;
 
 /// <summary>
 /// A single library
@@ -24,4 +27,10 @@ public class LibraryEntry
     /// What kind of json file this entry in
     /// </summary>
     public MinecraftType Type { get; set; }
+
+    /// <summary>
+    /// Raw library entry json
+    /// </summary>
+    [JsonIgnore]
+    internal JToken Raw { get; set; }
 }

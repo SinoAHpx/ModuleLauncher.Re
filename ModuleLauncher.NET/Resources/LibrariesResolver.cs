@@ -83,6 +83,7 @@ public class LibrariesResolver
                 : ProcessLibrary(minecraftEntry, rawLibrary);
 
             toAdd.Type = minecraftEntry.GetMinecraftType();
+            toAdd.Raw = rawLibrary;
             
             libraries.Add(toAdd);
         }
