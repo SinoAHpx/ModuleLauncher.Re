@@ -133,18 +133,23 @@ public class LibrariesResolver
 
         var libEntry = new LibraryEntry { IsNative = true };
 
+        (string Name, string RelativeUrl) processedName;
         if (rawObj.ContainsKey("natives"))
         {
             var suffix = rawObj.Fetch($"natives.{CommonUtils.CurrentSystemName}")
                 .ThrowIfNullOrEmpty<ErrorParsingLibraryException>("Corrupted json file");
             suffix = suffix.Replace("${arch}", CommonUtils.SystemArch);
 
-            libEntry.File = minecraftEntry.Tree.Libraries.DiveToFile(rawName.ResolveRawName(suffix).RelativeUrl);
+            processedName = rawName.ResolveRawName(suffix);
+            libEntry.File = minecraftEntry.Tree.Libraries.DiveToFile(processedName.RelativeUrl);
         }
         else
         {
-            libEntry.File = minecraftEntry.Tree.Libraries.DiveToFile(rawName.ResolveRawName().RelativeUrl);
+            processedName = rawName.ResolveRawName();
+            libEntry.File = minecraftEntry.Tree.Libraries.DiveToFile(processedName.RelativeUrl);
         }
+
+        libEntry.RelativeUrl = processedName.RelativeUrl;
 
         return libEntry;
     }
