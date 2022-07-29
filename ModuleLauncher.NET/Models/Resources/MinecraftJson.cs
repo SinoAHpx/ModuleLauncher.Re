@@ -50,6 +50,9 @@ public class MinecraftJson
     [JsonProperty("inheritsFrom")] public string? InheritsFrom { get; set; }
 }
 
+/// <summary>
+/// Release, Snapshot, OldBeta and OldAlpha
+/// </summary>
 public enum MinecraftJsonType
 {
     [EnumMember(Value = "old_alpha")]
