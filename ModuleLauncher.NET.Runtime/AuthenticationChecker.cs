@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace ModuleLauncher.NET.Runtime;
 
-public class Authentication
+public class AuthenticationChecker
 {
     public static async Task DoAuthAsync()
     {

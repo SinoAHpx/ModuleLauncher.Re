@@ -1,13 +1,14 @@
 ﻿using ModuleLauncher.NET.Models.Authentication;
+using ModuleLauncher.NET.Utilities;
 
 namespace ModuleLauncher.NET.Models.Launcher;
 
 public class LauncherConfig
 {
     /// <summary>
-    /// Java executable files
+    /// Java executable files, default value is an empty list
     /// </summary>
-    public List<MinecraftJava> Javas { get; set; }
+    public List<MinecraftJava> Javas { get; set; } = new();
 
     /// <summary>
     /// You launcher name, optional
@@ -60,4 +61,20 @@ public class MinecraftJava
     /// <example>8, 16, 17</example>
     /// </summary>
     public int Version { get; set; }
+
+    /// <summary>
+    /// Initialize MinecraftJava object from executable file path
+    /// </summary>
+    /// <returns></returns>
+    public static MinecraftJava Of(string path)
+    {
+        var file = new FileInfo(path);
+        var version = file.GetJavaExecutableVersion();
+
+        return new MinecraftJava
+        {
+            Executable = file,
+            Version = version
+        };
+    }
 }

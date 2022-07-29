@@ -1,4 +1,7 @@
-﻿namespace ModuleLauncher.NET.Models.Authentication;
+﻿using Manganese.Text;
+using ModuleLauncher.NET.Models.Exceptions;
+
+namespace ModuleLauncher.NET.Models.Authentication;
 
 /// <summary>
 /// Result of authenticating, contains basic information
@@ -9,7 +12,7 @@ public class AuthenticateResult
     /// <summary>
     /// Name of the user
     /// </summary>
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; }
 
     /// <summary>
     /// User's uuid
@@ -50,6 +53,6 @@ public class AuthenticateResult
     
     public static implicit operator string(AuthenticateResult result)
     {
-        return result.Name;
+        return result.Name.ThrowIfNullOrEmpty<FailedAuthenticationException>("Authentication failed");
     }
 }

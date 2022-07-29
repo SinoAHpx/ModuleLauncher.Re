@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Manganese.Text;
@@ -119,6 +120,31 @@ public static class CommonUtils
             return source;
 
         return source.Replace(placeholder, backupReplace);
+    }
+
+    /// <summary>
+    /// Try to get java executable file path
+    /// </summary>
+    /// <param name="javaExeFile"></param>
+    /// <returns></returns>
+    public static int GetJavaExecutableVersion(this FileInfo javaExeFile)
+    {
+        if (!javaExeFile.Exists)
+        {
+            throw new NullReferenceException("Java executable file does not exist");
+        }
+        var versionInfo = FileVersionInfo.GetVersionInfo(javaExeFile.FullName);
+        var version =
+            versionInfo.FileVersion.ThrowIfNullOrEmpty<NullReferenceException>(
+                $"Specified java exe {javaExeFile} might be corrupted");
+        if (!version.Contains('.'))
+        {
+            return version.ToInt32();
+        }
+
+        var split = version.Split('.');
+
+        return split.First().ToInt32();
     }
 }
 
