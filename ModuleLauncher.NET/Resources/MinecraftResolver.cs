@@ -1,5 +1,4 @@
-﻿using Manganese.Data;
-using Manganese.IO;
+﻿using Manganese.IO;
 using Manganese.Text;
 using ModuleLauncher.NET.Models.Exceptions;
 using ModuleLauncher.NET.Models.Resources;
@@ -13,14 +12,24 @@ namespace ModuleLauncher.NET.Resources;
 /// </summary>
 public class MinecraftResolver
 {
+    private string _rootPath;
+
     /// <summary>
     /// .minecraft path or equivalent path 
     /// </summary>
-    public string? RootPath { get; set; }
+    public string RootPath
+    {
+        get => _rootPath;
+        set => _rootPath = value.ThrowIfNullOrEmpty<NullReferenceException>("Root path of resolver could not be null");
+    }
 
-    public MinecraftResolver(string? rootPath = null)
+    public MinecraftResolver(string rootPath)
     {
         RootPath = rootPath;
+    }
+
+    public MinecraftResolver()
+    {
     }
 
     public static implicit operator MinecraftResolver(string minecraftRootPath)
@@ -30,14 +39,13 @@ public class MinecraftResolver
 
     public static implicit operator string(MinecraftResolver resolver)
     {
-        return resolver.RootPath.ThrowIfNullOrEmpty<NullReferenceException>("Root path of resolver could not be null");
+        return resolver.RootPath;
     }
 
     /// <summary>
     /// Private wrapper of <see cref="RootPath"/>
     /// </summary>
-    private DirectoryInfo RootDirectory =>
-        new(RootPath.ThrowCorruptedIfNull());
+    private DirectoryInfo RootDirectory => new(RootPath);
     
     /// <summary>
     /// Retrieve Minecraft entry by Minecraft id
