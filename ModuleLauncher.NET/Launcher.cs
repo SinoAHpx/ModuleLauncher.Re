@@ -53,6 +53,18 @@ public class Launcher
 
     #endregion
 
+    /// <summary>
+    /// Launch minecraft by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public async Task<Process> LaunchAsync(string id)
+    {
+        var minecraftEntry = MinecraftResolver.GetMinecraft(id);
+
+        return await LaunchAsync(minecraftEntry);
+    }
+    
     public async Task<Process> LaunchAsync(MinecraftEntry minecraftEntry)
     {
         var arguments = GetLaunchArguments(minecraftEntry);
