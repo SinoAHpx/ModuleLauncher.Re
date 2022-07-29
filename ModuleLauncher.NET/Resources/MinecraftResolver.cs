@@ -80,6 +80,7 @@ public class MinecraftResolver
 
         var jsonText = tree.Json.ReadAllText();
         var json = JsonConvert.DeserializeObject<MinecraftJson>(jsonText).ThrowCorruptedIfNull();
+        json.Raw = jsonText.ToJObject();
 
         var entry = new MinecraftEntry
         {

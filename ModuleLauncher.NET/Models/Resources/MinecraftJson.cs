@@ -48,6 +48,9 @@ public class MinecraftJson
     [JsonProperty("minecraftArguments")] public string? MinecraftArguments { get; set; }
 
     [JsonProperty("inheritsFrom")] public string? InheritsFrom { get; set; }
+
+    [JsonIgnore]
+    public JToken Raw { get; set; }
 }
 
 /// <summary>
