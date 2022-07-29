@@ -13,6 +13,12 @@ public class LibrariesChecker
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft")
             : AnsiConsole.Ask<string>("What is your expected path? ");
         var resolver = new MinecraftResolver(mcPath);
+        var download = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .AddChoices("Default", "Bmcl", "Mcbbs")
+                .Title("Select a download source")
+                .Mode(SelectionMode.Leaf)).ResolveDownloadSource();
+        
         while (true)
         {
             var mc = resolver.GetMinecraft(AnsiConsole.Ask<string>("Minecraft id: "));
@@ -23,7 +29,7 @@ public class LibrariesChecker
             foreach (var libraryEntry in mc.GetLibraries())
             {
                 AnsiConsole.MarkupLine(
-                    $"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.File.Name}[/], Type: [blue]{libraryEntry.Type}[/]");
+                    $"[{(libraryEntry.IsNative ? "red" : "green")}]{libraryEntry.File.Name}[/], Type: [blue]{libraryEntry.Type}[/] \n Download: [fuchsia]{libraryEntry.GetDownloadUrl(download)}[/]");
             }
         }
     }

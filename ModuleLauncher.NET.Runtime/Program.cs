@@ -1,12 +1,4 @@
-﻿using System.Diagnostics;
-using Flurl.Http;
-using Manganese.Process;
-using Manganese.Text;
-using ModuleLauncher.NET.Authentications;
-using ModuleLauncher.NET.Models.Authentication;
-using ModuleLauncher.NET.Resources;
-using ModuleLauncher.NET.Runtime;
-using ModuleLauncher.NET.Utilities;
+﻿using ModuleLauncher.NET.Runtime;
 
 LibrariesChecker.Check();
 
