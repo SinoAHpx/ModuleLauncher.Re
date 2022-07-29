@@ -1,6 +1,8 @@
-﻿using ModuleLauncher.NET.Runtime;
+﻿using ModuleLauncher.NET.Resources;
+using ModuleLauncher.NET.Runtime;
 
-LibrariesChecker.Check();
+var resolver = new MinecraftResolver(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
+
 
 static class RuntimeUtils
 {
