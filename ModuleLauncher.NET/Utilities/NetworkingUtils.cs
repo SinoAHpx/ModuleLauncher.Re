@@ -72,6 +72,19 @@ public static class NetworkingUtils
     }
 
     /// <summary>
+    /// Grab minecraft from remote and convert it to local
+    /// </summary>
+    /// <param name="resolver"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static async Task<MinecraftEntry> GetRemoteMinecraftAndToLocalAsync(this MinecraftResolver resolver, string id)
+    {
+        var remote = await GetRemoteMinecraftAsync(id);
+        return await remote.ResolveLocalEntryAsync(resolver);
+    }
+
+
+    /// <summary>
     /// Refresh the internal cache variable
     /// </summary>
     /// <returns></returns>
