@@ -46,14 +46,15 @@ public class MinecraftResolver
     /// Private wrapper of <see cref="RootPath"/>
     /// </summary>
     private DirectoryInfo RootDirectory => new(RootPath);
-    
+
     /// <summary>
     /// Retrieve Minecraft entry by Minecraft id
     /// </summary>
     /// <param name="id">e.g. 1.16.1</param>
+    /// <param name="workingDirectory">Working directory for single Minecraft, usually an absolute path</param>
     /// <returns></returns>
     /// <exception cref="CorruptedStuctureException"></exception>
-    public MinecraftEntry GetMinecraft(string id)
+    public MinecraftEntry GetMinecraft(string id, string? workingDirectory = null)
     {
         if (!RootDirectory.Exists)
             throw new CorruptedStuctureException("Minecraft path does not exist");
@@ -74,6 +75,11 @@ public class MinecraftResolver
             VersionRoot = RootDirectory.Dive($"versions/{id}"),
             Natives = RootDirectory.Dive($"versions/{id}/natives")
         };
+
+        if (!workingDirectory.IsNullOrEmpty())
+        {
+            tree.WorkingDirectory = new DirectoryInfo(workingDirectory);
+        }
 
         if (!tree.VersionRoot.Exists)
             throw new CorruptedStuctureException("Minecraft path does not exist");

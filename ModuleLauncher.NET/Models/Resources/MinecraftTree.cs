@@ -73,6 +73,11 @@ public class MinecraftTree
     /// </summary>
     public DirectoryInfo Natives { get; set; }
 
+    /// <summary>
+    /// Real working directory instead of Root
+    /// </summary>
+    public DirectoryInfo WorkingDirectory { get; set; }
+    
     public override string ToString()
     {
         return new
@@ -89,7 +94,8 @@ public class MinecraftTree
             Jar = Jar.FullName,
             Json = Json.FullName,
             VersionRoot = VersionRoot.FullName,
-            Natives = Natives.FullName
+            Natives = Natives.FullName,
+            WorkingDirectory = WorkingDirectory.FullName
         }.ToJsonString();
     }
 }

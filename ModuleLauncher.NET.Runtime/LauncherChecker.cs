@@ -35,8 +35,10 @@ public class LauncherChecker
         while (true)
         {
             var id = AnsiConsole.Ask<string>("Input a [red bold]version[/]: ");
-            var minecraft = resolver.GetMinecraft(id);
-    
+            var minecraft = AnsiConsole.Confirm("Use separated working directory? ")
+                ? resolver.GetMinecraft(id, AnsiConsole.Ask<string>("Input an [red]absolute path[/]: "))
+                : resolver.GetMinecraft(id);
+
             var command = launcher.GetLaunchArguments(minecraft);
             command.Print();
 

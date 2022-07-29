@@ -97,7 +97,7 @@ public class Launcher
             {
                 FileName = LauncherConfig.Javas.FirstOrDefault(j => j.Version == javaVersion)?.Executable.FullName,
                 Arguments = arguments,
-                WorkingDirectory = minecraftEntry.Tree.Root.FullName,
+                WorkingDirectory = minecraftEntry.Tree.WorkingDirectory.FullName,
                 UseShellExecute = false,
                 RedirectStandardInput = false,
                 RedirectStandardOutput = true,
@@ -169,7 +169,7 @@ public class Launcher
         boilerplate = boilerplate.Replace("${auth_player_name}", $"\"{LauncherConfig.Authentication.Name}\"")
             .Replace("${version_name}", $"\"{LauncherConfig.LauncherName}\"")
             .Replace("${version_type}", $"\"{LauncherConfig.LauncherName}\"")
-            .Replace("${game_directory}", $"\"{minecraftEntry.Tree.Root}\"")
+            .Replace("${game_directory}", $"\"{minecraftEntry.Tree.WorkingDirectory}\"")
             .Replace("${assets_root}", $"\"{minecraftEntry.Tree.Assets}\"")
             .ReplaceIfNull("${assets_index_name}", minecraftEntry.Json.AssetId,
                 minecraftEntry.GetInheritSource()?.Json.AssetId)
