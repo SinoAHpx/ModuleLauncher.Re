@@ -59,11 +59,13 @@ public static class MinecraftUtils
     /// Throw a CorruptedStuctureException if object is null
     /// </summary>
     /// <param name="t">Could be MinecraftJson MinecraftEntry...</param>
+    /// <param name="message"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T ThrowCorruptedIfNull<T>(this T? t)
+    public static T ThrowCorruptedIfNull<T>(this T? t, string? message = null)
     {
-        return t.ThrowIfNull(new CorruptedStuctureException("Minecraft json file corrupted"));
+        message ??= "Minecraft json file corrupted";
+        return t.ThrowIfNull(new CorruptedStuctureException(message));
     }
 
     /// <summary>
