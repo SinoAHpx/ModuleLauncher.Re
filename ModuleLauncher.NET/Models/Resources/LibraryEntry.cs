@@ -14,7 +14,7 @@ public class LibraryEntry
     public string RelativeUrl { get; set; }
 
     /// <summary>
-    /// <example>On Windows: com\mojang\patchy\1.3.9\patchy-1.3.9.jar, on other os this could be same as <see cref="RelativeUrl"/></example>
+    /// Library entry file info
     /// </summary>
     public FileInfo File { get; set; }
 
