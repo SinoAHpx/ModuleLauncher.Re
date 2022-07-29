@@ -62,6 +62,7 @@ public class MinecraftResolver
         var tree = new MinecraftTree
         {
             Root = RootDirectory,
+            WorkingDirectory = RootDirectory,
             Versions = RootDirectory.Dive("versions"),
             Saves = RootDirectory.Dive("saves"),
             Mods = RootDirectory.Dive("mods"),
