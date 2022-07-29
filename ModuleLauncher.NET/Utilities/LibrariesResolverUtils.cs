@@ -45,4 +45,14 @@ public static class LibrariesResolverUtils
 
         return (name, url);
     }
+
+    /// <summary>
+    /// Get libraries, equals to LibrariesResolver.GetLibraries
+    /// </summary>
+    /// <param name="minecraftEntry">Minecraft entry</param>
+    /// <returns></returns>
+    public static List<LibraryEntry> GetLibraries(this MinecraftEntry minecraftEntry)
+    {
+        return LibrariesResolver.GetLibraries(minecraftEntry);
+    }
 }
