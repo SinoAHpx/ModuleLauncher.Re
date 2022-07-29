@@ -117,8 +117,8 @@ public class Launcher
     {
         await Task.Run(() =>
         {
-            var natives = LibrariesResolver
-                .GetLibraries(minecraftEntry).Where(l => l.IsNative)
+            var natives = minecraftEntry
+                .GetLibraries().Where(l => l.IsNative)
                 .ToList();
 
             if (!natives.Any())
@@ -224,7 +224,7 @@ public class Launcher
     
     private string GetJvmArguments(MinecraftEntry minecraftEntry)
     {
-        var libraries = LibrariesResolver.GetLibraries(minecraftEntry);
+        var libraries = minecraftEntry.GetLibraries();
         
         var rawArgs = new List<string>
         {
