@@ -112,7 +112,8 @@ public static class NetworkingUtils
             var json = await remoteMinecraftEntry.Url.GetStringAsync();
             var destinationDir =
                 new DirectoryInfo(Path.Combine(resolver.RootPath, "versions", remoteMinecraftEntry.Id));
-
+            destinationDir.Create();
+            
             var jsonFile = destinationDir.DiveToFile($"{remoteMinecraftEntry.Id}.json");
             await jsonFile.WriteAllTextAsync(json);
 
