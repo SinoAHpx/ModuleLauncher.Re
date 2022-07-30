@@ -74,7 +74,7 @@ public class AssetsResolver
     /// <returns></returns>
     public static async Task<List<AssetEntry>> GetAssetsAsync(MinecraftEntry minecraftEntry)
     {
-        var assetIndexMetadata = GetAssetIndexMetadata(minecraftEntry);
+        var assetIndexMetadata = minecraftEntry.GetAssetIndexMetadata();
         var assetIndexFile = minecraftEntry.Tree.AssetsIndexes.DiveToFile($"{assetIndexMetadata.AssetIndex}.json");
         if (!assetIndexFile.Exists)
         {
@@ -97,7 +97,7 @@ public class AssetsResolver
     {
         //sync: no automatic download
         //async: automatically download when index file missing
-        var assetIndex = GetAssetIndexMetadata(minecraftEntry).AssetIndex;
+        var assetIndex = minecraftEntry.GetAssetIndexMetadata().AssetIndex;
         var assetIndexFile = minecraftEntry.Tree.AssetsIndexes.DiveToFile($"{assetIndex}.json");
 
         if (!assetIndexFile.Exists)
@@ -164,26 +164,5 @@ public class AssetsResolver
         };
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="minecraftEntry"></param>
-    /// <returns></returns>
-    private static (string AssetIndex, string AssetUrl) GetAssetIndexMetadata(MinecraftEntry minecraftEntry)
-    {
-        if (!minecraftEntry.Json.AssetId.IsNullOrEmpty() && !minecraftEntry.Json.AssetIndexUrl.IsNullOrEmpty())
-            return (minecraftEntry.Json.AssetId, minecraftEntry.Json.AssetIndexUrl);
 
-        if (minecraftEntry.HasInheritSource())
-        {
-            var inheritSource = minecraftEntry
-                .GetInheritSource()
-                .ThrowCorruptedIfNull("Missing inherit Minecraft");
-            return (inheritSource.Json.AssetId
-                .ThrowCorruptedIfNull(), inheritSource.Json.AssetIndexUrl.ThrowCorruptedIfNull());
-        }
-
-        return ("legacy",
-            "https://launchermeta.mojang.com/v1/packages/770572e819335b6c0a053f8378ad88eda189fc14/legacy.json");
-    }
 }
