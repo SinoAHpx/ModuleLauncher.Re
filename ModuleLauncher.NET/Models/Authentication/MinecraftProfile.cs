@@ -11,9 +11,12 @@ public class MinecraftProfile
     public string Name { get; set; }
 
     [JsonProperty("skins")]
-    public List<Skin> skins { get; set; }
+    public List<AccountTesture> skins { get; set; }
+    
+    [JsonProperty("capes")]
+    public List<AccountTesture> Capes {get; set;}
 
-    public class Skin
+    public class AccountTesture
     {
         [JsonProperty("id")]
         public string Id { get; set; }
