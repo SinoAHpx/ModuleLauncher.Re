@@ -41,7 +41,7 @@ public static class AssetsResolverUtils
         var assetIndexFile = minecraftEntry.Tree.AssetsIndexes.DiveToFile($"{assetIndex.AssetIndex}.json");
         await assetIndexFile.WriteAllTextAsync(assetIndexJson);
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -109,13 +109,15 @@ public static class AssetsResolverUtils
                 var resourceFile = minecraftEntry.Tree.WorkingDirectory.DiveToFile($"resources/{originalName}");
                 resourceFile.Directory?.Create();
 
-                assetEntry.File.CopyTo(resourceFile.FullName, true);
+                if (!resourceFile.Exists)
+                    assetEntry.File.CopyTo(resourceFile.FullName);
             }
 
             var legacyFile = minecraftEntry.Tree.Assets.DiveToFile(originalName);
             legacyFile.Directory?.Create();
 
-            assetEntry.File.CopyTo(legacyFile.FullName, true);
+            if (!legacyFile.Exists)
+                assetEntry.File.CopyTo(legacyFile.FullName);
         }
     }
 }
