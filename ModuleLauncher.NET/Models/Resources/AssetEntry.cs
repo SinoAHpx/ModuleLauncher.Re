@@ -1,4 +1,6 @@
-﻿namespace ModuleLauncher.NET.Models.Resources;
+﻿using Newtonsoft.Json.Linq;
+
+namespace ModuleLauncher.NET.Models.Resources;
 
 public class AssetEntry
 {
@@ -26,4 +28,9 @@ public class AssetEntry
     /// For versions prior 1.6
     /// </summary>
     public bool MapToResource { get; set; }
+
+    /// <summary>
+    /// Raw json key-value entry
+    /// </summary>
+    public KeyValuePair<string, JToken> Raw { get; set; }
 }

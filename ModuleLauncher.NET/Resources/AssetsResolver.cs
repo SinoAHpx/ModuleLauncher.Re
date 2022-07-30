@@ -111,13 +111,12 @@ public class AssetsResolver
         var assets = new List<AssetEntry>();
         foreach (var (key, value) in objects)
         {
-            AssetEntry assetEntry;
-            if (assetIndex == "legacy")
-                assetEntry = ProcessLegacy(minecraftEntry, (key, value.ThrowCorruptedIfNull()));
-            else if (assetIndex == "pre-1.6")
-                assetEntry = ProcessLegacy(minecraftEntry, (key, value.ThrowCorruptedIfNull()), false);
-            else
-                assetEntry = Process(minecraftEntry, (key, value.ThrowCorruptedIfNull()));
+            var assetEntry = Process(minecraftEntry, (key, value.ThrowCorruptedIfNull()));
+            if (assetsIndexJson.Fetch("virtual") is "true")
+                assetEntry.IsLegacy = true;
+
+            if (assetsIndexJson.Fetch("map_to_resources") is "true")
+                assetEntry.MapToResource = true;
 
             assetEntry.RelativeUrl = $"{assetEntry.Hash[..2]}/{assetEntry.Hash}";
             
@@ -136,33 +135,8 @@ public class AssetsResolver
         return new AssetEntry
         {
             File = file,
-            Hash = hash,
-            IsLegacy = false,
-            MapToResource = false
+            Hash = hash
         };
     }
-
-    /// <summary>
-    /// Process assets for legacy and pre-1.6 versions
-    /// </summary>
-    /// <param name="minecraftEntry"></param>
-    /// <param name="rawAsset"></param>
-    /// <param name="isLegacy"></param>
-    /// <returns></returns>
-    private static AssetEntry ProcessLegacy(MinecraftEntry minecraftEntry, (string key, JToken value) rawAsset, bool isLegacy = true)
-    {
-        //minecraftEntry.Tree.Assets -> .minecraft\assets\virtual\legacy
-        var file = minecraftEntry.Tree.Assets.DiveToFile(rawAsset.key);
-        var hash = rawAsset.value.Fetch("hash").ThrowCorruptedIfNull();
-
-        return new AssetEntry
-        {
-            File = file,
-            Hash = hash,
-            IsLegacy = isLegacy,
-            MapToResource = !isLegacy
-        };
-    }
-
 
 }
