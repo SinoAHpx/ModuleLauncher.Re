@@ -1,4 +1,5 @@
-﻿using Flurl.Http;
+﻿using System.IO.Compression;
+using Flurl.Http;
 using Manganese.Data;
 using Manganese.IO;
 using Manganese.Text;
@@ -172,5 +173,35 @@ public static class MinecraftUtils
 
             return await remoteMinecraftEntry.ResolveLocalEntryAsync(resolver);
         }
+    }
+    
+    public static async Task ExtractNativesAsync(this MinecraftEntry minecraftEntry)
+    {
+        await Task.Run(() =>
+        {
+            var natives = minecraftEntry
+                .GetLibraries().Where(l => l.IsNative)
+                .ToList();
+
+            if (!natives.Any())
+                return;
+
+            foreach (var native in natives)
+            {
+                var zipEntries = ZipFile.OpenRead(native.File.FullName).Entries;
+                foreach (var zipArchiveEntry in zipEntries)
+                {
+                    if (Path.HasExtension(zipArchiveEntry.FullName))
+                    {
+                        var toExtract = minecraftEntry.Tree.Natives.DiveToFile(zipArchiveEntry.FullName);
+                        toExtract.Directory?.Create();
+                        if (!toExtract.Exists)
+                        {
+                            zipArchiveEntry.ExtractToFile(toExtract.FullName, true);
+                        }
+                    }
+                }
+            }
+        });
     }
 }

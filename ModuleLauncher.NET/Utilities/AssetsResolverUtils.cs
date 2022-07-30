@@ -73,10 +73,32 @@ public static class AssetsResolverUtils
     public static async Task MapAssetsAsync(this MinecraftEntry minecraftEntry)
     {
         var assets = await minecraftEntry.GetAssetsAsync();
-        if (assets.All(a => !a.IsLegacy && !a.MapToResource))
+        MapAssets(assets, minecraftEntry);
+    }
+
+    /// <summary>
+    /// Get assets and map them to resources or virtual/legacy
+    /// <remarks>If certain entry missing, it will be skipped, this method will be invoked in Launcher class</remarks>
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    public static void MapAssets(this MinecraftEntry minecraftEntry)
+    {
+        var assets = minecraftEntry.GetAssets();
+        MapAssets(assets, minecraftEntry);
+    }
+
+
+    /// <summary>
+    /// Internal implementation of MapAssets
+    /// </summary>
+    /// <param name="assetEntries"></param>
+    /// <param name="minecraftEntry"></param>
+    private static void MapAssets(List<AssetEntry> assetEntries, MinecraftEntry minecraftEntry)
+    {
+        if (assetEntries.All(a => !a.IsLegacy && !a.MapToResource))
             return;
 
-        foreach (var assetEntry in assets)
+        foreach (var assetEntry in assetEntries)
         {
             if (!assetEntry.File.Exists)
                 continue;

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO.Compression;
 using Manganese.IO;
 using Manganese.Text;
 using ModuleLauncher.NET.Models.Launcher;
@@ -117,43 +116,16 @@ public class Launcher
             },
             EnableRaisingEvents = true
         };
-        
-        await ExtractNativesAsync(minecraftEntry);
+
+        await minecraftEntry.ExtractNativesAsync();
+        await minecraftEntry.MapAssetsAsync();
 
         process.Start();
             
         return process;
     }
 
-    private async Task ExtractNativesAsync(MinecraftEntry minecraftEntry)
-    {
-        await Task.Run(() =>
-        {
-            var natives = minecraftEntry
-                .GetLibraries().Where(l => l.IsNative)
-                .ToList();
-
-            if (!natives.Any())
-                return;
-
-            foreach (var native in natives)
-            {
-                var zipEntries = ZipFile.OpenRead(native.File.FullName).Entries;
-                foreach (var zipArchiveEntry in zipEntries)
-                {
-                    if (Path.HasExtension(zipArchiveEntry.FullName))
-                    {
-                        var toExtract = minecraftEntry.Tree.Natives.DiveToFile(zipArchiveEntry.FullName);
-                        toExtract.Directory?.Create();
-                        if (!toExtract.Exists)
-                        {
-                            zipArchiveEntry.ExtractToFile(toExtract.FullName, true);
-                        }
-                    }
-                }
-            }
-        });
-    }
+    
     
     public string GetLaunchArguments(MinecraftEntry minecraftEntry)
     {
