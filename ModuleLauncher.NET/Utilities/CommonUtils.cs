@@ -146,5 +146,23 @@ public static class CommonUtils
 
         return split.First().ToInt32();
     }
+
+    /// <summary>
+    /// Convert unix milliseconds timestamp to DateTime
+    /// </summary>
+    /// <param name="timestamp"></param>
+    /// <returns></returns>
+    public static DateTime? UnixTimeStampToDateTime(string? timestamp)
+    {
+        if (timestamp.IsNullOrEmpty())
+        {
+            return null;
+        }
+        
+        var offset = DateTimeOffset.FromUnixTimeMilliseconds(
+            timestamp.ThrowIfNotInt64<InvalidOperationException>($"{timestamp} is not a valid long integer"));
+
+        return offset.DateTime;
+    }
 }
 

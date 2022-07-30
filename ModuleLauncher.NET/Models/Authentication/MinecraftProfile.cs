@@ -31,7 +31,7 @@ public class MinecraftProfile
 
         [JsonProperty("variant")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public SkinVariant Variant { get; set; }
+        public SkinVariant? Variant { get; set; }
 
         [JsonProperty("alias")]
         public string Alias { get; set; }
