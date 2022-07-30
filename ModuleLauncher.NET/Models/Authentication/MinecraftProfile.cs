@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ModuleLauncher.NET.Models.Utils;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ModuleLauncher.NET.Models.Authentication;
 
@@ -27,8 +29,9 @@ public class MinecraftProfile
         [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonProperty("varient")]
-        public string Varient { get; set; }
+        [JsonProperty("variant")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public SkinVariant Variant { get; set; }
 
         [JsonProperty("alias")]
         public string Alias { get; set; }
