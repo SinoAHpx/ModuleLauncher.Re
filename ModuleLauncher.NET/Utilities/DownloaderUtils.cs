@@ -14,10 +14,8 @@ public static class DownloaderUtils
     /// <returns></returns>
     public static string? GetDownloadUrl(this LibraryEntry entry, DownloadSource downloadSource = DownloadSource.Default)
     {
-        if (downloadSource == DownloadSource.Bmcl)
-            return $"https://bmclapi2.bangbang93.com/maven/{entry.RelativeUrl}";
-        if (downloadSource == DownloadSource.Mcbbs)
-            return $"https://download.mcbbs.net/maven/{entry.RelativeUrl}";
+        if (downloadSource != DownloadSource.Default)
+            return $"{downloadSource.GetDownloadSourcePrefix()}/{entry.RelativeUrl}";
 
         var artifactUrl = entry.Raw.Fetch("downloads.artifact.url");
         if (!artifactUrl.IsNullOrEmpty())
@@ -35,6 +33,13 @@ public static class DownloaderUtils
         return entry.Type == MinecraftType.OptiFine ? null : $"https://libraries.minecraft.net/{entry.RelativeUrl}";
     }
 
+    /// <summary>
+    /// Get download url of vanilla Minecraft
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    /// <param name="downloadSource"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public static string GetDownloadUrl(this MinecraftEntry minecraftEntry, DownloadSource downloadSource = DownloadSource.Default)
     {
         if (minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
@@ -44,12 +49,37 @@ public static class DownloaderUtils
         var sha1 = rawClient.Fetch("sha1").ThrowCorruptedIfNull();
         if (downloadSource != DownloadSource.Default)
         {
-            var prefix = downloadSource == DownloadSource.Bmcl ? "bmclapi2.bangbang93.com" : "download.mcbbs.net";
-            var combine = $"https://{prefix}/mc/game/{minecraftEntry.Json.Id}/client/{sha1}/client.jar";
+            var combine = $"{downloadSource.GetDownloadSourcePrefix()}/mc/game/{minecraftEntry.Json.Id}/client/{sha1}/client.jar";
             return combine;
         }
         
         var url = rawClient.Fetch("url").ThrowCorruptedIfNull();
         return url;
+    }
+
+    /// <summary>
+    /// Get download url of certain asset entry
+    /// </summary>
+    /// <param name="assetEntry"></param>
+    /// <param name="downloadSource"></param>
+    /// <returns></returns>
+    public static string GetDownloadUrl(this AssetEntry assetEntry, DownloadSource downloadSource = DownloadSource.Default)
+    {
+        if (downloadSource == DownloadSource.Default)
+            return $"http://resources.download.minecraft.net/{assetEntry.RelativeUrl}";
+
+        return $"https://{downloadSource.GetDownloadSourcePrefix()}/{assetEntry.RelativeUrl}";
+    }
+
+    /// <summary>
+    /// Get download prefix
+    /// <example>download.mcbbs.net and bmclapi2.bangbang93.com</example>
+    /// </summary>
+    /// <param name="downloadSource"></param>
+    /// <returns></returns>
+    private static string GetDownloadSourcePrefix(this DownloadSource downloadSource)
+    {
+        //it can't be default
+        return $"https://{(downloadSource == DownloadSource.Bmcl ? "bmclapi2.bangbang93.com" : "download.mcbbs.net")}";
     }
 }
