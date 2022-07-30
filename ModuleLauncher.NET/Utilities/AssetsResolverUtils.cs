@@ -1,4 +1,6 @@
-﻿using Manganese.Text;
+﻿using Flurl.Http;
+using Manganese.IO;
+using Manganese.Text;
 using ModuleLauncher.NET.Models.Resources;
 using ModuleLauncher.NET.Resources;
 
@@ -26,9 +28,17 @@ public static class AssetsResolverUtils
         return await AssetsResolver.GetAssetsAsync(minecraftEntry);
     }
 
-    public static void RefreshAssetIndex(this MinecraftEntry minecraftEntry)
+    /// <summary>
+    /// Refresh assets file since it might be updated someday
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    public static async Task RefreshAssetIndexAsync(this MinecraftEntry minecraftEntry)
     {
-        
+        var assetIndex = minecraftEntry.GetAssetIndexMetadata();
+        var assetIndexJson = await assetIndex.AssetUrl.GetStringAsync();
+
+        var assetIndexFile = minecraftEntry.Tree.AssetsIndexes.DiveToFile($"{assetIndex.AssetIndex}.json");
+        await assetIndexFile.WriteAllTextAsync(assetIndexJson);
     }
     
     /// <summary>
