@@ -1,22 +1,14 @@
-﻿using Manganese.Text;
-using ModuleLauncher.NET.Models.Resources;
-using ModuleLauncher.NET.Resources;
-using ModuleLauncher.NET.Runtime;
-using ModuleLauncher.NET.Utilities;
-using Newtonsoft.Json.Linq;
+﻿using System.Text;
+using Flurl.Http;
+using Manganese.Text;
 
-// await LauncherChecker.CheckAsync("1.6.4-Forge9.11.1.1345", @"C:\Users\ahpx\AppData\Roaming\.minecraft\.minecraft-legacy");
-// return;
-var resolver = new MinecraftResolver(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
-while (true)
-{
-    var minecraft = resolver.GetMinecraft(AnsiConsole.Ask<string>("Input a id: "));
-    foreach (var assetEntry in AssetsResolver.GetAssets(minecraft))
-    {
-        AnsiConsole.MarkupLine($"[red]{assetEntry.File}[/]");
-        AnsiConsole.MarkupLine($"[blue]{assetEntry.GetDownloadUrl()}[/]");
-    }
-}
+var response = await "https://sessionserver.mojang.com/session/minecraft/profile/db9c8b5f84ef493ebc58d218e2e0f007"
+    .GetStringAsync();
+
+var base64 = response.FetchJToken("properties").First.Fetch("value");
+var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+
+decoded.Print();
 
 static class RuntimeUtils
 {
