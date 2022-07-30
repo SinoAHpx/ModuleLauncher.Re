@@ -119,6 +119,7 @@ public class AssetsResolver
                 assetEntry.MapToResource = true;
 
             assetEntry.RelativeUrl = $"{assetEntry.Hash[..2]}/{assetEntry.Hash}";
+            assetEntry.Raw = new KeyValuePair<string, JToken>(key, value!);
             
             assets.Add(assetEntry);
         }
@@ -135,7 +136,7 @@ public class AssetsResolver
         return new AssetEntry
         {
             File = file,
-            Hash = hash
+            Hash = hash,
         };
     }
 
