@@ -5,6 +5,8 @@ using ModuleLauncher.NET.Runtime;
 using ModuleLauncher.NET.Utilities;
 using Newtonsoft.Json.Linq;
 
+await LauncherChecker.CheckAsync();
+return;
 var resolver = new MinecraftResolver(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
 while (true)
 {

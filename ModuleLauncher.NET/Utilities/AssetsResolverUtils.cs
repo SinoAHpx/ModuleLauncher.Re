@@ -1,4 +1,5 @@
 ﻿using Flurl.Http;
+using Manganese.Array;
 using Manganese.IO;
 using Manganese.Text;
 using ModuleLauncher.NET.Models.Resources;
@@ -62,5 +63,37 @@ public static class AssetsResolverUtils
 
         return ("legacy",
             "https://launchermeta.mojang.com/v1/packages/770572e819335b6c0a053f8378ad88eda189fc14/legacy.json");
+    }
+
+    /// <summary>
+    /// Get assets and map them to resources or virtual/legacy
+    /// <remarks>If certain entry missing, it will be skipped, this method will be invoked in Launcher class</remarks>
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    public static async Task MapAssetsAsync(this MinecraftEntry minecraftEntry)
+    {
+        var assets = await minecraftEntry.GetAssetsAsync();
+        if (assets.All(a => !a.IsLegacy && !a.MapToResource))
+            return;
+
+        foreach (var assetEntry in assets)
+        {
+            if (!assetEntry.File.Exists)
+                continue;
+
+            var originalName = assetEntry.Raw.Key;
+            if (assetEntry.MapToResource)
+            {
+                var resourceFile = minecraftEntry.Tree.WorkingDirectory.DiveToFile($"resources/{originalName}");
+                resourceFile.Directory?.Create();
+
+                assetEntry.File.CopyTo(resourceFile.FullName, true);
+            }
+
+            var legacyFile = minecraftEntry.Tree.Assets.DiveToFile(originalName);
+            legacyFile.Directory?.Create();
+
+            assetEntry.File.CopyTo(legacyFile.FullName, true);
+        }
     }
 }
