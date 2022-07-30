@@ -1,14 +1,17 @@
 ﻿using System.Text;
 using Flurl.Http;
 using Manganese.Text;
+using ModuleLauncher.NET.Models.Utils;
+using ModuleLauncher.NET.Utilities;
 
-var response = await "https://sessionserver.mojang.com/session/minecraft/profile/db9c8b5f84ef493ebc58d218e2e0f007"
-    .GetStringAsync();
+var accessToken =
+    "eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQ0MDM0MjkwNzc3NyIsImFnZyI6IkFkdWx0Iiwic3ViIjoiNjhkY2MzMDUtMjI1Mi00MzNlLWJjNDktYTY4Mjc0YzM5OWJjIiwibmJmIjoxNjU5MTY1NDk0LCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NTkyNTE4OTQsImlhdCI6MTY1OTE2NTQ5NCwicGxhdGZvcm0iOiJPTkVTVE9SRSIsInl1aWQiOiI0NjZkODM3MzEwZWY2OGZiYThkNDdhY2VmYjk3YmJmNCJ9.Fq5yYXee-1OFMo8CNKVv7r1GBXgGFHxT4c63Cr1SycA";
 
-var base64 = response.FetchJToken("properties").First.Fetch("value");
-var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+var profile = await SkinUtils.ChangeSkinAsync(accessToken,
+    new FileInfo(@"C:\Users\ahpx\Downloads\2022_07_26_badb-chapter-1-1--i-am-a-sinner--you-are-a-saint--20636351.png"),
+    SkinVariant.Slim);
 
-decoded.Print();
+profile.ToJsonString().Print();
 
 static class RuntimeUtils
 {
