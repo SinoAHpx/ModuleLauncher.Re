@@ -35,7 +35,7 @@ public static class DownloaderUtils
         return entry.Type == MinecraftType.OptiFine ? null : $"https://libraries.minecraft.net/{entry.RelativeUrl}";
     }
 
-    public static string? GetDownloadUrl(this MinecraftEntry minecraftEntry, DownloadSource downloadSource = DownloadSource.Default)
+    public static string GetDownloadUrl(this MinecraftEntry minecraftEntry, DownloadSource downloadSource = DownloadSource.Default)
     {
         if (minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
             throw new InvalidOperationException("Only vanilla type of Minecraft can get download url");
