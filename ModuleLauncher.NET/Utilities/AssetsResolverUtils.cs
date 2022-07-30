@@ -10,7 +10,7 @@ namespace ModuleLauncher.NET.Utilities;
 public static class AssetsResolverUtils
 {
     /// <summary>
-    /// Get assets, will automatically download if no assets index exists 
+    /// Get assets without automatic download
     /// </summary>
     /// <param name="minecraftEntry"></param>
     /// <returns></returns>
@@ -18,9 +18,9 @@ public static class AssetsResolverUtils
     {
         return AssetsResolver.GetAssets(minecraftEntry);
     }
-
+    
     /// <summary>
-    /// Get assets without automatic download
+    /// Get assets, will automatically download if no assets index exists 
     /// </summary>
     /// <param name="minecraftEntry"></param>
     /// <returns></returns>

@@ -76,15 +76,23 @@ public class AssetsResolver
     {
         var assetIndexMetadata = minecraftEntry.GetAssetIndexMetadata();
         var assetIndexFile = minecraftEntry.Tree.AssetsIndexes.DiveToFile($"{assetIndexMetadata.AssetIndex}.json");
+
+        string assetIndexText;
         if (!assetIndexFile.Exists)
         {
-            var remoteAssetIndex = await assetIndexMetadata.AssetUrl.GetStringAsync();
+            assetIndexText = await assetIndexMetadata.AssetUrl.GetStringAsync();
             assetIndexFile.Directory?.Create();
 
-            await assetIndexFile.WriteAllTextAsync(remoteAssetIndex);
+            await assetIndexFile.WriteAllTextAsync(assetIndexText);
+        }
+        else
+        {
+            assetIndexText = await assetIndexFile.ReadAllTextAsync();
         }
 
-        return GetAssets(minecraftEntry);
+        var assetIndexJson = assetIndexText.ToJObject();
+
+        return GetAssets(assetIndexJson, minecraftEntry);
     }
 
     /// <summary>
@@ -102,41 +110,46 @@ public class AssetsResolver
 
         if (!assetIndexFile.Exists)
             throw new CorruptedStuctureException("Missing assets index file, you may download it first");
-
         var assetsIndexJson = assetIndexFile.ReadAllText().ToJObject();
+        
+        return GetAssets(assetsIndexJson, minecraftEntry);
+    }
+
+    private static List<AssetEntry> GetAssets(JObject assetsIndexJson, MinecraftEntry minecraftEntry)
+    {
         var objects = assetsIndexJson
             .FetchJToken("objects").ThrowCorruptedIfNull()
             .ToObject<JObject>().ThrowCorruptedIfNull();
 
         var assets = new List<AssetEntry>();
-        foreach (var (key, value) in objects)
+        foreach (var keyValuePair in objects)
         {
-            var assetEntry = Process(minecraftEntry, (key, value.ThrowCorruptedIfNull()));
-            if (assetsIndexJson.Fetch("virtual") is "true")
-                assetEntry.IsLegacy = true;
-
-            if (assetsIndexJson.Fetch("map_to_resources") is "true")
-                assetEntry.MapToResource = true;
-
-            assetEntry.RelativeUrl = $"{assetEntry.Hash[..2]}/{assetEntry.Hash}";
-            assetEntry.Raw = new KeyValuePair<string, JToken>(key, value!);
-            
+            var assetEntry = Process(minecraftEntry, keyValuePair.ThrowCorruptedIfNull());
+            assetEntry.Raw = keyValuePair!;
             assets.Add(assetEntry);
         }
+        
+        if (bool.TryParse(assetsIndexJson.Fetch("virtual"), out _))
+            assets.ForEach(entry => entry.IsLegacy = true);
+
+        if (bool.TryParse(assetsIndexJson.Fetch("map_to_resources"), out _))
+            assets.ForEach(entry => entry.MapToResource = true);
         
         return assets;
     }
 
-    private static AssetEntry Process(MinecraftEntry minecraftEntry, (string key, JToken value) rawAsset)
+    private static AssetEntry Process(MinecraftEntry minecraftEntry, KeyValuePair<string, JToken?> rawAsset)
     {
-        var parentDir = minecraftEntry.Tree.Assets.Dive("objects");
-        var hash = rawAsset.value.Fetch("hash").ThrowCorruptedIfNull();
-        var file = parentDir.DiveToFile($"{hash[..2]}/{hash}");
+        var parentDir = minecraftEntry.Tree.Root.Dive("assets/objects");
+        var hash = rawAsset.Value.ThrowCorruptedIfNull().Fetch("hash").ThrowCorruptedIfNull();
+        var relativeUrl = $"{hash[..2]}/{hash}";
+        var file = parentDir.DiveToFile(relativeUrl);
 
         return new AssetEntry
         {
             File = file,
             Hash = hash,
+            RelativeUrl = relativeUrl
         };
     }
 
