@@ -11,6 +11,10 @@
         <Description>Your on-the-fly Minecraft launcher core.</Description>
         <Copyright>Copyright 2022 AHpx all rights reserved.</Copyright>
         <PackageProjectUrl>https://github.com/SinoAHpx/ModuleLauncher.Re</PackageProjectUrl>
+        <PackageIcon>ML-logo.png</PackageIcon>
+        <RepositoryUrl>https://github.com/SinoAHpx/ModuleLauncher.Re</RepositoryUrl>
+        <PackageTags>minecraft, minecraft-launcher</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,6 +26,14 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>$(MSBuildProjectName).Runtime</_Parameter1>
         </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\Assets\ML-logo.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+        <Link>ML-logo.png</Link>
+      </None>
     </ItemGroup>
 
 </Project>
