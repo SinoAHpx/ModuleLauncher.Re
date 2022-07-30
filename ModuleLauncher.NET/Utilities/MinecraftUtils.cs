@@ -148,6 +148,7 @@ public static class MinecraftUtils
 
     /// <summary>
     /// Convert remote minecraft entry to local MinecraftEntry
+    /// <remarks>Essentially this method fetch remote Minecraft json and write it to local</remarks>
     /// </summary>
     /// <param name="remoteMinecraftEntry"></param>
     /// <param name="resolver"></param>
