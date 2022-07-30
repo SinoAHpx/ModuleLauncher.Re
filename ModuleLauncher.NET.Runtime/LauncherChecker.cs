@@ -7,7 +7,7 @@ namespace ModuleLauncher.NET.Runtime;
 
 public class LauncherChecker
 {
-    public static async Task CheckAsync()
+    public static async Task CheckAsync(string? defaultVersion = null, string? defaultWorkingDirectory = null)
     {
         var resolver = new MinecraftResolver(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
         var launcher = new Launcher(resolver, new LauncherConfig
@@ -42,10 +42,10 @@ public class LauncherChecker
         
         while (true)
         {
-            var id = AnsiConsole.Ask<string>("Input a [red bold]version[/]: ");
-            var minecraft = AnsiConsole.Confirm("Use separated working directory? ")
-                ? resolver.GetMinecraft(id, AnsiConsole.Ask<string>("Input an [red]absolute path[/]: "))
-                : resolver.GetMinecraft(id);
+            defaultVersion ??= AnsiConsole.Ask<string>("Input a [red bold]version[/]: ");
+            defaultWorkingDirectory ??= AnsiConsole.Ask<string>("Input an [red]absolute path[/]: ");
+            
+            var minecraft = resolver.GetMinecraft(defaultVersion, defaultWorkingDirectory);
 
             var command = launcher.GetLaunchArguments(minecraft);
             command.Print();
@@ -54,6 +54,11 @@ public class LauncherChecker
             while (!(await process.ReadOutputLineAsync()).IsNullOrEmpty())
             {
                 Console.WriteLine(await process.ReadOutputLineAsync());
+            }
+            
+            if (!AnsiConsole.Confirm("Again? "))
+            {
+                return;
             }
         }
     }
