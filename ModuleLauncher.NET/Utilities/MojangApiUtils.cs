@@ -110,11 +110,11 @@ public static class MojangApiUtils
 
         var skin = decodedJson.Fetch("textures.SKIN.url");
         if (!skin.IsNullOrEmpty())
-            profile.skins = new List<MinecraftProfile.AccountTesture> { new() { Url = skin } };
+            profile.Skins = new List<MinecraftProfile.AccountTexture> { new() { Url = skin } };
 
         var cape = decodedJson.Fetch("textures.CAPE.url");
         if (!cape.IsNullOrEmpty())
-            profile.Capes = new List<MinecraftProfile.AccountTesture> { new() { Url = cape } };
+            profile.Capes = new List<MinecraftProfile.AccountTexture> { new() { Url = cape } };
 
         return profile;
     }
