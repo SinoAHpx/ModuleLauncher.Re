@@ -7,6 +7,8 @@
 [![GitHub stars](https://badgen.net/github/stars/SinoAHpx/ModuleLauncher.Re)](https://github.com/SinoAHpx/ModuleLauncher.Re/stargazers/)
 [![Axen.Haxor](https://badgen.net/discord/members/tY8Y5HtvuK)](https://discord.gg/tY8Y5HtvuK)
 
+English / [简体中文](README_ZH.md)
+
 ## Glance
 
 - Based on .NET 6.
@@ -89,6 +91,7 @@ If you didn't satified with the current document, you can:
 
 - Open PR to [documentation repo](https://github.com/SinoAHpx/ModuleLauncher.NET.Documentation).
 - Open an [issue](https://github.com/SinoAHpx/ModuleLauncher.NET.Documentation/issues) in documentation repo.
+- Provice translations.
 
 ## Credits
 
