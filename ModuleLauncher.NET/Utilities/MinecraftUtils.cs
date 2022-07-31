@@ -206,9 +206,6 @@ public static class MinecraftUtils
 
             foreach (var native in natives)
             {
-                if (native.ValidateChecksum())
-                    continue;
-
                 var zipEntries = ZipFile.OpenRead(native.File.FullName).Entries;
                 foreach (var zipArchiveEntry in zipEntries)
                 {
