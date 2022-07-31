@@ -11,17 +11,9 @@ var rootPath = @"C:\Users\ahpx\Desktop\NewMinecraft\.minecraft";
 var mcResolver = new MinecraftResolver(rootPath);
 var minecraft = await mcResolver.GetRemoteMinecraftAndToLocalAsync(version);
 
-var libs = minecraft.GetLibraries();
-foreach (var library in libs)
-{
-    AnsiConsole.MarkupLine($"Name: [red]{library.RelativeUrl}[/]");
-    AnsiConsole.MarkupLine($"Download: {library.GetDownloadUrl()}");
-}
-
-return;
 AnsiConsole.MarkupLine("Minecraft grabbed");
 
-if (!minecraft.Tree.Jar.Exists)
+if (!minecraft.ValidateChecksum())
 {
     AnsiConsole.MarkupLine($"Starting download Minecraft {version}");
     await Policy.Handle<Exception>().RetryForeverAsync().ExecuteAsync(async () =>
@@ -36,8 +28,9 @@ if (!minecraft.Tree.Jar.Exists)
 var assets = await minecraft.GetAssetsAsync();
 foreach (var assetEntry in assets)
 {
-    if (assetEntry.File.Exists)
+    if (assetEntry.ValidateChecksum())
     {
+        AnsiConsole.MarkupLine($"[green]Checksum of {assetEntry.Hash} passed, skip[/]");
         continue;
     }
     AnsiConsole.MarkupLine($"Starting download [red]{assetEntry.Hash}[/]");
@@ -56,8 +49,9 @@ AnsiConsole.MarkupLine($"Downloaded {assets.Count} assets in total");
 var libraries = minecraft.GetLibraries();
 foreach (var libraryEntry in libraries)
 {
-    if (libraryEntry.File.Exists)
+    if (libraryEntry.ValidateChecksum())
     {
+        AnsiConsole.MarkupLine($"[green]Checksum of {libraryEntry.RelativeUrl} passed, skip[/]");
         continue;
     }
     AnsiConsole.MarkupLine($"Starting download [red]{libraryEntry.File.Name}[/]");
