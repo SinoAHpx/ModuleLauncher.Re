@@ -136,7 +136,7 @@ public static class MinecraftUtils
         {
             return resolver.GetMinecraft(id);
         }
-        catch (CorruptedStuctureException)
+        catch
         {
             var remote = await GetRemoteMinecraftAsync(id);
             return await remote.ResolveLocalEntryAsync(resolver);
@@ -177,13 +177,6 @@ public static class MinecraftUtils
             
             var jsonFile = destinationDir.DiveToFile($"{remoteMinecraftEntry.Id}.json");
             await jsonFile.WriteAllTextAsync(json);
-
-            //in case of file corrupted by some magic reason (never met before though)
-            if (jsonFile.GetSha1() != remoteMinecraftEntry.Sha1)
-            {
-                jsonFile.Delete();
-                await remoteMinecraftEntry.ResolveLocalEntryAsync(resolver);
-            }
 
             return await remoteMinecraftEntry.ResolveLocalEntryAsync(resolver);
         }
