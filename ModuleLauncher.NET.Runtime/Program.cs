@@ -9,7 +9,7 @@ using Polly;
 var version = AnsiConsole.Ask<string>("Which version you want to launch? ");
 var rootPath = @"C:\Users\ahpx\Desktop\NewMinecraft\.minecraft";
 var mcResolver = new MinecraftResolver(rootPath);
-var minecraft = await mcResolver.GetRemoteMinecraftAndToLocalAsync(version);
+var minecraft = mcResolver.GetMinecraft(version);
 
 AnsiConsole.MarkupLine("Minecraft grabbed");
 
@@ -72,6 +72,8 @@ var process = await minecraft.WithAuthentication("AHpx")
     .WithJava(
         @"C:\Users\ahpx\AppData\Local\Packages\Microsoft.4297127D64EC6_8wekyb3d8bbwe\LocalCache\Local\runtime\java-runtime-beta\windows-x64\java-runtime-beta\bin\javaw.exe")
     .LaunchAsync();
+
+
 
 LauncherUtils.Launcher?.GetLaunchArguments(minecraft).Print();
 
