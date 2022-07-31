@@ -121,14 +121,14 @@ public static class DownloaderUtils
 
     /// <summary>
     /// Validate sha1 value of Minecraft jar file
-    /// <remarks>If Minecraft entry is not vanilla version, true will be returned since there's no sha1 provided by loader versions. If Minecraft does not exist, also return true.</remarks>
+    /// <remarks>If Minecraft entry is not vanilla version, true will be returned since there's no sha1 provided by loader versions. If Minecraft does not exist, also return false.</remarks>
     /// </summary>
     public static bool ValidateChecksum(this MinecraftEntry minecraftEntry)
     {
         if (minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
             return true;
         if (!minecraftEntry.Tree.Jar.Exists)
-            return true;
+            return false;
 
         var sha1 = minecraftEntry.GetMinecraftClientDownloadInfo().Sha1;
         var realSha1 = minecraftEntry.Tree.Jar.GetSha1();
@@ -144,7 +144,7 @@ public static class DownloaderUtils
     public static bool ValidateChecksum(this AssetEntry assetEntry)
     {
         if (!assetEntry.File.Exists)
-            return true;
+            return false;
 
         var realSha1 = assetEntry.File.GetSha1();
 
