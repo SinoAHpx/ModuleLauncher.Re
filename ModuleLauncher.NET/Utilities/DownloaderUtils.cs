@@ -17,7 +17,10 @@ public static class DownloaderUtils
         if (downloadSource != DownloadSource.Default)
             return $"{downloadSource.GetDownloadSourcePrefix()}/{entry.RelativeUrl}";
 
-        var artifactUrl = entry.Raw.Fetch("downloads.artifact.url");
+        var fetchPath = entry.IsNative
+            ? $"downloads.classifiers.natives-{CommonUtils.CurrentSystemName}.url"
+            : "downloads.artifact.url";
+        var artifactUrl = entry.Raw.Fetch(fetchPath);
         if (!artifactUrl.IsNullOrEmpty())
             return artifactUrl;
 
