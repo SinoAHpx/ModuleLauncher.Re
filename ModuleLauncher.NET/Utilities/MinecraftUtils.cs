@@ -132,8 +132,15 @@ public static class MinecraftUtils
     /// <returns></returns>
     public static async Task<MinecraftEntry> GetRemoteMinecraftAndToLocalAsync(this MinecraftResolver resolver, string id)
     {
-        var remote = await GetRemoteMinecraftAsync(id);
-        return await remote.ResolveLocalEntryAsync(resolver);
+        try
+        {
+            return resolver.GetMinecraft(id);
+        }
+        catch (CorruptedStuctureException)
+        {
+            var remote = await GetRemoteMinecraftAsync(id);
+            return await remote.ResolveLocalEntryAsync(resolver);
+        }
     }
 
 
@@ -171,10 +178,21 @@ public static class MinecraftUtils
             var jsonFile = destinationDir.DiveToFile($"{remoteMinecraftEntry.Id}.json");
             await jsonFile.WriteAllTextAsync(json);
 
+            //in case of file corrupted by some magic reason (never met before though)
+            if (jsonFile.GetSha1() != remoteMinecraftEntry.Sha1)
+            {
+                jsonFile.Delete();
+                await remoteMinecraftEntry.ResolveLocalEntryAsync(resolver);
+            }
+
             return await remoteMinecraftEntry.ResolveLocalEntryAsync(resolver);
         }
     }
     
+    /// <summary>
+    /// Extract natives files
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
     public static async Task ExtractNativesAsync(this MinecraftEntry minecraftEntry)
     {
         await Task.Run(() =>
@@ -188,6 +206,9 @@ public static class MinecraftUtils
 
             foreach (var native in natives)
             {
+                if (native.ValidateChecksum())
+                    continue;
+
                 var zipEntries = ZipFile.OpenRead(native.File.FullName).Entries;
                 foreach (var zipArchiveEntry in zipEntries)
                 {

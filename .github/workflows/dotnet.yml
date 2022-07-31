@@ -1,0 +1,47 @@
+name: .NET
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      - name: Push package
+        run: |
+          # versioning
+          commithash=$(git rev-parse --short HEAD)
+          currtime=$(date +%s)
+          echo "commit hash is $commithash"
+          echo "time is $currtime"
+          
+          # ML
+          cd ModuleLauncher.NET
+          dotnet restore
+          dotnet build
+          dotnet pack
+          cd bin/Debug
+          
+          # Getting file extension name is .nupkg
+          file=""
+          cdir=`ls ./*.nupkg`
+          for eachfile in $cdir
+          do
+            file=$eachfile
+          done
+          dotnet nuget push $file --api-key ${{ secrets.NUGET_KEY  }} --source "nuget"

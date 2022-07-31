@@ -414,6 +414,8 @@ public static class LauncherUtils
         return builder;
     }
 
+    public static Launcher? Launcher;
+    
     /// <summary>
     /// Launch minecraft from internal config, should be the last item of the method chain
     /// </summary>
@@ -422,13 +424,13 @@ public static class LauncherUtils
     /// <returns></returns>
     public static async Task<Process> LaunchAsync(this MinecraftEntry minecraftEntry, LauncherConfig config)
     {
-        var launcher = new Launcher
+        Launcher = new Launcher
         {
             MinecraftResolver = MinecraftResolver.Of(minecraftEntry),
             LauncherConfig = config
         };
 
-        return await launcher.LaunchAsync(minecraftEntry);
+        return await Launcher.LaunchAsync(minecraftEntry);
     }
 
     public static async Task<Process> LaunchAsync(this LauncherConfigBuilder builder)

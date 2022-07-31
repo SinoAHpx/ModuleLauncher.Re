@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
 using Manganese.Text;
 
 namespace ModuleLauncher.NET.Utilities;
@@ -163,6 +165,18 @@ public static class CommonUtils
             timestamp.ThrowIfNotInt64<InvalidOperationException>($"{timestamp} is not a valid long integer"));
 
         return offset.DateTime;
+    }
+
+    public static string GetSha1(this FileInfo file, bool caplized = false)
+    {
+        using var stream = file.OpenRead();
+        var sha1 = SHA1.Create().ComputeHash(stream);
+        
+        var toReturn = BitConverter.ToString(sha1).Empty("-");
+        if (!caplized)
+            toReturn = toReturn.ToLower();
+
+        return toReturn;
     }
 }
 
