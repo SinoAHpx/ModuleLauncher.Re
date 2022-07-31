@@ -189,6 +189,10 @@ public static class MinecraftUtils
         }
     }
     
+    /// <summary>
+    /// Extract natives files
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
     public static async Task ExtractNativesAsync(this MinecraftEntry minecraftEntry)
     {
         await Task.Run(() =>
@@ -202,6 +206,9 @@ public static class MinecraftUtils
 
             foreach (var native in natives)
             {
+                if (native.ValidateChecksum())
+                    continue;
+
                 var zipEntries = ZipFile.OpenRead(native.File.FullName).Entries;
                 foreach (var zipArchiveEntry in zipEntries)
                 {

@@ -101,6 +101,7 @@ public static class DownloaderUtils
     /// <summary>
     /// Validate sha1 hash of library entry
     /// <remarks>If sha1 is not provided, true will be returned. If file does not exist, false will be returned</remarks>
+    /// <returns>If validation passed, return true. Otherwise, return false.</returns>
     /// </summary>
     public static bool ValidateChecksum(this LibraryEntry libraryEntry)
     {
@@ -122,6 +123,7 @@ public static class DownloaderUtils
     /// <summary>
     /// Validate sha1 value of Minecraft jar file
     /// <remarks>If Minecraft entry is not vanilla version, true will be returned since there's no sha1 provided by loader versions. If Minecraft does not exist, also return false.</remarks>
+    /// <returns>If validation passed, return true. Otherwise, return false.</returns>
     /// </summary>
     public static bool ValidateChecksum(this MinecraftEntry minecraftEntry)
     {
@@ -138,7 +140,9 @@ public static class DownloaderUtils
 
     /// <summary>
     /// Validate sha1 value of asset file
+    /// <remarks>If file does not exist, false will be returned</remarks>
     /// </summary>
+    /// <returns>If validation passed, return true. Otherwise, return false.</returns>
     /// <param name="assetEntry"></param>
     /// <returns></returns>
     public static bool ValidateChecksum(this AssetEntry assetEntry)
