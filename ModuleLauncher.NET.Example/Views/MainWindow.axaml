@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ModuleLauncher.NET.Example.Views.MainWindow"
         Icon="/Assets/ML-logo.png"
-        Title="ModuleLauncher.NET Examples Flow">
+        Title="ModuleLauncher.NET.Examples">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -32,7 +32,11 @@
         <TabItem Header="Downloaders">
             <views:DownloaderView/>
         </TabItem>
-        <TabItem Header="Utils"></TabItem>
+        <TabItem Header="Utils">
+            <ScrollViewer>
+                <views:UtilsView/>
+            </ScrollViewer>
+        </TabItem>
         <TabItem Header="Settings">
             <ScrollViewer>
                 <views:SettingsView/>

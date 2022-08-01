@@ -1,0 +1,85 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d"
+             x:Class="ModuleLauncher.NET.Example.Views.UtilsView">
+    <StackPanel>
+        <styles:Card Margin="10">
+            <StackPanel>
+                <TextBlock Classes="Headline6" Text="Common Utils" />
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Java executable" />
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
+                        <TextBlock Text="Only working on windows" Classes="Subtitle1" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                        <Button Content="Get Version" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </DockPanel>
+
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="File" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Content="Get Sha1" HorizontalAlignment="Right" />
+                </StackPanel>
+            </StackPanel>
+        </styles:Card>
+
+        <styles:Card Margin="10">
+            <StackPanel>
+                <TextBlock Classes="Headline6" Text="Skin Utils" />
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Access Token" />
+
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Skin file" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Content="Change Skin" HorizontalAlignment="Right" />
+                </StackPanel>
+
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Skin file network url" />
+                <Button Content="Change Skin" HorizontalAlignment="Right" />
+
+                <TextBlock Text="Actions" Classes="Subtitle1" Margin="0,0,0,5" />
+                <Grid ColumnDefinitions="10*, *, 10*, *, 10*">
+                    <Button Grid.Column="0" Content="Reset Skin" />
+                    <Button Grid.Column="2" Content="Hide Cape" />
+                    <Button Grid.Column="4" Content="Show Cape" />
+                </Grid>
+            </StackPanel>
+        </styles:Card>
+
+        <styles:Card Margin="10">
+            <StackPanel>
+                <TextBlock Classes="Headline6" Text="Mojang API" />
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Username" />
+                <Button Content="Get UUID" HorizontalAlignment="Right" />
+
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Usernames"
+                         TextWrapping="Wrap" Classes="Outline" AcceptsReturn="True"
+                         ToolTip.Tip="Single line, single name" />
+                <Button Content="Get UUIDs" HorizontalAlignment="Right"/>
+                
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="UUID" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Get Name History" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Content="Get Profile" HorizontalAlignment="Right" />
+                </StackPanel>
+                
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Access Token" />
+                <Button Content="Get Name Change Info" HorizontalAlignment="Right" />
+                
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="New name" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Check Availability" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Content="Change Name" HorizontalAlignment="Right" />
+                </StackPanel>
+            </StackPanel>
+        </styles:Card>
+    </StackPanel>
+</UserControl>
