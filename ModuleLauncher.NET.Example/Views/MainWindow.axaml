@@ -3,17 +3,30 @@
         xmlns:vm="using:ModuleLauncher.NET.Example.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:ModuleLauncher.NET.Example.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ModuleLauncher.NET.Example.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="ModuleLauncher.NET.Example">
+        Icon="/Assets/ML-logo.png"
+        Title="ModuleLauncher.NET Examples Flow">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid>
-        <Button Content="Click me" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
-    </Grid>
-
+    <TabControl>
+        <TabItem Header="Authentications">
+            <ScrollViewer>
+                <views:AuthView />
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Header="Resolvers">
+            <ScrollViewer>
+                <views:ResolverView/>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Header="Launcher"></TabItem>
+        <TabItem Header="Downloaders"></TabItem>
+        <TabItem Header="Utils"></TabItem>
+        <TabItem Header="About"></TabItem>
+    </TabControl>
 </Window>

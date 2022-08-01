@@ -9,7 +9,7 @@ using Polly;
 var version = AnsiConsole.Ask<string>("Which version you want to launch? ");
 var rootPath = @"C:\Users\ahpx\Desktop\NewMinecraft\.minecraft";
 var mcResolver = new MinecraftResolver(rootPath);
-var minecraft = mcResolver.GetMinecraft(version);
+var minecraft = await mcResolver.GetRemoteMinecraftAndToLocalAsync(version);
 
 AnsiConsole.MarkupLine("Minecraft grabbed");
 

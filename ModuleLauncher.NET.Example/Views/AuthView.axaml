@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             mc:Ignorable="d"
+             x:Class="ModuleLauncher.NET.Example.Views.AuthView">
+    <StackPanel>
+        <styles:Card Margin="10">
+            <StackPanel>
+                <TextBlock Text="Microsoft Authentication" Classes="Headline6"/>
+                <TextBox assists:TextFieldAssist.Label="Redirect Url (optional)" UseFloatingWatermark="True" />
+                <TextBox assists:TextFieldAssist.Label="Client id (optional)" UseFloatingWatermark="True" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Show webview" Margin="0,0,10,0"/>
+                    <Button Content="Authenticate"/>
+                </StackPanel>
+                <StackPanel IsVisible="False">
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="Username" UseFloatingWatermark="True"/>
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="Access token" UseFloatingWatermark="True"/>
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="UUID" UseFloatingWatermark="True"/>
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="Refresh token" UseFloatingWatermark="True"/>
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="Expire in" UseFloatingWatermark="True"/>
+                </StackPanel>
+            </StackPanel>
+        </styles:Card>
+        <styles:Card Margin="10">
+            <StackPanel>
+                <TextBlock Text="Offline Authentication" Classes="Headline6"/>
+                <TextBox assists:TextFieldAssist.Label="Username" UseFloatingWatermark="True"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Authenticate" ToolTip.Tip="Generate a new offline user" />
+                </StackPanel>
+                <StackPanel IsVisible="False">
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="Username" UseFloatingWatermark="True"/>
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="Access token" UseFloatingWatermark="True"/>
+                    <TextBox IsReadOnly="True" assists:TextFieldAssist.Label="UUID" UseFloatingWatermark="True"/>
+                </StackPanel>
+            </StackPanel>
+        </styles:Card>
+    </StackPanel>
+</UserControl>
