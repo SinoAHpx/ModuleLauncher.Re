@@ -167,13 +167,13 @@ public static class CommonUtils
         return offset.DateTime;
     }
 
-    public static string GetSha1(this FileInfo file, bool caplized = false)
+    public static string GetSha1(this FileInfo file, bool capitalized = false)
     {
         using var stream = file.OpenRead();
         var sha1 = SHA1.Create().ComputeHash(stream);
         
         var toReturn = BitConverter.ToString(sha1).Empty("-");
-        if (!caplized)
+        if (!capitalized)
             toReturn = toReturn.ToLower();
 
         return toReturn;
