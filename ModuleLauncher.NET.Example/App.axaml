@@ -9,5 +9,6 @@
 
     <Application.Styles>
         <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Purple" SecondaryColor="Lime" />
+        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml"></StyleInclude>
     </Application.Styles>
 </Application>
