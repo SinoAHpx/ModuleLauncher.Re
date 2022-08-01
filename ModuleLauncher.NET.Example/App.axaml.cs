@@ -19,7 +19,7 @@ namespace ModuleLauncher.NET.Example
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = new MainWindowVM(),
                 };
             }
 

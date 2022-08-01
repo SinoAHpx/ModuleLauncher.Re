@@ -10,7 +10,7 @@
         Title="ModuleLauncher.NET.Examples">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowVM/>
     </Design.DataContext>
 
     <TabControl>

@@ -9,7 +9,8 @@ namespace ModuleLauncher.NET.Example
     {
         public IControl Build(object data)
         {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
+            var name = data.GetType().FullName!.Replace("ViewModels", "View")
+                .Replace("VM", "View");
             var type = Type.GetType(name);
 
             if (type != null)

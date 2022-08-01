@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using ModuleLauncher.NET.Example.ViewModels;
 
 namespace ModuleLauncher.NET.Example.Views
 {
@@ -7,6 +8,8 @@ namespace ModuleLauncher.NET.Example.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = new MainWindowVM();
         }
     }
 }
