@@ -9,9 +9,7 @@
     <StackPanel>
         <styles:Card Margin="10">
             <StackPanel>
-                <TextBlock Classes="Headline6" Text="Settings" />
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Minecraft Root (.minecraft)" />
-                <Button Content="Browser" HorizontalAlignment="Right" />
+                <TextBlock Classes="Headline6" Text="Select Version" />
 
                 <ComboBox assists:ComboBoxAssist.Label="Version" Classes="Outline" />
                 <Button Content="Refresh" HorizontalAlignment="Right" Margin="0,10,0,0" />

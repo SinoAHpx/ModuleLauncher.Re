@@ -24,9 +24,17 @@
                 <views:ResolverView/>
             </ScrollViewer>
         </TabItem>
-        <TabItem Header="Launcher"></TabItem>
+        <TabItem Header="Launcher">
+            <ScrollViewer>
+                <views:LauncherView/>
+            </ScrollViewer>
+        </TabItem>
         <TabItem Header="Downloaders"></TabItem>
         <TabItem Header="Utils"></TabItem>
-        <TabItem Header="About"></TabItem>
+        <TabItem Header="Settings">
+            <ScrollViewer>
+                <views:SettingsView/>
+            </ScrollViewer>
+        </TabItem>
     </TabControl>
 </Window>
