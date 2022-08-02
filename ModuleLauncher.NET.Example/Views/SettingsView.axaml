@@ -10,11 +10,11 @@
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Settings" />
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Minecraft Root (.minecraft)" />
-                <Button Content="Browse" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding MinecraftRootPath}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Minecraft Root (.minecraft)" />
+                <Button Command="{Binding BrowseMinecraftRootPath}" Content="Browse" HorizontalAlignment="Right" />
 
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Working directory (optional)" />
-                <Button Content="Browse" HorizontalAlignment="Right" Margin="0,10,0,0" />
+                <TextBox Text="{Binding MinecraftWorkingDirectory}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Working directory (optional)" />
+                <Button Command="{Binding BrowseMinecraftWorkingDir}" Content="Browse" HorizontalAlignment="Right" Margin="0,10,0,0" />
             </StackPanel>
         </styles:Card>
         

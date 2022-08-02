@@ -11,7 +11,7 @@ using MessageBox.Avalonia.Models;
 
 namespace ModuleLauncher.NET.Example.Utils;
 
-public class GeneralUtils
+public static class GeneralUtils
 {
     //https://stackoverflow.com/a/43232486/12167919
     public static void OpenUrl(string url)
@@ -51,6 +51,27 @@ public class GeneralUtils
         throw new ApplicationException("Internal error");
     }
 
+    public static async Task PromptDialog(string content, string? title = null, string? header = null)
+    {
+        await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ContentHeader = header ?? "You shouldn't do this",
+                ContentTitle = title ?? "Prompt",
+                ContentMessage = content,
+                MaxHeight = 600,
+                Height = 400,
+                CanResize = true,
+                MaxWidth = 700,
+                SizeToContent = SizeToContent.Manual,
+                ButtonDefinitions = new[]
+                {
+                    new ButtonDefinition {Name = "Fine"},
+                }
+            })
+            .ShowDialog(GetMainWindow());
+    }
+    
     public static async Task PromptExceptionDialog(Exception e)
     {
         var result = await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
@@ -59,7 +80,7 @@ public class GeneralUtils
                 ContentHeader = "An exception occurred",
                 ContentTitle = "Oops",
                 ContentMessage = e.ToString(),
-                MaxHeight = 300,
+                MaxHeight = 400,
                 MaxWidth = 600,
                 SizeToContent = SizeToContent.Height,
                 ButtonDefinitions = new[]
@@ -74,5 +95,16 @@ public class GeneralUtils
         {
             await Application.Current!.Clipboard!.SetTextAsync(e.ToString());
         }
+    }
+
+    public static async Task<string?> OpenDirBrowser(string title)
+    {
+        var dialog = new OpenFolderDialog
+        {
+            Title = title
+        };
+
+        var result = await dialog.ShowAsync(GetMainWindow());
+        return result;
     }
 }

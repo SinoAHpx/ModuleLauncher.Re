@@ -11,8 +11,17 @@
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Select Version" />
 
-                <ComboBox assists:ComboBoxAssist.Label="Version" Classes="Outline" />
-                <Button Content="Refresh" HorizontalAlignment="Right" Margin="0,10,0,0" />
+                <ComboBox SelectedItem="{Binding SelectedMinecraft}" Items="{Binding MinecraftVersions}"
+                          assists:ComboBoxAssist.Label="Version" Classes="Outline">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Json.Id}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Command="{Binding RefreshMinecraftVersionsCommand}" Content="Refresh" HorizontalAlignment="Right" Margin="0,10,0,0" />
             </StackPanel>
         </styles:Card>
         
@@ -22,25 +31,15 @@
                 
                 <TextBlock Text="Tree structure" Classes="Subtitle1"/>
                 
-                <TreeView>
-                    <TreeViewItem Header=".minecraft">
-                        <TreeViewItem Header="Assets"/>
-                        <TreeViewItem Header="Libraries"/>
-                        <TreeViewItem Header="Mods"/>
-                        <TreeViewItem Header="Resourcepacks"/>
-                        <TreeViewItem Header="Texturepacks"/>
-                        <TreeViewItem Header="Saves"/>
-                        <TreeViewItem Header="Versions">
-                            <TreeViewItem Header="1.19">
-                                <TreeViewItem Header="1.19.jar"/>
-                                <TreeViewItem Header="1.19.json"/>
-                                <TreeViewItem Header="natives"/>
-                            </TreeViewItem>
-                        </TreeViewItem>
-                    </TreeViewItem>
+                <TreeView Items="{Binding MinecraftTreeItems}">
+                    <TreeView.ItemTemplate>
+                        <TreeDataTemplate ItemsSource="{Binding SubNodes}">
+                            <TextBlock Text="{Binding Fullname}"/>
+                        </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
                 </TreeView>
                 
-                <Button Content="Refresh" HorizontalAlignment="Right"/>
+                <Button Command="{Binding UpdateMinecraftTreeCommand}" Content="Refresh" HorizontalAlignment="Right"/>
             </StackPanel>
         </styles:Card>
         

@@ -179,12 +179,18 @@ public class AuthVM : ViewModelBase
 
         try
         {
+            //do authenticate
             var result = await _microsoftAuthenticator.RefreshAuthenticateAsync(MicrosoftRefreshToken);
+            
+            //assign value
             MicrosoftAccessToken = result.AccessToken;
             MicrosoftUUID = result.UUID;
             MicrosoftUsername = result.Name;
             MicrosoftRefreshToken = result.RefreshToken;
             MicrosoftExpireIn = result.ExpireIn.ToString("g");
+            
+            //assign global value, so that other views can share this result
+            DataBus.AuthenticateResult = result;
         }
         catch (Exception e)
         {
@@ -197,14 +203,22 @@ public class AuthVM : ViewModelBase
         if (MicrosoftRedirectedUrl.IsNullOrEmpty()) return;
         try
         {
+            //extract "code" parameter from url
             var code = MicrosoftRedirectedUrl.ExtractCode();
             _microsoftAuthenticator.Code = code;
+            
+            //execute authenticate
             var result = await _microsoftAuthenticator.AuthenticateAsync();
+            
+            //assign value
             MicrosoftAccessToken = result.AccessToken;
             MicrosoftUUID = result.UUID;
             MicrosoftUsername = result.Name;
             MicrosoftRefreshToken = result.RefreshToken;
             MicrosoftExpireIn = result.ExpireIn.ToString("g");
+            
+            //assign global value, so that other views can share this result
+            DataBus.AuthenticateResult = result;
         }
         catch (Exception e)
         {
