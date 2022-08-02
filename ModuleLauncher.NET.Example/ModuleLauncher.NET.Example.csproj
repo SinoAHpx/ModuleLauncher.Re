@@ -28,7 +28,7 @@
         <PackageReference Include="DialogHost.Avalonia" Version="0.6.0-rc1" />
         <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.99-nightly" />
         <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
-        <PackageReference Include="WebViewControl-Avalonia" Version="2.91.27" />
+        <PackageReference Include="MessageBox.Avalonia" Version="2.0.2" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
     </ItemGroup>
     <ItemGroup>

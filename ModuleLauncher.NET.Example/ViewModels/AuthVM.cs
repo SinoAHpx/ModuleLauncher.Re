@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Reactive;
 using System.Runtime.InteropServices;
@@ -116,6 +117,8 @@ public class AuthVM : ViewModelBase
     public ReactiveCommand<Unit, Unit> MicrosoftOpenBrowserCommand { get; set; }
     public ReactiveCommand<Unit, Unit> MicrosoftAuthenticateCommand { get; set; }
 
+    public ReactiveCommand<Unit, Unit> MicrosoftRefreshCommand { get; set; }
+
     #endregion
     
 
@@ -167,11 +170,32 @@ public class AuthVM : ViewModelBase
         OfflineAuthenticateCommand = ReactiveCommand.Create(OfflineAuthenticate);
         MicrosoftOpenBrowserCommand = ReactiveCommand.Create(MicrosoftOpenBrowser);
         MicrosoftAuthenticateCommand = ReactiveCommand.Create(MicrosoftAuthenticate);
+        MicrosoftRefreshCommand = ReactiveCommand.Create(MicrosoftRefresh);
+    }
+
+    private async void MicrosoftRefresh()
+    {
+        if (MicrosoftRefreshToken.IsNullOrEmpty()) return;
+
+        try
+        {
+            var result = await _microsoftAuthenticator.RefreshAuthenticateAsync(MicrosoftRefreshToken);
+            MicrosoftAccessToken = result.AccessToken;
+            MicrosoftUUID = result.UUID;
+            MicrosoftUsername = result.Name;
+            MicrosoftRefreshToken = result.RefreshToken;
+            MicrosoftExpireIn = result.ExpireIn.ToString("g");
+        }
+        catch (Exception e)
+        {
+            await GeneralUtils.PromptExceptionDialog(e);
+        }
     }
 
     private async void MicrosoftAuthenticate()
     {
-        if (!MicrosoftRedirectedUrl.IsNullOrEmpty())
+        if (MicrosoftRedirectedUrl.IsNullOrEmpty()) return;
+        try
         {
             var code = MicrosoftRedirectedUrl.ExtractCode();
             _microsoftAuthenticator.Code = code;
@@ -182,6 +206,11 @@ public class AuthVM : ViewModelBase
             MicrosoftRefreshToken = result.RefreshToken;
             MicrosoftExpireIn = result.ExpireIn.ToString("g");
         }
+        catch (Exception e)
+        {
+            await GeneralUtils.PromptExceptionDialog(e);
+        }
+        
     }
 
     private void MicrosoftOpenBrowser()
