@@ -425,7 +425,7 @@ public class ResolverVM : ViewModelBase
 
         try
         {
-            var chunks = MinecraftAssets.Where(e => !e.ValidateChecksum()).Batch(10);
+            var chunks = MinecraftAssets.Where(e => !e.ValidateChecksum()).Batch(30);
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
