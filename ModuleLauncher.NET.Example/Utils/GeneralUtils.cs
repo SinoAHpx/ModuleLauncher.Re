@@ -64,7 +64,7 @@ public static class GeneralUtils
         return await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                ContentHeader = "You shouldn't do this",
+                ContentHeader = "Example said: ",
                 ContentTitle = "Prompt",
                 ContentMessage = content,
                 MaxHeight = 600,
@@ -88,6 +88,7 @@ public static class GeneralUtils
                 MaxHeight = 400,
                 MaxWidth = 600,
                 SizeToContent = SizeToContent.Height,
+                CanResize = true,
                 ButtonDefinitions = new[]
                 {
                     new ButtonDefinition { Name = "Copy" },

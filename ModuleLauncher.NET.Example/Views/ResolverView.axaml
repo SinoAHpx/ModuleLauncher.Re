@@ -9,7 +9,8 @@
              mc:Ignorable="d" d:DesignWidth="800"
              x:Class="ModuleLauncher.NET.Example.Views.ResolverView">
     <UserControl.Resources>
-        <utils:BoolToGrayColorConverter x:Key="BoolToGrayColorConverter"/>
+        <utils:BoolToGrayColorConverter x:Key="BoolToGrayColorConverter" />
+        <utils:ComboBoxItemToStringConverter x:Key="ComboBoxItemToStringConverter"/>
     </UserControl.Resources>
     <StackPanel>
         <styles:Card Margin="10">
@@ -21,33 +22,45 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Json.Id}"/>
+                                <TextBlock Text="{Binding Json.Id}" />
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button Command="{Binding RefreshMinecraftVersionsCommand}" Content="Refresh" HorizontalAlignment="Right" Margin="0,10,0,0" />
+                <Button Command="{Binding RefreshMinecraftVersionsCommand}" Content="Refresh"
+                        HorizontalAlignment="Right" Margin="0,10,0,0" />
+            </StackPanel>
+        </styles:Card>
+
+        <styles:Card Margin="10">
+            <StackPanel>
+                <TextBlock Classes="Headline6" Text="Minecraft Resolver" />
+
+                <TextBlock Text="Tree structure" Classes="Subtitle1" />
+
+                <TreeView Items="{Binding MinecraftTreeItems}">
+                    <TreeView.ItemTemplate>
+                        <TreeDataTemplate ItemsSource="{Binding SubNodes}">
+                            <TextBlock Text="{Binding Fullname}" />
+                        </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+
+                <Button Command="{Binding UpdateMinecraftTreeCommand}" Content="Refresh" HorizontalAlignment="Right" />
             </StackPanel>
         </styles:Card>
         
         <styles:Card Margin="10">
             <StackPanel>
-                <TextBlock Classes="Headline6" Text="Minecraft Resolver" />
-                
-                <TextBlock Text="Tree structure" Classes="Subtitle1"/>
-                
-                <TreeView Items="{Binding MinecraftTreeItems}">
-                    <TreeView.ItemTemplate>
-                        <TreeDataTemplate ItemsSource="{Binding SubNodes}">
-                            <TextBlock Text="{Binding Fullname}"/>
-                        </TreeDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-                
-                <Button Command="{Binding UpdateMinecraftTreeCommand}" Content="Refresh" HorizontalAlignment="Right"/>
+                <TextBlock Classes="Headline6" Text="Download Source" />
+                <ComboBox SelectedItem="{Binding SelectedDownloadSource, Converter={StaticResource ComboBoxItemToStringConverter}}" Classes="Outline">
+                    <ComboBoxItem Content="Default" IsSelected="True"/>
+                    <ComboBoxItem Content="Bmcl"/>
+                    <ComboBoxItem Content="Mcbbs"/>
+                </ComboBox>
             </StackPanel>
         </styles:Card>
-        
+
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Network Versions" />
@@ -55,10 +68,10 @@
                     <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
                     <TextBlock Text="Downloading is provided by another library" Classes="Subtitle1" />
                 </StackPanel>
-                <ListBox Items="{Binding RemoteMinecrafts}" MaxHeight="200">
+                <ListBox SelectedItem="{Binding SelectedRemoteMinecraft}" Items="{Binding RemoteMinecrafts}" MaxHeight="200">
                     <ListBox.DataTemplates>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Id}"/>
+                            <TextBlock Text="{Binding Id}" />
                         </DataTemplate>
                     </ListBox.DataTemplates>
                 </ListBox>
@@ -69,9 +82,10 @@
                     <Button Command="{Binding FetchRemoteMinecraftsCommand}" Content="Refresh/Fetch" Margin="0,0,10,0" />
                     <Button Command="{Binding DownloadMinecraftCommand}" Content="Download" />
                 </StackPanel>
+                <ProgressBar IsVisible="{Binding IsDownloadingMinecraft}" Margin="0,10,0,0" IsIndeterminate="True" />
             </StackPanel>
         </styles:Card>
-        
+
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Libraries Resolver" />
@@ -79,21 +93,23 @@
                     <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
                     <TextBlock Text="Downloading is provided by another library" Classes="Subtitle1" />
                 </StackPanel>
-                
+
                 <ListBox MaxHeight="150" Items="{Binding MinecraftLibraries}">
                     <ListBox.DataTemplates>
                         <DataTemplate>
-                            <TextBlock Foreground="{Binding File, Converter={StaticResource BoolToGrayColorConverter}}" Text="{Binding File.FullName}"/>
+                            <TextBlock Foreground="{Binding File, Converter={StaticResource BoolToGrayColorConverter}}"
+                                       Text="{Binding File.FullName}" />
                         </DataTemplate>
                     </ListBox.DataTemplates>
                 </ListBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Command="{Binding RefreshLibrariesCommand}" Margin="0,0,10,0" Content="Refresh"/>
-                    <Button Command="{Binding DownloadLibrariesCommand}" Content="Download"/>
+                    <Button Command="{Binding RefreshLibrariesCommand}" Margin="0,0,10,0" Content="Refresh" />
+                    <Button Command="{Binding DownloadLibrariesCommand}" Content="Download" />
                 </StackPanel>
+                <ProgressBar IsVisible="{Binding IsDownloadingLibraries}" IsIndeterminate="True" Margin="0,10,0,0"/>
             </StackPanel>
         </styles:Card>
-        
+
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Assets Resolver" />
@@ -101,18 +117,20 @@
                     <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
                     <TextBlock Text="Downloading is provided by another library" Classes="Subtitle1" />
                 </StackPanel>
-                
+
                 <ListBox MaxHeight="150" Items="{Binding MinecraftAssets}">
                     <ListBox.DataTemplates>
                         <DataTemplate>
-                            <TextBlock Foreground="{Binding File, Converter={StaticResource BoolToGrayColorConverter}}" Text="{Binding File.FullName}"/>
+                            <TextBlock Foreground="{Binding File, Converter={StaticResource BoolToGrayColorConverter}}"
+                                       Text="{Binding File.FullName}" />
                         </DataTemplate>
                     </ListBox.DataTemplates>
                 </ListBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Command="{Binding RefreshAssetsCommand}" Margin="0,0,10,0" Content="Refresh"/>
-                    <Button Command="{Binding DownloadAssetsCommand}" Content="Download"/>
+                    <Button Command="{Binding RefreshAssetsCommand}" Margin="0,0,10,0" Content="Refresh" />
+                    <Button Command="{Binding DownloadAssetsCommand}" Content="Download" />
                 </StackPanel>
+                <ProgressBar IsVisible="{Binding IsDownloadingAssets}" IsIndeterminate="True" Margin="0,10,0,0"/>
             </StackPanel>
         </styles:Card>
     </StackPanel>

@@ -1,13 +1,18 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AvaloniaEdit.Utils;
 using DynamicData;
 using DynamicData.Binding;
+using Flurl.Http;
+using Manganese.Text;
 using ModuleLauncher.NET.Example.Utils;
 using ModuleLauncher.NET.Models.Resources;
 using ModuleLauncher.NET.Utilities;
+using MoreLinq;
+using Polly;
 
 namespace ModuleLauncher.NET.Example.ViewModels;
 
@@ -244,18 +249,76 @@ public class ResolverVM : ViewModelBase
         }
     }
 
+    private bool _isDownloadingMinecraft;
+
+    public bool IsDownloadingMinecraft
+    {
+        get => _isDownloadingMinecraft;
+        set => this.RaiseAndSetIfChanged(ref _isDownloadingMinecraft, value);
+    }
+
+    private string _selectedDownloadSource;
+
+    public string SelectedDownloadSource
+    {
+        get => _selectedDownloadSource;
+        set => this.RaiseAndSetIfChanged(ref _selectedDownloadSource, value);
+    }
+
+    private RemoteMinecraftEntry? _selectedRemoteMinecraft;
+
+    public RemoteMinecraftEntry? SelectedRemoteMinecraft
+    {
+        get => _selectedRemoteMinecraft;
+        set => this.RaiseAndSetIfChanged(ref _selectedRemoteMinecraft, value);
+    }
+    
     public ReactiveCommand<Unit, Unit> FetchRemoteMinecraftsCommand { get; set; }
 
     public ReactiveCommand<Unit, Unit> DownloadMinecraftCommand { get; set; }
 
+    public ReactiveCommand<Unit, Unit> DownloadLibrariesCommand { get; set; }
+
+    public ReactiveCommand<Unit, Unit> DownloadAssetsCommand { get; set; }
+
     private void InitializeMinecraftDownloadCommands()
     {
         FetchRemoteMinecraftsCommand = ReactiveCommand.Create(FetchOrRefreshRemoteMinecrafts);
-        
-        DownloadMinecraftCommand = ReactiveCommand.Create(() =>
+        DownloadMinecraftCommand = ReactiveCommand.Create(DownloadMinecraft);
+        DownloadLibrariesCommand = ReactiveCommand.Create(DownloadLibraries);
+        DownloadAssetsCommand = ReactiveCommand.Create(DownloadAssets);
+    }
+
+    private async void DownloadMinecraft()
+    {
+        IsDownloadingMinecraft = true;
+        if (SelectedRemoteMinecraft != null && DataBus.MinecraftResolver != null)
         {
-            
-        });
+            try
+            {
+                var localMinecraft = await SelectedRemoteMinecraft.ResolveLocalEntryAsync(DataBus.MinecraftResolver);
+                if (localMinecraft.ValidateChecksum())
+                {
+                    await GeneralUtils.PromptDialogAsync("Already downloaded");
+                    IsDownloadingMinecraft = false;
+                    return;
+                }
+                var downloadUrl = localMinecraft.GetDownloadUrl(SelectedDownloadSource.ResolveDownloadSource());
+                await downloadUrl.DownloadFileAsync(localMinecraft.Tree.VersionRoot.FullName,
+                    localMinecraft.Tree.Jar.Name);
+
+            }
+            catch (Exception e)
+            {
+                await GeneralUtils.PromptExceptionDialogAsync(e);
+            }
+        }
+        else
+        {
+            await GeneralUtils.PromptDialogAsync("Please select a Minecraft to download");
+        }
+
+        IsDownloadingMinecraft = false;
     }
 
     private async void FetchOrRefreshRemoteMinecrafts()
@@ -276,6 +339,124 @@ public class ResolverVM : ViewModelBase
         {
             RemoteMinecrafts.Add(entries.Filter(MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta));
         }
+    }
+
+    private bool _isDownloadingLibraries;
+
+    public bool IsDownloadingLibraries
+    {
+        get => _isDownloadingLibraries;
+        set => this.RaiseAndSetIfChanged(ref _isDownloadingLibraries, value);
+    }
+    
+    private async void DownloadLibraries()
+    {
+        if (MinecraftLibraries.Count == 0)
+        {
+            return;
+        }
+
+        if (MinecraftLibraries.All(e => e.ValidateChecksum()))
+        {
+            await GeneralUtils.PromptDialogAsync("All file downloaded, no need to download again");
+            return;
+        }
+
+        IsDownloadingLibraries = true;
+
+        try
+        {
+            var chunks = MinecraftLibraries.Where(e => !e.ValidateChecksum()).Batch(10);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            await Policy
+                .Handle<Exception>()
+                .RetryAsync(3)
+                .ExecuteAsync(async () =>
+                {
+                    foreach (var libChunk in chunks)
+                    {
+                        await Parallel.ForEachAsync(libChunk, async (entry, _) =>
+                        {
+                            var url = entry.GetDownloadUrl(SelectedDownloadSource.ResolveDownloadSource());
+                            if (!url.IsNullOrEmpty())
+                            {
+                                await url.DownloadFileAsync(entry.File.DirectoryName, entry.File.Name, cancellationToken: _);
+                            }
+                        });
+                    }
+                });
+            
+            stopwatch.Stop();
+
+            await GeneralUtils.PromptDialogAsync($"Download completed in {stopwatch.Elapsed.TotalSeconds}s");
+        }
+        catch (Exception e)
+        {
+            await GeneralUtils.PromptExceptionDialogAsync(e);
+        }
+
+        IsDownloadingLibraries = false;
+    }
+
+    private bool _isDownloadingAssets;
+
+    public bool IsDownloadingAssets
+    {
+        get => _isDownloadingAssets;
+        set => this.RaiseAndSetIfChanged(ref _isDownloadingAssets, value);
+    }
+    
+    private async void DownloadAssets()
+    {
+        if (MinecraftAssets.Count == 0)
+        {
+            return;
+        }
+
+        if (MinecraftAssets.All(e => e.ValidateChecksum()))
+        {
+            await GeneralUtils.PromptDialogAsync("All file downloaded, no need to download again");
+            return;
+        }
+
+        IsDownloadingAssets = true;
+
+        try
+        {
+            var chunks = MinecraftAssets.Where(e => !e.ValidateChecksum()).Batch(10);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            await Policy
+                .Handle<Exception>()
+                .RetryAsync(3)
+                .ExecuteAsync(async () =>
+                {
+                    foreach (var assetChunk in chunks)
+                    {
+                        await Parallel.ForEachAsync(assetChunk, async (entry, _) =>
+                        {
+                            var url = entry.GetDownloadUrl(SelectedDownloadSource.ResolveDownloadSource());
+                            if (!url.IsNullOrEmpty())
+                            {
+                                await url.DownloadFileAsync(entry.File.DirectoryName, entry.File.Name, cancellationToken: _);
+                            }
+                        });
+                    }
+                });
+            
+            stopwatch.Stop();
+
+            await GeneralUtils.PromptDialogAsync($"Download completed in {stopwatch.Elapsed.TotalSeconds}s");
+        }
+        catch (Exception e)
+        {
+            await GeneralUtils.PromptExceptionDialogAsync(e);
+        }
+
+        IsDownloadingAssets = false;
     }
 
     #endregion
