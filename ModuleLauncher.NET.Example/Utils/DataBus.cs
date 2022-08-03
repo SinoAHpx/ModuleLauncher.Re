@@ -8,9 +8,9 @@ public static class DataBus
 {
     //use this backing-field style property, in case we need to do data persist
     
-    private static AuthenticateResult _authenticateResult;
+    private static AuthenticateResult? _authenticateResult;
 
-    public static AuthenticateResult AuthenticateResult
+    public static AuthenticateResult? AuthenticateResult
     {
         get => _authenticateResult;
         set => _authenticateResult = value;

@@ -251,6 +251,16 @@ public class LauncherVM : ViewModelBase
             return;
         }
 
+        if (AuthenticationName.IsNullOrEmpty())
+        {
+            AuthenticationName = "SgtPepper";
+        }
+
+        if (DataBus.AuthenticateResult != null)
+        {
+            _launcher.LauncherConfig.Authentication = DataBus.AuthenticateResult;
+        }
+
         await Task.Run(async () =>
         {
             var process = await _launcher.LaunchAsync(SelectedMinecraft);
