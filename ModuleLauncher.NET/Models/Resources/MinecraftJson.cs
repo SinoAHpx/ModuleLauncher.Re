@@ -56,21 +56,22 @@ public class MinecraftJson
 /// <summary>
 /// Release, Snapshot, OldBeta and OldAlpha
 /// </summary>
+[Flags]
 public enum MinecraftJsonType
 {
     [EnumMember(Value = "old_alpha")]
     [Description("old_alpha")]
-    OldAlpha,
+    OldAlpha = 0,
     
     [EnumMember(Value = "old_beta")]
     [Description("old_beta")]
-    OldBeta,
+    OldBeta = 1 << 0,
     
     [EnumMember(Value = "release")]
     [Description("release")]
-    Release,
+    Release = 1 << 1,
     
     [EnumMember(Value = "snapshot")]
     [Description("snapshot")]
-    Snapshot
+    Snapshot = 1 << 2
 }

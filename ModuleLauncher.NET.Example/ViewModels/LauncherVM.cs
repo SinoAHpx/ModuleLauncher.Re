@@ -36,27 +36,27 @@ public class LauncherVM : ViewModelBase
 
     private async void RefreshMinecraftVersions()
     {
-        await Task.Run(async () =>
+        if (DataBus.MinecraftResolver != null)
         {
-            if (DataBus.MinecraftResolver != null)
+            try
             {
-                try
+                await Task.Run(() =>
                 {
                     var minecrafts = DataBus.MinecraftResolver.GetMinecrafts();
 
                     //minecraftEntry.ValidateChecksum means check if a minecraft entry is valid
                     MinecraftVersions = new ObservableCollection<MinecraftEntry>(minecrafts);
-                }
-                catch (Exception e)
-                {
-                    await GeneralUtils.PromptExceptionDialogAsync(e);
-                }
+                });
             }
-            else
+            catch (Exception e)
             {
-                await GeneralUtils.PromptDialogAsync("No versions could be found, have you set your .minecraft path?");
+                await GeneralUtils.PromptExceptionDialogAsync(e);
             }
-        });
+        }
+        else
+        {
+            await GeneralUtils.PromptDialogAsync("No versions could be found, have you set your .minecraft path?");
+        }
     }
 
     private ObservableCollection<MinecraftJava> _minecraftJavas = new();

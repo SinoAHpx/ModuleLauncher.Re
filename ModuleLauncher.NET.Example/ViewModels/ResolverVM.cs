@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AvaloniaEdit.Utils;
 using DynamicData;
+using DynamicData.Binding;
 using ModuleLauncher.NET.Example.Utils;
 using ModuleLauncher.NET.Models.Resources;
 using ModuleLauncher.NET.Utilities;
@@ -92,34 +95,35 @@ public class ResolverVM : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> RefreshMinecraftVersionsCommand { get; set; }
 
-    private async Task RefreshMinecraftVersions()
+    private async void RefreshMinecraftVersions()
     {
-        await Task.Run(async () =>
+        if (DataBus.MinecraftResolver != null)
         {
-            if (DataBus.MinecraftResolver != null)
+            try
             {
-                try
+                await Task.Run(() =>
                 {
                     var minecrafts = DataBus.MinecraftResolver.GetMinecrafts();
 
                     //minecraftEntry.ValidateChecksum means check if a minecraft entry is valid
                     MinecraftVersions = new ObservableCollection<MinecraftEntry>(minecrafts);
-                }
-                catch (Exception e)
-                {
-                    await GeneralUtils.PromptExceptionDialogAsync(e);
-                }
+                });
+
             }
-            else
+            catch (Exception e)
             {
-                await GeneralUtils.PromptDialogAsync("No versions could be found, have you set your .minecraft path?");
+                await GeneralUtils.PromptExceptionDialogAsync(e);
             }
-        });
+        }
+        else
+        {
+            await GeneralUtils.PromptDialogAsync("No versions could be found, have you set your .minecraft path?");
+        }
     }
 
     private void InitializeMinecraftResolverCommands()
     {
-        RefreshMinecraftVersionsCommand = ReactiveCommand.CreateFromTask(RefreshMinecraftVersions);
+        RefreshMinecraftVersionsCommand = ReactiveCommand.Create(RefreshMinecraftVersions);
         UpdateMinecraftTreeCommand = ReactiveCommand.Create(UpdateMinecraftTree);
     }
     
@@ -193,11 +197,94 @@ public class ResolverVM : ViewModelBase
     }
 
     #endregion
+
+    #region Downloader
+
+    private ObservableCollection<RemoteMinecraftEntry> _remoteMinecrafts = new();
+
+    public ObservableCollection<RemoteMinecraftEntry> RemoteMinecrafts
+    {
+        get => _remoteMinecrafts;
+        set => this.RaiseAndSetIfChanged(ref _remoteMinecrafts, value);
+    }
+
+    private bool _releaseSelected;
+
+    public bool ReleaseSelected
+    {
+        get => _releaseSelected;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _releaseSelected, value);
+            FetchOrRefreshRemoteMinecrafts();
+        }
+    }
+
+    private bool _snapshotSelected;
+
+    public bool SnapshotSelected
+    {
+        get => _snapshotSelected;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _snapshotSelected, value);
+            FetchOrRefreshRemoteMinecrafts();
+        }
+    }
+
+    private bool _ancientSelected;
+
+    public bool AncientSelected
+    {
+        get => _ancientSelected;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _ancientSelected, value);
+            FetchOrRefreshRemoteMinecrafts();
+        }
+    }
+
+    public ReactiveCommand<Unit, Unit> FetchRemoteMinecraftsCommand { get; set; }
+
+    public ReactiveCommand<Unit, Unit> DownloadMinecraftCommand { get; set; }
+
+    private void InitializeMinecraftDownloadCommands()
+    {
+        FetchRemoteMinecraftsCommand = ReactiveCommand.Create(FetchOrRefreshRemoteMinecrafts);
+        
+        DownloadMinecraftCommand = ReactiveCommand.Create(() =>
+        {
+            
+        });
+    }
+
+    private async void FetchOrRefreshRemoteMinecrafts()
+    {
+        RemoteMinecrafts = new();
+        var entries = await MinecraftUtils.GetRemoteMinecraftsAsync();
+        if (ReleaseSelected)
+        {
+            RemoteMinecrafts.Add(entries.Filter(MinecraftJsonType.Release));
+        }
+
+        if (SnapshotSelected)
+        {
+            RemoteMinecrafts.Add(entries.Filter(MinecraftJsonType.Snapshot));
+        }
+
+        if (AncientSelected)
+        {
+            RemoteMinecrafts.Add(entries.Filter(MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta));
+        }
+    }
+
+    #endregion
     
     public ResolverVM()
     {
         InitializeMinecraftResolverCommands();
         InitializeLibrariesResolverCommands();
         InitializeAssetsResolverCommands();
+        InitializeMinecraftDownloadCommands();
     }
 }

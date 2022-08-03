@@ -60,7 +60,7 @@ public static class GeneralUtils
         {
             buttonList.Add("Fine");
         }
-        var buttonDefinitions = buttons.Select(x => new ButtonDefinition { Name = x });
+        var buttonDefinitions = buttonList.Select(x => new ButtonDefinition { Name = x });
         return await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,

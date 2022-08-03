@@ -5,7 +5,8 @@
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              xmlns:utils="clr-namespace:ModuleLauncher.NET.Example.Utils"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800"
              x:Class="ModuleLauncher.NET.Example.Views.ResolverView">
     <UserControl.Resources>
         <utils:BoolToGrayColorConverter x:Key="BoolToGrayColorConverter"/>
@@ -49,8 +50,35 @@
         
         <styles:Card Margin="10">
             <StackPanel>
+                <TextBlock Classes="Headline6" Text="Network Versions" />
+                <StackPanel Orientation="Horizontal">
+                    <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
+                    <TextBlock Text="Downloading is provided by another library" Classes="Subtitle1" />
+                </StackPanel>
+                <ListBox Items="{Binding RemoteMinecrafts}" MaxHeight="200">
+                    <ListBox.DataTemplates>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id}"/>
+                        </DataTemplate>
+                    </ListBox.DataTemplates>
+                </ListBox>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <CheckBox IsChecked="{Binding ReleaseSelected}" Content="Release" Margin="0,0,10,0" />
+                    <CheckBox IsChecked="{Binding SnapshotSelected}" Content="Snapshot" Margin="0,0,10,0" />
+                    <CheckBox IsChecked="{Binding AncientSelected}" Content="Ancient" Margin="0,0,10,0" />
+                    <Button Command="{Binding FetchRemoteMinecraftsCommand}" Content="Refresh/Fetch" Margin="0,0,10,0" />
+                    <Button Command="{Binding DownloadMinecraftCommand}" Content="Download" />
+                </StackPanel>
+            </StackPanel>
+        </styles:Card>
+        
+        <styles:Card Margin="10">
+            <StackPanel>
                 <TextBlock Classes="Headline6" Text="Libraries Resolver" />
-                <TextBlock Text="Libraries" Classes="Subtitle1"/>
+                <StackPanel Orientation="Horizontal">
+                    <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
+                    <TextBlock Text="Downloading is provided by another library" Classes="Subtitle1" />
+                </StackPanel>
                 
                 <ListBox MaxHeight="150" Items="{Binding MinecraftLibraries}">
                     <ListBox.DataTemplates>
@@ -59,14 +87,20 @@
                         </DataTemplate>
                     </ListBox.DataTemplates>
                 </ListBox>
-                <Button Command="{Binding RefreshLibrariesCommand}" HorizontalAlignment="Right" Content="Refresh"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding RefreshLibrariesCommand}" Margin="0,0,10,0" Content="Refresh"/>
+                    <Button Command="{Binding DownloadLibrariesCommand}" Content="Download"/>
+                </StackPanel>
             </StackPanel>
         </styles:Card>
         
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Assets Resolver" />
-                <TextBlock Text="Assets" Classes="Subtitle1"/>
+                <StackPanel Orientation="Horizontal">
+                    <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
+                    <TextBlock Text="Downloading is provided by another library" Classes="Subtitle1" />
+                </StackPanel>
                 
                 <ListBox MaxHeight="150" Items="{Binding MinecraftAssets}">
                     <ListBox.DataTemplates>
@@ -75,7 +109,10 @@
                         </DataTemplate>
                     </ListBox.DataTemplates>
                 </ListBox>
-                <Button Command="{Binding RefreshAssetsCommand}" HorizontalAlignment="Right" Content="Refresh"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding RefreshAssetsCommand}" Margin="0,0,10,0" Content="Refresh"/>
+                    <Button Command="{Binding DownloadAssetsCommand}" Content="Download"/>
+                </StackPanel>
             </StackPanel>
         </styles:Card>
     </StackPanel>

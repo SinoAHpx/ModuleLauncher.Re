@@ -29,9 +29,6 @@
                 <views:LauncherView/>
             </ScrollViewer>
         </TabItem>
-        <TabItem Header="Downloaders">
-            <views:DownloaderView/>
-        </TabItem>
         <TabItem Header="Utils">
             <ScrollViewer>
                 <views:UtilsView/>

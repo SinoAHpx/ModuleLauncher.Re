@@ -1,5 +1,6 @@
 ﻿using System.IO.Compression;
 using Flurl.Http;
+using Manganese.Array;
 using Manganese.Data;
 using Manganese.IO;
 using Manganese.Text;
@@ -105,6 +106,8 @@ public static class MinecraftUtils
     }
 
     private static List<RemoteMinecraftEntry>? _remoteMinecraftEntriesCache;
+    
+    
 
     /// <summary>
     /// Get a list of remote Minecrafts
@@ -121,7 +124,39 @@ public static class MinecraftUtils
         var versions = manifest.Fetch("versions")!;
         var remoteEntries = JsonConvert.DeserializeObject<List<RemoteMinecraftEntry>>(versions)!;
 
+        _remoteMinecraftEntriesCache = remoteEntries;
         return remoteEntries;
+    }
+
+    /// <summary>
+    /// Filter remote minecrafts by type
+    /// <remarks>Support multiple types of Minecraft</remarks>
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="type">Multiple types: MinecraftJsonType.Release | MinecraftJsonType.Snapshot</param>
+    /// <returns></returns>
+    public static async Task<List<RemoteMinecraftEntry>> FilterAsync(this Task<List<RemoteMinecraftEntry>> source, MinecraftJsonType type = MinecraftJsonType.Release | MinecraftJsonType.Snapshot | MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta)
+    {
+        var entries = await source;
+
+        return entries.Filter(type);
+    }
+    
+    /// <summary>
+    /// Filter remote minecrafts by type
+    /// <remarks>Support multiple types of Minecraft</remarks>
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="type">Multiple types: MinecraftJsonType.Release | MinecraftJsonType.Snapshot</param>
+    /// <returns></returns>
+    public static List<RemoteMinecraftEntry> Filter(this List<RemoteMinecraftEntry> source, MinecraftJsonType type = MinecraftJsonType.Release | MinecraftJsonType.Snapshot | MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta)
+    {
+        return source.RemoveIf(e => !type.HasFlag(MinecraftJsonType.Release) && e.Type == MinecraftJsonType.Release)
+            .RemoveIf(e =>
+                !type.HasFlag(MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta) &&
+                e.Type is MinecraftJsonType.OldAlpha or MinecraftJsonType.OldBeta)
+            .RemoveIf(e => !type.HasFlag(MinecraftJsonType.Snapshot) && e.Type == MinecraftJsonType.Snapshot)
+            .ToList();
     }
 
     /// <summary>
