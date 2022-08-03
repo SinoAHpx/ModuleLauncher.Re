@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:utils="clr-namespace:ModuleLauncher.NET.Example.Utils"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ModuleLauncher.NET.Example.Views.ResolverView">
+    <UserControl.Resources>
+        <utils:BoolToGrayColorConverter x:Key="BoolToGrayColorConverter"/>
+    </UserControl.Resources>
     <StackPanel>
         <styles:Card Margin="10">
             <StackPanel>
@@ -48,8 +52,14 @@
                 <TextBlock Classes="Headline6" Text="Libraries Resolver" />
                 <TextBlock Text="Libraries" Classes="Subtitle1"/>
                 
-                <ListBox></ListBox>
-                <Button HorizontalAlignment="Right" Content="Refresh"/>
+                <ListBox MaxHeight="150" Items="{Binding MinecraftLibraries}">
+                    <ListBox.DataTemplates>
+                        <DataTemplate>
+                            <TextBlock Foreground="{Binding File, Converter={StaticResource BoolToGrayColorConverter}}" Text="{Binding File.FullName}"/>
+                        </DataTemplate>
+                    </ListBox.DataTemplates>
+                </ListBox>
+                <Button Command="{Binding RefreshLibrariesCommand}" HorizontalAlignment="Right" Content="Refresh"/>
             </StackPanel>
         </styles:Card>
         
@@ -58,8 +68,14 @@
                 <TextBlock Classes="Headline6" Text="Assets Resolver" />
                 <TextBlock Text="Assets" Classes="Subtitle1"/>
                 
-                <ListBox></ListBox>
-                <Button HorizontalAlignment="Right" Content="Refresh"/>
+                <ListBox MaxHeight="150" Items="{Binding MinecraftAssets}">
+                    <ListBox.DataTemplates>
+                        <DataTemplate>
+                            <TextBlock Foreground="{Binding File, Converter={StaticResource BoolToGrayColorConverter}}" Text="{Binding File.FullName}"/>
+                        </DataTemplate>
+                    </ListBox.DataTemplates>
+                </ListBox>
+                <Button Command="{Binding RefreshAssetsCommand}" HorizontalAlignment="Right" Content="Refresh"/>
             </StackPanel>
         </styles:Card>
     </StackPanel>

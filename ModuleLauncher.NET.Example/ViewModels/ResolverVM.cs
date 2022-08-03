@@ -10,6 +10,64 @@ namespace ModuleLauncher.NET.Example.ViewModels;
 
 public class ResolverVM : ViewModelBase
 {
+    #region MinecraftResolver
+
+    private ObservableCollection<MinecraftTreeNode> _minecraftTreeItems;
+
+    public ObservableCollection<MinecraftTreeNode> MinecraftTreeItems
+    {
+        get => _minecraftTreeItems;
+        set => this.RaiseAndSetIfChanged(ref _minecraftTreeItems, value);
+    }
+
+    public ReactiveCommand<Unit, Unit> UpdateMinecraftTreeCommand { get; set; }
+
+    private async void UpdateMinecraftTree()
+    {
+        await Task.Run(() =>
+        {
+            if (SelectedMinecraft == null)
+            {
+                return;
+            }
+
+            MinecraftTreeItems = new();
+
+            var tree = SelectedMinecraft.Tree;
+            MinecraftTreeItems.Add(new MinecraftTreeNode(tree.Root)
+                .WithSubNodes(new MinecraftTreeNode(tree.Assets).WithSubNodes(tree.AssetsIndexes))
+                .WithSubNodes(tree.Libraries, tree.Mods, tree.Saves, tree.ResourcesPacks, tree.TexturePacks)
+                .WithSubNodes(new MinecraftTreeNode(tree.VersionRoot).WithSubNodes(tree.Jar, tree.Json, tree.Natives)));
+            MinecraftTreeItems.Add(new MinecraftTreeNode(tree.WorkingDirectory));
+        });
+    }
+
+    public class MinecraftTreeNode
+    {
+        public string Fullname { get; set; }
+
+        public ObservableCollection<MinecraftTreeNode> SubNodes { get; set; } = new();
+
+        public MinecraftTreeNode(FileSystemInfo info)
+        {
+            Fullname = info.FullName;
+        }
+
+        public MinecraftTreeNode WithSubNodes(params FileSystemInfo[] nodes)
+        {
+            SubNodes.AddRange(nodes.Select(x => new MinecraftTreeNode(x)));
+
+            return this;
+        }
+        
+        public MinecraftTreeNode WithSubNodes(params MinecraftTreeNode[] nodes)
+        {
+            SubNodes.AddRange(nodes);
+
+            return this;
+        }
+    }
+    
     private ObservableCollection<MinecraftEntry> _minecraftVersions;
 
     public ObservableCollection<MinecraftEntry> MinecraftVersions
@@ -23,7 +81,13 @@ public class ResolverVM : ViewModelBase
     public MinecraftEntry? SelectedMinecraft
     {
         get => _selectedMinecraft;
-        set => this.RaiseAndSetIfChanged(ref _selectedMinecraft, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedMinecraft, value);
+            UpdateMinecraftTree();
+            RefreshLibraries();
+            RefreshAssets();
+        }
     }
 
     public ReactiveCommand<Unit, Unit> RefreshMinecraftVersionsCommand { get; set; }
@@ -53,64 +117,87 @@ public class ResolverVM : ViewModelBase
         });
     }
 
-
-    public ResolverVM()
+    private void InitializeMinecraftResolverCommands()
     {
         RefreshMinecraftVersionsCommand = ReactiveCommand.CreateFromTask(RefreshMinecraftVersions);
         UpdateMinecraftTreeCommand = ReactiveCommand.Create(UpdateMinecraftTree);
     }
+    
+    #endregion
 
+    #region Libraries resolver
 
-    private ObservableCollection<MinecraftTreeNode> _minecraftTreeItems;
+    private ObservableCollection<LibraryEntry> _minecraftLibraries;
 
-    public ObservableCollection<MinecraftTreeNode> MinecraftTreeItems
+    public ObservableCollection<LibraryEntry> MinecraftLibraries
     {
-        get => _minecraftTreeItems;
-        set => this.RaiseAndSetIfChanged(ref _minecraftTreeItems, value);
+        get => _minecraftLibraries;
+        set => this.RaiseAndSetIfChanged(ref _minecraftLibraries, value);
     }
 
-    public ReactiveCommand<Unit, Unit> UpdateMinecraftTreeCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> RefreshLibrariesCommand { get; set; }
 
-    private void UpdateMinecraftTree()
+    private async void RefreshLibraries()
     {
-        if (SelectedMinecraft == null)
+        await Task.Run(() =>
         {
-            return;
-        }
+            if (SelectedMinecraft == null)
+            {
+                return;
+            }
 
-        MinecraftTreeItems = new();
+            var libraries = SelectedMinecraft.GetLibraries();
 
-        var tree = SelectedMinecraft.Tree;
-        MinecraftTreeItems.Add(new MinecraftTreeNode(tree.Root)
-            .WithSubNodes(new MinecraftTreeNode(tree.Assets).WithSubNodes(tree.AssetsIndexes))
-            .WithSubNodes(tree.Libraries, tree.Mods, tree.Saves, tree.ResourcesPacks, tree.TexturePacks)
-            .WithSubNodes(new MinecraftTreeNode(tree.VersionRoot).WithSubNodes(tree.Jar, tree.Json, tree.Natives)));
-        MinecraftTreeItems.Add(new MinecraftTreeNode(tree.WorkingDirectory));
+            MinecraftLibraries = new(libraries);
+        });
     }
 
-    public class MinecraftTreeNode
+    private void InitializeLibrariesResolverCommands()
     {
-        public string Fullname { get; set; }
+        RefreshLibrariesCommand = ReactiveCommand.Create(RefreshLibraries);
+    }
 
-        public ObservableCollection<MinecraftTreeNode> SubNodes { get; set; } = new();
+    #endregion
 
-        public MinecraftTreeNode(FileSystemInfo info)
+    #region Assets resolver
+
+    private ObservableCollection<AssetEntry> _minecraftAssets;
+
+    public ObservableCollection<AssetEntry> MinecraftAssets
+    {
+        get => _minecraftAssets;
+        set => this.RaiseAndSetIfChanged(ref _minecraftAssets, value);
+    }
+
+    public ReactiveCommand<Unit, Unit> RefreshAssetsCommand { get; set; }
+
+    private void InitializeAssetsResolverCommands()
+    {
+        RefreshAssetsCommand = ReactiveCommand.Create((RefreshAssets));
+    }
+
+    private async void RefreshAssets()
+    {
+        await Task.Run(async () =>
         {
-            Fullname = info.FullName;
-        }
+            if (SelectedMinecraft == null)
+            {
+                return;
+            }
 
-        public MinecraftTreeNode WithSubNodes(params FileSystemInfo[] nodes)
-        {
-            SubNodes.AddRange(nodes.Select(x => new MinecraftTreeNode(x)));
+            //GetAssetsAsync will automatically download missing asset index file
+            var assets = await SelectedMinecraft.GetAssetsAsync();
 
-            return this;
-        }
-        
-        public MinecraftTreeNode WithSubNodes(params MinecraftTreeNode[] nodes)
-        {
-            SubNodes.AddRange(nodes);
+            MinecraftAssets = new(assets);
+        });
+    }
 
-            return this;
-        }
+    #endregion
+    
+    public ResolverVM()
+    {
+        InitializeMinecraftResolverCommands();
+        InitializeLibrariesResolverCommands();
+        InitializeAssetsResolverCommands();
     }
 }
