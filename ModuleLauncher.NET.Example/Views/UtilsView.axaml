@@ -11,22 +11,22 @@
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Common Utils" />
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Java executable" />
+                <TextBox Text="{Binding JavaExePath}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Java executable" />
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <avalonia:MaterialIcon Kind="AlertCircleOutline" Margin="0,0,3,0" />
-                        <TextBlock Text="Only working on windows" Classes="Subtitle1" />
+                        <TextBlock Text="Perhaps only working on Windows" Classes="Subtitle1" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Button Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
-                        <Button Content="Get Version" HorizontalAlignment="Right" />
+                        <Button Command="{Binding BrowseJavaCommand}" Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                        <Button Command="{Binding GetJavaVersionCommand}" Content="Get Version" HorizontalAlignment="Right" />
                     </StackPanel>
                 </DockPanel>
 
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="File" />
+                <TextBox Text="{Binding ToGetSha1}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="File" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
-                    <Button Content="Get Sha1" HorizontalAlignment="Right" />
+                    <Button Command="{Binding BrowseToGetSha1Command}" Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Command="{Binding GetSha1Command}" Content="Get Sha1" HorizontalAlignment="Right" />
                 </StackPanel>
             </StackPanel>
         </styles:Card>

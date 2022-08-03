@@ -139,13 +139,13 @@ public static class GeneralUtils
         return result;
     }
 
-    public static async Task<string?> OpenFileBrowserAsync(string title)
+    public static async Task<string?> OpenFileBrowserAsync(string title, List<FileDialogFilter>? filters = null)
     {
         var dialog = new OpenFileDialog
         {
             Title = title,
             AllowMultiple = false,
-            Filters = new()
+            Filters = filters ?? new()
             {
                 new() { Name = "java" },
                 new() { Name = "javaw" }
