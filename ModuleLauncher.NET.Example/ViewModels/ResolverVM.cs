@@ -107,12 +107,12 @@ public class ResolverVM : ViewModelBase
                 }
                 catch (Exception e)
                 {
-                    await GeneralUtils.PromptExceptionDialog(e);
+                    await GeneralUtils.PromptExceptionDialogAsync(e);
                 }
             }
             else
             {
-                await GeneralUtils.PromptDialog("No versions could be found, have you set your .minecraft path?");
+                await GeneralUtils.PromptDialogAsync("No versions could be found, have you set your .minecraft path?");
             }
         });
     }

@@ -8,7 +8,7 @@ public class LauncherConfig
     /// <summary>
     /// Java executable files, default value is an empty list
     /// </summary>
-    public List<MinecraftJava> Javas { get; set; } = new();
+    public List<MinecraftJava?> Javas { get; set; } = new();
 
     /// <summary>
     /// You launcher name, optional
@@ -66,15 +66,18 @@ public class MinecraftJava
     /// Initialize MinecraftJava object from executable file path
     /// </summary>
     /// <returns></returns>
-    public static MinecraftJava Of(string path)
+    public static MinecraftJava? Of(string path)
     {
         var file = new FileInfo(path);
         var version = file.GetJavaExecutableVersion();
 
-        return new MinecraftJava
-        {
-            Executable = file,
-            Version = version
-        };
+        if (version != null)
+            return new MinecraftJava
+            {
+                Executable = file,
+                Version = version.Value
+            };
+
+        return null;
     }
 }

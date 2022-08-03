@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia;
@@ -42,7 +44,7 @@ public static class GeneralUtils
             }
         }
     }
-    
+
     public static Window GetMainWindow()
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -51,28 +53,31 @@ public static class GeneralUtils
         throw new ApplicationException("Internal error");
     }
 
-    public static async Task PromptDialog(string content, string? title = null, string? header = null)
+    public static async Task<string> PromptDialogAsync(string content, params string[] buttons)
     {
-        await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
+        var buttonList = buttons.ToList();
+        if (buttonList.Count == 0)
+        {
+            buttonList.Add("Fine");
+        }
+        var buttonDefinitions = buttons.Select(x => new ButtonDefinition { Name = x });
+        return await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                ContentHeader = header ?? "You shouldn't do this",
-                ContentTitle = title ?? "Prompt",
+                ContentHeader = "You shouldn't do this",
+                ContentTitle = "Prompt",
                 ContentMessage = content,
                 MaxHeight = 600,
                 Height = 400,
                 CanResize = true,
                 MaxWidth = 700,
                 SizeToContent = SizeToContent.Manual,
-                ButtonDefinitions = new[]
-                {
-                    new ButtonDefinition {Name = "Fine"},
-                }
+                ButtonDefinitions = buttonDefinitions
             })
             .ShowDialog(GetMainWindow());
     }
-    
-    public static async Task PromptExceptionDialog(Exception e)
+
+    public static async Task PromptExceptionDialogAsync(Exception e)
     {
         var result = await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
             {
@@ -85,8 +90,8 @@ public static class GeneralUtils
                 SizeToContent = SizeToContent.Height,
                 ButtonDefinitions = new[]
                 {
-                    new ButtonDefinition {Name = "Copy"},
-                    new ButtonDefinition {Name = "OK"},
+                    new ButtonDefinition { Name = "Copy" },
+                    new ButtonDefinition { Name = "OK" },
                 }
             })
             .ShowDialog(GetMainWindow());
@@ -97,14 +102,56 @@ public static class GeneralUtils
         }
     }
 
-    public static async Task<string?> OpenDirBrowser(string title)
+    public static async Task<string?> ShowInputDialogAsync(string? message = null, string? content = null)
+    {
+        var dialog = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams
+        {
+            ButtonDefinitions = new[]
+            {
+                new ButtonDefinition { Name = "Confirm" },
+                new ButtonDefinition { Name = "Cancel" }
+            },
+            ContentTitle = "Additional information required",
+            ContentHeader = "Input",
+            ContentMessage = message ?? "Value: ",
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        });
+
+        var result = await dialog.ShowDialog(GetMainWindow());
+
+        if (result.Button == "Cancel")
+        {
+            return null;
+        }
+
+        return result.Message;
+    }
+
+    public static async Task<string?> OpenDirBrowserAsync(string title)
     {
         var dialog = new OpenFolderDialog
         {
             Title = title
         };
-
+        
         var result = await dialog.ShowAsync(GetMainWindow());
         return result;
+    }
+
+    public static async Task<string?> OpenFileBrowserAsync(string title)
+    {
+        var dialog = new OpenFileDialog
+        {
+            Title = title,
+            AllowMultiple = false,
+            Filters = new()
+            {
+                new() { Name = "java" },
+                new() { Name = "javaw" }
+            }
+        };
+
+        var result = await dialog.ShowAsync(GetMainWindow());
+        return result?[0];
     }
 }

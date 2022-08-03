@@ -18,7 +18,7 @@ public class Launcher
     /// </summary>
     public MinecraftResolver MinecraftResolver { get; set; }
 
-    public LauncherConfig LauncherConfig { get; set; }
+    public LauncherConfig LauncherConfig { get; set; } = new();
 
     /// <summary>
     /// Construct resolver via minecraft resolver

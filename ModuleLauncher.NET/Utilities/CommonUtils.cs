@@ -129,16 +129,20 @@ public static class CommonUtils
     /// </summary>
     /// <param name="javaExeFile"></param>
     /// <returns></returns>
-    public static int GetJavaExecutableVersion(this FileInfo javaExeFile)
+    public static int? GetJavaExecutableVersion(this FileInfo javaExeFile)
     {
         if (!javaExeFile.Exists)
         {
             throw new NullReferenceException("Java executable file does not exist");
         }
         var versionInfo = FileVersionInfo.GetVersionInfo(javaExeFile.FullName);
-        var version =
-            versionInfo.FileVersion.ThrowIfNullOrEmpty<NullReferenceException>(
-                $"Specified java exe {javaExeFile} might be corrupted");
+        var version = versionInfo.FileVersion;
+
+        //for linux
+        if (version.IsNullOrEmpty())
+        {
+            return null;
+        }
         if (!version.Contains('.'))
         {
             return version.ToInt32();

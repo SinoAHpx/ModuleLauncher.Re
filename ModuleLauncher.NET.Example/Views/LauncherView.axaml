@@ -4,47 +4,72 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800"
              x:Class="ModuleLauncher.NET.Example.Views.LauncherView">
     <StackPanel>
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Launch Config" />
 
-                <ComboBox assists:ComboBoxAssist.Label="Version" Classes="Outline" />
-                <Button Content="Refresh" HorizontalAlignment="Right" Margin="0,10,0,10" />
-                
-                <ComboBox assists:ComboBoxAssist.Label="Java executables" Classes="Outline" />
+                <ComboBox SelectedItem="{Binding SelectedMinecraft}" Items="{Binding MinecraftVersions}"
+                          assists:ComboBoxAssist.Label="Version" Classes="Outline">
+                    <ComboBox.DataTemplates>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Json.Id}" />
+                        </DataTemplate>
+                    </ComboBox.DataTemplates>
+                </ComboBox>
+                <Button Command="{Binding RefreshMinecraftVersionsCommand}" Content="Refresh"
+                        HorizontalAlignment="Right" Margin="0,10,0,10" />
+
+                <ComboBox SelectedItem="{Binding SelectedJava}" Items="{Binding MinecraftJavas}"
+                          assists:ComboBoxAssist.Label="Java executables" Classes="Outline">
+                    <ComboBox.DataTemplates>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Executable.FullName}" />
+                        </DataTemplate>
+                    </ComboBox.DataTemplates>
+                </ComboBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Remove" Margin="0,10,0,10" />
-                    <Button Content="Browse" Margin="10,10,0,10" />
-                </StackPanel>                
+                    <Button Command="{Binding RemoveSelectedJavaCommand}" Content="Remove" Margin="0,10,0,10" />
+                    <Button Command="{Binding BrowseJavaCommand}" Content="Browse" Margin="10,10,0,10" />
+                </StackPanel>
                 <Grid ColumnDefinitions="10*, 0.5*, 10*">
-                    <TextBox Grid.Column="0" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Window width"/>
-                    <TextBox Grid.Column="2" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Window height"/>
+                    <TextBox Text="{Binding WindowWidth}" Grid.Column="0" UseFloatingWatermark="True"
+                             assists:TextFieldAssist.Label="Window width (optional)" />
+                    <TextBox Text="{Binding WindowHeight}" Grid.Column="2" UseFloatingWatermark="True"
+                             assists:TextFieldAssist.Label="Window height (optional)" />
                 </Grid>
-                <CheckBox Content="Fullscreen" HorizontalAlignment="Right"/>
-                
+                <CheckBox IsChecked="{Binding IsFullscreen}" Content="Fullscreen" HorizontalAlignment="Right" />
+
                 <Grid ColumnDefinitions="10*, 0.5*, 10*">
-                    <TextBox Grid.Column="0" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Max memory size"/>
-                    <TextBox Grid.Column="2" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Min memory size"/>
+                    <TextBox Text="{Binding MaxMemorySize}" Grid.Column="0" UseFloatingWatermark="True"
+                             assists:TextFieldAssist.Label="Max memory size" />
+                    <TextBox Text="{Binding MinMemorySize}" Grid.Column="2" UseFloatingWatermark="True"
+                             assists:TextFieldAssist.Label="Min memory size (optional)" />
                 </Grid>
-                
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Launcher name" />
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Authentication name" ToolTip.Tip="If this field is null and Authentication tab had a successful result, authentication for launcher will use this result." />
+
+                <TextBox Text="{Binding LauncherName}" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="Launcher name (optional)" />
+                <TextBox Text="{Binding AuthenticationName}" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="Authentication name (optional)"
+                         ToolTip.Tip="If this field is null and Authentication tab had a successful result, authentication for launcher will use this result." />
             </StackPanel>
         </styles:Card>
 
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Launch" />
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Launch arguments"
+                <TextBox MaxHeight="150" IsReadOnly="True" Text="{Binding LaunchArguments}" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="Launch arguments"
                          TextWrapping="Wrap" Classes="Outline" AcceptsReturn="True" />
-                <Button Content="Regenerate" HorizontalAlignment="Right"/>
-                
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Launch outputs"
+                <Button Command="{Binding GenerateLaunchArgumentsCommand}" Content="Regenerate"
+                        HorizontalAlignment="Right" />
+
+                <TextBox MaxHeight="150" Text="{Binding LaunchOutputs}" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="Launch outputs"
                          TextWrapping="Wrap" Classes="Outline" IsReadOnly="True" />
-                <Button Content="Regenerate" HorizontalAlignment="Right"/>
+                <Button Command="{Binding LaunchCommand}" Content="Launch" HorizontalAlignment="Right" />
             </StackPanel>
         </styles:Card>
     </StackPanel>

@@ -194,7 +194,7 @@ public class AuthVM : ViewModelBase
         }
         catch (Exception e)
         {
-            await GeneralUtils.PromptExceptionDialog(e);
+            await GeneralUtils.PromptExceptionDialogAsync(e);
         }
     }
 
@@ -222,7 +222,7 @@ public class AuthVM : ViewModelBase
         }
         catch (Exception e)
         {
-            await GeneralUtils.PromptExceptionDialog(e);
+            await GeneralUtils.PromptExceptionDialogAsync(e);
         }
         
     }
