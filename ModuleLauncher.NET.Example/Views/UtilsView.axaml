@@ -34,22 +34,22 @@
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Skin Utils" />
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Access Token" />
+                <TextBox Text="{Binding AccessToken}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Access Token" />
 
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Skin file" />
+                <TextBox Text="{Binding SkinFile}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Skin file" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
-                    <Button Content="Change Skin" HorizontalAlignment="Right" />
+                    <Button Command="{Binding BrowseSkinFileCommand}" Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Command="{Binding ChangeSkinByFileCommand}" Content="Change Skin" HorizontalAlignment="Right" />
                 </StackPanel>
 
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Skin file network url" />
-                <Button Content="Change Skin" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding SkinFileUrl}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Skin file network url" />
+                <Button Command="{Binding ChangeSkinByUrlCommand}" Content="Change Skin" HorizontalAlignment="Right" />
 
                 <TextBlock Text="Actions" Classes="Subtitle1" Margin="0,0,0,5" />
                 <Grid ColumnDefinitions="10*, *, 10*, *, 10*">
-                    <Button Grid.Column="0" Content="Reset Skin" />
-                    <Button Grid.Column="2" Content="Hide Cape" />
-                    <Button Grid.Column="4" Content="Show Cape" />
+                    <Button Command="{Binding ResetSkinCommand}" Grid.Column="0" Content="Reset Skin" />
+                    <Button Command="{Binding HideCapeCommand}" Grid.Column="2" Content="Hide Cape" />
+                    <Button Command="{Binding ShowCapeCommand}" Grid.Column="4" Content="Show Cape" />
                 </Grid>
             </StackPanel>
         </styles:Card>
