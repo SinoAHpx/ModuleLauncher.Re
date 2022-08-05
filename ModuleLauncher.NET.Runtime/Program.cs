@@ -2,14 +2,16 @@
 using Flurl.Http;
 using Manganese.Process;
 using Manganese.Text;
+using ModuleLauncher.NET.Authentications;
 using ModuleLauncher.NET.Models.Resources;
 using ModuleLauncher.NET.Resources;
 using ModuleLauncher.NET.Utilities;
 using Polly;
 
-(MinecraftJsonType.Snapshot | MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta)
-    .HasFlag(MinecraftJsonType.Release)
-    .Print();
+
+var authenticator = new MicrosoftAuthenticator();
+authenticator.LoginUrl.OpenUrl();
+
 return;
 var version = AnsiConsole.Ask<string>("Which version you want to launch? ");
 var rootPath = @"C:\Users\ahpx\Desktop\NewMinecraft\.minecraft";

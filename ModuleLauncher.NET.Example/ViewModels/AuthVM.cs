@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Reactive;
 using System.Runtime.InteropServices;
+using Manganese.Process;
 using Manganese.Text;
 using ModuleLauncher.NET.Authentications;
 using ModuleLauncher.NET.Example.Utils;
@@ -232,7 +233,7 @@ public class AuthVM : ViewModelBase
         if (!MicrosoftAuthenticateUrl.IsNullOrEmpty())
         {
             OpenedBrowser = true;
-            GeneralUtils.OpenUrl(MicrosoftAuthenticateUrl);
+            MicrosoftAuthenticateUrl.OpenUrl();
         }
     }
 
