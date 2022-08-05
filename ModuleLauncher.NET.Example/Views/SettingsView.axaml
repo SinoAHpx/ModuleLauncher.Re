@@ -19,8 +19,12 @@
         </styles:Card>
         
         <styles:Card Margin="10">
-            <StackPanel>
+            <StackPanel HorizontalAlignment="Stretch">
                 <TextBlock Classes="Headline6" Text="About" />
+                <Grid ColumnDefinitions="9*, 1*">
+                    <TextBlock Classes="Subtitle2" Text="Example developer"/>
+                    <TextBlock Grid.Column="1" Classes="Subtitle2" Foreground="Gray" Text="AHpx"/>
+                </Grid>
             </StackPanel>
         </styles:Card>
     </StackPanel>
