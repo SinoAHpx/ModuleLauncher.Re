@@ -35,7 +35,7 @@ public class MicrosoftAuthenticator
     #region Consts
 
     /// <summary>
-    /// Microfost login url, this procedure needs to be done in browser/webview
+    /// Microsoft login url, this procedure needs to be done in browser/webview
     /// </summary>
     public string LoginUrl =>
         $"https://login.live.com/oauth20_authorize.srf?client_id={ClientId}&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access";
@@ -49,7 +49,7 @@ public class MicrosoftAuthenticator
     /// <exception cref="FailedAuthenticationException"></exception>
     private async Task<(string AccessToken, string RefreshToken)> GetAuthorizationTokenAsync(string? token = null)
     {
-        var enpoint = "https://login.live.com/oauth20_token.srf";
+        var endpoint = "https://login.live.com/oauth20_token.srf";
         object payload = string.IsNullOrWhiteSpace(token)
             ? new
             {
@@ -66,7 +66,7 @@ public class MicrosoftAuthenticator
                 redirect_uri = RedirectUrl
             };
         
-        var response = await enpoint.PostUrlEncodedAsync(payload);
+        var response = await endpoint.PostUrlEncodedAsync(payload);
 
         try
         {
@@ -98,7 +98,7 @@ public class MicrosoftAuthenticator
         {
             // var token = (await GetAuthorizationTokenAsync()).access_token;
             var endpoint = "https://user.auth.xboxlive.com/user/authenticate";
-            var rpsTicket = ClientId == "00000000402b5328" ? token : $"d={token}";
+            var rpsTicket = $"d={token}";
 
             var payload = new
             {
