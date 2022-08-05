@@ -91,9 +91,9 @@ public class AuthVM : ViewModelBase
         get => _microsoftAuthenticator.LoginUrl;
     }
 
-    private string? _isMicrosoftAuthenticated;
+    private bool _isMicrosoftAuthenticated;
 
-    public string? IsMicrosoftAuthenticated
+    public bool IsMicrosoftAuthenticated
     {
         get => _isMicrosoftAuthenticated;
         set => this.RaiseAndSetIfChanged(ref _isMicrosoftAuthenticated, value);
@@ -220,6 +220,7 @@ public class AuthVM : ViewModelBase
             
             //assign global value, so that other views can share this result
             DataBus.AuthenticateResult = result;
+            IsMicrosoftAuthenticated = true;
         }
         catch (Exception e)
         {

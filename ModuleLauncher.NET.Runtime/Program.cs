@@ -11,6 +11,10 @@ using Polly;
 
 var authenticator = new MicrosoftAuthenticator();
 authenticator.LoginUrl.OpenUrl();
+authenticator.Code = AnsiConsole.Ask<string>("Code: ").ExtractCode();
+
+var result = await authenticator.AuthenticateAsync();
+result.ToJsonString().Print();
 
 return;
 var version = AnsiConsole.Ask<string>("Which version you want to launch? ");
