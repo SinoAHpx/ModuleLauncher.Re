@@ -57,27 +57,22 @@
         <styles:Card Margin="10">
             <StackPanel>
                 <TextBlock Classes="Headline6" Text="Mojang API" />
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Username" />
-                <Button Content="Get UUID" HorizontalAlignment="Right" />
-
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Usernames"
-                         TextWrapping="Wrap" Classes="Outline" AcceptsReturn="True"
-                         ToolTip.Tip="Single line, single name" />
-                <Button Content="Get UUIDs" HorizontalAlignment="Right"/>
+                <TextBox Text="{Binding Username}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Username" />
+                <Button Command="{Binding GetUuidByNameCommand}" Content="Get UUID" HorizontalAlignment="Right" />
                 
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="UUID" />
+                <TextBox Text="{Binding UUID}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="UUID" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Get Name History" HorizontalAlignment="Right" Margin="0,0,10,0" />
-                    <Button Content="Get Profile" HorizontalAlignment="Right" />
+                    <Button Command="{Binding GetNameHistoryCommand}" Content="Get Name History" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Command="{Binding GetProfileCommand}" Content="Get Profile" HorizontalAlignment="Right" />
                 </StackPanel>
                 
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Access Token" />
-                <Button Content="Get Name Change Info" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding AccessToken}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="Access Token" />
+                <Button Command="{Binding GetNameChangeInfoCommand}" Content="Get Name Change Info" HorizontalAlignment="Right" />
                 
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="New name" />
+                <TextBox Text="{Binding NewUsername}" UseFloatingWatermark="True" assists:TextFieldAssist.Label="New name" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Check Availability" HorizontalAlignment="Right" Margin="0,0,10,0" />
-                    <Button Content="Change Name" HorizontalAlignment="Right" />
+                    <Button Command="{Binding CheckNameAvailabilityCommand}" Content="Check Availability" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                    <Button Command="{Binding ChangeNameCommand}" Content="Change Name" HorizontalAlignment="Right" />
                 </StackPanel>
             </StackPanel>
         </styles:Card>

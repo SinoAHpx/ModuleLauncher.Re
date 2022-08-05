@@ -53,7 +53,7 @@ public static class GeneralUtils
         throw new ApplicationException("Internal error");
     }
 
-    public static async Task<string> PromptDialogAsync(string content, params string[] buttons)
+    public static async Task<string> Dialog(string content, params string[] buttons)
     {
         var buttonList = buttons.ToList();
         if (buttonList.Count == 0)
@@ -77,7 +77,7 @@ public static class GeneralUtils
             .ShowDialog(GetMainWindow());
     }
 
-    public static async Task PromptExceptionDialogAsync(Exception e)
+    public static async Task Exception(Exception e)
     {
         var result = await MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
             {
@@ -103,7 +103,7 @@ public static class GeneralUtils
         }
     }
 
-    public static async Task<string?> ShowInputDialogAsync(string? message = null, string? content = null)
+    public static async Task<string?> Input(string? message = null, string? content = null)
     {
         var dialog = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams
         {
@@ -128,7 +128,7 @@ public static class GeneralUtils
         return result.Message;
     }
 
-    public static async Task<string?> OpenDirBrowserAsync(string title)
+    public static async Task<string?> DirectoryBrowser(string title)
     {
         var dialog = new OpenFolderDialog
         {
@@ -139,7 +139,7 @@ public static class GeneralUtils
         return result;
     }
 
-    public static async Task<string?> OpenFileBrowserAsync(string title, List<FileDialogFilter>? filters = null)
+    public static async Task<string?> FileBrowser(string title, List<FileDialogFilter>? filters = null)
     {
         var dialog = new OpenFileDialog
         {

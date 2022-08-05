@@ -50,12 +50,12 @@ public class LauncherVM : ViewModelBase
             }
             catch (Exception e)
             {
-                await GeneralUtils.PromptExceptionDialogAsync(e);
+                await GeneralUtils.Exception(e);
             }
         }
         else
         {
-            await GeneralUtils.PromptDialogAsync("No versions could be found, have you set your .minecraft path?");
+            await GeneralUtils.Dialog("No versions could be found, have you set your .minecraft path?");
         }
     }
 
@@ -88,7 +88,7 @@ public class LauncherVM : ViewModelBase
 
     private async void BrowseJava()
     {
-        var result = await GeneralUtils.OpenFileBrowserAsync("Select java runtime");
+        var result = await GeneralUtils.FileBrowser("Select java runtime");
         if (result.IsNullOrEmpty())
         {
             return;
@@ -97,7 +97,7 @@ public class LauncherVM : ViewModelBase
         var javaVersion = new FileInfo(result).GetJavaExecutableVersion();
         if (javaVersion == null)
         {
-            var dialogResult = await GeneralUtils.ShowInputDialogAsync("Java version: ");
+            var dialogResult = await GeneralUtils.Input("Java version: ");
             if (int.TryParse(dialogResult, out var parsedVersion))
             {
                 javaVersion = parsedVersion;

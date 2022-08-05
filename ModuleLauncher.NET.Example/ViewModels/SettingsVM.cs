@@ -37,7 +37,7 @@ public class SettingsVM : ViewModelBase
     {
         BrowseMinecraftRootPath = ReactiveCommand.CreateFromTask(async () =>
         {
-            var result = await GeneralUtils.OpenDirBrowserAsync("Select a .minecraft directory");
+            var result = await GeneralUtils.DirectoryBrowser("Select a .minecraft directory");
             if (result.IsNullOrEmpty())
             {
                 return;
@@ -48,7 +48,7 @@ public class SettingsVM : ViewModelBase
 
         BrowseMinecraftWorkingDir = ReactiveCommand.CreateFromTask(async () =>
         {
-            var result = await GeneralUtils.OpenDirBrowserAsync("Select a working path");
+            var result = await GeneralUtils.DirectoryBrowser("Select a working path");
             if (result.IsNullOrEmpty())
             {
                 return;

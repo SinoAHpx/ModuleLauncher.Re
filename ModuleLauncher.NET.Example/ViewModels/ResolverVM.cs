@@ -117,12 +117,12 @@ public class ResolverVM : ViewModelBase
             }
             catch (Exception e)
             {
-                await GeneralUtils.PromptExceptionDialogAsync(e);
+                await GeneralUtils.Exception(e);
             }
         }
         else
         {
-            await GeneralUtils.PromptDialogAsync("No versions could be found, have you set your .minecraft path?");
+            await GeneralUtils.Dialog("No versions could be found, have you set your .minecraft path?");
         }
     }
 
@@ -299,7 +299,7 @@ public class ResolverVM : ViewModelBase
                 var localMinecraft = await SelectedRemoteMinecraft.ResolveLocalEntryAsync(DataBus.MinecraftResolver);
                 if (localMinecraft.ValidateChecksum())
                 {
-                    await GeneralUtils.PromptDialogAsync("Already downloaded");
+                    await GeneralUtils.Dialog("Already downloaded");
                     IsDownloadingMinecraft = false;
                     return;
                 }
@@ -310,12 +310,12 @@ public class ResolverVM : ViewModelBase
             }
             catch (Exception e)
             {
-                await GeneralUtils.PromptExceptionDialogAsync(e);
+                await GeneralUtils.Exception(e);
             }
         }
         else
         {
-            await GeneralUtils.PromptDialogAsync("Please select a Minecraft to download");
+            await GeneralUtils.Dialog("Please select a Minecraft to download");
         }
 
         IsDownloadingMinecraft = false;
@@ -358,7 +358,7 @@ public class ResolverVM : ViewModelBase
 
         if (MinecraftLibraries.All(e => e.ValidateChecksum()))
         {
-            await GeneralUtils.PromptDialogAsync("All file downloaded, no need to download again");
+            await GeneralUtils.Dialog("All file downloaded, no need to download again");
             return;
         }
 
@@ -390,11 +390,11 @@ public class ResolverVM : ViewModelBase
             
             stopwatch.Stop();
 
-            await GeneralUtils.PromptDialogAsync($"Download completed in {stopwatch.Elapsed.TotalSeconds}s");
+            await GeneralUtils.Dialog($"Download completed in {stopwatch.Elapsed.TotalSeconds}s");
         }
         catch (Exception e)
         {
-            await GeneralUtils.PromptExceptionDialogAsync(e);
+            await GeneralUtils.Exception(e);
         }
 
         IsDownloadingLibraries = false;
@@ -417,7 +417,7 @@ public class ResolverVM : ViewModelBase
 
         if (MinecraftAssets.All(e => e.ValidateChecksum()))
         {
-            await GeneralUtils.PromptDialogAsync("All file downloaded, no need to download again");
+            await GeneralUtils.Dialog("All file downloaded, no need to download again");
             return;
         }
 
@@ -449,11 +449,11 @@ public class ResolverVM : ViewModelBase
             
             stopwatch.Stop();
 
-            await GeneralUtils.PromptDialogAsync($"Download completed in {stopwatch.Elapsed.TotalSeconds}s");
+            await GeneralUtils.Dialog($"Download completed in {stopwatch.Elapsed.TotalSeconds}s");
         }
         catch (Exception e)
         {
-            await GeneralUtils.PromptExceptionDialogAsync(e);
+            await GeneralUtils.Exception(e);
         }
 
         IsDownloadingAssets = false;
