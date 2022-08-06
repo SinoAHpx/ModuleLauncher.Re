@@ -8,7 +8,9 @@ using ModuleLauncher.NET.Resources;
 using ModuleLauncher.NET.Utilities;
 using Polly;
 
-
+var remoteMinecrafts = await DownloaderUtils
+    .GetRemoteMinecraftsAsync()
+    .FilterAsync(MinecraftJsonType.Release | MinecraftJsonType.OldAlpha);
 return;
 var version = AnsiConsole.Ask<string>("Which version you want to launch? ");
 var rootPath = @"C:\Users\ahpx\Desktop\NewMinecraft\.minecraft";
