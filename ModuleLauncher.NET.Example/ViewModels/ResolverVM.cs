@@ -324,7 +324,7 @@ public class ResolverVM : ViewModelBase
     private async void FetchOrRefreshRemoteMinecrafts()
     {
         RemoteMinecrafts = new();
-        var entries = await MinecraftUtils.GetRemoteMinecraftsAsync();
+        var entries = await DownloaderUtils.GetRemoteMinecraftsAsync();
         if (ReleaseSelected)
         {
             RemoteMinecrafts.Add(entries.Filter(MinecraftJsonType.Release));

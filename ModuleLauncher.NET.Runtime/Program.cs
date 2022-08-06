@@ -9,13 +9,6 @@ using ModuleLauncher.NET.Utilities;
 using Polly;
 
 
-var authenticator = new MicrosoftAuthenticator();
-authenticator.LoginUrl.OpenUrl();
-authenticator.Code = AnsiConsole.Ask<string>("Code: ").ExtractCode();
-
-var result = await authenticator.AuthenticateAsync();
-result.ToJsonString().Print();
-
 return;
 var version = AnsiConsole.Ask<string>("Which version you want to launch? ");
 var rootPath = @"C:\Users\ahpx\Desktop\NewMinecraft\.minecraft";
@@ -66,7 +59,7 @@ foreach (var libraryEntry in libraries)
         continue;
     }
     AnsiConsole.MarkupLine($"Starting download [red]{libraryEntry.File.Name}[/]");
-    var url = libraryEntry.GetDownloadUrl();
+    var url = libraryEntry.GetDownloadUrl(DownloadSource.Bmcl);
     await Policy.Handle<Exception>().RetryAsync(5).ExecuteAsync(async () =>
     {
         await DownloadAsync(url, libraryEntry.File);
