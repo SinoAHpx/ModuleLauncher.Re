@@ -6,14 +6,14 @@
         <Nullable>enable</Nullable>
         <LangVersion>10</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>4.0.4</PackageVersion>
+        <PackageVersion>4.0.5</PackageVersion>
         <Title>ModuleLauncher.NET</Title>
         <Description>Your on-the-fly Minecraft launcher core.</Description>
         <Copyright>Copyright 2022 AHpx all rights reserved.</Copyright>
         <PackageProjectUrl>https://github.com/SinoAHpx/ModuleLauncher.Re</PackageProjectUrl>
         <PackageIcon>ML-logo.png</PackageIcon>
         <RepositoryUrl>https://github.com/SinoAHpx/ModuleLauncher.Re</RepositoryUrl>
-        <PackageTags>minecraft, minecraft-launcher</PackageTags>
+        <PackageTags>minecraft minecraft-launcher launcher forge optifine fabric minecraft-launcher-library corss-platform</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageId>ModuleLauncher.Re</PackageId>
     </PropertyGroup>
