@@ -5,7 +5,7 @@
 [![NuGet latest version](https://badgen.net/nuget/v/modulelauncher.re/latest)](https://nuget.org/packages/modulelauncher.re)
 [![GitHub license](https://badgen.net/github/license/SinoAHpx/ModuleLauncher.Re)](https://github.com/SinoAHpx/ModuleLauncher.Re/blob/main/LICENSE)
 [![GitHub stars](https://badgen.net/github/stars/SinoAHpx/ModuleLauncher.Re)](https://github.com/SinoAHpx/ModuleLauncher.Re/stargazers/)
-[![Axen.Haxor](https://badgen.net/discord/members/tY8Y5HtvuK)](https://discord.gg/tY8Y5HtvuK)
+[![Telegram](https://img.shields.io/endpoint?color=blue&url=https://telegram-badge-4mbpu8e0fit4.runkit.sh/?url=https://t.me/axenhaxor)](https://t.me/axenhaxor)
 
 [English](README.md) / 简体中文
 
