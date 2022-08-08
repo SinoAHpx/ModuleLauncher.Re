@@ -1,6 +1,6 @@
 namespace ModuleLauncher.NET.Authentications;
 
-public sealed class OfflineAccount : MinecraftAccount
+public sealed class OfflineMinecraftAccount : MinecraftAccount
 {
     public new string Name { get; init; }
 
@@ -10,7 +10,7 @@ public sealed class OfflineAccount : MinecraftAccount
         AuthenticationCredential = new RefreshableAuthenticateResult(new OfflineAuthenticator(Name).Authenticate());
     }
 
-    public OfflineAccount(string name)
+    public OfflineMinecraftAccount(string name)
     {
         Name = name;
         AuthenticateAsync().Wait();
