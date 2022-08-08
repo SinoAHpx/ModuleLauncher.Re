@@ -74,7 +74,7 @@ public static class MojangApiUtils
     public static async Task<List<string>> GetUuidsByUsernamesAsync(
         this IEnumerable<MicrosoftMinecraftAccount> accounts)
     {
-        return await GetUuidsByUsernamesAsync(accounts.Cast<string>());
+        return await GetUuidsByUsernamesAsync(accounts.Select(x => x.Name));
     }
 
     /// <summary>

@@ -12,11 +12,6 @@ public abstract class MinecraftAccount
     public abstract Task AuthenticateAsync(string? code = null,
         RefreshableAuthenticateResult.AuthenticationRefreshRequired? authenticationRefreshRequired = null);
 
-    public static implicit operator string(MinecraftAccount account)
-    {
-        return account.Name;
-    }
-
     public static implicit operator AuthenticateResult(MinecraftAccount account)
     {
         return account.AuthenticationCredential;
