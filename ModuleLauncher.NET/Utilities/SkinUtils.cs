@@ -1,6 +1,7 @@
 ﻿using Flurl.Http;
 using Manganese.Data;
 using Manganese.Text;
+using ModuleLauncher.NET.Authentications;
 using ModuleLauncher.NET.Models.Authentication;
 using ModuleLauncher.NET.Models.Utils;
 using Newtonsoft.Json;
@@ -18,22 +19,21 @@ public static class SkinUtils
     private static async Task<MinecraftProfile> ProcessAsync(this IFlurlResponse response)
     {
         if (response.StatusCode == 400)
-        {
             throw new InvalidOperationException((await response.GetStringAsync()).Fetch("errorMessage"));
-        }
 
         var responseJson = await response.GetStringAsync();
         return JsonConvert.DeserializeObject<MinecraftProfile>(responseJson)
             .ThrowIfNull(new InvalidOperationException("Response json is invalid"));
     }
-    
+
     /// <summary>
     /// Change skin selected profile
     /// </summary>
     /// <param name="accessToken">Minecraft access token</param>
     /// <param name="skinUrl">Skin file web address</param>
     /// <param name="variant">Either classic or slim</param>
-    public static async Task<MinecraftProfile> ChangeSkinAsync(string accessToken, string skinUrl, SkinVariant variant = SkinVariant.Classic)
+    public static async Task<MinecraftProfile> ChangeSkinAsync(string accessToken, string skinUrl,
+        SkinVariant variant = SkinVariant.Classic)
     {
         var endpoint = "https://api.minecraftservices.com/minecraft/profile/skins";
         var payload = new
@@ -47,13 +47,22 @@ public static class SkinUtils
         return await response.ProcessAsync();
     }
 
+    public static async Task<MinecraftProfile> ChangeSkinAsync(this MicrosoftMinecraftAccount account, string skinUrl,
+        SkinVariant variant = SkinVariant.Classic)
+    {
+        return account.IsAvailable
+            ? await ChangeSkinAsync(account.AuthenticationCredential.AccessToken, skinUrl, variant)
+            : null;
+    }
+
     /// <summary>
     /// Upload local skin file and set it active
     /// </summary>
     /// <param name="accessToken">Minecraft access token</param>
     /// <param name="skinFile">Must be a local skin file</param>
     /// <param name="skinVariant">Either classic or slim</param>
-    public static async Task<MinecraftProfile> ChangeSkinAsync(string accessToken, FileInfo skinFile, SkinVariant skinVariant = SkinVariant.Classic)
+    public static async Task<MinecraftProfile> ChangeSkinAsync(string accessToken, FileInfo skinFile,
+        SkinVariant skinVariant = SkinVariant.Classic)
     {
         var endpoint = "https://api.minecraftservices.com/minecraft/profile/skins";
         var response = await endpoint.AllowAnyHttpStatus()
@@ -62,6 +71,14 @@ public static class SkinUtils
                     .AddFile("file", skinFile.FullName));
 
         return await response.ProcessAsync();
+    }
+
+    public static async Task<MinecraftProfile> ChangeSkinAsync(this MicrosoftMinecraftAccount account,
+        FileInfo skinFile, SkinVariant skinVariant = SkinVariant.Classic)
+    {
+        return account.IsAvailable
+            ? await ChangeSkinAsync(account.AuthenticationCredential.AccessToken, skinFile, skinVariant)
+            : null;
     }
 
     /// <summary>
@@ -77,6 +94,11 @@ public static class SkinUtils
         return await response.ProcessAsync();
     }
 
+    public static async Task<MinecraftProfile> ResetSkinAsync(this MicrosoftMinecraftAccount account)
+    {
+        return account.IsAvailable ? await ResetSkinAsync(account.AuthenticationCredential.AccessToken) : null;
+    }
+
     /// <summary>
     /// Prevents the current cape from being shown on the account
     /// </summary>
@@ -87,6 +109,11 @@ public static class SkinUtils
         var response = await endpoint.AllowAnyHttpStatus().WithOAuthBearerToken(accessToken).DeleteAsync();
 
         return await response.ProcessAsync();
+    }
+
+    public static async Task<MinecraftProfile> HideCapeAsync(this MicrosoftMinecraftAccount account)
+    {
+        return account.IsAvailable ? await HideCapeAsync(account.AuthenticationCredential.AccessToken) : null;
     }
 
     /// <summary>
@@ -105,5 +132,10 @@ public static class SkinUtils
         var response = await endpoint.AllowAnyHttpStatus().WithOAuthBearerToken(accessToken).PutJsonAsync(payload);
 
         return await response.ProcessAsync();
+    }
+
+    public static async Task<MinecraftProfile> ShowCapeAsync(this MicrosoftMinecraftAccount account, string capeId)
+    {
+        return account.IsAvailable ? await ShowCapeAsync(account.AuthenticationCredential.AccessToken, capeId) : null;
     }
 }

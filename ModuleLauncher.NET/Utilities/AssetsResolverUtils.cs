@@ -18,7 +18,7 @@ public static class AssetsResolverUtils
     {
         return AssetsResolver.GetAssets(minecraftEntry);
     }
-    
+
     /// <summary>
     /// Get assets, will automatically download if no assets index exists 
     /// </summary>

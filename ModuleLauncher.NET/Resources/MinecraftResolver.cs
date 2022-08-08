@@ -77,10 +77,7 @@ public class MinecraftResolver
             Natives = RootDirectory.Dive($"versions/{id}/natives")
         };
 
-        if (!workingDirectory.IsNullOrEmpty())
-        {
-            tree.WorkingDirectory = new DirectoryInfo(workingDirectory);
-        }
+        if (!workingDirectory.IsNullOrEmpty()) tree.WorkingDirectory = new DirectoryInfo(workingDirectory);
 
         if (!tree.VersionRoot.Exists)
             throw new CorruptedStuctureException("Minecraft path does not exist");
@@ -94,7 +91,7 @@ public class MinecraftResolver
             Tree = tree,
             Json = json
         };
-        
+
         if (entry.Json.AssetId is "legacy" or "pre-1.6" ||
             (entry.GetMinecraftType() != MinecraftType.Vanilla && !entry.HasInheritSource()))
             entry.Tree.Assets = entry.Tree.Assets.Dive("virtual/legacy");
@@ -110,10 +107,7 @@ public class MinecraftResolver
     {
         var re = new List<MinecraftEntry>();
         var dirs = RootDirectory.Dive("versions").GetDirectories();
-        foreach (var dir in dirs)
-        {
-            re.Add(GetMinecraft(dir.Name));
-        }
+        foreach (var dir in dirs) re.Add(GetMinecraft(dir.Name));
 
         return re;
     }

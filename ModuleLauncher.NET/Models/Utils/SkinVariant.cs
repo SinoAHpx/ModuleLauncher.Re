@@ -5,10 +5,9 @@ namespace ModuleLauncher.NET.Models.Utils;
 
 public enum SkinVariant
 {
-    [Description("classic")]
-    [EnumMember(Value = "classic")]
+    [Description("classic")] [EnumMember(Value = "classic")]
     Classic,
-    [Description("slim")]
-    [EnumMember(Value = "slim")]
+
+    [Description("slim")] [EnumMember(Value = "slim")]
     Slim
 }

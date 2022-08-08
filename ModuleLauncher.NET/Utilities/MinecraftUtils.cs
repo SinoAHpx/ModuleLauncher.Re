@@ -53,9 +53,7 @@ public static class MinecraftUtils
     public static MinecraftEntry? GetInheritSource(this MinecraftEntry minecraftEntry)
     {
         if (minecraftEntry.HasInheritSource())
-        {
             return MinecraftResolver.Of(minecraftEntry).GetMinecraft(minecraftEntry.Json.InheritsFrom!);
-        }
 
         return null;
     }
@@ -82,8 +80,8 @@ public static class MinecraftUtils
     {
         return !minecraftEntry.Json.InheritsFrom.IsNullOrEmpty();
     }
-    
-    
+
+
     /// <summary>
     /// Extract natives files
     /// </summary>
@@ -103,17 +101,12 @@ public static class MinecraftUtils
             {
                 var zipEntries = ZipFile.OpenRead(native.File.FullName).Entries;
                 foreach (var zipArchiveEntry in zipEntries)
-                {
                     if (Path.HasExtension(zipArchiveEntry.FullName))
                     {
                         var toExtract = minecraftEntry.Tree.Natives.DiveToFile(zipArchiveEntry.FullName);
                         toExtract.Directory?.Create();
-                        if (!toExtract.Exists)
-                        {
-                            zipArchiveEntry.ExtractToFile(toExtract.FullName, true);
-                        }
+                        if (!toExtract.Exists) zipArchiveEntry.ExtractToFile(toExtract.FullName, true);
                     }
-                }
             }
         });
     }

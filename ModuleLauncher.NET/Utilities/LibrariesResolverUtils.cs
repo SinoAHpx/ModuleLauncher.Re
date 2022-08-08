@@ -27,10 +27,10 @@ public static class LibrariesResolverUtils
             suffix = segments[3];
             goto skipLengthCheck;
         }
-        
+
         if (segments.Length != 3)
             throw new ErrorParsingLibraryException($"The raw name \"{rawName}\" of the lib is invalid");
-        
+
         skipLengthCheck:
         if (!suffix.IsNullOrEmpty())
             suffix = $"-{suffix}";

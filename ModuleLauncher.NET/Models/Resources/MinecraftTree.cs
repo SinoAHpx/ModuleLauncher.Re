@@ -77,7 +77,7 @@ public class MinecraftTree
     /// Real working directory instead of Root
     /// </summary>
     public DirectoryInfo WorkingDirectory { get; set; }
-    
+
     public override string ToString()
     {
         return new

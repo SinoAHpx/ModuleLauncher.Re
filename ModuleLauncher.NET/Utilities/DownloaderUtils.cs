@@ -17,7 +17,8 @@ public static class DownloaderUtils
     /// <param name="entry"></param>
     /// <param name="downloadSource"></param>
     /// <returns></returns>
-    public static string? GetDownloadUrl(this LibraryEntry entry, DownloadSource downloadSource = DownloadSource.Default)
+    public static string? GetDownloadUrl(this LibraryEntry entry,
+        DownloadSource downloadSource = DownloadSource.Default)
     {
         if (downloadSource != DownloadSource.Default)
             return $"{downloadSource.GetDownloadSourcePrefix()}/{entry.RelativeUrl}";
@@ -34,7 +35,7 @@ public static class DownloaderUtils
         {
             if (explicitUrl.EndsWith("/"))
                 return $"{explicitUrl}{entry.RelativeUrl}";
-            
+
             return explicitUrl;
         }
 
@@ -48,7 +49,8 @@ public static class DownloaderUtils
     /// <param name="downloadSource"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static string GetDownloadUrl(this MinecraftEntry minecraftEntry, DownloadSource downloadSource = DownloadSource.Default)
+    public static string GetDownloadUrl(this MinecraftEntry minecraftEntry,
+        DownloadSource downloadSource = DownloadSource.Default)
     {
         if (minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
             throw new InvalidOperationException("Only vanilla type of Minecraft can get download url");
@@ -56,10 +58,11 @@ public static class DownloaderUtils
         var downloadMeta = minecraftEntry.GetMinecraftClientDownloadInfo();
         if (downloadSource != DownloadSource.Default)
         {
-            var combine = $"{downloadSource.GetDownloadSourcePrefix()}/mc/game/{minecraftEntry.Json.Id}/client/{downloadMeta.Sha1}/client.jar";
+            var combine =
+                $"{downloadSource.GetDownloadSourcePrefix()}/mc/game/{minecraftEntry.Json.Id}/client/{downloadMeta.Sha1}/client.jar";
             return combine;
         }
-        
+
         return downloadMeta.Url;
     }
 
@@ -83,7 +86,8 @@ public static class DownloaderUtils
     /// <param name="assetEntry"></param>
     /// <param name="downloadSource"></param>
     /// <returns></returns>
-    public static string GetDownloadUrl(this AssetEntry assetEntry, DownloadSource downloadSource = DownloadSource.Default)
+    public static string GetDownloadUrl(this AssetEntry assetEntry,
+        DownloadSource downloadSource = DownloadSource.Default)
     {
         if (downloadSource == DownloadSource.Default)
             return $"http://resources.download.minecraft.net/{assetEntry.RelativeUrl}";
@@ -112,7 +116,7 @@ public static class DownloaderUtils
     {
         if (!libraryEntry.File.Exists)
             return false;
-        
+
         var fetchPath = libraryEntry.IsNative
             ? $"downloads.classifiers.natives-{CommonUtils.CurrentSystemName}.sha1"
             : "downloads.artifact.sha1";
@@ -159,8 +163,8 @@ public static class DownloaderUtils
 
         return realSha1 == assetEntry.Hash;
     }
-    
-        /// <summary>
+
+    /// <summary>
     /// Get single remote Minecraft entry by id
     /// </summary>
     /// <param name="id"></param>
@@ -179,12 +183,10 @@ public static class DownloaderUtils
             throw new InvalidOperationException(
                 $"Failed to request Minecraft {id}, it doesn't seem to be a valid Minecraft id", e);
         }
-        
     }
 
     private static List<RemoteMinecraftEntry>? _remoteMinecraftEntriesCache;
-    
-    
+
 
     /// <summary>
     /// Get a list of remote Minecrafts
@@ -212,13 +214,15 @@ public static class DownloaderUtils
     /// <param name="source"></param>
     /// <param name="type">Multiple types: MinecraftJsonType.Release | MinecraftJsonType.Snapshot</param>
     /// <returns></returns>
-    public static async Task<List<RemoteMinecraftEntry>> FilterAsync(this Task<List<RemoteMinecraftEntry>> source, MinecraftJsonType type = MinecraftJsonType.Release | MinecraftJsonType.Snapshot | MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta)
+    public static async Task<List<RemoteMinecraftEntry>> FilterAsync(this Task<List<RemoteMinecraftEntry>> source,
+        MinecraftJsonType type = MinecraftJsonType.Release | MinecraftJsonType.Snapshot | MinecraftJsonType.OldAlpha |
+                                 MinecraftJsonType.OldBeta)
     {
         var entries = await source;
 
         return entries.Filter(type);
     }
-    
+
     /// <summary>
     /// Filter remote minecrafts by type
     /// <remarks>Support multiple types of Minecraft</remarks>
@@ -226,7 +230,9 @@ public static class DownloaderUtils
     /// <param name="source"></param>
     /// <param name="type">Multiple types: MinecraftJsonType.Release | MinecraftJsonType.Snapshot</param>
     /// <returns></returns>
-    public static List<RemoteMinecraftEntry> Filter(this List<RemoteMinecraftEntry> source, MinecraftJsonType type = MinecraftJsonType.Release | MinecraftJsonType.Snapshot | MinecraftJsonType.OldAlpha | MinecraftJsonType.OldBeta)
+    public static List<RemoteMinecraftEntry> Filter(this List<RemoteMinecraftEntry> source,
+        MinecraftJsonType type = MinecraftJsonType.Release | MinecraftJsonType.Snapshot | MinecraftJsonType.OldAlpha |
+                                 MinecraftJsonType.OldBeta)
     {
         return source.RemoveIf(e => !type.HasFlag(MinecraftJsonType.Release) && e.Type == MinecraftJsonType.Release)
             .RemoveIf(e =>
@@ -242,7 +248,8 @@ public static class DownloaderUtils
     /// <param name="resolver"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    public static async Task<MinecraftEntry> GetRemoteMinecraftAndToLocalAsync(this MinecraftResolver resolver, string id)
+    public static async Task<MinecraftEntry> GetRemoteMinecraftAndToLocalAsync(this MinecraftResolver resolver,
+        string id)
     {
         try
         {
@@ -286,14 +293,14 @@ public static class DownloaderUtils
             var destinationDir =
                 new DirectoryInfo(Path.Combine(resolver.RootPath, "versions", remoteMinecraftEntry.Id));
             destinationDir.Create();
-            
+
             var jsonFile = destinationDir.DiveToFile($"{remoteMinecraftEntry.Id}.json");
             await jsonFile.WriteAllTextAsync(json);
 
             return await remoteMinecraftEntry.ResolveLocalEntryAsync(resolver);
         }
     }
-    
+
     /// <summary>
     /// Convert string ("Default", "Bmcl" and "Mcbbs") to DownloadSource enum member
     /// </summary>

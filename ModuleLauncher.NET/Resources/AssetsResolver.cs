@@ -111,7 +111,7 @@ public class AssetsResolver
         if (!assetIndexFile.Exists)
             throw new CorruptedStuctureException("Missing assets index file, you may download it first");
         var assetsIndexJson = assetIndexFile.ReadAllText().ToJObject();
-        
+
         return GetAssets(assetsIndexJson, minecraftEntry);
     }
 
@@ -128,13 +128,13 @@ public class AssetsResolver
             assetEntry.Raw = keyValuePair!;
             assets.Add(assetEntry);
         }
-        
+
         if (bool.TryParse(assetsIndexJson.Fetch("virtual"), out _))
             assets.ForEach(entry => entry.IsLegacy = true);
 
         if (bool.TryParse(assetsIndexJson.Fetch("map_to_resources"), out _))
             assets.ForEach(entry => entry.MapToResource = true);
-        
+
         return assets;
     }
 
@@ -152,5 +152,4 @@ public class AssetsResolver
             RelativeUrl = relativeUrl
         };
     }
-
 }

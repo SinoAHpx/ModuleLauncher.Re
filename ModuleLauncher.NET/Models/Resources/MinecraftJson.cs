@@ -39,9 +39,9 @@ public class MinecraftJson
     [JsonProperty("assets")] public string? AssetId { get; set; }
 
     [JsonProperty("assetIndex.url")] public string? AssetIndexUrl { get; set; }
-    
+
     [JsonProperty("javaVersion.majorVersion")]
-    public int? JavaVersion {get; set;}
+    public int? JavaVersion { get; set; }
 
     [JsonProperty("arguments")] public JToken? Arguments { get; set; }
 
@@ -49,8 +49,7 @@ public class MinecraftJson
 
     [JsonProperty("inheritsFrom")] public string? InheritsFrom { get; set; }
 
-    [JsonIgnore]
-    public JToken Raw { get; set; }
+    [JsonIgnore] public JToken Raw { get; set; }
 }
 
 /// <summary>
@@ -59,19 +58,15 @@ public class MinecraftJson
 [Flags]
 public enum MinecraftJsonType
 {
-    [EnumMember(Value = "old_alpha")]
-    [Description("old_alpha")]
+    [EnumMember(Value = "old_alpha")] [Description("old_alpha")]
     OldAlpha = 0,
-    
-    [EnumMember(Value = "old_beta")]
-    [Description("old_beta")]
+
+    [EnumMember(Value = "old_beta")] [Description("old_beta")]
     OldBeta = 1 << 0,
-    
-    [EnumMember(Value = "release")]
-    [Description("release")]
+
+    [EnumMember(Value = "release")] [Description("release")]
     Release = 1 << 1,
-    
-    [EnumMember(Value = "snapshot")]
-    [Description("snapshot")]
+
+    [EnumMember(Value = "snapshot")] [Description("snapshot")]
     Snapshot = 1 << 2
 }

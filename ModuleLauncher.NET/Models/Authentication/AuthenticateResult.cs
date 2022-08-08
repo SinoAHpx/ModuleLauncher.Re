@@ -50,7 +50,7 @@ public class AuthenticateResult
             UUID = Guid.NewGuid().ToString("N")
         };
     }
-    
+
     public static implicit operator string(AuthenticateResult result)
     {
         return result.Name.ThrowIfNullOrEmpty<FailedAuthenticationException>("Authentication failed");

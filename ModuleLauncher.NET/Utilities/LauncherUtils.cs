@@ -17,7 +17,7 @@ public static class LauncherUtils
         internal LauncherConfig LauncherConfig { get; set; } = null!;
         internal MinecraftEntry MinecraftEntry { get; set; } = null!;
     }
-    
+
     /// <summary>
     /// Build LauncherConfig with Authentication
     /// </summary>
@@ -49,12 +49,9 @@ public static class LauncherUtils
     {
         var builder = new LauncherConfigBuilder
         {
-            MinecraftEntry = minecraftEntry,
+            MinecraftEntry = minecraftEntry
         };
-        if (!name.IsNullOrEmpty())
-        {
-            builder.LauncherConfig.LauncherName = name;
-        }
+        if (!name.IsNullOrEmpty()) builder.LauncherConfig.LauncherName = name;
 
         return builder;
     }
@@ -73,10 +70,7 @@ public static class LauncherUtils
             MinecraftEntry = minecraftEntry,
             LauncherConfig = new LauncherConfig()
         };
-        if (size != null)
-        {
-            builder.LauncherConfig.MaxMemorySize = size.Value;
-        }
+        if (size != null) builder.LauncherConfig.MaxMemorySize = size.Value;
 
         return builder;
     }
@@ -179,10 +173,7 @@ public static class LauncherUtils
             MinecraftEntry = minecraftEntry,
             LauncherConfig = new LauncherConfig()
         };
-        if (java != null)
-        {
-            builder.LauncherConfig.Javas.Add(java);
-        }
+        if (java != null) builder.LauncherConfig.Javas.Add(java);
 
         return builder;
     }
@@ -201,10 +192,7 @@ public static class LauncherUtils
             MinecraftEntry = minecraftEntry,
             LauncherConfig = new LauncherConfig()
         };
-        if (javas != null)
-        {
-            builder.LauncherConfig.Javas.AddRange(javas);
-        }
+        if (javas != null) builder.LauncherConfig.Javas.AddRange(javas);
 
         return builder;
     }
@@ -223,10 +211,7 @@ public static class LauncherUtils
             MinecraftEntry = minecraftEntry,
             LauncherConfig = new LauncherConfig()
         };
-        if (!javaExePath.IsNullOrEmpty())
-        {
-            builder.LauncherConfig.Javas.Add(MinecraftJava.Of(javaExePath));
-        }
+        if (!javaExePath.IsNullOrEmpty()) builder.LauncherConfig.Javas.Add(MinecraftJava.Of(javaExePath));
 
         return builder;
     }
@@ -246,7 +231,6 @@ public static class LauncherUtils
             LauncherConfig = new LauncherConfig()
         };
         if (javaExePaths != null)
-        {
             foreach (var path in javaExePaths)
             {
                 if (path.IsNullOrEmpty())
@@ -254,7 +238,6 @@ public static class LauncherUtils
 
                 builder.LauncherConfig.Javas.Add(MinecraftJava.Of(path));
             }
-        }
 
         return builder;
     }
@@ -277,10 +260,7 @@ public static class LauncherUtils
     /// <returns></returns>
     public static LauncherConfigBuilder WithLauncherName(this LauncherConfigBuilder builder, string? name)
     {
-        if (!name.IsNullOrEmpty())
-        {
-            builder.LauncherConfig.LauncherName = name;
-        }
+        if (!name.IsNullOrEmpty()) builder.LauncherConfig.LauncherName = name;
 
         return builder;
     }
@@ -292,10 +272,7 @@ public static class LauncherUtils
     /// <returns></returns>
     public static LauncherConfigBuilder WithMaxMemorySize(this LauncherConfigBuilder builder, int? size)
     {
-        if (size != null)
-        {
-            builder.LauncherConfig.MaxMemorySize = size.Value;
-        }
+        if (size != null) builder.LauncherConfig.MaxMemorySize = size.Value;
 
         return builder;
     }
@@ -353,10 +330,7 @@ public static class LauncherUtils
     /// <returns></returns>
     public static LauncherConfigBuilder WithJava(this LauncherConfigBuilder builder, MinecraftJava? java)
     {
-        if (java != null)
-        {
-            builder.LauncherConfig.Javas.Add(java);
-        }
+        if (java != null) builder.LauncherConfig.Javas.Add(java);
 
         return builder;
     }
@@ -368,10 +342,7 @@ public static class LauncherUtils
     /// <returns></returns>
     public static LauncherConfigBuilder WithJavas(this LauncherConfigBuilder builder, List<MinecraftJava>? javas)
     {
-        if (javas != null)
-        {
-            builder.LauncherConfig.Javas.AddRange(javas);
-        }
+        if (javas != null) builder.LauncherConfig.Javas.AddRange(javas);
 
         return builder;
     }
@@ -385,10 +356,7 @@ public static class LauncherUtils
     /// <returns></returns>
     public static LauncherConfigBuilder WithJava(this LauncherConfigBuilder builder, string? javaExePath)
     {
-        if (!javaExePath.IsNullOrEmpty())
-        {
-            builder.LauncherConfig.Javas.Add(MinecraftJava.Of(javaExePath));
-        }
+        if (!javaExePath.IsNullOrEmpty()) builder.LauncherConfig.Javas.Add(MinecraftJava.Of(javaExePath));
 
         return builder;
     }
@@ -401,7 +369,6 @@ public static class LauncherUtils
     public static LauncherConfigBuilder WithJavas(this LauncherConfigBuilder builder, List<string?>? javaExePaths)
     {
         if (javaExePaths != null)
-        {
             foreach (var path in javaExePaths)
             {
                 if (path.IsNullOrEmpty())
@@ -409,13 +376,12 @@ public static class LauncherUtils
 
                 builder.LauncherConfig.Javas.Add(MinecraftJava.Of(path));
             }
-        }
 
         return builder;
     }
 
     public static Launcher? Launcher;
-    
+
     /// <summary>
     /// Launch minecraft from internal config, should be the last item of the method chain
     /// </summary>

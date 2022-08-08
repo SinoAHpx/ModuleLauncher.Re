@@ -2,6 +2,7 @@
 using Flurl.Http;
 using Manganese.Data;
 using Manganese.Text;
+using ModuleLauncher.NET.Authentications;
 using ModuleLauncher.NET.Models.Authentication;
 using Newtonsoft.Json;
 
@@ -16,31 +17,31 @@ public static class MojangApiUtils
     /// <exception cref="InvalidOperationException"></exception>
     private static string Process(this string? s)
     {
-        if (s.IsNullOrEmpty())
-        {
-            throw new InvalidOperationException("Invalid response json");
-        }
+        if (s.IsNullOrEmpty()) throw new InvalidOperationException("Invalid response json");
 
         if (!s.IsJArray() && !s.Fetch("errorMessage").IsNullOrEmpty())
-        {
             throw new InvalidOperationException(s.Fetch("errorMessage"));
-        }
 
         return s;
     }
-    
+
     /// <summary>
     /// Return uuid if player exists
     /// </summary>
     /// <param name="username"></param>
     /// <returns></returns>
-    public static async Task<string> GetUuidByUsernameAsync(string username)
+    public static async Task<string?> GetUuidByUsernameAsync(string username)
     {
         var endpoint = $"https://api.mojang.com/users/profiles/minecraft/{username}";
         var response = await endpoint.GetStringAsync();
         var uuid = response.Process().Fetch("id");
 
         return uuid.ThrowIfNullOrEmpty<InvalidOperationException>();
+    }
+
+    public static async Task<string?> GetUuidByUsernameAsync(this MicrosoftMinecraftAccount account)
+    {
+        return account.IsAvailable ? await GetUuidByUsernameAsync(account.Name) : null;
     }
 
     /// <summary>
@@ -70,6 +71,12 @@ public static class MojangApiUtils
         return await GetUuidsByUsernamesAsync(usernames.ToArray());
     }
 
+    public static async Task<List<string>> GetUuidsByUsernamesAsync(
+        this IEnumerable<MicrosoftMinecraftAccount> accounts)
+    {
+        return await GetUuidsByUsernamesAsync(accounts.Cast<string>());
+    }
+
     /// <summary>
     /// Get player's name history by uuid
     /// </summary>
@@ -79,13 +86,19 @@ public static class MojangApiUtils
     {
         var endpoint = $"https://api.mojang.com/user/profiles/{uuid}/names";
         var response = await endpoint.GetStringAsync();
-        var reponseArray = response.Process().ToJArray();
+        var responseArray = response.Process().ToJArray();
 
-        var re = reponseArray.Select(
+        var re = responseArray.Select(
             t => (t.Fetch("name").ThrowIfNullOrEmpty<InvalidOperationException>(),
                 CommonUtils.UnixTimeStampToDateTime(t.Fetch("changedToAt"))));
 
         return re.ToList();
+    }
+
+    public static async Task<List<(string name, DateTime? time)>> GetNameHistoryByUuidAsync(
+        this MicrosoftMinecraftAccount account)
+    {
+        return account.IsAvailable ? await GetNameHistoryByUuidAsync(account.AuthenticationCredential.UUID) : null;
     }
 
     /// <summary>
@@ -119,12 +132,18 @@ public static class MojangApiUtils
         return profile;
     }
 
+    public static async Task<MinecraftProfile> GetProfileByUuidAsync(this MicrosoftMinecraftAccount account)
+    {
+        return account.IsAvailable ? await GetProfileByUuidAsync(account.AuthenticationCredential.UUID) : null;
+    }
+
     /// <summary>
     /// This fetches information about the profile name such as the date the name was changed and the date the account was created
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    public static async Task<(DateTime ChangedAt, DateTime CreatedAt, bool NameChangeAllowed)> GetProfileNameChangeInfoAsync(string accessToken)
+    public static async Task<(DateTime ChangedAt, DateTime CreatedAt, bool NameChangeAllowed)>
+        GetProfileNameChangeInfoAsync(string accessToken)
     {
         var endpoint = "https://api.minecraftservices.com/minecraft/profile/namechange";
         var response = (await endpoint.WithOAuthBearerToken(accessToken).GetStringAsync()).Process();
@@ -132,7 +151,15 @@ public static class MojangApiUtils
         return (DateTime.Parse(response.Fetch("changedAt")!), DateTime.Parse(response.Fetch("createdAt")!),
             bool.Parse(response.Fetch("nameChangeAllowed")!));
     }
-    
+
+    public static async Task<(DateTime ChangedAt, DateTime CreatedAt, bool NameChangeAllowed)?>
+        GetProfileNameChangeInfoAsync(this MicrosoftMinecraftAccount account)
+    {
+        return account.IsAvailable
+            ? await GetProfileNameChangeInfoAsync(account.AuthenticationCredential.AccessToken)
+            : null;
+    }
+
     /// <summary>
     /// Change minecraft username
     /// </summary>
@@ -146,6 +173,14 @@ public static class MojangApiUtils
 
         return JsonConvert.DeserializeObject<MinecraftProfile>(response.Process())
             .ThrowIfNull(new InvalidOperationException("Invalid response json"));
+    }
+
+    public static async Task<MinecraftProfile> ChangeUsernameAsync(this MicrosoftMinecraftAccount account,
+        string newName)
+    {
+        return account.IsAvailable
+            ? await ChangeUsernameAsync(account.AuthenticationCredential.AccessToken, newName)
+            : null;
     }
 
     /// <summary>
@@ -162,5 +197,12 @@ public static class MojangApiUtils
             .Process();
 
         return response.Fetch("status")?.ToLower() is "available";
+    }
+
+    public static async Task<bool?> CheckNameAvailabilityAsync(this MicrosoftMinecraftAccount account, string name)
+    {
+        return account.IsAvailable
+            ? await CheckNameAvailabilityAsync(account.AuthenticationCredential.AccessToken, name)
+            : null;
     }
 }

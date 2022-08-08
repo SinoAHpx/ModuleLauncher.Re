@@ -31,21 +31,13 @@ public static class CommonUtils
 
     private static string GetCurrentSystem()
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            return "windows";
-        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return "windows";
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD)
             || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
             return "linux";
-        }
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            return "osx";
-        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) return "osx";
 
         throw new SystemException("Unsupported operating system");
     }
@@ -71,7 +63,7 @@ public static class CommonUtils
 
         return new DirectoryInfo(divePath);
     }
-    
+
     /// <summary>
     /// Dive into child directories
     /// </summary>
@@ -113,7 +105,8 @@ public static class CommonUtils
     /// <param name="toReplaceWith"></param>
     /// <param name="backupReplace"></param>
     /// <returns></returns>
-    public static string ReplaceIfNull(this string source, string placeholder, string? toReplaceWith, string? backupReplace)
+    public static string ReplaceIfNull(this string source, string placeholder, string? toReplaceWith,
+        string? backupReplace)
     {
         if (!toReplaceWith.IsNullOrEmpty())
             return source.Replace(placeholder, toReplaceWith);
@@ -131,22 +124,13 @@ public static class CommonUtils
     /// <returns></returns>
     public static int? GetJavaExecutableVersion(this FileInfo javaExeFile)
     {
-        if (!javaExeFile.Exists)
-        {
-            throw new NullReferenceException("Java executable file does not exist");
-        }
+        if (!javaExeFile.Exists) throw new NullReferenceException("Java executable file does not exist");
         var versionInfo = FileVersionInfo.GetVersionInfo(javaExeFile.FullName);
         var version = versionInfo.FileVersion;
 
         //for linux
-        if (version.IsNullOrEmpty())
-        {
-            return null;
-        }
-        if (!version.Contains('.'))
-        {
-            return version.ToInt32();
-        }
+        if (version.IsNullOrEmpty()) return null;
+        if (!version.Contains('.')) return version.ToInt32();
 
         var split = version.Split('.');
 
@@ -160,11 +144,8 @@ public static class CommonUtils
     /// <returns></returns>
     public static DateTime? UnixTimeStampToDateTime(string? timestamp)
     {
-        if (timestamp.IsNullOrEmpty())
-        {
-            return null;
-        }
-        
+        if (timestamp.IsNullOrEmpty()) return null;
+
         var offset = DateTimeOffset.FromUnixTimeMilliseconds(
             timestamp.ThrowIfNotInt64<InvalidOperationException>($"{timestamp} is not a valid long integer"));
 
@@ -175,7 +156,7 @@ public static class CommonUtils
     {
         using var stream = file.OpenRead();
         var sha1 = SHA1.Create().ComputeHash(stream);
-        
+
         var toReturn = BitConverter.ToString(sha1).Empty("-");
         if (!capitalized)
             toReturn = toReturn.ToLower();
@@ -183,4 +164,3 @@ public static class CommonUtils
         return toReturn;
     }
 }
-

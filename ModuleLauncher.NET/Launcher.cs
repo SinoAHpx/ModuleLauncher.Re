@@ -63,7 +63,7 @@ public class Launcher
 
         return await LaunchAsync(minecraftEntry);
     }
-    
+
     public async Task<Process> LaunchAsync(MinecraftEntry minecraftEntry)
     {
         var arguments = GetLaunchArguments(minecraftEntry);
@@ -72,7 +72,6 @@ public class Launcher
 
         //write launcher_profiles.json if it doesn't exist
         if (!launcherProfilesFile.Exists)
-        {
             launcherProfilesFile.WriteAllText(new
             {
                 selectedProfile = "(Default)",
@@ -85,7 +84,6 @@ public class Launcher
                 },
                 clientToken = Guid.NewGuid()
             }.ToJsonString());
-        }
 
         var javaVersion = minecraftEntry.Json.JavaVersion;
         if (javaVersion == null)
@@ -121,12 +119,11 @@ public class Launcher
         await minecraftEntry.MapAssetsAsync();
 
         process.Start();
-            
+
         return process;
     }
 
-    
-    
+
     public string GetLaunchArguments(MinecraftEntry minecraftEntry)
     {
         var preset = GetJvmArguments(minecraftEntry);
@@ -148,7 +145,7 @@ public class Launcher
         var options = new List<string>();
 
         var boilerplate = GetMinecraftArgumentBoilerplate(minecraftEntry);
-        
+
         //filling the boilerplate
         boilerplate = boilerplate.Replace("${auth_player_name}", $"\"{LauncherConfig.Authentication.Name}\"")
             .Replace("${version_name}", $"\"{LauncherConfig.LauncherName}\"")
@@ -192,10 +189,8 @@ public class Launcher
                 .JoinToString(" ");
 
             if (minecraftEntry.HasInheritSource())
-            {
                 boilerplate +=
                     $" {GetMinecraftArgumentBoilerplate(minecraftEntry.GetInheritSource()!)}";
-            }
         }
         else
         {
@@ -205,11 +200,11 @@ public class Launcher
 
         return boilerplate;
     }
-    
+
     private string GetJvmArguments(MinecraftEntry minecraftEntry)
     {
         var libraries = minecraftEntry.GetLibraries();
-        
+
         var rawArgs = new List<string>
         {
             // "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
@@ -221,7 +216,7 @@ public class Launcher
             "-XX:G1HeapRegionSize=32M",
             $"-Xmx{LauncherConfig.MaxMemorySize}M"
         };
-    
+
         if (LauncherConfig.MinMemorySize != null)
             rawArgs.Add($"-Xmn{LauncherConfig.MinMemorySize}M");
 
@@ -246,7 +241,7 @@ public class Launcher
 
             rawArgs.Add(forgeArgs.JoinToString(" "));
         }
-        
+
         var args = rawArgs.JoinToString(" ");
 
         return args;
@@ -260,7 +255,9 @@ public class Launcher
             .ToList();
 
         if (!minecraftEntry.HasInheritSource() || minecraftEntry.Tree.Jar.Exists)
+        {
             raw.Add(minecraftEntry.Tree.Jar);
+        }
         else
         {
             var inheritMinecraft = minecraftEntry.GetInheritSource();

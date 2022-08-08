@@ -69,7 +69,7 @@ public class LibrariesResolver
             .ThrowIfNull(new ErrorParsingLibraryException("Corrupted json"));
 
         var libraries = new List<LibraryEntry>();
-        
+
         foreach (var rawLibrary in rawLibraries)
         {
             if (!IsAvailableLibrary(rawLibrary))
@@ -84,24 +84,24 @@ public class LibrariesResolver
 
             toAdd.Type = minecraftEntry.GetMinecraftType();
             toAdd.Raw = rawLibrary;
-            
+
             libraries.Add(toAdd);
         }
-        
+
         if (minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
-        {
             // note: in the version which don't really have a "inheritFrom" key,
             // we don't have to give them additional libraries neither
             if (minecraftEntry.HasInheritSource())
             {
                 var resolver = new MinecraftResolver(minecraftEntry.Tree.Root.FullName);
                 var inheritMinecraft = resolver.GetMinecraft(minecraftEntry.Json.InheritsFrom!)
-                    .ThrowIfNull(new InvalidOperationException($"Specify Minecraft {minecraftEntry.Json.InheritsFrom} does not exist"));
+                    .ThrowIfNull(
+                        new InvalidOperationException(
+                            $"Specify Minecraft {minecraftEntry.Json.InheritsFrom} does not exist"));
 
                 var inheritLibraries = GetLibraries(inheritMinecraft);
                 libraries.AddRange(inheritLibraries);
             }
-        }
 
         return libraries.DistinctBy(e => e.File.Name).ToList();
     }
@@ -117,7 +117,7 @@ public class LibrariesResolver
         {
             File = minecraftEntry.Tree.Libraries.DiveToFile(processName.RelativeUrl),
             IsNative = false,
-            RelativeUrl = processName.RelativeUrl,
+            RelativeUrl = processName.RelativeUrl
         };
 
         return libEntry;

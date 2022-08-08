@@ -56,7 +56,7 @@ public class MicrosoftAuthenticator
                 client_id = ClientId,
                 code = Code,
                 grant_type = "authorization_code",
-                redirect_uri = RedirectUrl,
+                redirect_uri = RedirectUrl
             }
             : new
             {
@@ -65,7 +65,7 @@ public class MicrosoftAuthenticator
                 grant_type = "refresh_token",
                 redirect_uri = RedirectUrl
             };
-        
+
         var response = await endpoint.PostUrlEncodedAsync(payload);
 
         try
@@ -76,9 +76,7 @@ public class MicrosoftAuthenticator
 
             if (string.IsNullOrWhiteSpace(responseJson) || string.IsNullOrWhiteSpace(accessToken) ||
                 string.IsNullOrWhiteSpace(refreshToken))
-            {
                 throw new FailedAuthenticationException("Response JSON is invalid");
-            }
 
             return (accessToken, refreshToken);
         }
@@ -119,9 +117,7 @@ public class MicrosoftAuthenticator
 
             if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(xblToken) ||
                 string.IsNullOrWhiteSpace(xblUhs))
-            {
                 throw new FailedAuthenticationException("Invalid JSON response");
-            }
 
             return (xblToken, xblUhs);
         }
@@ -164,10 +160,7 @@ public class MicrosoftAuthenticator
             if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(xstsToken) ||
                 string.IsNullOrWhiteSpace(xstsUhs))
             {
-                if (json.IsValidJson())
-                {
-                    HandleXSTSErrorCode(json);
-                }
+                if (json.IsValidJson()) HandleXSTSErrorCode(json);
 
                 throw new FailedAuthenticationException("Invalid JSON response");
             }
@@ -200,9 +193,7 @@ public class MicrosoftAuthenticator
 
             if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(accessToken) ||
                 string.IsNullOrWhiteSpace(expireTime))
-            {
                 throw new FailedAuthenticationException("Invalid response JSON");
-            }
 
             return (accessToken, TimeSpan.FromSeconds(double.Parse(expireTime)));
         }
@@ -226,10 +217,7 @@ public class MicrosoftAuthenticator
             .GetStringAsync();
 
         var re = JsonConvert.DeserializeObject<MinecraftProfile>(response);
-        if (re == null)
-        {
-            throw new FailedAuthenticationException("Failed to retrieve Minecraft profile");
-        }
+        if (re == null) throw new FailedAuthenticationException("Failed to retrieve Minecraft profile");
 
         return re;
     }
@@ -296,10 +284,7 @@ public class MicrosoftAuthenticator
     private void HandleXSTSErrorCode(string json)
     {
         var errorCode = json.Fetch("XErr");
-        if (string.IsNullOrWhiteSpace(errorCode))
-        {
-            throw new FailedAuthenticationException("Invalid JSON response");
-        }
+        if (string.IsNullOrWhiteSpace(errorCode)) throw new FailedAuthenticationException("Invalid JSON response");
 
         switch (errorCode)
         {
