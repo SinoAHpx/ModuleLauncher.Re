@@ -9,7 +9,7 @@ namespace ModuleLauncher.NET.Authentications;
 /// <summary>
 /// An implementation of microsoft OAuth for Minecraft
 /// </summary>
-public class MicrosoftAuthenticator
+public class MicrosoftAuthenticator : IAuthenticator
 {
     #region Exposed properties
 
@@ -251,7 +251,7 @@ public class MicrosoftAuthenticator
             return false;
         }
     }
-
+    
     /// <summary>
     /// Authenticate minecraft
     /// </summary>
