@@ -5,7 +5,7 @@ namespace ModuleLauncher.NET.Authentications;
 /// <summary>
 /// Local authentication without going through network, simply a random UUID and access token generator
 /// </summary>
-public class OfflineAuthenticator : IAuthenticator
+public class OfflineAuthenticator
 {
     /// <summary>
     /// Name of the offline player
@@ -29,15 +29,5 @@ public class OfflineAuthenticator : IAuthenticator
     public AuthenticateResult Authenticate()
     {
         return Name;
-    }
-
-    public async Task<AuthenticateResult> AuthenticateAsync()
-    {
-        return await Task.Run(Authenticate);
-    }
-
-    public async Task<AuthenticateResult> RefreshAuthenticateAsync(string token)
-    {
-        throw new NotImplementedException();
     }
 }
