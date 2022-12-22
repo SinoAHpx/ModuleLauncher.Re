@@ -73,7 +73,7 @@ public class Launcher
         //write launcher_profiles.json if it doesn't exist
         if (!launcherProfilesFile.Exists)
         {
-            launcherProfilesFile.WriteAllText(new
+            await launcherProfilesFile.WriteAllTextAsync(new
             {
                 selectedProfile = "(Default)",
                 profiles = new

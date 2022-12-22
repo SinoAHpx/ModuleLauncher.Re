@@ -19,6 +19,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CliWrap" Version="3.6.0" />
         <PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
         <PackageReference Include="Manganese" Version="1.2.8" />
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
