@@ -458,4 +458,10 @@ public static class LauncherUtils
     {
         return await builder.MinecraftEntry.LaunchAsync(builder.LauncherConfig, pipeTarget);
     }
+    
+    [Obsolete("This method will be soon abandoned")]
+    public static async Task<Process> LaunchAsync(this LauncherConfigBuilder builder)
+    {
+        return await builder.MinecraftEntry.LaunchAsync(builder.LauncherConfig);
+    }
 }
