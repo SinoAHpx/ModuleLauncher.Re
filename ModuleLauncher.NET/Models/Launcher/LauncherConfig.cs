@@ -8,7 +8,7 @@ public class LauncherConfig
     /// <summary>
     /// Java executable files, default value is an empty list
     /// </summary>
-    public List<MinecraftJava?> Javas { get; set; } = new();
+    public List<MinecraftJava> Javas { get; set; } = new();
 
     /// <summary>
     /// You launcher name, optional
@@ -54,14 +54,14 @@ public class MinecraftJava
     /// File info of java executable file
     /// <example>javaw.exe or java.exe</example>
     /// </summary>
-    public FileInfo Executable { get; set; }
+    public FileInfo? Executable { get; set; }
 
     /// <summary>
     /// Version of java runtime
     /// <example>8, 16, 17</example>
     /// </summary>
     public int Version { get; set; }
-
+    
     /// <summary>
     /// Initialize MinecraftJava object from executable file path
     /// </summary>

@@ -291,7 +291,7 @@ public class LauncherVM : ViewModelBase
         this.WhenAnyValue(x => x.MinecraftJavas.Count)
             .Subscribe(value =>
             {
-                _launcher.LauncherConfig.Javas = new List<MinecraftJava?>(MinecraftJavas);
+                _launcher.LauncherConfig.Javas = new List<MinecraftJava>(MinecraftJavas);
             });
     }
 }

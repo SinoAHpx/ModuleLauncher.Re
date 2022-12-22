@@ -1,6 +1,10 @@
 ﻿using System.Diagnostics;
+using CliWrap;
+using CliWrap.Buffered;
+using Manganese.Data;
 using Manganese.IO;
 using Manganese.Text;
+using ModuleLauncher.NET.Models.Exceptions;
 using ModuleLauncher.NET.Models.Launcher;
 using ModuleLauncher.NET.Models.Resources;
 using ModuleLauncher.NET.Resources;
@@ -64,49 +68,58 @@ public class Launcher
         return await LaunchAsync(minecraftEntry);
     }
     
+    /// <summary>
+    /// Launch minecraft
+    /// </summary>
+    /// <param name="minecraftEntry"></param>
+    /// <param name="pipeTarget">How do you want to grab your output lines. No idea how to use it? Simply pass a null is allowed</param>
+    /// <returns></returns>
+    public async Task<CommandResult> LaunchAsync(MinecraftEntry minecraftEntry, PipeTarget? pipeTarget)
+    {
+        #region Precheck
+
+        await WriteLauncherProfileAsync(minecraftEntry);
+        
+        #endregion
+        
+        var java = GetJava(minecraftEntry)?.Executable
+            .ThrowIfNull(new InvalidJavaExecutableException("No java executable file was specified"));
+
+        var arguments = GetLaunchArguments(minecraftEntry);
+        var result = await Cli.Wrap(java
+                .ThrowIfNull(new InvalidJavaExecutableException("No java executable file was specified"))
+                .FullName)
+            .WithArguments(arguments)
+            .WithWorkingDirectory(minecraftEntry.Tree.WorkingDirectory.FullName)
+            .WithValidation(CommandResultValidation.None)
+            .WithStandardOutputPipe(pipeTarget ?? PipeTarget.Null)
+            .ExecuteAsync();
+        
+        await minecraftEntry.ExtractNativesAsync();
+        await minecraftEntry.MapAssetsAsync();
+
+        return result;
+    }
+    
+    [Obsolete("This method will be soon abandoned")]
     public async Task<Process> LaunchAsync(MinecraftEntry minecraftEntry)
     {
+        #region Precheck
+
+        await WriteLauncherProfileAsync(minecraftEntry);
+        
+        #endregion
+        
+        var java = GetJava(minecraftEntry)?.Executable
+            .ThrowIfNull(new InvalidJavaExecutableException("No java executable file was specified"));
+
         var arguments = GetLaunchArguments(minecraftEntry);
-
-        var launcherProfilesFile = minecraftEntry.Tree.Root.DiveToFile("launcher_profiles.json");
-
-        //write launcher_profiles.json if it doesn't exist
-        if (!launcherProfilesFile.Exists)
-        {
-            await launcherProfilesFile.WriteAllTextAsync(new
-            {
-                selectedProfile = "(Default)",
-                profiles = new
-                {
-                    Default = new
-                    {
-                        name = "(Default)"
-                    }
-                },
-                clientToken = Guid.NewGuid()
-            }.ToJsonString());
-        }
-
-        var javaVersion = minecraftEntry.Json.JavaVersion;
-        if (javaVersion == null)
-        {
-            if (minecraftEntry.HasInheritSource())
-            {
-                var inheritMinecraft = minecraftEntry.GetInheritSource()!;
-                javaVersion = inheritMinecraft.Json.JavaVersion;
-            }
-            else
-            {
-                // for legacy loader
-                javaVersion = 8;
-            }
-        }
 
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = LauncherConfig.Javas.FirstOrDefault(j => j.Version == javaVersion)?.Executable.FullName,
+                FileName = java?.FullName,
                 Arguments = arguments,
                 WorkingDirectory = minecraftEntry.Tree.WorkingDirectory.FullName,
                 UseShellExecute = false,
@@ -141,6 +154,49 @@ public class Launcher
         raw.Add(minecraftArgs);
 
         return raw.JoinToString(" ");
+    }
+
+    private MinecraftJava? GetJava(MinecraftEntry minecraftEntry)
+    {
+        var javaVersion = minecraftEntry.Json.JavaVersion;
+        if (javaVersion == null)
+        {
+            if (minecraftEntry.HasInheritSource())
+            {
+                var inheritMinecraft = minecraftEntry.GetInheritSource()!;
+                javaVersion = inheritMinecraft.Json.JavaVersion;
+            }
+            else
+            {
+                // for legacy loader
+                javaVersion = 8;
+            }
+        }
+
+        return LauncherConfig.Javas.FirstOrDefault(j => j.Version == javaVersion);
+    }
+
+    private async Task WriteLauncherProfileAsync(MinecraftEntry minecraftEntry)
+    {
+        var launcherProfilesFile = minecraftEntry.Tree.Root.DiveToFile("launcher_profiles.json");
+
+        //write launcher_profiles.json if it doesn't exist
+        if (!launcherProfilesFile.Exists)
+        {
+            await launcherProfilesFile.WriteAllTextAsync(new
+            {
+                selectedProfile = "(Default)",
+                profiles = new
+                {
+                    Default = new
+                    {
+                        name = "(Default)"
+                    }
+                },
+                clientToken = Guid.NewGuid()
+            }.ToJsonString());
+        }
+
     }
 
     private string GetMinecraftArguments(MinecraftEntry minecraftEntry)

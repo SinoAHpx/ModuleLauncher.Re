@@ -1,97 +1,30 @@
-﻿using Downloader;
-using Flurl.Http;
+﻿using CliWrap;
 using Manganese.Process;
 using Manganese.Text;
-using ModuleLauncher.NET.Authentications;
-using ModuleLauncher.NET.Models.Resources;
+using ModuleLauncher.NET;
+using ModuleLauncher.NET.Models.Launcher;
 using ModuleLauncher.NET.Resources;
 using ModuleLauncher.NET.Utilities;
-using Polly;
 
-var remoteMinecrafts = await DownloaderUtils
-    .GetRemoteMinecraftsAsync()
-    .FilterAsync(MinecraftJsonType.Release | MinecraftJsonType.OldAlpha);
-return;
-var version = AnsiConsole.Ask<string>("Which version you want to launch? ");
-var rootPath = @"C:\Users\ahpx\Desktop\NewMinecraft\.minecraft";
-var mcResolver = new MinecraftResolver(rootPath);
-var minecraft = await mcResolver.GetRemoteMinecraftAndToLocalAsync(version);
-
-AnsiConsole.MarkupLine("Minecraft grabbed");
-
-if (!minecraft.ValidateChecksum())
+var locator = new MinecraftResolver("""C:\Users\ahpx\AppData\Roaming\.minecraft""");
+var toLaunch = locator.GetMinecraft("1.19.2");
+var launcher = new Launcher
 {
-    AnsiConsole.MarkupLine($"Starting download Minecraft {version}");
-    await Policy.Handle<Exception>().RetryForeverAsync().ExecuteAsync(async () =>
+    LauncherConfig = new LauncherConfig
     {
-        var url = minecraft.GetDownloadUrl();
-        await DownloadAsync(url, minecraft.Tree.Jar);
-    });
-
-    AnsiConsole.MarkupLine("[green]Completed[/]");
-}
-
-var assets = await minecraft.GetAssetsAsync();
-foreach (var assetEntry in assets)
-{
-    if (assetEntry.ValidateChecksum())
-    {
-        AnsiConsole.MarkupLine($"[green]Checksum of {assetEntry.Hash} passed, skip[/]");
-        continue;
+        Javas = new List<MinecraftJava>
+        {
+            MinecraftJava.Of("""C:\Program Files\Eclipse Adoptium\jdk-17.0.4.101-hotspot\bin\javaw.exe""")!,
+            MinecraftJava.Of("""C:\Program Files\Eclipse Adoptium\jdk-8.0.345.1-hotspot\jre\bin\javaw.exe""")!
+        },
+        Authentication = "AHpx"
     }
-    AnsiConsole.MarkupLine($"Starting download [red]{assetEntry.Hash}[/]");
-    var url = assetEntry.GetDownloadUrl();
-    await Policy.Handle<Exception>().RetryAsync(5).ExecuteAsync(async () =>
-    {
-        await DownloadAsync(url, assetEntry.File);
-    });
-    
-    AnsiConsole.MarkupLine("[green]Completed[/]");
+};
 
-}
+var buffer = await launcher.LaunchAsync(toLaunch, PipeTarget.ToDelegate(Console.WriteLine));
 
-AnsiConsole.MarkupLine($"Downloaded {assets.Count} assets in total");
+Console.WriteLine($"Exited with code {buffer.ExitCode}");
 
-var libraries = minecraft.GetLibraries();
-foreach (var libraryEntry in libraries)
-{
-    if (libraryEntry.ValidateChecksum())
-    {
-        AnsiConsole.MarkupLine($"[green]Checksum of {libraryEntry.RelativeUrl} passed, skip[/]");
-        continue;
-    }
-    AnsiConsole.MarkupLine($"Starting download [red]{libraryEntry.File.Name}[/]");
-    var url = libraryEntry.GetDownloadUrl(DownloadSource.Bmcl);
-    await Policy.Handle<Exception>().RetryAsync(5).ExecuteAsync(async () =>
-    {
-        await DownloadAsync(url, libraryEntry.File);
-    });
-
-    AnsiConsole.MarkupLine("[green]Completed[/]");
-}
-
-AnsiConsole.MarkupLine($"Downloaded {libraries.Count} libraries in total");
-
-AnsiConsole.MarkupLine($"Starting launching {version}");
-var process = await minecraft.WithAuthentication("AHpx")
-    .WithJava(@"C:\Program Files\Java\jdk1.8.0_321\bin\javaw.exe")
-    .WithJava(
-        @"C:\Users\ahpx\AppData\Local\Packages\Microsoft.4297127D64EC6_8wekyb3d8bbwe\LocalCache\Local\runtime\java-runtime-beta\windows-x64\java-runtime-beta\bin\javaw.exe")
-    .LaunchAsync();
-
-
-
-LauncherUtils.Launcher?.GetLaunchArguments(minecraft).Print();
-
-while (!process.ReadOutputLine().IsNullOrEmpty())
-{
-    Console.WriteLine(process.ReadOutputLine());
-}
-
-static async Task DownloadAsync(string url, FileInfo file)
-{
-    await url.DownloadFileAsync(file.DirectoryName, file.Name);
-}
 
 static class RuntimeUtils
 {
