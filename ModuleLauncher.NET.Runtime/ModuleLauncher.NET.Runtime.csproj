@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ModuleLauncher.NET.Mods\ModuleLauncher.NET.Mods.csproj" />
       <ProjectReference Include="..\ModuleLauncher.NET\ModuleLauncher.NET.csproj" />
     </ItemGroup>
 
