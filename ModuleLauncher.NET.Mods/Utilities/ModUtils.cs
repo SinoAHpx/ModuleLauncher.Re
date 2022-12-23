@@ -4,6 +4,7 @@ using Manganese.Array;
 using Manganese.Text;
 using ModuleLauncher.NET.Mods.Models.Exceptions;
 using ModuleLauncher.NET.Mods.Models.Utils;
+using Tommy;
 
 namespace ModuleLauncher.NET.Mods.Utilities;
 
@@ -21,7 +22,7 @@ public static class ModUtils
         if (archive.Entries.Any(e => e.Name == "mcmod.info"))
             return await GetModInfoLegacyForgeAsync(mod, archive);
         if (archive.Entries.Any(e => e.Name == "mods.toml"))
-            return GetModInfoForgeAsync(mod, archive);
+            return await GetModInfoForgeAsync(mod, archive);
         if (archive.Entries.Any(e => e.Name is "fabric.mod.json" or "quilt.mod.json"))
             return getModInfoFabricAsync(mod, archive);
 
@@ -31,7 +32,8 @@ public static class ModUtils
     private static async Task<ModInfo> GetModInfoLegacyForgeAsync(FileInfo mod, ZipArchive archive)
     {
         var zipEntry = archive.GetEntry("mcmod.info")!;
-        var raw = await new StreamReader(zipEntry.Open()).ReadToEndAsync();
+        await using var stream = zipEntry.Open();
+        var raw = await new StreamReader(stream).ReadToEndAsync();
         var content = raw.ToJArray().First!;
         var re = new ForgeModInfo
         {
@@ -47,9 +49,27 @@ public static class ModUtils
         return re;
     }
     
-    private static ModInfo GetModInfoForgeAsync(FileInfo mod, ZipArchive archive)
+    private static async Task<ModInfo> GetModInfoForgeAsync(FileInfo mod, ZipArchive archive)
     {
-        return null;
+        var zipEntry = archive.GetEntry("META-INF/mods.toml")!;
+        await using var stream = zipEntry.Open();
+        using var raw = new StreamReader(stream);
+        var tomTable = TOML.Parse(raw);
+        var modNode = tomTable["mods"].AsArray[0];
+        var re = new ForgeModInfo
+        {
+            Id = modNode["modId"],
+            Version = modNode["version"],
+            Name = modNode["displayName"],
+            Url = modNode["displayURL"],
+            License = tomTable["license"],
+            Description = modNode["description"],
+            Authors = modNode.IsArray
+                ? modNode["authors"].AsArray.RawArray.Select(x => x.ToString()).ToList()
+                : new List<string> { modNode["authors"] },
+        };
+        
+        return re;
     }
 
     private static ModInfo getModInfoFabricAsync(FileInfo mod, ZipArchive archive)
