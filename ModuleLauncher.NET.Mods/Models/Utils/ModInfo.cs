@@ -12,5 +12,5 @@ public class ModInfo
     
     public string? License { get; set; }
 
-    public List<string?>? Authors { get; set; }
+    public List<string>? Authors { get; set; }
 }

@@ -1,8 +1,13 @@
-﻿using ModuleLauncher.NET.Mods.Utilities;
+﻿using Manganese.Text;
+using ModuleLauncher.NET.Mods.Utilities;
 using Tommy;
 
-var info = await ModUtils.GetModInfoAsync(@"C:\Users\ahpx\Downloads\jei-1.19.2-forge-11.5.0.297.jar");
-info.Print();
+while (true)
+{
+    var info = await ModUtils.GetModInfoAsync(AnsiConsole.Ask<string>("Mod [red]path[/]:").Trim('"'));
+    info.ToJsonString().Print();
+}
+
     
 static class RuntimeUtils
 {
