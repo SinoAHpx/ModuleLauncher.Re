@@ -4,6 +4,16 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>ModuleLauncher.Re.Mods</PackageId>
+        <Title>ModuleLauncher.Re.Mods</Title>
+        <Authors>AHpx</Authors>
+        <Description>Addtional package for parsing mods metadata</Description>
+        <Copyright>Copyright 2023 AHpx all rights reserved.</Copyright>
+        <PackageProjectUrl>https://github.com/SinoAHpx/ModuleLauncher.Re</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/SinoAHpx/ModuleLauncher.Re</RepositoryUrl>
+        <PackageTags>minecraft minecraft-launcher launcher forge optifine fabric minecraft-launcher-library corss-platform</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
