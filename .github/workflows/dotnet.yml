@@ -34,7 +34,7 @@ jobs:
           cd ModuleLauncher.NET
           dotnet restore
           dotnet build
-          dotnet pack
+          dotnet pack -p:PublishRelease=false
           cd bin/Debug
           
           # Getting file extension name is .nupkg
