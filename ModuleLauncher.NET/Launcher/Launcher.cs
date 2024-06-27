@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using CliWrap;
-using CliWrap.Buffered;
 using Manganese.Data;
 using Manganese.IO;
 using Manganese.Text;
@@ -11,7 +9,7 @@ using ModuleLauncher.NET.Resources;
 using ModuleLauncher.NET.Utilities;
 using Newtonsoft.Json.Linq;
 
-namespace ModuleLauncher.NET;
+namespace ModuleLauncher.NET.Launcher;
 
 public class Launcher
 {
@@ -67,49 +65,15 @@ public class Launcher
 
         return await LaunchAsync(minecraftEntry);
     }
-    
-    /// <summary>
-    /// Launch minecraft
-    /// </summary>
-    /// <param name="minecraftEntry"></param>
-    /// <param name="pipeTarget">How do you want to grab your output lines. No idea how to use it? Simply pass a null is allowed</param>
-    /// <returns></returns>
-    public async Task<CommandResult> LaunchAsync(MinecraftEntry minecraftEntry, PipeTarget? pipeTarget)
-    {
-        #region Precheck
 
-        await WriteLauncherProfileAsync(minecraftEntry);
-        
-        #endregion
-        
-        var java = GetJava(minecraftEntry)?.Executable
-            .ThrowIfNull(new InvalidJavaExecutableException("No java executable file was specified"));
-
-        var arguments = GetLaunchArguments(minecraftEntry);
-        var result = await Cli.Wrap(java
-                .ThrowIfNull(new InvalidJavaExecutableException("No java executable file was specified"))
-                .FullName)
-            .WithArguments(arguments)
-            .WithWorkingDirectory(minecraftEntry.Tree.WorkingDirectory.FullName)
-            .WithValidation(CommandResultValidation.None)
-            .WithStandardOutputPipe(pipeTarget ?? PipeTarget.Null)
-            .ExecuteAsync();
-        
-        await minecraftEntry.ExtractNativesAsync();
-        await minecraftEntry.MapAssetsAsync();
-
-        return result;
-    }
-    
-    [Obsolete("This method will be soon abandoned")]
     public async Task<Process> LaunchAsync(MinecraftEntry minecraftEntry)
     {
         #region Precheck
 
         await WriteLauncherProfileAsync(minecraftEntry);
-        
+
         #endregion
-        
+
         var java = GetJava(minecraftEntry)?.Executable
             .ThrowIfNull(new InvalidJavaExecutableException("No java executable file was specified"));
 
@@ -134,12 +98,12 @@ public class Launcher
         await minecraftEntry.MapAssetsAsync();
 
         process.Start();
-            
+
         return process;
     }
 
-    
-    
+
+
     public string GetLaunchArguments(MinecraftEntry minecraftEntry)
     {
         var preset = GetJvmArguments(minecraftEntry);
@@ -204,7 +168,7 @@ public class Launcher
         var options = new List<string>();
 
         var boilerplate = GetMinecraftArgumentBoilerplate(minecraftEntry);
-        
+
         //filling the boilerplate
         boilerplate = boilerplate.Replace("${auth_player_name}", $"\"{LauncherConfig.Authentication.Name}\"")
             .Replace("${version_name}", $"\"{LauncherConfig.LauncherName}\"")
@@ -230,6 +194,9 @@ public class Launcher
 
         if (LauncherConfig.WindowWidth != null)
             options.Add($"--width {LauncherConfig.WindowWidth}");
+
+        if (LauncherConfig.DirectlyJoinServer != null)
+            options.Add($"--server {LauncherConfig.DirectlyJoinServer}");
 
         return options.JoinToString(" ");
     }
@@ -261,11 +228,11 @@ public class Launcher
 
         return boilerplate;
     }
-    
+
     private string GetJvmArguments(MinecraftEntry minecraftEntry)
     {
         var libraries = minecraftEntry.GetLibraries();
-        
+
         var rawArgs = new List<string>
         {
             // "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
@@ -277,7 +244,7 @@ public class Launcher
             "-XX:G1HeapRegionSize=32M",
             $"-Xmx{LauncherConfig.MaxMemorySize}M"
         };
-    
+
         if (LauncherConfig.MinMemorySize != null)
             rawArgs.Add($"-Xmn{LauncherConfig.MinMemorySize}M");
 
@@ -302,7 +269,7 @@ public class Launcher
 
             rawArgs.Add(forgeArgs.JoinToString(" "));
         }
-        
+
         var args = rawArgs.JoinToString(" ");
 
         return args;

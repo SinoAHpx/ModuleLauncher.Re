@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using CliWrap;
 using Manganese.Text;
 using ModuleLauncher.NET.Models.Authentication;
 using ModuleLauncher.NET.Models.Launcher;
@@ -415,7 +414,17 @@ public static class LauncherUtils
         return builder;
     }
 
-    public static Launcher? Launcher;
+    public static LauncherConfigBuilder WithDirectServer(this LauncherConfigBuilder builder, string? server)
+    {
+        if (server is not null)
+        {
+            builder.LauncherConfig.DirectlyJoinServer = server;
+        }
+
+        return builder;
+    }
+
+    public static Launcher.Launcher? Launcher;
     
     /// <summary>
     /// Launch minecraft from internal config, should be the last item of the method chain
@@ -423,10 +432,9 @@ public static class LauncherUtils
     /// <param name="minecraftEntry"></param>
     /// <param name="config"></param>
     /// <returns></returns>
-    [Obsolete("This method will be soon abandoned")]
     public static async Task<Process> LaunchAsync(this MinecraftEntry minecraftEntry, LauncherConfig config)
     {
-        Launcher = new Launcher
+        Launcher = new Launcher.Launcher
         {
             MinecraftResolver = MinecraftResolver.Of(minecraftEntry),
             LauncherConfig = config
@@ -434,32 +442,7 @@ public static class LauncherUtils
 
         return await Launcher.LaunchAsync(minecraftEntry);
     }
-    
-    /// <summary>
-    /// Launch minecraft from internal config, should be the last item of the method chain
-    /// </summary>
-    /// <param name="minecraftEntry"></param>
-    /// <param name="config"></param>
-    /// <returns></returns>
-    //todo: make the parameter optional
-    public static async Task<CommandResult> LaunchAsync(this MinecraftEntry minecraftEntry, LauncherConfig config, PipeTarget? pipeTarget)
-    {
-        Launcher = new Launcher
-        {
-            MinecraftResolver = MinecraftResolver.Of(minecraftEntry),
-            LauncherConfig = config
-        };
 
-        return await Launcher.LaunchAsync(minecraftEntry, pipeTarget);
-    }
-    
-    //todo: make the parameter optional
-    public static async Task<CommandResult> LaunchAsync(this LauncherConfigBuilder builder, PipeTarget? pipeTarget)
-    {
-        return await builder.MinecraftEntry.LaunchAsync(builder.LauncherConfig, pipeTarget);
-    }
-    
-    [Obsolete("This method will be soon abandoned")]
     public static async Task<Process> LaunchAsync(this LauncherConfigBuilder builder)
     {
         return await builder.MinecraftEntry.LaunchAsync(builder.LauncherConfig);

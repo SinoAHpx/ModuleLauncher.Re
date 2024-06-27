@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <PackageReference Include="Downloader" Version="2.3.5" />
-      <PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
       <PackageReference Include="morelinq" Version="3.3.2" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
       <PackageReference Include="Polly" Version="7.2.3" />

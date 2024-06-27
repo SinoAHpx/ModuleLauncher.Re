@@ -28,6 +28,11 @@ public class LauncherConfig
     public int? MinMemorySize { get; set; }
 
     /// <summary>
+    /// The example pattern(server:port): 127.0.0.1:8080. Invalid pattern will occur an error.
+    /// </summary>
+    public string? DirectlyJoinServer { get; set; }
+
+    /// <summary>
     /// AuthenticateResult object, could be implicitly convert via string 
     /// </summary>
     public AuthenticateResult Authentication { get; set; }

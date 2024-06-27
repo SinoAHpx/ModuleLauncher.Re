@@ -10,7 +10,7 @@ public class LauncherChecker
     public static async Task CheckAsync(string? defaultVersion = null, string? defaultWorkingDirectory = null)
     {
         var resolver = new MinecraftResolver(@"C:\Users\ahpx\AppData\Roaming\.minecraft");
-        var launcher = new Launcher(resolver, new LauncherConfig
+        var launcher = new Launcher.Launcher(resolver, new LauncherConfig
         {
             Authentication = "ahpx",
             Fullscreen = false,

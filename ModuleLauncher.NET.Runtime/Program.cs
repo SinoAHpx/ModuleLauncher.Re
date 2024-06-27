@@ -3,20 +3,24 @@ using ModuleLauncher.NET.Mods.Utilities;
 using ModuleLauncher.NET.Resources;
 using ModuleLauncher.NET.Utilities;
 using System.Runtime.CompilerServices;
+using Manganese.Process;
 using Tommy;
 
 const string MinecraftRoot = @"C:\Users\ahpx\AppData\Roaming\.minecraft";
 var resolver = new MinecraftResolver(MinecraftRoot);
 
-var mc = resolver.GetMinecraft("1.20.4");
+var mc = resolver.GetMinecraft("fabric-loader-0.15.11-1.21");
 
-await mc.WithAuthentication("AHpx")
-    .WithJava(@"C:\Users\ahpx\AppData\Local\Packages\Microsoft.4297127D64EC6_8wekyb3d8bbwe\LocalCache\Local\runtime\java-runtime-gamma\windows-x64\java-runtime-gamma\bin\javaw.exe")
+var process = await mc.WithAuthentication("AHpx")
+    .WithJava(@"C:\Program Files\Eclipse Adoptium\jre-21.0.3.9-hotspot\bin\javaw.exe")
     .WithLauncherName("Latest Version")
-    .LaunchAsync(pipeTarget: CliWrap.PipeTarget.ToDelegate(s =>
-    {
-        Console.WriteLine(s);
-    }));
+    .WithDirectServer("hypixel.net")
+    .LaunchAsync();
+
+while (!process.HasExited)
+{
+    process.ReadOutputLine().Print();
+}
 
 static class RuntimeUtils
 {
