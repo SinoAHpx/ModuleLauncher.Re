@@ -11,7 +11,7 @@ namespace ModuleLauncher.NET.Utilities;
 public static class DownloaderUtils
 {
     /// <summary>
-    /// Get download url of a library entry
+    /// Get download url of a library entry.
     /// <remarks>Since most people don't really use OptiFine as a version, OptiFine itself contains no any download url, in this case, null will be returned</remarks>
     /// </summary>
     /// <param name="entry"></param>
@@ -183,12 +183,13 @@ public static class DownloaderUtils
     }
 
     private static List<RemoteMinecraftEntry>? _remoteMinecraftEntriesCache;
-    
-    
+
+    public static readonly string VersionsManifestUrl =
+        "http://launchermeta.mojang.com/mc/game/version_manifest_v2.json";
 
     /// <summary>
     /// Get a list of remote Minecrafts
-    /// <remarks>This method uses a internal cache variable to improve performance, if you need to refresh this variable, invoke <see cref="RefreshRemoteMinecraftsCacheAsync"/> </remarks>
+    /// <remarks>This method uses an internal cache variable to improve performance, if you need to refresh this variable, invoke <see cref="RefreshRemoteMinecraftsCacheAsync"/> </remarks>
     /// </summary>
     /// <returns></returns>
     public static async Task<List<RemoteMinecraftEntry>> GetRemoteMinecraftsAsync()
@@ -196,14 +197,45 @@ public static class DownloaderUtils
         if (_remoteMinecraftEntriesCache != null)
             return _remoteMinecraftEntriesCache;
 
-        var manifestUrl = "http://launchermeta.mojang.com/mc/game/version_manifest_v2.json";
-        var manifest = await manifestUrl.GetStringAsync();
+        var manifest = await VersionsManifestUrl.GetStringAsync();
         var versions = manifest.Fetch("versions")!;
         var remoteEntries = JsonConvert.DeserializeObject<List<RemoteMinecraftEntry>>(versions)!;
 
         _remoteMinecraftEntriesCache = remoteEntries;
         return remoteEntries;
     }
+
+    /// <summary>
+    /// Get a list of remote Minecrafts and store the manifest file to local
+    /// </summary>
+    /// <param name="localManifestStorage"></param>
+    /// <returns></returns>
+    public static async Task<List<RemoteMinecraftEntry>> GetRemoteMinecraftsAsync(string localManifestStorage)
+    {
+        if (_remoteMinecraftEntriesCache != null)
+            return _remoteMinecraftEntriesCache;
+
+        var manifest = await VersionsManifestUrl.GetStringAsync();
+        await File.WriteAllTextAsync(localManifestStorage, manifest);
+
+        var versions = manifest.Fetch("versions")!;
+        var remoteEntries = JsonConvert.DeserializeObject<List<RemoteMinecraftEntry>>(versions)!;
+
+        _remoteMinecraftEntriesCache = remoteEntries;
+        return remoteEntries;
+    }
+
+    /// <summary>
+    /// Download local versions manifest file again. 
+    /// </summary>
+    /// <param name="localManifestStorage"></param>
+    /// <returns></returns>
+    public static async Task RefreshLocalVersionsManifestAsync(string localManifestStorage)
+    {
+        var manifest = await VersionsManifestUrl.GetStringAsync();
+        await File.WriteAllTextAsync(localManifestStorage, manifest);
+    }
+
 
     /// <summary>
     /// Filter remote minecrafts by type
