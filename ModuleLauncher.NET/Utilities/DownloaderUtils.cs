@@ -215,7 +215,10 @@ public static class DownloaderUtils
         if (_remoteMinecraftEntriesCache != null)
             return _remoteMinecraftEntriesCache;
 
-        var manifest = await VersionsManifestUrl.GetStringAsync();
+        var manifest = File.Exists(localManifestStorage)
+            ? await File.ReadAllTextAsync(localManifestStorage)
+            : await VersionsManifestUrl.GetStringAsync();
+
         await File.WriteAllTextAsync(localManifestStorage, manifest);
 
         var versions = manifest.Fetch("versions")!;
