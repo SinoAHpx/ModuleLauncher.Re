@@ -86,7 +86,7 @@ public static class DownloaderUtils
     public static string GetDownloadUrl(this AssetEntry assetEntry, DownloadSource downloadSource = DownloadSource.Default)
     {
         if (downloadSource == DownloadSource.Default)
-            return $"http://resources.download.minecraft.net/{assetEntry.RelativeUrl}";
+            return $"https://resources.download.minecraft.net/{assetEntry.RelativeUrl}";
 
         return $"https://{downloadSource.GetDownloadSourcePrefix()}/{assetEntry.RelativeUrl}";
     }
@@ -185,7 +185,7 @@ public static class DownloaderUtils
     private static List<RemoteMinecraftEntry>? _remoteMinecraftEntriesCache;
 
     public static readonly string VersionsManifestUrl =
-        "http://launchermeta.mojang.com/mc/game/version_manifest_v2.json";
+        "https://launchermeta.mojang.com/mc/game/version_manifest_v2.json";
 
     /// <summary>
     /// Get a list of remote Minecrafts

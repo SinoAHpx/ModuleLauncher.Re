@@ -108,7 +108,7 @@ public class MicrosoftAuthenticator
                     SiteName = "user.auth.xboxlive.com",
                     RpsTicket = rpsTicket
                 },
-                RelyingParty = "http://auth.xboxlive.com",
+                RelyingParty = "https://auth.xboxlive.com",
                 TokenType = "JWT"
             };
 
