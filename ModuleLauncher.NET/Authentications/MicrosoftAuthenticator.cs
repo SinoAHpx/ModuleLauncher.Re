@@ -3,6 +3,8 @@ using Manganese.Text;
 using ModuleLauncher.NET.Models.Authentication;
 using ModuleLauncher.NET.Models.Exceptions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace ModuleLauncher.NET.Authentications;
 
@@ -11,80 +13,103 @@ namespace ModuleLauncher.NET.Authentications;
 /// </summary>
 public class MicrosoftAuthenticator
 {
-    #region Exposed properties
 
     /// <summary>
-    /// If you don't specify your azure id, Mojang's will be used as default
+    /// Azure application cliend id
     /// </summary>
-    public string ClientId { get; set; } = "00000000402b5328";
+    public string ClientId { get; set; }
 
-    /// <summary>
-    /// If you don't specify your redirect url, a default one will be used
-    /// </summary>
-    public string RedirectUrl { get; set; } = "https://login.live.com/oauth20_desktop.srf";
-
-    /// <summary>
-    /// The code from the browser
-    /// <example>M.R3_BAY.415395f4-181b-8f6e-3ec7-b4749c13c742</example>
-    /// <remarks>Check the documentation if you don't really know what is this</remarks>
-    /// </summary>
-    public string Code { get; set; }
-
-    #endregion
-
-    #region Consts
-
-    /// <summary>
-    /// Microsoft login url, this procedure needs to be done in browser/webview
-    /// </summary>
-    public string LoginUrl =>
-        $"https://login.live.com/oauth20_authorize.srf?client_id={ClientId}&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access";
-
-    #endregion
-
-    /// <summary>
-    /// Exchange code for authorization token
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="FailedAuthenticationException"></exception>
-    private async Task<(string AccessToken, string RefreshToken)> GetAuthorizationTokenAsync(string? token = null)
+    public async Task<DeviceCodeInfo?> GetDeviceCodeAsync()
     {
-        var endpoint = "https://login.live.com/oauth20_token.srf";
-        object payload = string.IsNullOrWhiteSpace(token)
-            ? new
+        var url = "https://login.microsoftonline.com/consumers/oauth2/v2.0/devicecode";
+        var result = await url
+            .PostUrlEncodedAsync(new
             {
                 client_id = ClientId,
-                code = Code,
-                grant_type = "authorization_code",
-                redirect_uri = RedirectUrl,
-            }
-            : new
-            {
-                client_id = ClientId,
-                refresh_token = token,
-                grant_type = "refresh_token",
-                redirect_uri = RedirectUrl
-            };
-        
-        var response = await endpoint.PostUrlEncodedAsync(payload);
+                scope = "XboxLive.signin"
+            });
 
+        var response = await result.GetStringAsync();
+        if (response.IsNullOrEmpty())
+        {
+            return null;
+        }
+
+        var userCode = response.Fetch("user_code");
+        if (userCode.IsNullOrEmpty())
+        {
+            return null;
+        }
+        var deviceCode = response.Fetch("device_code");
+        if (deviceCode.IsNullOrEmpty())
+        {
+            return null;
+        }
+        var userUrl = response.Fetch("verification_uri");
+        if (userUrl.IsNullOrEmpty())
+        {
+            return null;
+        }
+
+        return new DeviceCodeInfo
+        {
+            DeviceCode = deviceCode,
+            UserCode = userCode,
+            VerificationUrl = userUrl
+        };
+    }
+
+    public async Task<string?> PollAuthorizationAsync(DeviceCodeInfo deviceCodeInfo)
+    {
+        var pollingUrl = "https://login.microsoftonline.com/consumers/oauth2/v2.0/token";
+        string? accessToken = null;
+        await Task.Run(async () =>
+        {
+            while (true)
+            {
+                try
+                {
+                    var pollingResult = await pollingUrl.PostUrlEncodedAsync(new
+                    {
+                        grant_type = "urn:ietf:params:oauth:grant-type:device_code",
+                        client_id = ClientId,
+                        device_code = deviceCodeInfo.DeviceCode
+                    });
+                    var body = await pollingResult.GetStringAsync();
+                    if (body.Fetch("access_token") is {} token)
+                    {
+                        accessToken = token;
+                        break;
+                    }
+                    await Task.Delay(1000);
+                }
+                catch { /* do nothing */ }
+            }
+        });
+
+        return accessToken;
+    }
+
+    public async Task<AuthenticateResult?> AuthenticateAsync(string oauthAccessToken)
+    {
         try
         {
-            var responseJson = await response.GetStringAsync();
-            var accessToken = responseJson.Fetch("access_token");
-            var refreshToken = responseJson.Fetch("refresh_token");
+            var xblToken = await GetXBLTokenAsync(oauthAccessToken);
+            var xsts = await GetXSTSTokenAsync(xblToken);
+            var minecraftAccessToken = await GetMinecraftAccessTokenAsync(xsts);
+            var profile = await GetMinecraftProfileAsync(minecraftAccessToken.AccessToken);
 
-            if (string.IsNullOrWhiteSpace(responseJson) || string.IsNullOrWhiteSpace(accessToken) ||
-                string.IsNullOrWhiteSpace(refreshToken))
+            return new AuthenticateResult
             {
-                throw new FailedAuthenticationException("Response JSON is invalid");
-            }
-
-            return (accessToken, refreshToken);
+                AccessToken = minecraftAccessToken.AccessToken,
+                Name = profile.Name,
+                ExpireIn = minecraftAccessToken.ExpiresIn,
+                UUID = profile.Id
+            };
         }
-        catch (Exception e)
+        catch
         {
-            throw new FailedAuthenticationException("Failed to authorize", e);
+            return null;
         }
     }
 
@@ -92,7 +117,7 @@ public class MicrosoftAuthenticator
     /// Get Xbox live token & userhash
     /// </summary>
     /// <returns></returns>
-    private async Task<(string XNLToken, string XBLUhs)> AuthenticateXBLAsync(string token)
+    public async Task<string> GetXBLTokenAsync(string token)
     {
         try
         {
@@ -108,22 +133,21 @@ public class MicrosoftAuthenticator
                     SiteName = "user.auth.xboxlive.com",
                     RpsTicket = rpsTicket
                 },
-                RelyingParty = "https://auth.xboxlive.com",
+                RelyingParty = "http://auth.xboxlive.com",
                 TokenType = "JWT"
             };
 
             var response = await endpoint.PostJsonAsync(payload);
             var json = await response.GetStringAsync();
             var xblToken = json.Fetch("Token");
-            var xblUhs = json.FetchJToken("DisplayClaims.xui")?.First?.Fetch("uhs");
+            // var xblUhs = json.FetchJToken("DisplayClaims.xui")?.First?.Fetch("uhs");
 
-            if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(xblToken) ||
-                string.IsNullOrWhiteSpace(xblUhs))
+            if (json.IsNullOrEmpty() || xblToken.IsNullOrEmpty())
             {
-                throw new FailedAuthenticationException("Invalid JSON response");
+                throw new FailedAuthenticationException("Failed to authenticate with XBox live, check out your Minecraft authentication.");
             }
 
-            return (xblToken, xblUhs);
+            return xblToken;
         }
         catch (Exception e)
         {
@@ -136,11 +160,10 @@ public class MicrosoftAuthenticator
     /// </summary>
     /// <returns></returns>
     /// <exception cref="FailedAuthenticationException"></exception>
-    private async Task<(string XSTSToken, string XSTSUhs)> AuthenticateXSTSAsync(string token)
+    private async Task<(string XSTSToken, string XSTSUhs)> GetXSTSTokenAsync(string xblToken)
     {
         try
         {
-            var xblAuth = await AuthenticateXBLAsync(token);
             var endpoint = "https://xsts.auth.xboxlive.com/xsts/authorize";
             var payload = new
             {
@@ -149,7 +172,7 @@ public class MicrosoftAuthenticator
                     SandboxId = "RETAIL",
                     UserTokens = new[]
                     {
-                        xblAuth.XNLToken
+                        xblToken
                     }
                 },
                 RelyingParty = "rp://api.minecraftservices.com/",
@@ -181,15 +204,14 @@ public class MicrosoftAuthenticator
         }
     }
 
-    private async Task<(string AccessToken, TimeSpan ExpiresIn)> AuthenticateMinecraftAsync(string token)
+    private async Task<(string AccessToken, TimeSpan ExpiresIn)> GetMinecraftAccessTokenAsync((string token, string userhash) xsts)
     {
         try
         {
-            var xstsAuth = await AuthenticateXSTSAsync(token);
             var endpoint = "https://api.minecraftservices.com/authentication/login_with_xbox";
             var payload = new
             {
-                identityToken = $"XBL3.0 x={xstsAuth.XSTSUhs};{xstsAuth.XSTSToken}"
+                identityToken = $"XBL3.0 x={xsts.userhash};{xsts.token}"
             };
 
             var response = await endpoint.PostJsonAsync(payload);
@@ -198,8 +220,8 @@ public class MicrosoftAuthenticator
             var accessToken = json.Fetch("access_token");
             var expireTime = json.Fetch("expires_in");
 
-            if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(accessToken) ||
-                string.IsNullOrWhiteSpace(expireTime))
+            if (json.IsNullOrEmpty() || accessToken.IsNullOrEmpty() ||
+                expireTime.IsNullOrEmpty())
             {
                 throw new FailedAuthenticationException("Invalid response JSON");
             }
@@ -251,47 +273,28 @@ public class MicrosoftAuthenticator
             return false;
         }
     }
-    
-    /// <summary>
-    /// Authenticate minecraft
-    /// </summary>
-    /// <returns></returns>
-    public async Task<AuthenticateResult> AuthenticateAsync()
-    {
-        var token = await GetAuthorizationTokenAsync();
-        var mcAuth = await AuthenticateMinecraftAsync(token.AccessToken);
-        var profile = await GetMinecraftProfileAsync(mcAuth.AccessToken);
 
-        return new AuthenticateResult
-        {
-            Name = profile.Name,
-            AccessToken = mcAuth.AccessToken,
-            UUID = profile.Id,
-            RefreshToken = token.RefreshToken,
-            ExpireIn = mcAuth.ExpiresIn
-        };
-    }
 
-    /// <summary>
-    /// Refresh authentication, getting a new access token after old one expired
-    /// </summary>
-    /// <param name="refreshToken"></param>
-    /// <returns></returns>
-    public async Task<AuthenticateResult> RefreshAuthenticateAsync(string refreshToken)
-    {
-        var token = await GetAuthorizationTokenAsync(refreshToken);
-        var mcAuth = await AuthenticateMinecraftAsync(token.AccessToken);
-        var profile = await GetMinecraftProfileAsync(mcAuth.AccessToken);
-
-        return new AuthenticateResult
-        {
-            Name = profile.Name,
-            AccessToken = mcAuth.AccessToken,
-            UUID = profile.Id,
-            RefreshToken = token.RefreshToken,
-            ExpireIn = mcAuth.ExpiresIn
-        };
-    }
+    // /// <summary>
+    // /// Refresh authentication, getting a new access token after old one expired
+    // /// </summary>
+    // /// <param name="refreshToken"></param>
+    // /// <returns></returns>
+    // public async Task<AuthenticateResult> RefreshAuthenticateAsync(string refreshToken)
+    // {
+    //     var token = await GetAuthorizationTokenAsync(refreshToken);
+    //     var mcAuth = await AuthenticateMinecraftAsync(token.AccessToken);
+    //     var profile = await GetMinecraftProfileAsync(mcAuth.AccessToken);
+    //
+    //     return new AuthenticateResult
+    //     {
+    //         Name = profile.Name,
+    //         AccessToken = mcAuth.AccessToken,
+    //         UUID = profile.Id,
+    //         RefreshToken = token.RefreshToken,
+    //         ExpireIn = mcAuth.ExpiresIn
+    //     };
+    // }
 
     private void HandleXSTSErrorCode(string json)
     {

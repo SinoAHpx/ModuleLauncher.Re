@@ -12,23 +12,23 @@ public class AuthenticateResult
     /// <summary>
     /// Name of the user
     /// </summary>
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// User's uuid
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public string? UUID { get; set; }
+    public string UUID { get; set; }
 
     /// <summary>
     /// User's access token
     /// </summary>
-    public string? AccessToken { get; set; }
+    public string AccessToken { get; set; }
 
     /// <summary>
     /// Token for get a new token
     /// </summary>
-    public string? RefreshToken { get; set; }
+    public string RefreshToken { get; set; }
 
     /// <summary>
     /// When this result will be expired
@@ -38,7 +38,7 @@ public class AuthenticateResult
     /// <summary>
     /// User's client token, available for legacy authentication or external authenticators
     /// </summary>
-    public string? ClientToken { get; set; }
+    public string ClientToken { get; set; }
 
     public static implicit operator AuthenticateResult(string incoming)
     {
@@ -53,6 +53,6 @@ public class AuthenticateResult
     
     public static implicit operator string(AuthenticateResult result)
     {
-        return result.Name.ThrowIfNullOrEmpty<FailedAuthenticationException>("Authentication failed");
+        return result.Name.ThrowIfNullOrEmpty<FailedAuthenticationException>("Username cannot be null or empty");
     }
 }
