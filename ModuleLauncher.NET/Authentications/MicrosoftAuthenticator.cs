@@ -26,7 +26,7 @@ public class MicrosoftAuthenticator
             .PostUrlEncodedAsync(new
             {
                 client_id = ClientId,
-                scope = "XboxLive.signin"
+                scope = "XboxLive.signin offline_access"
             });
 
         var response = await result.GetStringAsync();
@@ -59,10 +59,11 @@ public class MicrosoftAuthenticator
         };
     }
 
-    public async Task<string?> PollAuthorizationAsync(DeviceCodeInfo deviceCodeInfo)
+    public async Task<(string? accessToken, string? refreshToken)> PollAuthorizationAsync(DeviceCodeInfo deviceCodeInfo)
     {
         var pollingUrl = "https://login.microsoftonline.com/consumers/oauth2/v2.0/token";
         string? accessToken = null;
+        string? refreshToken = null;
         await Task.Run(async () =>
         {
             while (true)
@@ -76,25 +77,32 @@ public class MicrosoftAuthenticator
                         device_code = deviceCodeInfo.DeviceCode
                     });
                     var body = await pollingResult.GetStringAsync();
-                    if (body.Fetch("access_token") is {} token)
+                    if (body.Fetch("access_token") is {} access && body.Fetch("refresh_token") is { } refresh)
                     {
-                        accessToken = token;
+                        accessToken = access;
+                        refreshToken = refresh;
                         break;
                     }
+
                     await Task.Delay(1000);
                 }
                 catch { /* do nothing */ }
             }
         });
 
-        return accessToken;
+        return (accessToken, refreshToken);
     }
 
-    public async Task<AuthenticateResult?> AuthenticateAsync(string oauthAccessToken)
+    public async Task<AuthenticateResult?> AuthenticateAsync((string? accessToken, string? refreshToken) token)
     {
         try
         {
-            var xblToken = await GetXBLTokenAsync(oauthAccessToken);
+            if (token.accessToken.IsNullOrEmpty() || token.refreshToken.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            var xblToken = await GetXBLTokenAsync(token.accessToken);
             var xsts = await GetXSTSTokenAsync(xblToken);
             var minecraftAccessToken = await GetMinecraftAccessTokenAsync(xsts);
             var profile = await GetMinecraftProfileAsync(minecraftAccessToken.AccessToken);
@@ -104,7 +112,8 @@ public class MicrosoftAuthenticator
                 AccessToken = minecraftAccessToken.AccessToken,
                 Name = profile.Name,
                 ExpireIn = minecraftAccessToken.ExpiresIn,
-                UUID = profile.Id
+                UUID = profile.Id,
+                RefreshToken = token.refreshToken
             };
         }
         catch
@@ -113,11 +122,34 @@ public class MicrosoftAuthenticator
         }
     }
 
+    public async Task<AuthenticateResult?> RefreshAsync(string refreshToken)
+    {
+        var endpoint = "https://login.microsoftonline.com/consumers/oauth2/v2.0/token";
+        var result = await endpoint.PostUrlEncodedAsync(new
+        {
+            grant_type = "refresh_token",
+            client_id = ClientId,
+            refresh_token = refreshToken
+        });
+
+        var response = await result.GetStringAsync();
+        if (response.IsNullOrEmpty())
+        {
+            return null;
+        }
+
+        var accessToken = response.Fetch("access_token")!;
+        var neoRefreshToken = response.Fetch("refresh_token")!;
+        var authResult = await AuthenticateAsync((accessToken, neoRefreshToken));
+
+        return authResult;
+    }
+
     /// <summary>
     /// Get Xbox live token & userhash
     /// </summary>
     /// <returns></returns>
-    public async Task<string> GetXBLTokenAsync(string token)
+    private async Task<string> GetXBLTokenAsync(string token)
     {
         try
         {
@@ -274,27 +306,6 @@ public class MicrosoftAuthenticator
         }
     }
 
-
-    // /// <summary>
-    // /// Refresh authentication, getting a new access token after old one expired
-    // /// </summary>
-    // /// <param name="refreshToken"></param>
-    // /// <returns></returns>
-    // public async Task<AuthenticateResult> RefreshAuthenticateAsync(string refreshToken)
-    // {
-    //     var token = await GetAuthorizationTokenAsync(refreshToken);
-    //     var mcAuth = await AuthenticateMinecraftAsync(token.AccessToken);
-    //     var profile = await GetMinecraftProfileAsync(mcAuth.AccessToken);
-    //
-    //     return new AuthenticateResult
-    //     {
-    //         Name = profile.Name,
-    //         AccessToken = mcAuth.AccessToken,
-    //         UUID = profile.Id,
-    //         RefreshToken = token.RefreshToken,
-    //         ExpireIn = mcAuth.ExpiresIn
-    //     };
-    // }
 
     private void HandleXSTSErrorCode(string json)
     {

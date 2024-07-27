@@ -35,18 +35,12 @@ public class AuthenticateResult
     /// </summary>
     public TimeSpan ExpireIn { get; set; }
 
-    /// <summary>
-    /// User's client token, available for legacy authentication or external authenticators
-    /// </summary>
-    public string ClientToken { get; set; }
-
     public static implicit operator AuthenticateResult(string incoming)
     {
         return new AuthenticateResult
         {
             Name = incoming,
             AccessToken = Guid.NewGuid().ToString("N"),
-            ClientToken = Guid.NewGuid().ToString("N"),
             UUID = Guid.NewGuid().ToString("N")
         };
     }
