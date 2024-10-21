@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>latestmajor</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>4.2.1</PackageVersion>
+        <PackageVersion>4.2.2</PackageVersion>
         <Title>ModuleLauncher.NET</Title>
         <Description>Your on-the-fly Minecraft launcher core.</Description>
         <Copyright>Copyright 2024 AHpx all rights reserved.</Copyright>
