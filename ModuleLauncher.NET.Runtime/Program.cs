@@ -19,7 +19,7 @@ class Program
         //https://libraries.minecraft.net/org/lwjgl/lwjgl/lwjgl-platform/2.9.1-nightly-20130708-debug3/lwjgl-platform-2.9.1-nightly-20130708-debug3.jar
         //https://libraries.minecraft.net/org/lwjgl/lwjgl/lwjgl-platform/2.9.1-nightly-20130708-debug3/lwjgl-platform-2.9.1-nightly-20130708-debug3-natives-osx.jar"
          var resolver = new MinecraftResolver("/Volumes/Neo/Furnace/minecraft");
-         var version = "1.6.4";
+         var version = "1.20";
          var minecraft = await resolver.GetRemoteMinecraftAndToLocalAsync(version);
          if (!minecraft.ValidateChecksum())
          {
@@ -67,7 +67,12 @@ class Program
                      },
                      new MinecraftJava
                      {
-                         Executable = new FileInfo("/Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home/bin/jar"),
+                         Executable = new FileInfo("/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin/java"),
+                         Version = 17
+                     },
+                     new MinecraftJava
+                     {
+                         Executable = new FileInfo("/Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home/bin/java"),
                          Version = 8
                      }
                  ],

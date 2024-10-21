@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Manganese.Array;
 using Manganese.Data;
 using Manganese.IO;
 using Manganese.Text;
@@ -109,7 +110,7 @@ public class Launcher
     {
         //there're two types of arguments:
             // game and jvm
-            // technically
+            // technically, in legacy versions, there's only game arguments as the content of 'minecraftArguments'
         var preset = GetJvmArguments(minecraftEntry);
 
         var raw = new List<string>
@@ -126,40 +127,71 @@ public class Launcher
 
     private string GetJvmArguments(MinecraftEntry minecraftEntry)
     {
-        
         var rawArgs = new List<string>
         {
-            // "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
-            "-XstartOnFirstThread",
             $"-Xmx{LauncherConfig.MaxMemorySize}M",
-            $"-Dorg.lwjgl.system.SharedLibraryExtractPath={minecraftEntry.Tree.Natives}",
-            $"-Dio.netty.native.workdir={minecraftEntry.Tree.Natives}",
-            $"-Djna.tmpdir={minecraftEntry.Tree.Natives}"
         };
-
         if (LauncherConfig.MinMemorySize != null)
             rawArgs.Add($"-Xmn{LauncherConfig.MinMemorySize}M");
+        
         var libraries = minecraftEntry.GetLibraries();
         if (libraries.Any(l => l.IsNative))
             rawArgs.Add($"-Djava.library.path=\"{minecraftEntry.Tree.Natives}\"");
         else
             rawArgs.Add("-Djava.library.path=.");
         
-        rawArgs.Add($"-cp \"{GetClassPath(minecraftEntry, libraries)}\"");
 
-        if (minecraftEntry.Json.Arguments != null && minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
+        //if current version of Minecraft is legacy, this branch will not be executed at all.
+        if (minecraftEntry.Json.Arguments != null)
         {
-            var forgeArgs = minecraftEntry.Json.Arguments.FetchJToken("jvm")
-                .ThrowCorruptedIfNull()
-                .Where(x => x.Type == JTokenType.String)
-                .Select(x => x.ToString())
-                .Select(x =>
-                    x.Replace(" ", "")
-                        .Replace("${library_directory}", $"{minecraftEntry.Tree.Libraries}")
+            var neoJvmArgs = minecraftEntry.Json.Arguments.FetchJToken("jvm")
+                .ThrowCorruptedIfNull();
+            foreach (var neoJvmArg in neoJvmArgs)
+            {
+                if (neoJvmArg.Type == JTokenType.String)
+                {
+                    var arg = neoJvmArg.ToString().Replace("${library_directory}", $"{minecraftEntry.Tree.Libraries}")
                         .Replace("${classpath_separator}", $"{Path.PathSeparator}")
-                        .Replace("${version_name}", minecraftEntry.Json.Id));
+                        .Replace("${version_name}", minecraftEntry.Json.Id)
+                        .Replace("${natives_directory}", $"{minecraftEntry.Tree.Natives}")
+                        .Replace("${launcher_name}", LauncherConfig.LauncherName)
+                        .Replace("${launcher_version}", LauncherConfig.LauncherName);
+                    
+                    if (arg == "${classpath}")
+                    {
+                        arg = GetClassPath(minecraftEntry, libraries);
+                    }
+                    
+                    rawArgs.Add(arg);
+                }
 
-            rawArgs.Add(forgeArgs.JoinToString(" "));
+                if (neoJvmArg.Type == JTokenType.Object)
+                {
+                    var rule = neoJvmArg.FetchJToken("rules")?.Single().ThrowCorruptedIfNull()!;
+                    
+                    //nobody gonna use a 32 bit system, so we simply neglect 'os.arch'
+                    if (rule.Fetch("os.name") == CommonUtils.CurrentSystemName)
+                    {
+                        var value = neoJvmArg.FetchJToken("value").ThrowCorruptedIfNull();
+                        if (value.Type == JTokenType.String)
+                        {
+                            rawArgs.Add(value.ToString());
+                        }
+                        else
+                        {
+                            value.ForEach(v => rawArgs.Add(v.ToString()));
+                        }
+                    }
+                    
+                }
+            }
+            
+
+            // rawArgs.Add(neoJvmArgs.JoinToString(" "));
+        }
+        else
+        {
+            rawArgs.Add($"-classpath \"{GetClassPath(minecraftEntry, libraries)}\"");
         }
 
         var args = rawArgs.JoinToString(" ");

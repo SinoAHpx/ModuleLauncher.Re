@@ -11,9 +11,9 @@ public class LauncherConfig
     public List<MinecraftJava> Javas { get; set; } = new();
 
     /// <summary>
-    /// You launcher name, optional
+    /// Your launcher name, optional
     /// </summary>
-    public string LauncherName { get; set; } = "ml.net";
+    public string LauncherName { get; set; } = "ModuleLauncher";
 
     /// <summary>
     /// The unit is MB, you don't have to append a suffix,
