@@ -6,6 +6,7 @@ using Manganese.Process;
 using Manganese.Text;
 using ModuleLauncher.NET.Authentications;
 using ModuleLauncher.NET.Example.Utils;
+using ModuleLauncher.NET.Models.Authentication;
 using ModuleLauncher.NET.Utilities;
 
 namespace ModuleLauncher.NET.Example.ViewModels;
@@ -22,7 +23,7 @@ public class AuthVM : ViewModelBase
         {
             if (!value.IsNullOrEmpty())
             {
-                _microsoftAuthenticator.RedirectUrl = value;
+                // _microsoftAuthenticator.RedirectUrl = value;
             }
             this.RaiseAndSetIfChanged(ref _microsoftRedirectUrl, value);
         }
@@ -88,7 +89,7 @@ public class AuthVM : ViewModelBase
     
     public string? MicrosoftAuthenticateUrl
     {
-        get => _microsoftAuthenticator.LoginUrl;
+        get => "";
     }
 
     private bool _isMicrosoftAuthenticated;
@@ -181,7 +182,7 @@ public class AuthVM : ViewModelBase
         try
         {
             //do authenticate
-            var result = await _microsoftAuthenticator.RefreshAuthenticateAsync(MicrosoftRefreshToken);
+            var result = new AuthenticateResult();//await _microsoftAuthenticator.RefreshAuthenticateAsync(MicrosoftRefreshToken);
             
             //assign value
             MicrosoftAccessToken = result.AccessToken;
@@ -206,10 +207,10 @@ public class AuthVM : ViewModelBase
         {
             //extract "code" parameter from url
             var code = MicrosoftRedirectedUrl.ExtractCode();
-            _microsoftAuthenticator.Code = code;
+            // _microsoftAuthenticator.Code = code;
             
             //execute authenticate
-            var result = await _microsoftAuthenticator.AuthenticateAsync();
+            var result = await _microsoftAuthenticator.AuthenticateAsync(("", ""));
             
             //assign value
             MicrosoftAccessToken = result.AccessToken;

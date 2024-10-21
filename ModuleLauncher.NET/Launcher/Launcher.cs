@@ -13,6 +13,7 @@ namespace ModuleLauncher.NET.Launcher;
 
 public class Launcher
 {
+
     #region Exposed memebrs
 
     /// <summary>
@@ -68,6 +69,7 @@ public class Launcher
 
     public async Task<Process> LaunchAsync(MinecraftEntry minecraftEntry)
     {
+
         #region Precheck
 
         await WriteLauncherProfileAsync(minecraftEntry);
@@ -103,9 +105,11 @@ public class Launcher
     }
 
 
-
     public string GetLaunchArguments(MinecraftEntry minecraftEntry)
     {
+        //there're two types of arguments:
+            // game and jvm
+            // technically
         var preset = GetJvmArguments(minecraftEntry);
 
         var raw = new List<string>
@@ -120,47 +124,68 @@ public class Launcher
         return raw.JoinToString(" ");
     }
 
-    private MinecraftJava? GetJava(MinecraftEntry minecraftEntry)
+    private string GetJvmArguments(MinecraftEntry minecraftEntry)
     {
-        var javaVersion = minecraftEntry.Json.JavaVersion;
-        if (javaVersion == null)
+        
+        var rawArgs = new List<string>
         {
-            if (minecraftEntry.HasInheritSource())
-            {
-                var inheritMinecraft = minecraftEntry.GetInheritSource()!;
-                javaVersion = inheritMinecraft.Json.JavaVersion;
-            }
-            else
-            {
-                // for legacy loader
-                javaVersion = 8;
-            }
+            // "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
+            "-XstartOnFirstThread",
+            $"-Xmx{LauncherConfig.MaxMemorySize}M",
+            $"-Dorg.lwjgl.system.SharedLibraryExtractPath={minecraftEntry.Tree.Natives}",
+            $"-Dio.netty.native.workdir={minecraftEntry.Tree.Natives}",
+            $"-Djna.tmpdir={minecraftEntry.Tree.Natives}"
+        };
+
+        if (LauncherConfig.MinMemorySize != null)
+            rawArgs.Add($"-Xmn{LauncherConfig.MinMemorySize}M");
+        var libraries = minecraftEntry.GetLibraries();
+        if (libraries.Any(l => l.IsNative))
+            rawArgs.Add($"-Djava.library.path=\"{minecraftEntry.Tree.Natives}\"");
+        else
+            rawArgs.Add("-Djava.library.path=.");
+        
+        rawArgs.Add($"-cp \"{GetClassPath(minecraftEntry, libraries)}\"");
+
+        if (minecraftEntry.Json.Arguments != null && minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
+        {
+            var forgeArgs = minecraftEntry.Json.Arguments.FetchJToken("jvm")
+                .ThrowCorruptedIfNull()
+                .Where(x => x.Type == JTokenType.String)
+                .Select(x => x.ToString())
+                .Select(x =>
+                    x.Replace(" ", "")
+                        .Replace("${library_directory}", $"{minecraftEntry.Tree.Libraries}")
+                        .Replace("${classpath_separator}", $"{Path.PathSeparator}")
+                        .Replace("${version_name}", minecraftEntry.Json.Id));
+
+            rawArgs.Add(forgeArgs.JoinToString(" "));
         }
 
-        return LauncherConfig.Javas.FirstOrDefault(j => j.Version == javaVersion);
+        var args = rawArgs.JoinToString(" ");
+
+        return args;
     }
 
-    private async Task WriteLauncherProfileAsync(MinecraftEntry minecraftEntry)
+    private string GetClassPath(MinecraftEntry minecraftEntry, List<LibraryEntry> libraries)
     {
-        var launcherProfilesFile = minecraftEntry.Tree.Root.DiveToFile("launcher_profiles.json");
+        var raw = libraries
+            .Where(l => !l.IsNative)
+            .Select(l => minecraftEntry.Tree.Libraries.DiveToFile(l.RelativeUrl))
+            .ToList();
 
-        //write launcher_profiles.json if it doesn't exist
-        if (!launcherProfilesFile.Exists)
+        if (!minecraftEntry.HasInheritSource() || minecraftEntry.Tree.Jar.Exists)
+            raw.Add(minecraftEntry.Tree.Jar);
+        else
         {
-            await launcherProfilesFile.WriteAllTextAsync(new
-            {
-                selectedProfile = "(Default)",
-                profiles = new
-                {
-                    Default = new
-                    {
-                        name = "(Default)"
-                    }
-                },
-                clientToken = Guid.NewGuid()
-            }.ToJsonString());
+            var inheritMinecraft = minecraftEntry.GetInheritSource();
+
+            raw.Add(inheritMinecraft!.Tree.Jar);
         }
 
+        var classpath = raw.JoinToString($"{Path.PathSeparator}");
+
+        return classpath;
     }
 
     private string GetMinecraftArguments(MinecraftEntry minecraftEntry)
@@ -229,70 +254,48 @@ public class Launcher
         return boilerplate;
     }
 
-    private string GetJvmArguments(MinecraftEntry minecraftEntry)
+    private MinecraftJava? GetJava(MinecraftEntry minecraftEntry)
     {
-        var libraries = minecraftEntry.GetLibraries();
-
-        var rawArgs = new List<string>
+        var javaVersion = minecraftEntry.Json.JavaVersion;
+        if (javaVersion == null)
         {
-            // "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
-            "-XX:+UnlockExperimentalVMOptions",
-            "-XX:+UseG1GC",
-            "-XX:G1NewSizePercent=20",
-            "-XX:G1ReservePercent=20",
-            "-XX:MaxGCPauseMillis=50",
-            "-XX:G1HeapRegionSize=32M",
-            $"-Xmx{LauncherConfig.MaxMemorySize}M"
-        };
-
-        if (LauncherConfig.MinMemorySize != null)
-            rawArgs.Add($"-Xmn{LauncherConfig.MinMemorySize}M");
-
-        if (libraries.Any(l => l.IsNative))
-            rawArgs.Add($"-Djava.library.path=\"{minecraftEntry.Tree.Natives}\"");
-        else
-            rawArgs.Add("-Djava.library.path=.");
-
-        rawArgs.Add($"-cp \"{GetClassPath(minecraftEntry, libraries)}\"");
-
-        if (minecraftEntry.Json.Arguments != null && minecraftEntry.GetMinecraftType() != MinecraftType.Vanilla)
-        {
-            var forgeArgs = minecraftEntry.Json.Arguments.FetchJToken("jvm")
-                .ThrowCorruptedIfNull()
-                .Where(x => x.Type == JTokenType.String)
-                .Select(x => x.ToString())
-                .Select(x =>
-                    x.Replace(" ", "")
-                        .Replace("${library_directory}", $"{minecraftEntry.Tree.Libraries}")
-                        .Replace("${classpath_separator}", $"{Path.PathSeparator}")
-                        .Replace("${version_name}", minecraftEntry.Json.Id));
-
-            rawArgs.Add(forgeArgs.JoinToString(" "));
+            if (minecraftEntry.HasInheritSource())
+            {
+                var inheritMinecraft = minecraftEntry.GetInheritSource()!;
+                javaVersion = inheritMinecraft.Json.JavaVersion;
+            }
+            else
+            {
+                // for legacy loader
+                javaVersion = 8;
+            }
         }
 
-        var args = rawArgs.JoinToString(" ");
-
-        return args;
+        return LauncherConfig.Javas.FirstOrDefault(j => j.Version == javaVersion);
     }
 
-    private string GetClassPath(MinecraftEntry minecraftEntry, List<LibraryEntry> libraries)
+    private async Task WriteLauncherProfileAsync(MinecraftEntry minecraftEntry)
     {
-        var raw = libraries
-            .Where(l => !l.IsNative)
-            .Select(l => minecraftEntry.Tree.Libraries.DiveToFile(l.RelativeUrl))
-            .ToList();
+        var launcherProfilesFile = minecraftEntry.Tree.Root.DiveToFile("launcher_profiles.json");
 
-        if (!minecraftEntry.HasInheritSource() || minecraftEntry.Tree.Jar.Exists)
-            raw.Add(minecraftEntry.Tree.Jar);
-        else
+        //write launcher_profiles.json if it doesn't exist
+        if (!launcherProfilesFile.Exists)
         {
-            var inheritMinecraft = minecraftEntry.GetInheritSource();
-
-            raw.Add(inheritMinecraft!.Tree.Jar);
+            await launcherProfilesFile.WriteAllTextAsync(new
+            {
+                selectedProfile = "(Default)",
+                profiles = new
+                {
+                    Default = new
+                    {
+                        name = "(Default)"
+                    }
+                },
+                clientToken = Guid.NewGuid()
+            }.ToJsonString());
         }
 
-        var classpath = raw.JoinToString($"{Path.PathSeparator}");
-
-        return classpath;
     }
+
+
 }

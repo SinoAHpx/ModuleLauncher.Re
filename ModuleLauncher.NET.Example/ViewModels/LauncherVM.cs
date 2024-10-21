@@ -242,7 +242,7 @@ public class LauncherVM : ViewModelBase
         LaunchCommand = ReactiveCommand.Create(Launch);
     }
 
-    private readonly Launcher _launcher = new();
+    private readonly Launcher.Launcher _launcher = new();
 
     private async void Launch()
     {

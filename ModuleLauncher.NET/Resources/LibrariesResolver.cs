@@ -9,6 +9,9 @@ namespace ModuleLauncher.NET.Resources;
 
 public class LibrariesResolver
 {
+
+    #region Exposure
+
     /// <summary>
     /// Minecraft resolver, you'll need to provide this only when you need to get libraries by minecraft id
     /// </summary>
@@ -39,6 +42,10 @@ public class LibrariesResolver
     public LibrariesResolver()
     {
     }
+
+    #endregion
+    
+    
 
     /// <summary>
     /// Get minecraft libraries by id
@@ -78,7 +85,7 @@ public class LibrariesResolver
             var rawLibraryObj = rawLibrary.ToObject<JObject>()
                 .ThrowIfNull(new ErrorParsingLibraryException($"Json file corrupted: {rawLibrary}"));
 
-            var toAdd = rawLibraryObj.ContainsKey("natives")
+            var toAdd = rawLibraryObj.ToString().Contains("natives")
                 ? ProcessNative(minecraftEntry, rawLibrary)
                 : ProcessLibrary(minecraftEntry, rawLibrary);
 

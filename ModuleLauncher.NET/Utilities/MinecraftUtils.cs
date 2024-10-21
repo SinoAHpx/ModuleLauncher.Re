@@ -95,10 +95,10 @@ public static class MinecraftUtils
             var natives = minecraftEntry
                 .GetLibraries().Where(l => l.IsNative)
                 .ToList();
-
+            
             if (!natives.Any())
                 return;
-
+            
             foreach (var native in natives)
             {
                 var zipEntries = ZipFile.OpenRead(native.File.FullName).Entries;
